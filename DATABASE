@@ -1,0 +1,4 @@
+baseapp
+-------
+category: if 0, this means profile; otherwise, it is category id in categories table
+orderId means what order it displays in the category (lowest orderIds are displayed first)
