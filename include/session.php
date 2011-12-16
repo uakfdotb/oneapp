@@ -26,16 +26,8 @@ if(isset($_REQUEST['style'])) {
 	$_SESSION['style'] = intval($_REQUEST['style']);
 }
 
-if(isset($_REQUEST['cstyle'])) {
-	$_SESSION['cstyle'] = intval($_REQUEST['cstyle']);
-}
-
 if(!isset($_SESSION['style'])) {
     $_SESSION['style'] = intval($config['style']);
-}
-
-if(!isset($_SESSION['cstyle'])) {
-	$_SESSION['cstyle'] = intval($config['cstyle']);
 }
 
 ?>

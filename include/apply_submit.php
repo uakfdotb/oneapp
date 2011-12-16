@@ -14,8 +14,10 @@ function startApplication($user_id, $club_id) {
 	
 	//add to applications table first
 	mysql_query("INSERT INTO applications (user_id, club_id, submitted) VALUES ('$user_id', '$club_id', '0')");
+	$application_id = mysql_insert_id();
 	
-	if($supplement_id == 0) {
+	//now insert blank answers to answers table
+	if($club_id == 0) {
 		$result = mysql_query("SELECT id FROM baseapp WHERE category != '0'");
 	} else {
 		$result = mysql_query("SELECT id FROM supplements WHERE club_id='$club_id'");
@@ -29,18 +31,30 @@ function startApplication($user_id, $club_id) {
 	return TRUE;
 }
 
-function saveApplication($user_id, $application_id, $answers) {
+//returns $answers, array $var_id = (answer_id, answer_value) for use with saveApplication
+function processSubmission($club_id, $array) {
+	$club_id = escape($club_id);
+	
+	$answers = array();
+	foreach($array as $key => $value) {
+		if(string_begins_with($key, "a_")) {
+			$parts = explode(".", substr($key, 2));
+			$var_id = $parts[0];
+			$answer_id = $parts[1];
+			
+			$answers[$var_id] = array($answer_id, $value);
+		}
+	}
+	
+	return $answers;
+}
+
+function saveApplication($user_id, $application_id, $answers) { //$answers is array of $var_id => (answer_id, answer_value)
 	$user_id = escape($user_id);
 	$application_id = escape($application_id);
 	
 	//verify application belongs to user and hasn't been submitted
-	$result = mysql_query("SELECT submitted FROM applications WHERE id='$application_id' AND user_id='$user_id'");
-	
-	if($row = mysql_fetch_array($result)) {
-		if($row['submitted'] == '1') { //already submitted
-			return FALSE;
-		}
-	} else { //does not belong to user or doesn't exist
+	if(checkApplication($user_id, $application_id) !== 0) {
 		return FALSE;
 	}
 	
@@ -60,13 +74,7 @@ function submitApplication($user_id, $application_id) {
 	$application_id = escape($application_id);
 	
 	//verify application belongs to user and hasn't been submitted
-	$result = mysql_query("SELECT submitted FROM applications WHERE id='$application_id' AND user_id='$user_id'");
-	
-	if($row = mysql_fetch_array($result)) {
-		if($row['submitted'] == '1') { //already submitted
-			return FALSE;
-		}
-	} else { //does not belong to user or doesn't exist
+	if(checkApplication($user_id, $application_id) !== 0) {
 		return FALSE;
 	}
 	
