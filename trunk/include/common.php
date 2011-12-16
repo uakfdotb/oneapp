@@ -61,20 +61,47 @@ function one_mail($subject, $body, $to) { //returns true=ok, false=notok
 //PAGE FUNCTIONS
 //..............
 
-function get_page($page, $args) {
+function get_page($page, $args = array()) {
 	//let pages use some variables
 	extract($args);
 	$config = $GLOBALS['config'];
 	
 	//figure out what pages need to be displayed
-	$page_display = array('index', 'register', 'login');
-	$page_display_names = array('Home', 'Register', 'Login');
+	$page_display = array('index', 'about', 'login', 'register', 'contact');
+	$page_display_names = array('Home', 'About Us', 'Login', 'Register', 'Contact Us');
 	
 	$page_include = "page/page_" . $page . ".php";
-	$stylepath = "style";
-	include("style/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
+	
+	if(!isset($stylepath)) { //if not set in $args
+		$stylepath = "style";
+	}
+	
+	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
 	include($page_include);
-	include("style/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
+	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
+}
+
+function get_page_apply($page, $args = array()) {
+	//let pages use some variables
+	extract($args);
+	$config = $GLOBALS['config'];
+	
+	//figure out what pages need to be displayed
+	$page_display = array('index', 'account', 'logout');
+	$page_display_names = array('Home', 'Account', 'Logout');
+	
+	$side_display = array('clubs', 'base', 'supplement', 'peer');
+	$side_display_names = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations');
+	
+	$page_include = "page/page_a_" . $page . ".php";
+	
+	if(!isset($stylepath)) { //if not set in $args
+		$stylepath = "../astyle";
+	}
+	
+	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
+	include($page_include);
+	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
 }
 
 function page_exists($page) {
@@ -159,7 +186,9 @@ function savePage($page, $text) {
 //DATABASE OPERATIONS
 //...................
 
-//0: success; 1: field length too long or too short; 3: email address invalid or in use; 4: database error; 5: username in use; 6: email error; 7: try again later; 8: disabled
+//0: success; 1: field length too long or too short
+//3: email address invalid or in use; 4: database error; 5: username in use;
+//6: email error; 7: try again later; 8: disabled
 function register($username, $email, $profile) {
 	if(!lockAction("register")) {
 		return 7;
@@ -220,6 +249,48 @@ function register($username, $email, $profile) {
 	}
 }
 
+//0: success; -1: invalid password; -2: try again later;
+//1: new password too short; 10: invalid new email address; 11: passwords do not match
+function updateAccount($user_id, $oldPassword, $newPassword, $newPasswordConfirm, $newEmail) {
+	$user_id = escape($user_id);
+	$result = verifyLogin($_SESSION['user_id'], $_POST['old_password']);
+	
+	if($result === TRUE) {
+		$set_string = "";
+		
+		if(strlen($newPassword) > 0 || strlen($newPasswordConfirm) > 0)) {
+			if($newPassword == $newPasswordConfirm) {
+				$validPassword =  validPassword($newPassword);
+			
+				if($validPassword == 0) {
+					$set_string .= "password = '" . escape(chash($newPassword)) . "', ";
+				} else {
+					return $validPassword;
+				}
+			} else {
+				return 11;
+			}
+		}
+		
+		if(strlen($newEmail) > 0) {
+			if(validEmail($newEmail)) {
+				$set_string .= "email = '" . escape($newEmail) . "'";
+			} else {
+				return 10;
+			}
+		}
+		
+		if(strlen($set_string) > 0) {
+			$set_string = substr($set_string, 0, strlen($set_string) - 2); //get rid of trailing comma and space
+			mysql_query("UPDATE users SET " . $set_string . " WHERE id='$user_id'");
+		}
+		
+		return 0;
+	} else {
+		return $result;
+	}
+}
+
 //user id: success; -1: invalid login; -2: try again later; -3: login disabled
 function checkLogin($username, $password) {
 	if(!lockAction("checkuser")) {
@@ -251,11 +322,25 @@ function getProfile($userid) {
 	$userid = escape($userid);
 	$result = mysql_query("SELECT var_id, val FROM profiles WHERE user_id = '$userid'");
 	
-	$profile = array();
+	$uprofile = array();
 	while($row = mysql_fetch_array($result)) {
 		$var_id = $row['var_id'];
 		$val = $row['val'];
-		$profile[$var_id] = $val;
+		$uprofile[$var_id] = $val;
+	}
+	
+	$result = mysql_query("SELECT id, varname FROM baseapp WHERE category = '0' ORDER BY orderId");
+	
+	$profile = array();
+	while($row = mysql_fetch_array($result)) {
+		$var_id = $row['id'];
+		$var_name = $row['varname'];
+		
+		if(array_key_exists($var_id, $uprofile)) {
+			array_push($profile, array($var_name, $uprofile[$var_id], $var_id));
+		} else {
+			array_push($profile, array($var_name, '', $var_id));
+		}
 	}
 	
 	return $profile;
@@ -477,6 +562,15 @@ function recursiveCopy( $path, $dest )
 	{
 		return false;
 	}
+}
+
+//0: success; 1: less than 6 characters
+function validPassword($password) {
+	if(strlen($password) < 6) {
+		return 1;
+	}
+	
+	return 0;
 }
 
 function validEmail($email)
