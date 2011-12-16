@@ -404,6 +404,18 @@ function checkRoot($password) {
 	}
 }
 
+function getUserClubsApplied($user_id) {
+	$user_id = escape($user_id);
+	$result = mysql_query("SELECT applications.club_id, clubs.name, clubs.description, applications.id FROM applications, clubs WHERE applications.user_id='$user_id' AND applications.club_id = clubs.id AND applications.club_id != '0'");
+	
+	$clubs = array();
+	while($row = mysql_fetch_array($result)) {
+		array_push($clubs, array($row[0], $row[1], $row[2], $row[3]));
+	}
+	
+	return $clubs;
+}
+
 //returns boolean: true=proceed, false=lock up; the difference between this and lockAction is that this can be used for repeated tasks, like admin
 // then, only if action was unsuccessful would lockAction be called
 function checkLock($action) {

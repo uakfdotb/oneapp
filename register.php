@@ -4,6 +4,9 @@ include("config.php");
 include("include/db_connect.php");
 include("include/session.php");
 
+include("include/apply_gen.php");
+include("include/apply_submit.php");
+
 if(isset($_SESSION['user_id'])) {
 	get_page("message", array("title" => "Already Logged In", "message" => "You are already logged in! Click <a href=\"application/\">here</a> to continue.");
 } else if(isset($_REQUEST['username']) && isset($_REQUEST['email'])) {
@@ -30,7 +33,8 @@ if(isset($_SESSION['user_id'])) {
 		get_page("message", array("title" => "Error", "message" => "Error: internal error!");
 	}
 } else {
-	get_page("register");
+	$fields = getProfileFields();
+	get_page("register", array("profile" => $fields));
 }
 
 ?>
