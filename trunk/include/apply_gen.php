@@ -43,7 +43,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $mutable = true) {
 		}
 		
 		foreach($choices as $choice) {
-			echo "<br><input type=\"$tname\" name=\"a_$id.$answer_id\"$mutableString> $choice";
+			echo "<br><input type=\"$tname\" name=\"a_$id.$answer_id\"$mutableString value=\"$choice\"> $choice";
 		}
 		
 		echo '</p>';

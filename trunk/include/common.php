@@ -225,8 +225,7 @@ function register($username, $email, $profile) {
 	if($result !== FALSE) {
 		$user_id = mysql_insert_id();
 		
-		foreach($profile as $item) {
-			$var_id = escape($item[0]);
+		foreach($profile as $var_id => $item) {
 			$val = escape($item[1]);
 			mysql_query("INSERT INTO profiles (user_id, var_id, val) VALUES ('$user_id', '$var_id', '$val')");
 		}
