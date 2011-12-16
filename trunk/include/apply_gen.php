@@ -1,6 +1,6 @@
 <?php
 
-function writeField($id, $answer_id, $name, $desc, $type, $mutable = true) {
+function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable = true) {
 	$mutableString = "";
 	if(!$mutable) {
 		$mutableString = " readonly=\"readonly\"";
@@ -21,12 +21,12 @@ function writeField($id, $answer_id, $name, $desc, $type, $mutable = true) {
 		echo $name;
 		echo '</b>: ';
 		echo $desc;
-		echo "<br><textarea name=\"a_$id.$answer_id\" rows=\"$rows\" cols=\"$cols\"$mutableString></textarea>";
+		echo "<br><textarea name=\"a_$id.$answer_id\" rows=\"$rows\" cols=\"$cols\"$mutableString>$answer</textarea>";
 		echo '</p>';
 	} else if($type_array[0] == "short") {
 		echo '<p>';
 		echo $name;
-		echo ": <input type=\"text\" name=\"a_$id.$answer_id\"$mutableString />";
+		echo ": <input type=\"text\" name=\"a_$id.$answer_id\"$mutableString value=\"$answer\"/>";
 		echo $desc;
 		echo '</p>';
 	} else if($type_array[0] == "select") {
@@ -43,7 +43,12 @@ function writeField($id, $answer_id, $name, $desc, $type, $mutable = true) {
 		}
 		
 		foreach($choices as $choice) {
-			echo "<br><input type=\"$tname\" name=\"a_$id.$answer_id\"$mutableString value=\"$choice\"> $choice";
+			$selectedString = "";
+			if($choice == $answer) {
+				$selectedString = " checked";
+			}
+			
+			echo "<br><input$selectedString type=\"$tname\" name=\"a_$id.$answer_id\"$mutableString value=\"$choice\" /> $choice";
 		}
 		
 		echo '</p>';
@@ -67,15 +72,15 @@ function writeApplication($user_id, $application_id, $category_id = 0) {
 	
 	//get application fields
 	if($club_id == 0) {
-		$result = mysql_query("SELECT answers.id, baseapp.id, baseapp.varname, baseapp.vardesc, baseapp.vartype FROM answers, baseapp WHERE answers.application_id = '$application_id' AND baseapp.id = answers.var_id AND baseapp.category = '$category_id' ORDER BY baseapp.orderId");
+		$result = mysql_query("SELECT answers.id, baseapp.id, baseapp.varname, baseapp.vardesc, baseapp.vartype, answers.val FROM answers, baseapp WHERE answers.application_id = '$application_id' AND baseapp.id = answers.var_id AND baseapp.category = '$category_id' ORDER BY baseapp.orderId");
 	} else {
-		$result = mysql_query("SELECT answers.id, supplements.id, supplements.varname, supplements.vardesc, supplements.vartype FROM answers, supplements WHERE answers.application_id = '$application_id' AND supplements.id = answers.var_id ORDER BY supplements.orderId");
+		$result = mysql_query("SELECT answers.id, supplements.id, supplements.varname, supplements.vardesc, supplements.vartype, answers.val FROM answers, supplements WHERE answers.application_id = '$application_id' AND supplements.id = answers.var_id ORDER BY supplements.orderId");
 	}
 	
 	echo "<form method\"POST\" action=\"apply.php?club_id=$club_id\">";
 	
 	while($row = mysql_fetch_row($result)) {
-		writeField($row[1], $row[0], $row[2], $row[3], $row[4], $mutable);
+		writeField($row[1], $row[0], $row[2], $row[3], $row[4], $row[5], $mutable);
 	}
 	
 	echo "</form>";
@@ -116,6 +121,18 @@ function checkApplication($user_id, $application_id, $extended = false) {
 			return array(-2, $row['club_id']);
 		}
 	}
+}
+
+//returns array containing profile fields, var_id => (varname, vardesc, vartype); used for page/page_register.php
+function getProfileFields() {
+	$result = mysql_query("SELECT baseapp.id, baseapp.varname, baseapp.vardesc, baseapp.vartype FROM baseapp WHERE baseapp.category = '0' ORDER BY baseapp.orderId");
+	
+	$fields = array();
+	while($row = mysql_fetch_row($result)) {
+		$fields[$row[0]] = array($row[1], $row[2], $row[3]);
+	}
+	
+	return $fields;
 }
 
 ?>

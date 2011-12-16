@@ -1,14 +1,26 @@
 <?php
 
-function startApplication($user_id, $club_id) {
-	$user_id = escape($user_id);
-	$club_id = escape($club_id);
-	
-	//make sure not already started
+function isApplicationStarted($user_id, $club_id) {
 	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE user_id='$user_id' AND club_id='$club_id'");
 	$row = mysql_fetch_array($result);
 	
 	if($row[0] > 0) { //already present
+		return TRUE;
+	} else {
+		return FALSE;
+	}
+}
+
+function startApplication($user_id, $club_id) {
+	$user_id = escape($user_id);
+	$club_id = escape($club_id);
+	
+	if(isApplicationStarted($user_id, $club_id)) { //already present
+		return FALSE;
+	}
+	
+	//if it's a club, verify existence
+	if(!clubExists($club_id)) {
 		return FALSE;
 	}
 	
@@ -81,6 +93,42 @@ function submitApplication($user_id, $application_id) {
 	//submit it
 	mysql_query("UPDATE applications SET submitted='1' WHERE id='$application_id'");
 	return TRUE;
+}
+
+//returns array of (club_id, club_name)
+function listClubs() {
+	$result = mysql_query("SELECT id, name FROM clubs");
+	
+	$list = array();
+	while($row = mysql_fetch_array($result)) {
+		array_push($list, array($row[0], $row[1]));
+	}
+	
+	return $list;
+}
+
+function clubExists($club_id) {
+	$club_id = escape($club_id);
+	$result = mysql_query("SELECT COUNT(*) FROM clubs WHERE id='$club_id'");
+	$row = mysql_fetch_array($result);
+	
+	if($row[0] == 0) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+//returns array of (category_id, category_name)
+function listCategories() {
+	$result = mysql_query("SELECT id, name FROM categories");
+	
+	$list = array();
+	while($row = mysql_fetch_array($result)) {
+		array_push($list, array($row[0], $row[1]));
+	}
+	
+	return $list;
 }
 
 ?>
