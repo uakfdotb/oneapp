@@ -70,11 +70,12 @@ function get_page($page, $args = array()) {
 	$page_display = array('index', 'about', 'login', 'register', 'contact');
 	$page_display_names = array('Home', 'About Us', 'Login', 'Register', 'Contact Us');
 	
-	$page_include = "page/page_" . $page . ".php";
-	
-	if(!isset($stylepath)) { //if not set in $args
-		$stylepath = "style";
+	if(!isset($base_path)) {
+		$base_path = "";
 	}
+	
+	$page_include = $base_path . "page/page_" . $page . ".php";
+	$stylepath = $base_path . "style";
 	
 	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
 	include($page_include);
@@ -93,11 +94,12 @@ function get_page_apply($page, $args = array()) {
 	$side_display = array('clubs', 'base', 'supplement', 'peer');
 	$side_display_names = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations');
 	
-	$page_include = "../page/page_a_" . $page . ".php";
-	
-	if(!isset($stylepath)) { //if not set in $args
-		$stylepath = "../astyle";
+	if(!isset($base_path)) {
+		$base_path = "../";
 	}
+	
+	$page_include = $base_path . "page/page_a_" . $page . ".php";
+	$stylepath = $base_path . "astyle";
 	
 	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
 	include($page_include);
