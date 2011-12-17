@@ -44,17 +44,18 @@ function startApplication($user_id, $club_id) {
 }
 
 //returns $answers, array $var_id = (answer_id, answer_value) for use with saveApplication
-function processSubmission($club_id, $array) {
-	$club_id = escape($club_id);
-	
+function processSubmission($array) {
 	$answers = array();
 	foreach($array as $key => $value) {
 		if(string_begins_with($key, "a_")) {
-			$parts = explode(".", substr($key, 2));
-			$var_id = $parts[0];
-			$answer_id = $parts[1];
+			$parts = explode("_", substr($key, 2));
 			
-			$answers[$var_id] = array($answer_id, $value);
+			if(count($parts) == 2) {
+				$var_id = $parts[0];
+				$answer_id = $parts[1];
+			
+				$answers[$var_id] = array($answer_id, $value);
+			}
 		}
 	}
 	

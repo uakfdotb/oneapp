@@ -20,7 +20,7 @@ if(isset($_SESSION['user_id'])) {
 				get_page("message", array("stylepath" => "../style", "title" => "Error", "message" => "There was an error while starting your general application. Please <a href=\"base.php\">click here</a> to continue."));
 			}
 		} else {
-			get_page("base_notstarted");
+			get_page_apply("base_notstarted");
 		}
 	}
 } else {
