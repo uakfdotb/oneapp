@@ -131,4 +131,18 @@ function listCategories() {
 	return $list;
 }
 
+//returns application ID
+function getApplication($user_id, $club_id) {
+	$user_id = escape($user_id);
+	$club_id = escape($club_id);
+	
+	$result = mysql_query("SELECT id FROM applications WHERE user_id='$user_id' AND club_id='$club_id'");
+	
+	if($row = mysql_fetch_array($result)) {
+		return $row[0];
+	} else {
+		return FALSE;
+	}
+}
+
 ?>
