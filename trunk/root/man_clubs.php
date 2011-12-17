@@ -38,12 +38,13 @@ if(isset($_SESSION['root'])) {
 		echo '<input type="submit" value="Add club">';
 		echo '</form>';
 		
-		echo "<table><tr><th>Club name</th><th>Description</th><th>Edit</th><th>Delete</th></tr>";
+		echo "<table><tr><th>ID</th><th>Club name</th><th>Description</th><th>Edit</th><th>Delete</th></tr>";
 		
 		while($row = mysql_fetch_array($result)) {
 			echo "<form method=\"post\" action=\"man_clubs.php\">";
 			echo "<input type=\"hidden\" name=\"id\" value=\"" . $row['id'] . "\">";
-			echo "<tr><td>" . $row['name'] . "</td>";
+			echo "<tr><td>" . $row['id'] . "</td>";
+			echo "<td>" . $row['name'] . "</td>";
 			echo "<td><textarea name=\"description\">" . $row['description'] . "</textarea></td>";
 			
 			echo "<td><input type=\"submit\" name=\"action\" value=\"update\"></td>";

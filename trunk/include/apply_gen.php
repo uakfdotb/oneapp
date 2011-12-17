@@ -77,13 +77,14 @@ function writeApplication($user_id, $application_id, $category_id = 0) {
 		$result = mysql_query("SELECT answers.id, supplements.id, supplements.varname, supplements.vardesc, supplements.vartype, answers.val FROM answers, supplements WHERE answers.application_id = '$application_id' AND supplements.id = answers.var_id ORDER BY supplements.orderId");
 	}
 	
-	echo "<form method\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&action=submit\">";
+	echo "<html><body><form method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\">";
 	
 	while($row = mysql_fetch_row($result)) {
 		writeField($row[1], $row[0], $row[2], $row[3], $row[4], $row[5], $mutable);
 	}
 	
-	echo "</form>";
+	echo '<input type="submit" value="Submit">';
+	echo "</form></body></html>";
 }
 
 //if extended = true, returns tuple; otherwise just returns [0] below

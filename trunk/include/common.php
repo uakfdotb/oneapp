@@ -381,6 +381,41 @@ function verifyLogin($user_id, $password) {
 	}
 }
 
+function addAdmin($username, $password, $email, $club_id) {
+	$username = escape($username);
+	$password = escape(chash($password));
+	$email = escape($email);
+	$club_id = escape($club_id);
+	
+	$result = mysql_query("INSERT INTO admins (username, password, email, club_id) VALUES ('$username', '$password', '$email', '$club_id')");
+}
+
+function updateAdmin($admin_id, $username, $password, $email, $club_id) {
+	$admin_id = escape($admin_id);
+	$setString = "";
+	
+	if(strlen($username) > 0) {
+		$setString .= ", username = '" . escape($username) . "'";
+	}
+	
+	if(strlen($password) > 0) {
+		$setString .= ", password = '" . escape(chash($password)) . "'";
+	}
+	
+	if(strlen($email) > 0) {
+		$setString .= ", email = '" . escape($email) . "'";
+	}
+	
+	if(strlen($club_id) > 0) {
+		$setString .= ", club_id = '" . escape($club_id) . "'";
+	}
+	
+	if(strlen($setString) > 0) {
+		$setString = substr($setString, 2);
+		$result = mysql_query("UPDATE admins SET $setString WHERE id='$admin_id'");
+	}
+}
+
 function checkAdmin($username, $password) {
 	if(!checkLock("checkadmin")) {
 		return FALSE;
@@ -389,17 +424,29 @@ function checkAdmin($username, $password) {
 	$username = escape($username);
 	$password = escape(chash($password));
 	
-	$result = mysql_query("SELECT password FROM admins WHERE username='" . $username . "'");
+	$result = mysql_query("SELECT id, password FROM admins WHERE username='" . $username . "'");
 	
 	if($row = mysql_fetch_array($result)) {
 		if(strcmp($password, $row['password']) == 0) {
-			return TRUE;
+			return $row['id'];
 		} else {
 			lockAction("checkadmin");
 			return FALSE;
 		}
 	} else {
 		lockAction("checkadmin");
+		return FALSE;
+	}
+}
+
+//returns admin ID, or false on failure
+function getAdminClub($admin_id) {
+	$admin_id = escape($admin_id);
+	$result = mysql_query("SELECT club_id FROM admins WHERE id='$admin_id'");
+	
+	if($row = mysql_fetch_array($result)) {
+		return $row[0];
+	} else {
 		return FALSE;
 	}
 }
