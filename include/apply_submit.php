@@ -20,7 +20,7 @@ function startApplication($user_id, $club_id) {
 	}
 	
 	//if it's a club, verify existence
-	if(!clubExists($club_id)) {
+	if($club_id != 0 && !clubExists($club_id)) {
 		return FALSE;
 	}
 	
@@ -122,7 +122,7 @@ function clubExists($club_id) {
 
 //returns array of (category_id, category_name)
 function listCategories() {
-	$result = mysql_query("SELECT id, name FROM categories");
+	$result = mysql_query("SELECT id, name FROM basecat");
 	
 	$list = array();
 	while($row = mysql_fetch_array($result)) {
