@@ -21,12 +21,12 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		echo $name;
 		echo '</b>: ';
 		echo $desc;
-		echo "<br><textarea name=\"a_$id.$answer_id\" rows=\"$rows\" cols=\"$cols\"$mutableString>$answer</textarea>";
+		echo "<br><textarea name=\"a_$id" . "_$answer_id\" rows=\"$rows\" cols=\"$cols\"$mutableString>$answer</textarea>";
 		echo '</p>';
 	} else if($type_array[0] == "short") {
 		echo '<p>';
 		echo $name;
-		echo ": <input type=\"text\" name=\"a_$id.$answer_id\"$mutableString value=\"$answer\"/>";
+		echo ": <input type=\"text\" name=\"a_$id" . "_$answer_id\"$mutableString value=\"$answer\"/> ";
 		echo $desc;
 		echo '</p>';
 	} else if($type_array[0] == "select") {
@@ -48,7 +48,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 				$selectedString = " checked";
 			}
 			
-			echo "<br><input$selectedString type=\"$tname\" name=\"a_$id.$answer_id\"$mutableString value=\"$choice\" /> $choice";
+			echo "<br><input$selectedString type=\"$tname\" name=\"a_$id" . "_$answer_id\"$mutableString value=\"$choice\" /> $choice";
 		}
 		
 		echo '</p>';

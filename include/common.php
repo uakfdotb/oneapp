@@ -93,7 +93,7 @@ function get_page_apply($page, $args = array()) {
 	$side_display = array('clubs', 'base', 'supplement', 'peer');
 	$side_display_names = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations');
 	
-	$page_include = "page/page_a_" . $page . ".php";
+	$page_include = "../page/page_a_" . $page . ".php";
 	
 	if(!isset($stylepath)) { //if not set in $args
 		$stylepath = "../astyle";
@@ -232,9 +232,9 @@ function register($username, $email, $profile) {
 		
 		//send email
 		$content = page_db("registration");
-		$content = str_replace('$USERNAME$', $username);
-		$content = str_replace('$PASSWORD$', $gen_password);
-		$content = str_replace('$EMAIL$', $email);
+		$content = str_replace('$USERNAME$', $username, $content);
+		$content = str_replace('$PASSWORD$', $gen_password, $content);
+		$content = str_replace('$EMAIL$', $email, $content);
 		
 		$result = one_mail($config['site_name'] . " Registration", $content, $email);
 		
@@ -257,7 +257,7 @@ function updateAccount($user_id, $oldPassword, $newPassword, $newPasswordConfirm
 	if($result === TRUE) {
 		$set_string = "";
 		
-		if(strlen($newPassword) > 0 || strlen($newPasswordConfirm) > 0)) {
+		if(strlen($newPassword) > 0 || strlen($newPasswordConfirm) > 0) {
 			if($newPassword == $newPasswordConfirm) {
 				$validPassword =  validPassword($newPassword);
 			
