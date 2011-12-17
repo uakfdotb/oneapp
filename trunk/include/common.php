@@ -347,6 +347,18 @@ function getProfile($userid) {
 	return $profile;
 }
 
+//returns array (username, email address)
+function getUserInformation($user_id) {
+	$user_id = escape($user_id);
+	$result = mysql_query("SELECT username, email FROM users WHERE id='$user_id'");
+	
+	if($row = mysql_fetch_array($result)) {
+		return array($row[0], $row[1]);
+	} else {
+		return FALSE;
+	}
+}
+
 //true: success; -1: invalid login; -2: try again later
 function verifyLogin($user_id, $password) {
 	if(!lockAction("checkuser")) {
