@@ -15,16 +15,16 @@ if(isset($_SESSION['user_id'])) {
 			$result = startApplication($_SESSION['user_id'], 0);
 			
 			if($result) {
-				get_page("message", array("stylepath" => "../style", "title" => "General application started", "message" => "You have started the general application. Please <a href=\"base.php\">click here</a> to continue."));
+				get_page("message", array("base_path" => "../", "title" => "General application started", "message" => "You have started the general application. Please <a href=\"base.php\">click here</a> to continue."));
 			} else {
-				get_page("message", array("stylepath" => "../style", "title" => "Error", "message" => "There was an error while starting your general application. Please <a href=\"base.php\">click here</a> to continue."));
+				get_page("message", array("base_path" => "../", "title" => "Error", "message" => "There was an error while starting your general application. Please <a href=\"base.php\">click here</a> to continue."));
 			}
 		} else {
 			get_page_apply("base_notstarted");
 		}
 	}
 } else {
-	get_page("message", array("stylepath" => "../style", "title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
+	get_page("message", array("base_path" => "../", "title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
 }
 
 ?>
