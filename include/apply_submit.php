@@ -25,7 +25,7 @@ function startApplication($user_id, $club_id) {
 	}
 	
 	//add to applications table first
-	mysql_query("INSERT INTO applications (user_id, club_id, submitted) VALUES ('$user_id', '$club_id', '0')");
+	mysql_query("INSERT INTO applications (user_id, club_id, submitted) VALUES ('$user_id', '$club_id', '')");
 	$application_id = mysql_insert_id();
 	
 	//now insert blank answers to answers table
@@ -116,6 +116,7 @@ function submitApplication($user_id, $application_id) {
 	}
 	
 	//submit it
+	//todotodo
 	mysql_query("UPDATE applications SET submitted='1' WHERE id='$application_id'");
 	return TRUE;
 }

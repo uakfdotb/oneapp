@@ -172,7 +172,7 @@ function checkApplication($user_id, $application_id, $extended = false) {
 	$result = mysql_query("SELECT submitted$extraSelect FROM applications WHERE id='$application_id' AND user_id='$user_id'");
 	
 	if($row = mysql_fetch_array($result)) {
-		if($row['submitted'] == '1') { //already submitted
+		if($row['submitted'] != '') { //already submitted
 			if(!$extended) {
 				return -1;
 			} else {
