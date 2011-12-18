@@ -27,4 +27,6 @@ $config['lock_time_max'] = 60*5;
 $config['root_password'] = '';
 $config['style'] = 0;
 $config['app_enabled'] = true;
+
+$config['latex_path'] = "/usr/bin/pdflatex";
 ?>
