@@ -20,6 +20,23 @@ function chash($str) {
 	return hash('sha512', $str);
 }
 
+function toArray($str) {
+	$parts = explode(";", $str);
+	$array = array();
+	
+	foreach($parts as $part) {
+		$part_array = explode(":", $part);
+		
+		if(count($part_array) >= 2) {
+			$key = $part_array[0];
+			$value = $part_array[1];
+			$array[$key] = $value;
+		}
+	}
+	
+	return $array;
+}
+
 function one_mail($subject, $body, $to) { //returns true=ok, false=notok
 	$config = $GLOBALS['config'];
 	$from = $config['mail_username'];

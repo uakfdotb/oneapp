@@ -71,12 +71,36 @@ function saveApplication($user_id, $application_id, $answers) { //$answers is ar
 		return FALSE;
 	}
 	
+	//get club_id
+	$result = mysql_query("SELECT club_id FROM applications WHERE id='$application_id' AND user_id='$user_id'");
+	if($row = mysql_fetch_array($result)) {
+		$club_id = escape($row[0]);
+	} else {
+		return FALSE;
+	}
+	
 	foreach($answers as $var_id => $answer) {
 		$var_id = escape($var_id);
 		$answer_id = escape($answer[0]);
-		$answer_value = escape($answer[1]);
 		
-		mysql_query("UPDATE answers SET val='$answer_value' WHERE id='$answer_id' AND application_id='$application_id'");
+		//cut $answer[1] (the answer value) to max length
+		if($club_id == 0) { //find which database we're dealing with
+			$result = mysql_query("SELECT vartype FROM baseapp WHERE id='$var_id'");
+		} else {
+			$result = mysql_query("SELECT vartype FROM supplements WHERE id='$var_id'");
+		}
+		
+		if($row = mysql_fetch_array($result)) {
+			$type = $row[0];
+		} else {
+			continue;
+		}
+		
+		$typeArray = getTypeArray($type);
+		$maxLength = $typeArray['length'];
+		$answer_value = escape(substr($answer[1], 0, $maxLength));
+		
+		mysql_query("UPDATE answers SET val='$answer_value' WHERE id='$answer_id' AND application_id='$application_id' AND var_id='$var_id'");
 	}
 	
 	return TRUE;
