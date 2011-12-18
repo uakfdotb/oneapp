@@ -1,4 +1,67 @@
-baseapp
+baseapp: contains the general application fields
 -------
-category: if 0, this means profile; otherwise, it is category id in categories table
-orderId means what order it displays in the category (lowest orderIds are displayed first)
+category: if 0, this means profile; otherwise, it is category id in basecat table
+orderId: means what order it displays in the category (lowest orderIds are displayed first)
+varname: the name of the question or field
+vardesc: the body of the question or field
+vartype: type; this is a semi-colon separated list of key-value pairs, which are separated by a colon (key1:value1;key2:value2)
+
+basecat: contains a list of categories in the general application
+-------
+name: the name of the category
+
+users: contains the user accounts
+-----
+username: the user's username
+password: the user's password, hashed with chash() in common.php
+email: the user's email address
+
+profiles: profile fields of users
+--------
+user_id: the user that this profile field belongs to
+var_id: the id in baseapp that this profile field covers
+val: the value of this profile field
+
+clubs: contains a list of clubs added
+-----
+name: the name of the club
+description: a description of the club
+
+admins: contains the admin accounts
+------
+club_id: the club that this admin is in charge of, or 0 if in charge of the general application
+username: the admin's username
+password: the admin's password, hashed with chash() in common.php
+email: the admin's email address
+
+supplements: contains the supplement fields for the clubs
+-----------
+club_id: the club that this supplement field is a part of (not 0; general application is handled in baseapp)
+orderId: the order that this field is displayed (lowest orderId displayed first)
+varname: the name of the question or field
+vardesc: the body of the question or field
+vartype: see baseapp.vartype
+
+applications: list of applications; each user has one for general application and one for each club being applied to
+------------
+user_id: the user that this application belongs to
+club_id: the club being applied to, or 0 for general application
+submitted: empty string ('') if not submitted, or the PDF filename if this application has been submitted
+
+answers: contains list of user responses
+-------
+application_id: the application that this answer is a part of
+var_id: the id in baseapp or supplements that this row answers
+val: the user's response to the question
+
+pages: contains database pages
+-----
+name: the name of the page, used to identify it from the PHP code
+text: the body of the page
+
+locks: contains information to prevent flooding the oneapp system
+-----
+ip: the client IP address
+time: the time, from PHP time() function, when last action was performed
+action: unique identifier for the action that was performed (for example, "register" for a registration)
+num: the number of times that this action was repeatedly performed within a flooding limit, or -1 if it was performed too many times

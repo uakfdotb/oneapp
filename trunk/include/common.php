@@ -16,6 +16,24 @@ function escapePHP($str) {
 	return addslashes($str);
 }
 
+function latexSpecialChars( $string )
+{
+    $map = array( 
+            "#"=>"\\#",
+            "$"=>"\\$",
+            "%"=>"\\%",
+            "&"=>"\\&",
+            "~"=>"\\~{}",
+            "_"=>"\\_",
+            "^"=>"\\^{}",
+            "\\"=>"\\textbackslash{}",
+            "{"=>"\\{",
+            "}"=>"\\}",
+    );
+    
+    return preg_replace( "/([\^\%~\\\\#\$%&_\{\}])/e", "\$map['$1']", $string );
+}
+
 function chash($str) {
 	return hash('sha512', $str);
 }
