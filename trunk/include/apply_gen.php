@@ -1,44 +1,82 @@
 <?php
 
+function writeApplicationHeader($club_id, $application_id, $category_id) {
+	echo '<SCRIPT LANGUAGE="JavaScript" SRC="../style/limit.js"></SCRIPT>';
+	echo "<form method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\">";
+}
+
+function writeApplicationFooter() {
+	echo '<input type="submit" value="Submit">';
+	echo "</form>";
+}
+
 function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable = true) {
 	$mutableString = "";
 	if(!$mutable) {
 		$mutableString = " readonly=\"readonly\"";
 	}
-
-	$type_array = explode(":", $type);
 	
-	if($type_array[0] == "essay") {
+	$fieldName = "a_$id" . "_$answer_id";
+
+	$type_array = getTypeArray($type);
+	$maxLength = $type_array['length'];
+	$lengthRemaining = $maxLength - strlen($answer);
+	
+	if($type_array['type'] == "essay") {
 		$rows = 5;
 		$cols = 40;
 		
-		if($type_array[1] == "long") {
+		if($type_array['size'] == "long") {
 			$rows = 15;
 			$cols = 75;
 		}
 		
-		echo '<p><b>';
-		echo $name;
-		echo '</b>: ';
-		echo $desc;
-		echo "<br><textarea name=\"a_$id" . "_$answer_id\" rows=\"$rows\" cols=\"$cols\"$mutableString>$answer</textarea>";
+		echo "<p><b>$name</b>: $desc<br>";
+		
+		if($type_array['showchars']) {
+			echo "<textarea onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
+			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
+		} else {
+			echo "<textarea ";
+		}
+		
+		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString>$answer</textarea>";
+		
+		if($type_array['showchars']) {
+			echo "<br><font size=\"1\">(Maximum characters: $maxLength)<br>";
+			echo "You have <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"> characters left.</font>";
+		}
+		
 		echo '</p>';
-	} else if($type_array[0] == "short") {
-		echo '<p>';
-		echo $name;
-		echo ": <input type=\"text\" name=\"a_$id" . "_$answer_id\"$mutableString value=\"$answer\"/> ";
+	} else if($type_array['type'] == "short") {
+		echo "<p>$name: ";
+		
+		if($type_array['showchars']) {
+			echo "<input onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldname, $maxLength);\" ";
+			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" maxlength=\"$maxLength\" ";
+		} else {
+			echo "<input ";
+		}
+		
+		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"$answer\" /> ";
 		echo $desc;
+		
+		if($type_array['showchars']) {
+			echo "<font size=\"1\">(Maximum characters: $maxLength)<br>";
+			echo "You have <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"> characters left.</font>";
+		}
+		
 		echo '</p>';
-	} else if($type_array[0] == "select") {
+	} else if($type_array['type'] == "select") {
 		echo '<p>';
 		echo $name;
 		
 		$choices = explode(";", $desc);
 		
 		$tname = "checkbox";
-		if($type_array[1] == "multiple") {
+		if($type_array['method'] == "multiple") {
 			$tname = "checkbox";
-		} else if($type_array[1] == "single") {
+		} else if($type_array['method'] == "single") {
 			$tname = "radio";
 		}
 		
@@ -48,11 +86,44 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 				$selectedString = " checked";
 			}
 			
-			echo "<br><input$selectedString type=\"$tname\" name=\"a_$id" . "_$answer_id\"$mutableString value=\"$choice\" /> $choice";
+			echo "<br><input$selectedString type=\"$tname\" name=\"$fieldName\"$mutableString value=\"$choice\" /> $choice";
 		}
 		
 		echo '</p>';
 	}
+}
+
+function getTypeArray($type) {
+	$array = toArray($type);
+	$mainType = $array['type'];
+	
+	if(!array_key_exists("length", $array)) {
+		if($mainType == "essay") {
+			$array['length'] = 1024;
+		} else if($mainType == "short") {
+			$array['length'] = 256;
+		} else if($mainType == "select") {
+			$array['length'] = 256;
+		}
+	}
+	
+	if(!array_key_exists("showchars", $array)) { //whether to show the characters remaining or not
+		if($mainType == "essay") {
+			$array['showchars'] = true;
+		} else {
+			$array['showchars'] = false;
+		}
+	}
+	
+	if($mainType == "essay" && !array_key_exists("size", $array)) {
+		$array['size'] = "medium";
+	}
+	
+	if($mainType == "select" && !array_key_exists("method", $array)) {
+		$array['method'] = "multiple";
+	}
+	
+	return $array;
 }
 
 function writeApplication($user_id, $application_id, $category_id = 0) {
@@ -77,14 +148,13 @@ function writeApplication($user_id, $application_id, $category_id = 0) {
 		$result = mysql_query("SELECT answers.id, supplements.id, supplements.varname, supplements.vardesc, supplements.vartype, answers.val FROM answers, supplements WHERE answers.application_id = '$application_id' AND supplements.id = answers.var_id ORDER BY supplements.orderId");
 	}
 	
-	echo "<html><body><form method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\">";
+	writeApplicationHeader($club_id, $application_id, $category_id);
 	
 	while($row = mysql_fetch_row($result)) {
 		writeField($row[1], $row[0], $row[2], $row[3], $row[4], $row[5], $mutable);
 	}
 	
-	echo '<input type="submit" value="Submit">';
-	echo "</form></body></html>";
+	writeApplicationFooter();
 }
 
 //if extended = true, returns tuple; otherwise just returns [0] below
@@ -112,14 +182,14 @@ function checkApplication($user_id, $application_id, $extended = false) {
 			if(!$extended) {
 				return 0;
 			} else {
-				return array(0, 0);
+				return array(0, $row['club_id']);
 			}
 		}
 	} else { //does not belong to user or doesn't exist
 		if(!$extended) {
 			return -2;
 		} else {
-			return array(-2, $row['club_id']);
+			return array(-2, 0);
 		}
 	}
 }

@@ -21,10 +21,10 @@ if(isset($_SESSION['user_id'])) {
 			if($applicationId !== FALSE) {
 				if($_REQUEST['club_id'] == 0) {
 					if(isset($_REQUEST['cat_id'])) {
-						writeApplication($_SESSION['user_id'], $applicationId, $_REQUEST['cat_id']);
+						get_page_apply("app", array("user_id" => $_SESSION['user_id'], "app_id" => $applicationId, "club_id" => $_REQUEST['club_id'], "cat_id" => $_REQUEST['cat_id']));
 					}
 				} else {
-					writeApplication($_SESSION['user_id'], $applicationId);
+					get_page_apply("app", array("user_id" => $_SESSION['user_id'], "app_id" => $applicationId, "club_id" => $_REQUEST['club_id']));
 				}
 			} else {
 				get_page_apply("message", array("title" => "Internal error", "message" => "Internal error: application not found."));
