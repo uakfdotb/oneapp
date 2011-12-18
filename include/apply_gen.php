@@ -40,7 +40,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "<textarea ";
 		}
 		
-		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString>$answer</textarea>";
+		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString>" . htmlspecialchars($answer) . "</textarea>";
 		
 		if($type_array['showchars']) {
 			echo "<br><font size=\"1\">(Maximum characters: $maxLength)<br>";
@@ -58,7 +58,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "<input ";
 		}
 		
-		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"$answer\" /> ";
+		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" /> ";
 		echo $desc;
 		
 		if($type_array['showchars']) {
@@ -90,6 +90,8 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		}
 		
 		echo '</p>';
+	} else if($type_array['type'] == "text") {
+		echo "<p>$desc</p>";
 	}
 }
 
