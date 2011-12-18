@@ -16,24 +16,6 @@ function escapePHP($str) {
 	return addslashes($str);
 }
 
-function latexSpecialChars( $string )
-{
-    $map = array( 
-            "#"=>"\\#",
-            "$"=>"\\$",
-            "%"=>"\\%",
-            "&"=>"\\&",
-            "~"=>"\\~{}",
-            "_"=>"\\_",
-            "^"=>"\\^{}",
-            "\\"=>"\\textbackslash{}",
-            "{"=>"\\{",
-            "}"=>"\\}",
-    );
-    
-    return preg_replace( "/([\^\%~\\\\#\$%&_\{\}])/e", "\$map['$1']", $string );
-}
-
 function chash($str) {
 	return hash('sha512', $str);
 }
@@ -669,6 +651,24 @@ function recursiveCopy( $path, $dest )
 	{
 		return false;
 	}
+}
+
+function delete_directory($dirname) {
+	if (is_dir($dirname))
+		$dir_handle = opendir($dirname);
+	if (!$dir_handle)
+		return false;
+	while($file = readdir($dir_handle)) {
+		if ($file != "." && $file != "..") {
+			if (!is_dir($dirname."/".$file))
+				unlink($dirname."/".$file);
+			else
+				delete_directory($dirname.'/'.$file);	 
+		}
+	}
+	closedir($dir_handle);
+	rmdir($dirname);
+	return true;
 }
 
 //0: success; 1: less than 6 characters
