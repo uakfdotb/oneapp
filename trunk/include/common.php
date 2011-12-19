@@ -336,6 +336,7 @@ function checkLogin($username, $password) {
 	}
 }
 
+//returns array (variable name, response, id)
 function getProfile($userid) {
 	$userid = escape($userid);
 	$result = mysql_query("SELECT var_id, val FROM profiles WHERE user_id = '$userid'");

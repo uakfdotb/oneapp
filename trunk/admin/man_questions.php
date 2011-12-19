@@ -116,12 +116,15 @@ if(isset($_SESSION['admin_id'])) {
 					echo "<p>Addition successful!</p>";
 				}
 			}
+		} else if($_REQUEST['action'] == "delete") {
+			$qid = escape($_REQUEST['id']);
+			mysql_query("DELETE FROM $database WHERE id='$qid'");
 		}
 	}
 	
 	$result = mysql_query("SELECT id, orderId, varname, vardesc, vartype FROM $database WHERE $whereString ORDER BY orderId");
 	
-	echo "<table><tr><th>Question name</th><th>Description</th><th>Type</th><th>Up</th><th>Down</th><th>Edit</th></tr>";
+	echo "<table><tr><th>Question name</th><th>Description</th><th>Type</th><th>Up</th><th>Down</th><th>Edit</th><th>Delete</th></tr>";
 	
 	while($row = mysql_fetch_array($result)) {
 		echo "<form method=\"post\" action=\"man_questions.php\">";
@@ -140,6 +143,7 @@ if(isset($_SESSION['admin_id'])) {
 		echo '<td><input type="submit" name="action" value="up"></td>';
 		echo '<td><input type="submit" name="action" value="down"></td>';
 		echo '<td><input type="submit" name="action" value="edit"></td>';
+		echo '<td><input type="submit" name="action" value="delete"></td>';
 		echo "</tr></form>";
 	}
 	
@@ -153,5 +157,6 @@ if(isset($_SESSION['admin_id'])) {
 }
 ?>
 
+<a href="./">back</a>
 </body>
 </html>

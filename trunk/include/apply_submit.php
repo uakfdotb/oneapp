@@ -222,4 +222,18 @@ function getApplication($user_id, $club_id) {
 	}
 }
 
+//returns array of (id, user_id, general application PDF, supplement PDF)
+function listCompletedApplications($club_id) {
+	$club_id = escape($club_id);
+	$result = mysql_query("SELECT id, user_id, submitted FROM applications WHERE club_id='$club_id' AND submitted != ''");
+	
+	$array = array();
+	while($row = mysql_fetch_array($result)) {
+		$submitParts = explode(":", $row['submitted']);
+		array_push($array, array($row['id'], $row['user_id'], $submitParts[0], $submitParts[1]));
+	}
+	
+	return $array;
+}
+
 ?>
