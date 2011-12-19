@@ -37,6 +37,13 @@ function toArray($str) {
 	return $array;
 }
 
+//returns a path to the include directory, without trailing slash
+function includePath() {
+	$self = __FILE__;
+	$lastSlash = strrpos($self, "/");
+	return substr($self, 0, $lastSlash);
+}
+
 function one_mail($subject, $body, $to) { //returns true=ok, false=notok
 	$config = $GLOBALS['config'];
 	$from = $config['mail_username'];
@@ -138,7 +145,13 @@ function page_db_part($page) {
 	if($row = mysql_fetch_array($result)) {
 		return $row['text'];
 	} else {
-		return "[h1]Error[/h1][p]Error: this page has not been edited yet.[/p]";
+		include(includePath() . "/default_pages.php");
+		
+		if(isset($pages[$page])) {
+			return $pages[$page];
+		} else {
+			return "[h1]Error[/h1][p]Error: this page has not been edited yet.[/p]";
+		}
 	}
 }
 
@@ -177,6 +190,7 @@ function page_convert($str) {
 	$str = str_replace("[i]", "<i>", $str);
 	$str = str_replace("[/i]", "</i>", $str);
 	$str = str_replace('$site_name$', $config['site_name'], $str);
+	$str = str_replace("\n", "<br>", $str);
 	
 	return $str;
 }

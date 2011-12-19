@@ -25,6 +25,9 @@ $config['lock_time_reset'] = 60;
 //max time to store locks in the database; this way we can clear old locks with one function
 $config['lock_time_max'] = 60*5;
 
+//time it takes for reset to expire; users can only have one reset request at a time
+$config['reset_time'] = 60*60*72;
+
 $config['root_password'] = '';
 $config['style'] = 0;
 $config['app_enabled'] = true;
