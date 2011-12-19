@@ -112,13 +112,64 @@ function submitApplication($user_id, $application_id) {
 	
 	//verify application belongs to user and hasn't been submitted
 	if(checkApplication($user_id, $application_id) !== 0) {
-		return FALSE;
+		return "check failed";
 	}
 	
-	//submit it
-	//todotodo
-	mysql_query("UPDATE applications SET submitted='1' WHERE id='$application_id'");
+	//craete supplement PDF
+	$createSupplementResult = createApplicationPDF($user_id, $application_id, "../submit/");
+	
+	if($createSupplementResult[0] === FALSE) { //true is success, string is error message
+		return $createSupplementResult[1];
+	}
+	
+	//create general application PDF
+	$gen_app_id = getApplicationByUserClub($user_id, 0);
+	$createGeneralResult = createApplicationPDF($user_id, $gen_app_id, "../submit/");
+
+	if($createGeneralResult[0] === FALSE) { //true is success, string is error message
+		return $createGeneralResult[1];
+	}
+	
+	//update database
+	$submitName = escape($createGeneralResult[1] . ":" . $createSupplementResult[1]);
+	mysql_query("UPDATE applications SET submitted='$submitName' WHERE id='$application_id' AND user_id='$user_id'");
+	
 	return TRUE;
+}
+
+//returns array of strings, which are warnings
+function checkCompletedApplication($user_id, $club_id, $application_id) {
+	$user_id = escape($user_id);
+	$club_id = escape($club_id);
+	$application_id = escape($application_id);
+	
+	//verify application belongs to user and hasn't been submitted
+	$checkResult = checkApplication($user_id, $application_id, true);
+	if($checkResult[0] !== 0) {
+		return array("This application does not belong to you!");
+	}
+	
+	if($club_id != $checkResult[1]) {
+		return array("Club ID is incorrect!");
+	}
+	
+	$warnings = array();
+	
+	if($club_id == 0) {
+		$result = mysql_query("SELECT baseapp.varname, baseapp.vartype FROM answers, baseapp WHERE answers.application_id='$application_id' AND answers.var_id = baseapp.id AND answers.val = ''");
+	} else {
+		$result = mysql_query("SELECT supplements.varname, supplements.vartype FROM answers, supplements WHERE answers.application_id='$application_id' AND answers.var_id = supplements.id AND answers.val = ''");
+	}
+	
+	while($row = mysql_fetch_array($result)) {
+		$typeArray = getTypeArray($row[1]);
+		
+		if($typeArray['status'] != "optional") {
+			array_push($warnings, "Answer to the required question \"" . $row[0] . "\" has not been completed.");
+		}
+	}
+	
+	return $warnings;
 }
 
 //returns array of (club_id, club_name)
