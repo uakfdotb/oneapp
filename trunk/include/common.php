@@ -482,6 +482,7 @@ function checkRoot($password) {
 	}
 }
 
+//returns array of (club id, club name, club description, user's application id)
 function getUserClubsApplied($user_id) {
 	$user_id = escape($user_id);
 	$result = mysql_query("SELECT applications.club_id, clubs.name, clubs.description, applications.id FROM applications, clubs WHERE applications.user_id='$user_id' AND applications.club_id = clubs.id AND applications.club_id != '0'");
@@ -492,6 +493,18 @@ function getUserClubsApplied($user_id) {
 	}
 	
 	return $clubs;
+}
+
+//returns array (club name, club description)
+function clubInfo($club_id) {
+	$club_id = escape($club_id);
+	$result = mysql_query("SELECT name, description FROM clubs WHERE id='$club_id'");
+	
+	if($row = mysql_fetch_array($result)) {
+		return array($row[0], $row[1]);
+	} else {
+		return array("Unknown", "Club could not be found");
+	}
 }
 
 //returns boolean: true=proceed, false=lock up; the difference between this and lockAction is that this can be used for repeated tasks, like admin
