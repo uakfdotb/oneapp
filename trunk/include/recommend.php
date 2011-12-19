@@ -24,7 +24,7 @@ function requestRecommendation($user_id, $name, $email, $message) {
 	$content = page_db("request_recommendation");
 	$content = str_replace('$NAME$', $name, $content);
 	$content = str_replace('$EMAIL$', $email, $content);
-	$content = str_replace('$MESSAGE$', $message, $content);
+	$content = str_replace('$MESSAGE$', page_db($message), $content);
 	$content = str_replace('$AUTH$', $auth, $content);
 	$content = str_replace('$SUBMIT_ADDRESS$', $config['site_address'] . "/recommend.php?id=$recommend_id&user_id=$user_id&auth=$auth", $content);
 	
