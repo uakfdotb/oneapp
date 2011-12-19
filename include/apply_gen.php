@@ -31,13 +31,17 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			$cols = 75;
 		}
 		
-		echo "<p><b>$name</b>: $desc<br>";
+		echo "<p><b>$name</b>: $desc";
+		
+		if($type_array['status'] == "optional") {
+			echo " (optional)";
+		}
+		
+		echo "<br><textarea ";
 		
 		if($type_array['showchars']) {
-			echo "<textarea onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
+			echo "onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
-		} else {
-			echo "<textarea ";
 		}
 		
 		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString>" . htmlspecialchars($answer) . "</textarea>";
@@ -49,13 +53,17 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		echo '</p>';
 	} else if($type_array['type'] == "short") {
-		echo "<p>$name: ";
+		echo "<p>$name ";
+		
+		if($type_array['status'] == "optional") {
+			echo "(optional) ";
+		}
+		
+		echo "<input ";
 		
 		if($type_array['showchars']) {
-			echo "<input onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldname, $maxLength);\" ";
+			echo "onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldname, $maxLength);\" ";
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" maxlength=\"$maxLength\" ";
-		} else {
-			echo "<input ";
 		}
 		
 		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" /> ";
@@ -68,8 +76,11 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		echo '</p>';
 	} else if($type_array['type'] == "select") {
-		echo '<p>';
-		echo $name;
+		echo '<p>' . $name;
+		
+		if($type_array['status'] == "optional") {
+			echo " (optional)";
+		}
 		
 		$choices = explode(";", $desc);
 		
@@ -115,6 +126,10 @@ function getTypeArray($type) {
 		} else {
 			$array['showchars'] = false;
 		}
+	}
+	
+	if(!array_key_exists("status", $array)) { //whether it is required or not
+		$array['status'] = "required";
 	}
 	
 	if($mainType == "essay" && !array_key_exists("size", $array)) {

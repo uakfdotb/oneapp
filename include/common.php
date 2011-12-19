@@ -495,6 +495,20 @@ function getUserClubsApplied($user_id) {
 	return $clubs;
 }
 
+//returns id in applications table based on user_id and club_id, or -1 on fail
+function getApplicationByUserClub($user_id, $club_id) {
+	$user_id = escape($user_id);
+	$club_id = escape($club_id);
+	
+	$result = mysql_query("SELECT id FROM applications WHERE user_id='$user_id' AND club_id='$club_id'");
+	
+	if($row = mysql_fetch_array($result)) {
+		return $row[0];
+	} else {
+		return -1;
+	}
+}
+
 //returns array (club name, club description)
 function clubInfo($club_id) {
 	$club_id = escape($club_id);

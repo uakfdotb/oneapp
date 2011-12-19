@@ -18,6 +18,7 @@ function latexSpecialChars( $string )
     return preg_replace( "/([\^\%~\\\\#\$%&_\{\}])/e", "\$map['$1']", $string );
 }
 
+//returns array(FALSE, error message) on failure or array(TRUE, filename without extension) on success
 function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 	$user_id = escape($user_id);
 	$application_id = escape($application_id);
@@ -26,7 +27,7 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 	$checkArray = checkApplication($user_id, $application_id, true);
 	
 	if($checkArray[0] == -2 || $checkArray[0] == -1) {
-		return FALSE;
+		return array(FALSE, "verification failure");
 	}
 	
 	$club_id = $checkArray[1];
@@ -88,18 +89,14 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 	if(!file_exists($targetDirectory . $outFile . "/" . $outFile . ".pdf")) { //failed; PDF not created
 		//delete temp directory
 		delete_directory($targetDirectory . $outFile); //no trailing slash on outFile
-		return FALSE;
+		return array(FALSE, "generation failure");
 	}
 	
 	//move the PDF and delete temporary directory
 	rename($targetDirectory . $outFile . "/" . $outFile . ".pdf", $targetDirectory . $outFile . ".pdf");
 	delete_directory($targetDirectory . $outFile); //no trailing slash on outFile
 	
-	//update database
-	$submitName = escape($outFile);
-	mysql_query("UPDATE applications SET submitted='$submitName' WHERE id='$application_id' AND user_id='$user_id'");
-	
-	return TRUE;
+	return array(TRUE, $outFile);
 }
 
 ?>
