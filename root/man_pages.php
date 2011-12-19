@@ -12,13 +12,15 @@ if(isset($_SESSION['root'])) {
     if(isset($_REQUEST['action']) && isset($_REQUEST['page'])) {
     	$page = $_REQUEST['page'];
     	
-    	if($_REQUEST['action'] == "edit") {
+    	if($_REQUEST['action'] == "Edit") {
 			if(isset($_REQUEST['contents'])) {
 				savePage($page, $_REQUEST['contents']);
 			}
 			
 			$contents = page_db_part($page);
 			echo '<form method="post" action="man_pages.php?action=edit&page=' . $page . '"><textarea name="contents" rows="20" cols="80">' . $contents . '</textarea><input type="submit"></form>';
+		} else if($_REQUEST['action'] == "Delete") {
+			deletePage($page);
 		} else if($_REQUEST['action'] == "add") {
 			savePage($page, "");
 		}
@@ -26,7 +28,7 @@ if(isset($_SESSION['root'])) {
 }
 ?>
 
-<form action="man_pages.php?action=edit" method="post">
+<form action="man_pages.php" method="post">
 <select name="page">
 
 <?
@@ -50,7 +52,8 @@ while($row = mysql_fetch_array($result)) {
 ?>
 
 </select>
-<input type="submit" value="Edit">
+<input type="submit" name="action" value="Edit">
+<input type="submit" name="action" value="Delete">
 </form>
 
 <form action="man_pages.php?action=add" method="post">
