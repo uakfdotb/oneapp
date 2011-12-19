@@ -195,6 +195,11 @@ function page_convert($str) {
 	return $str;
 }
 
+function deletePage($page) {
+	$page = escape($page);
+	mysql_query("DELETE FROM pages WHERE name='$page'");
+}
+
 function savePage($page, $text) {
 	$page = escape($page);
 	$text = escape($text);
