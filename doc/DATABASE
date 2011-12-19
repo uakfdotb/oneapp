@@ -16,6 +16,12 @@ username: the user's username
 password: the user's password, hashed with chash() in common.php
 email: the user's email address
 
+reset: contains list of reset requests
+-----
+user_id: the user who wants to reset his or her password
+time: PHP time() when the reset requets was submitted
+auth: 64-character authentication code needed to reset password; sent to the user's email
+
 profiles: profile fields of users
 --------
 user_id: the user that this profile field belongs to

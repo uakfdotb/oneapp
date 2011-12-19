@@ -305,7 +305,7 @@ function updateAccount($user_id, $oldPassword, $newPassword, $newPasswordConfirm
 		
 		if(strlen($newEmail) > 0) {
 			if(validEmail($newEmail)) {
-				$set_string .= "email = '" . escape($newEmail) . "'";
+				$set_string .= "email = '" . escape($newEmail) . "', ";
 			} else {
 				return 10;
 			}
