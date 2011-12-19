@@ -23,6 +23,7 @@ if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
 	}
 } else if(isset($_SESSION['admin_id'])) {
     echo "<a href=\"man_questions.php\">Manage questions</a>";
+    echo "<br><a href=\"view_submit.php\">View submissions</a>";
     
     echo "<br><br><a href=\"index.php?action=logout\">Logout</a>";
 } else {
