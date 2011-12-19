@@ -11,6 +11,7 @@ $config['mail_smtp_host'] = '';
 $config['mail_smtp_port'] = 465;
 
 $config['site_name'] = "My Site";
+$config['site_address'] = ""; //to trailing slash
 
 //lock configuration
 //the time in seconds a user must wait before trying again; otherwise they get locked out (count not increased)

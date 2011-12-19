@@ -181,23 +181,16 @@ function page_convert($str) {
 	return $str;
 }
 
-function pageNameFromId($page) {
-	$pagename = "index";
-	if($page == 1) $pagename = "about";
-	if($page == 2) $pagename = "contact";
-	return $pagename;
-}
-
 function savePage($page, $text) {
-	$pagename = pageNameFromId($page);
+	$page = escape($page);
 	$text = escape($text);
 	
-	$result = mysql_query("SELECT id FROM pages WHERE name='$pagename'");
+	$result = mysql_query("SELECT id FROM pages WHERE name='$page'");
 	if($row = mysql_fetch_row($result)) {
 		$id = escape($row[0]);
 		mysql_query("UPDATE pages SET text='$text' WHERE id='$id'");
 	} else {
-		mysql_query("INSERT INTO pages (name, text) VALUES ('$pagename', '$text')");
+		mysql_query("INSERT INTO pages (name, text) VALUES ('$page', '$text')");
 	}
 }
 
@@ -254,6 +247,7 @@ function register($username, $email, $profile) {
 		$content = str_replace('$USERNAME$', $username, $content);
 		$content = str_replace('$PASSWORD$', $gen_password, $content);
 		$content = str_replace('$EMAIL$', $email, $content);
+		$content = str_replace('$LOGIN_ADDRESS$', $config['site_address'] . "/login.php", $content);
 		
 		$result = one_mail($config['site_name'] . " Registration", $content, $email);
 		
