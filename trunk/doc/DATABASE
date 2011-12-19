@@ -59,6 +59,7 @@ recommendations: contains peer recommendations for applications
 user_id: the user that this recommendation is written for
 author: the name of the author of this recommendation
 email: the email address of the author of this recommendation
+auth: 64-character authentication code needed to submit this recommendation
 text: the body of this recommendation
 status: 0 if not submitted, 1 if submitted
 

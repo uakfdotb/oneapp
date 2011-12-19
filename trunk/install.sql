@@ -7,6 +7,6 @@ CREATE TABLE admins (id INT PRIMARY KEY AUTO_INCREMENT, club_id INT, username VA
 CREATE TABLE supplements (id INT PRIMARY KEY AUTO_INCREMENT, club_id INT, orderId INT, varname VARCHAR(64), vardesc TEXT, vartype VARCHAR(32));
 CREATE TABLE applications (id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, club_id INT, submitted VARCHAR(65));
 CREATE TABLE answers (id INT PRIMARY KEY AUTO_INCREMENT, application_id INT, var_id INT, val TEXT);
-CREATE TABLE recommendations (id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, author VARCHAR(64), email VARCHAR(256), text TEXT, status INT);
+CREATE TABLE recommendations (id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, author VARCHAR(64), email VARCHAR(256), auth VARCHAR(64), text TEXT, status INT);
 CREATE TABLE pages (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), text TEXT);
 CREATE TABLE locks (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, ip VARCHAR(16), time INT, action VARCHAR(16), num INT);
