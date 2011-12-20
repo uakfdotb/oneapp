@@ -24,6 +24,7 @@ function latexAppendQuestion($name, $type, $answer) {
 	$question_string = "";
 	
 	if($typeArray['type'] == "repeat") {
+		$num = $typeArray['num'];
 		$subtype_array = explode("|", $typeArray['subtype']);
 		$name_array = explode("|", $name);
 		
@@ -36,8 +37,9 @@ function latexAppendQuestion($name, $type, $answer) {
 		//find minimum length, which will be the number to repeat for
 		$min_length = min(count($subtype_array), count($name_array), count($answer_array));
 		
-		for($i = 0; $i < $min_length; $i++) {
-			$question_string .= latexAppendQuestion($name_array[$i], $subtype_array[$i], $answer_array[$i]);
+		for($i = 0; $i < $min_length * $num; $i++) {
+			$index = $i % $min_length;
+			$question_string .= latexAppendQuestion($name_array[$index], $subtype_array[$index], $answer_array[$i]);
 		}
 	} else {
 		$question_string .= '\\textbf{' . $name . '}'; //add question in bold

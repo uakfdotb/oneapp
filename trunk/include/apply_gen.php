@@ -119,6 +119,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 	} else if($type_array['type'] == "text") {
 		echo "<p>$desc</p>";
 	} else if($type_array['type'] == "repeat") {
+		$num = $type_array['num'];
 		$subtype_array = explode("|", $type_array['subtype']);
 		$desc_array = explode("|", $desc);
 		$name_array = explode("|", $name);
@@ -126,14 +127,15 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		if($answer != '') {
 			$answer_array = toArray($answer, "|", "=");
 		} else {
-			$answer_array = array_fill(0, count($name_array), '');
+			$answer_array = array_fill(0, count($name_array) * $num, '');
 		}
 		
 		//find minimum length, which will be the number to repeat for
-		$min_length = min(count($subtype_array), count($desc_array), count($name_array), count($answer_array));
+		$min_length = min(count($subtype_array), count($desc_array), count($name_array));
 		
-		for($i = 0; $i < $min_length; $i++) {
-			writeField($id, $answer_id, $name_array[$i], $desc_array[$i], $subtype_array[$i], $answer_array[$i], $mutable, $i);
+		for($i = 0; $i < $min_length * $num; $i++) {
+			$index = $i % $min_length;
+			writeField($id, $answer_id, $name_array[$index], $desc_array[$index], $subtype_array[$index], $answer_array[$i], $mutable, $i);
 		}
 	}
 }
@@ -170,6 +172,10 @@ function getTypeArray($type) {
 	
 	if($mainType == "select" && !array_key_exists("method", $array)) {
 		$array['method'] = "multiple";
+	}
+	
+	if($mainType == "repeat" && !array_key_exists("num", $array)) {
+		$array['num'] = 1;
 	}
 	
 	return $array;
