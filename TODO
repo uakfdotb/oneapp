@@ -2,4 +2,3 @@ root: fix applications missing something from baseapp or supplement
 root: check to list PDFs that are not part of a submission
 admin: better type field handling when adding questions
 admin: a manual
-user: reset password @ reset.php
