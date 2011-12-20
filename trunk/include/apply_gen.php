@@ -10,13 +10,13 @@ function writeApplicationFooter() {
 	echo "</form>";
 }
 
-function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable = true) {
+function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable = true, $repeat_id = -1) {
 	$mutableString = "";
 	if(!$mutable) {
 		$mutableString = " readonly=\"readonly\"";
 	}
 	
-	$fieldName = "a_$id" . "_$answer_id";
+	$fieldName = "a_" . $id . "_" . $answer_id . "_" . $repeat_id;
 
 	$type_array = getTypeArray($type);
 	$maxLength = $type_array['length'];
@@ -89,20 +89,52 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			$tname = "checkbox";
 		} else if($type_array['method'] == "single") {
 			$tname = "radio";
+		} else if($type_array['method'] == "dropdown") {
+			$tname = false;
+			echo ": <select name=\"$fieldName\"$mutableString>";
 		}
 		
 		foreach($choices as $choice) {
 			$selectedString = "";
 			if($choice == $answer) {
-				$selectedString = " checked";
+				if($tname === false) {
+					$selectedString = " selected";
+				} else {
+					$selectedString = " checked";
+				}
 			}
 			
-			echo "<br><input$selectedString type=\"$tname\" name=\"$fieldName\"$mutableString value=\"$choice\" /> $choice";
+			if($tname == false) {
+				echo "<option$selectedString value=\"$choice\">$choice</option>";
+			} else {
+				echo "<br><input$selectedString type=\"$tname\" name=\"$fieldName\"$mutableString value=\"$choice\" /> $choice";
+			}
+		}
+		
+		if($tname == false) { //select
+			echo "</select>";
 		}
 		
 		echo '</p>';
 	} else if($type_array['type'] == "text") {
 		echo "<p>$desc</p>";
+	} else if($type_array['type'] == "repeat") {
+		$subtype_array = explode("|", $type_array['subtype']);
+		$desc_array = explode("|", $desc);
+		$name_array = explode("|", $name);
+		
+		if($answer != '') {
+			$answer_array = toArray($answer, "|", "=");
+		} else {
+			$answer_array = array_fill(0, count($name_array), '');
+		}
+		
+		//find minimum length, which will be the number to repeat for
+		$min_length = min(count($subtype_array), count($desc_array), count($name_array), count($answer_array));
+		
+		for($i = 0; $i < $min_length; $i++) {
+			writeField($id, $answer_id, $name_array[$i], $desc_array[$i], $subtype_array[$i], $answer_array[$i], $mutable, $i);
+		}
 	}
 }
 
@@ -113,9 +145,9 @@ function getTypeArray($type) {
 	if(!array_key_exists("length", $array)) {
 		if($mainType == "essay") {
 			$array['length'] = 1024;
-		} else if($mainType == "short") {
-			$array['length'] = 256;
-		} else if($mainType == "select") {
+		} else if($mainType == "repeat") {
+			$array['length'] = 8192;
+		} else {
 			$array['length'] = 256;
 		}
 	}

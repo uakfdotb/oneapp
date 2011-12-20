@@ -18,6 +18,44 @@ function latexSpecialChars( $string )
     return preg_replace( "/([\^\%~\\\\#\$%&_\{\}])/e", "\$map['$1']", $string );
 }
 
+function latexAppendQuestion($name, $type, $answer) {
+	$typeArray = getTypeArray($type);
+	
+	$question_string = "";
+	
+	if($typeArray['type'] == "repeat") {
+		$subtype_array = explode("|", $typeArray['subtype']);
+		$name_array = explode("|", $name);
+		
+		if($answer != '') {
+			$answer_array = toArray($answer, "|", "=");
+		} else {
+			$answer_array = array_fill(0, count($name_array), '');
+		}
+		
+		//find minimum length, which will be the number to repeat for
+		$min_length = min(count($subtype_array), count($name_array), count($answer_array));
+		
+		for($i = 0; $i < $min_length; $i++) {
+			$question_string .= latexAppendQuestion($name_array[$i], $subtype_array[$i], $answer_array[$i]);
+		}
+	} else {
+		$question_string .= '\\textbf{' . $name . '}'; //add question in bold
+	
+		//add a separator depending on main type of the question
+		if($typeArray['type'] == "essay") {
+			$question_string .= "\n\n";
+		} else {
+			$question_string .= ": ";
+		}
+	
+		$question_string .= $answer; //add the response
+		$question_string .= "\n\n";
+	}
+	
+	return $question_string;
+}
+
 //returns array(FALSE, error message) on failure or array(TRUE, filename without extension) on success
 function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 	$user_id = escape($user_id);
@@ -42,18 +80,7 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 	$body_string = "";
 	
 	while($row = mysql_fetch_row($result)) {
-		$typeArray = getTypeArray($row[1]);
-		$body_string .= '\\textbf{' . $row[0] . '}'; //add question in bold
-		
-		//add a separator depending on main type of the question
-		if($typeArray['type'] == "essay") {
-			$body_string .= "\n\n";
-		} else {
-			$body_string .= ": ";
-		}
-		
-		$body_string .= $row[2]; //add the response
-		$body_string .= "\n\n";
+		$body_string .= latexAppendQuestion($row[0], $row[1], $row[2]);
 	}
 	
 	if(substr($targetDirectory, -1) != "/") { //add trailing slash if not present
