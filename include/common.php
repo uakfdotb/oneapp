@@ -20,12 +20,12 @@ function chash($str) {
 	return hash('sha512', $str);
 }
 
-function toArray($str) {
-	$parts = explode(";", $str);
+function toArray($str, $main_delimiter = ";", $sub_delimiter = ":") {
+	$parts = explode($main_delimiter, $str);
 	$array = array();
 	
 	foreach($parts as $part) {
-		$part_array = explode(":", $part);
+		$part_array = explode($sub_delimiter, $part, 2);
 		
 		if(count($part_array) >= 2) {
 			$key = $part_array[0];

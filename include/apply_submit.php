@@ -46,15 +46,27 @@ function startApplication($user_id, $club_id) {
 //returns $answers, array $var_id = (answer_id, answer_value) for use with saveApplication
 function processSubmission($array) {
 	$answers = array();
+	
 	foreach($array as $key => $value) {
 		if(string_begins_with($key, "a_")) {
 			$parts = explode("_", substr($key, 2));
 			
-			if(count($parts) == 2) {
+			if(count($parts) == 3) {
 				$var_id = $parts[0];
 				$answer_id = $parts[1];
-			
-				$answers[$var_id] = array($answer_id, $value);
+				$repeat_id = $parts[2];
+				
+				if($repeat_id == -1) {
+					$answers[$var_id] = array($answer_id, $value);
+				} else {
+					$value = str_replace("|", "?", $value); //| is going to be our delimiter
+					
+					if(!array_key_exists($var_id, $answers)) {
+						$answers[$var_id] = array($answer_id, "");
+					}
+					
+					$answers[$var_id][1] .= "|$repeat_id=$value";
+				}
 			}
 		}
 	}
