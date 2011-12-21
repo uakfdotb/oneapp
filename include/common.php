@@ -712,6 +712,21 @@ function delete_directory($dirname) {
 	return true;
 }
 
+function list_directory($dirname) {
+	$results = array();
+	$handler = opendir($dirname);
+
+	// open directory and walk through the filenames
+	while ($file = readdir($handler)) {
+		if (substr($file, -4) == ".pdf") {
+			$results[] = $file;
+		}
+	}
+
+	closedir($handler);
+	return $results;
+}
+
 //0: success; 1: less than 6 characters
 function validPassword($password) {
 	if(strlen($password) < 6) {
