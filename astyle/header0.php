@@ -17,3 +17,5 @@ for($i = 0; $i < count($side_display); $i++) {
 }
 ?>
 </ul>
+
+<p>The time is <?= $timeString ?></p>

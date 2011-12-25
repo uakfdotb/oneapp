@@ -11,17 +11,23 @@ function isApplicationStarted($user_id, $club_id) {
 	}
 }
 
+//0: success; -1: already started; -2: club doesn't exist; -3: not available at this time
 function startApplication($user_id, $club_id) {
 	$user_id = escape($user_id);
 	$club_id = escape($club_id);
 	
 	if(isApplicationStarted($user_id, $club_id)) { //already present
-		return FALSE;
+		return -1;
 	}
 	
 	//if it's a club, verify existence
 	if($club_id != 0 && !clubExists($club_id)) {
-		return FALSE;
+		return -2;
+	}
+	
+	//make sure it is available at this time
+	if(!isAvailableWindow($club_id)) {
+		return -3;
 	}
 	
 	//add to applications table first
@@ -40,7 +46,7 @@ function startApplication($user_id, $club_id) {
 		mysql_query("INSERT INTO answers (application_id, var_id, val) VALUES ('$application_id', '$question_id', '')");
 	}
 	
-	return TRUE;
+	return 0;
 }
 
 //returns $answers, array $var_id = (answer_id, answer_value) for use with saveApplication
@@ -78,7 +84,7 @@ function saveApplication($user_id, $application_id, $answers) { //$answers is ar
 	$user_id = escape($user_id);
 	$application_id = escape($application_id);
 	
-	//verify application belongs to user and hasn't been submitted
+	//verify application belongs to user and hasn't been submitted; this also checks that it is available
 	if(checkApplication($user_id, $application_id) !== 0) {
 		return FALSE;
 	}
@@ -123,11 +129,19 @@ function submitApplication($user_id, $application_id) {
 	$application_id = escape($application_id);
 	
 	//verify application belongs to user and hasn't been submitted
-	if(checkApplication($user_id, $application_id) !== 0) {
+	$checkResult = checkApplication($user_id, $application_id, true);
+	
+	if($checkResult[0] !== 0) {
 		return "check failed";
 	}
 	
-	//craete supplement PDF
+	//verify that the application can be submitted at this time
+	// (checkResult checks view_time, not open_time)
+	if(!isAvailableWindow($checkResult[1], true)) {
+		return "application cannot be submitted at this time";
+	}
+	
+	//create supplement PDF
 	$createSupplementResult = createApplicationPDF($user_id, $application_id, "../submit/");
 	
 	if($createSupplementResult[0] === FALSE) { //true is success, string is error message
@@ -158,7 +172,7 @@ function checkCompletedApplication($user_id, $club_id, $application_id) {
 	//verify application belongs to user and hasn't been submitted
 	$checkResult = checkApplication($user_id, $application_id, true);
 	if($checkResult[0] !== 0) {
-		return array("This application does not belong to you!");
+		return array("This application cannot be submitted at this time (has not been started or not in available window).");
 	}
 	
 	if($club_id != $checkResult[1]) {

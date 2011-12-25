@@ -213,39 +213,66 @@ function writeApplication($user_id, $application_id, $category_id = 0) {
 }
 
 //if extended = true, returns tuple; otherwise just returns [0] below
-//[0]: 0: belongs to user and not submitted; -1: submitted; -2: does not belong to user
-//[1]: the club id if [0] = 0 or -1
+//[0]: 0: belongs to user and editable; -1: submitted; -2: does not belong to user; -3: supplement submission has closed (and not submitted)
+//[1]: the club id if [0] = 0, -1, or -3
 function checkApplication($user_id, $application_id, $extended = false) {
 	$user_id = escape($user_id);
 	$application_id = escape($application_id);
-
-	$extraSelect = "";
-	if($extended) {
-		$extraSelect = ", club_id";
-	}
 	
-	$result = mysql_query("SELECT submitted$extraSelect FROM applications WHERE id='$application_id' AND user_id='$user_id'");
+	$result = mysql_query("SELECT submitted, club_id FROM applications WHERE id='$application_id' AND user_id='$user_id'");
+	
+	$returnStatus = 0;
+	$club_id = 0;
 	
 	if($row = mysql_fetch_array($result)) {
+		
 		if($row['submitted'] != '') { //already submitted
-			if(!$extended) {
-				return -1;
-			} else {
-				return array(-1, $row['club_id']);
-			}
+			$returnStatus = -1;
 		} else {
-			if(!$extended) {
-				return 0;
+			//check if supplement is still open
+			if(isAvailableWindow($row['club_id'])) {
+				$returnStatus = 0;
 			} else {
-				return array(0, $row['club_id']);
+				$returnStatus = -3;
 			}
 		}
+		
+		$club_id = $row['club_id'];
 	} else { //does not belong to user or doesn't exist
-		if(!$extended) {
-			return -2;
+		$returnStatus = -2;
+	}
+	
+	if($extended) {
+		return array($returnStatus, $club_id);
+	} else {
+		return $returnStatus;
+	}
+}
+
+//returns true if supplement is available, false otherwise
+// if submitWindow is false, uses the view_time and close_time
+// if submitWindow is true, uses the open_time and close_time
+function isAvailableWindow($club_id, $submitWindow = false) {
+	$club_id = escape($club_id);
+	
+	if($club_id == 0) { //general application is always available
+		return true;
+	}
+	
+	$result = mysql_query("SELECT view_time, open_time, close_time FROM clubs WHERE id = '$club_id'");
+	
+	if($row = mysql_fetch_array($result)) {
+		if($submitWindow) $firstTime = $row[1];
+		else $firstTime = $row[0];
+		$lastTime = $row[2];
+		
+		if(time() > $firstTime && time() < $lastTime) {
+			return true;
 		} else {
-			return array(-2, 0);
+			return false;
 		}
+	} else {
+		return false;
 	}
 }
 

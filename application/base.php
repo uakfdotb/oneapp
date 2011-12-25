@@ -4,6 +4,7 @@ include("../config.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
+include("../include/apply_gen.php");
 include("../include/apply_submit.php");
 
 if(isset($_SESSION['user_id'])) {
@@ -14,7 +15,7 @@ if(isset($_SESSION['user_id'])) {
 		if(isset($_REQUEST['action']) && $_REQUEST['action'] == "start") {
 			$result = startApplication($_SESSION['user_id'], 0);
 			
-			if($result) {
+			if($result == 0) {
 				get_page_apply("message", array("title" => "General application started", "message" => "You have started the general application. Please <a href=\"base.php\">click here</a> to continue."));
 			} else {
 				get_page_apply("message", array("title" => "Error", "message" => "There was an error while starting your general application. Please <a href=\"base.php\">click here</a> to continue."));
