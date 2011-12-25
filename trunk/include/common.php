@@ -44,6 +44,16 @@ function includePath() {
 	return substr($self, 0, $lastSlash);
 }
 
+function timeString() {
+	global $config;
+	return date($config['time_dateformat']);
+}
+
+function clubTimeString($time) {
+	global $config;
+	return date($config['club_dateformat'], $time);
+}
+
 function one_mail($subject, $body, $to) { //returns true=ok, false=notok
 	$config = $GLOBALS['config'];
 	$from = $config['mail_username'];
@@ -89,6 +99,7 @@ function get_page($page, $args = array()) {
 	//let pages use some variables
 	extract($args);
 	$config = $GLOBALS['config'];
+	$timeString = timeString();
 	
 	//figure out what pages need to be displayed
 	$page_display = array('index', 'about', 'login', 'register', 'contact');
@@ -110,6 +121,7 @@ function get_page_apply($page, $args = array()) {
 	//let pages use some variables
 	extract($args);
 	$config = $GLOBALS['config'];
+	$timeString = timeString();
 	
 	//figure out what pages need to be displayed
 	$page_display = array('index', 'account', 'logout');
@@ -523,13 +535,13 @@ function getApplicationByUserClub($user_id, $club_id) {
 	}
 }
 
-//returns array (club name, club description)
+//returns array (club name, club description, open_time, close_time)
 function clubInfo($club_id) {
 	$club_id = escape($club_id);
-	$result = mysql_query("SELECT name, description FROM clubs WHERE id='$club_id'");
+	$result = mysql_query("SELECT name, description, open_time, close_time FROM clubs WHERE id='$club_id'");
 	
 	if($row = mysql_fetch_array($result)) {
-		return array($row[0], $row[1]);
+		return array($row[0], $row[1], clubTimeString($row[2]), clubTimeString($row[3]));
 	} else {
 		return array("Unknown", "Club could not be found");
 	}

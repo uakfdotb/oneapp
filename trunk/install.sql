@@ -3,7 +3,7 @@ CREATE TABLE basecat (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32));
 CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(64), password VARCHAR(128), email VARCHAR(256));
 CREATE TABLE reset (user_id INT PRIMARY KEY, time INT, auth VARCHAR(64));
 CREATE TABLE profiles (user_id INT, var_id INT, val VARCHAR(256));
-CREATE TABLE clubs (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), description TEXT);
+CREATE TABLE clubs (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), description TEXT, view_time INT, open_time INT, close_time INT);
 CREATE TABLE admins (id INT PRIMARY KEY AUTO_INCREMENT, club_id INT, username VARCHAR(64), password VARCHAR(128), email VARCHAR(256));
 CREATE TABLE supplements (id INT PRIMARY KEY AUTO_INCREMENT, club_id INT, orderId INT, varname VARCHAR(256), vardesc TEXT, vartype VARCHAR(256));
 CREATE TABLE applications (id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, club_id INT, submitted VARCHAR(65));

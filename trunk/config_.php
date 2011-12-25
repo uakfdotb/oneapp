@@ -33,4 +33,7 @@ $config['style'] = 0;
 $config['app_enabled'] = true;
 
 $config['latex_path'] = "/usr/bin/pdflatex";
+
+$config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the current time
+$config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements
 ?>

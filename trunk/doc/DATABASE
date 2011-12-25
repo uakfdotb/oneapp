@@ -32,6 +32,9 @@ clubs: contains a list of clubs added
 -----
 name: the name of the club
 description: a description of the club
+view_time: PHP time() when the club can be added to user applications
+open_time: PHP time() when the supplement can be submitted
+close_time: PHP time() when the supplement can no longer be submitted
 
 admins: contains the admin accounts
 ------

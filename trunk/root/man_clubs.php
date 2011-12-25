@@ -16,7 +16,7 @@ if(isset($_SESSION['root'])) {
 			$name = escape($_REQUEST['name']);
 			$description = escape($_REQUEST['description']);
 			
-			mysql_query("INSERT INTO clubs (name, description) VALUES ('$name', '$description')");
+			mysql_query("INSERT INTO clubs (name, description, view_time, open_time, close_time) VALUES ('$name', '$description', '0', '0', '0')");
 			echo "Club added successfully! Click <a href=\"man_clubs.php\">here</a> to continue.";
 		} else if($action == 'delete') {
 			$club_id = escape($_REQUEST['id']);

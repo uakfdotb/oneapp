@@ -1,5 +1,6 @@
 <h1>Club detail: <?= $clubInfo[0] ?></h1>
 
+<p>Submission window: between <?= $clubInfo[2] ?> and <?= $clubInfo[3] ?></p>
 <p>Club description:</p>
 
 <pre><?= $clubInfo[1] ?></pre>
