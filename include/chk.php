@@ -33,4 +33,70 @@ function checkExtraPDFs($doDelete = false) {
 	return $pdfArray;
 }
 
+//checks for mismatched entries in supplements and answers tables that occurs when a club changes it's application
+// returns number of mismatches
+// does not check general application
+function checkMismatchedApplications($club_id, $act = false) { //$act means whether or not to fix
+	$club_id = escape($club_id);
+	$numMismatches = 0;
+	
+	//first get the base list from supplements
+	$result = mysql_query("SELECT id FROM supplements WHERE club_id = '$club_id'");
+	$id_array = array();
+	
+	while($row = mysql_fetch_row($result)) {
+		$id_array[$row[0]] = true;
+	}
+	
+	//loop through each application
+	$result = mysql_query("SELECT id, submitted FROM applications WHERE club_id = '$club_id'");
+	
+	while($row = mysql_fetch_row($result)) {
+		$app_id = escape($row[0]);
+		$submittedStatus = $row[1] != ''; //true if already submitted
+		
+		//get the variable IDs
+		$app_result = mysql_query("SELECT id, var_id FROM answers WHERE application_id = '$app_id'");
+		$ans_array = array();
+		
+		while($answer_row = mysql_fetch_row($app_result)) {
+			$answer_id = $answer_row[0];
+			$var_id = $answer_row[1];
+			
+			if(!array_key_exists($var_id, $id_array)) { //this question has been deleted
+				echo "Extra question $var_id at answers.id=$answer_id, applications.id=$app_id<br>";
+				$numMismatches++;
+				
+				if($submittedStatus) {
+					echo "WARNING: $app_id has already been submitted<br>";
+				}
+				
+				if($act) {
+					mysql_query("DELETE FROM answers WHERE id='$answer_id'");
+				}
+			} else {
+				$ans_array[$var_id] = true;
+			}
+		}
+		
+		//check for new questions in id_array
+		foreach($id_array as $var_id => $dummy) {
+			if(!array_key_exists($var_id, $ans_array)) {
+				echo "Missing question $var_id on applications.id=$app_id<br>";
+				$numMismatches++;
+				
+				if($submittedStatus) {
+					echo "WARNING: $app_id has already been submitted<br>";
+				}
+				
+				if($act) {
+					mysql_query("INSERT INTO answers (application_id, var_id, val) VALUES ('$app_id', '$var_id', '')");
+				}
+			}
+		}
+	}
+	
+	return $numMismatches;
+}
+
 ?>
