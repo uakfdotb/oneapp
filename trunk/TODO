@@ -1,4 +1,3 @@
-root: fix applications missing something from baseapp or supplement
 admin: better type field handling when adding questions
 admin: a manual
 everyone: instant redirect after actions with confirmation

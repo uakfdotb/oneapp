@@ -3,5 +3,6 @@
 <a href="man_admins.php">Manage admins</a> |
 <a href="man_cat.php">Manage categories</a> |
 <a href="man_clubs.php">Manage clubs</a> |
-<a href="check_pdf.php">Check extra PDFs</a>
+<a href="check_pdf.php">Check extra PDFs</a> |
+<a href="check_mismatch.php">Check mismatched applications</a>
 <br>
