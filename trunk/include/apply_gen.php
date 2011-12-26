@@ -53,14 +53,14 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		echo "<br><textarea ";
 		
-		if($type_array['showchars']) {
+		if($type_array['showchars'] == false) { //use == so "false" evaluates to false
 			echo "onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 		}
 		
 		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString>" . htmlspecialchars($answer) . "</textarea>";
 		
-		if($type_array['showchars']) {
+		if($type_array['showchars'] == false) {
 			echo "<br><font size=\"1\">(Maximum characters: $maxLength)<br>";
 			echo "You have <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"> characters left.</font>";
 		}
@@ -75,7 +75,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		echo "<input ";
 		
-		if($type_array['showchars']) {
+		if($type_array['showchars'] == false) {
 			echo "onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldname, $maxLength);\" ";
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" maxlength=\"$maxLength\" ";
 		}
@@ -83,7 +83,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" /> ";
 		echo $desc;
 		
-		if($type_array['showchars']) {
+		if($type_array['showchars'] == false) {
 			echo "<font size=\"1\">(Maximum characters: $maxLength)<br>";
 			echo "You have <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"> characters left.</font>";
 		}
@@ -197,7 +197,13 @@ function getTypeArray($type) {
 	}
 	
 	if(!array_key_exists("status", $array)) { //whether it is required or not
-		$array['status'] = "required";
+		if($mainType == "text" || $mainType == "code") {
+			$array['status'] = "optional";
+		} else {
+			$array['status'] = "required";
+		}
+		
+		//status can also be "optionalhide"
 	}
 	
 	if($mainType == "essay" && !array_key_exists("size", $array)) {
