@@ -8,6 +8,8 @@ include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
+include("../include/apply_gen.php");
+
 if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
 	
@@ -42,6 +44,11 @@ if(isset($_SESSION['admin_id'])) {
 		}
 		
 		echo '</select><input type="submit" value="Set category"></form>';
+	} else {
+		//output a warning if we are in the available window
+		if(isAvailableWindow($club_id)) {
+			echo '<p>WARNING: your club is currently in the available window, and users may have already added the club to their applications list! Changes will not automatically be reflected in the user application; a script in root management needs to be executed.</p>';
+		}
 	}
 	
 	if(isset($_REQUEST['action'])) {
