@@ -159,10 +159,14 @@ function submitRecommendation($recommend_id, $recommendation) {
 	}
 	
 	//make sure all fields have been filled completely
-	$result = mysql_query("SELECT COUNT(*) FROM recommender_answers WHERE recommend_id = '$recommend_id' AND val = ''");
-	$row = mysql_fetch_array($result);
-	if($row[0] > 0) {
-		return -3;
+	$result = mysql_query("SELECT baseapp.varname, baseapp.vartype FROM recommender_answers, baseapp WHERE recommender_answers.recommend_id='$recommend_id' AND recommender_answers.var_id = baseapp.id AND recommender_answers.val = ''");
+	
+	while($row = mysql_fetch_array($result)) {
+		$typeArray = getTypeArray($row[1]);
+		
+		if($typeArray['status'] == "required") {
+			return -3;
+		}
 	}
 	
 	//create the PDF
