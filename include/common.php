@@ -201,6 +201,7 @@ function page_convert($str) {
 	$str = str_replace("[/u]", "</u>", $str);
 	$str = str_replace("[i]", "<i>", $str);
 	$str = str_replace("[/i]", "</i>", $str);
+	$str = str_replace("[hr]", "<hr>", $str);
 	$str = str_replace('$site_name$', $config['site_name'], $str);
 	$str = str_replace("\n", "<br>", $str);
 	
