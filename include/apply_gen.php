@@ -18,6 +18,11 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		$mutableString = " readonly=\"readonly\"";
 	}
 	
+	//trim the string fields
+	$name = trim($name);
+	$desc = trim($desc);
+	$type = trim($type);
+	
 	$fieldName = "a_" . $id . "_" . $answer_id . "_" . $repeat_id;
 
 	$type_array = getTypeArray($type);
@@ -141,10 +146,28 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		for($i = 0; $i < $min_length * $num; $i++) {
 			$index = $i % $min_length;
-			writeField($id, $answer_id, $name_array[$index], $desc_array[$index], $subtype_array[$index], $answer_array[$i], $mutable, $i);
+			$n = intval($i / $min_length);
+			
+			$thisName = getRepeatThisValue($name_array, $index, $n);
+			$thisDesc = getRepeatThisValue($desc_array, $index, $n);
+			$thisType = str_replace(",", ";", getRepeatThisValue($subtype_array, $index, $n));
+			
+			writeField($id, $answer_id, $thisName, $thisDesc, $thisType, $answer_array[$i], $mutable, $i);
 		}
 	} else if($type_array['type'] == "code") {
 		echo page_convert($desc);
+	}
+}
+
+function getRepeatThisValue($array, $i, $n) {
+	$value = $array[$i];
+	
+	if(substr($value, 0, 1) == ":") {
+		//support for cycling a value
+		$possibilities = explode(";", substr($value, 1));
+		return $possibilities[$n % count($possibilities)];
+	} else {
+		return $value;
 	}
 }
 
