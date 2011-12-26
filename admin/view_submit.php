@@ -30,7 +30,7 @@ if(isset($_SESSION['admin_id'])) {
 		
 		$peerString = "";
 		foreach($item[4] as $peerEntry) {
-			$peerString .= '<a href="../submit/' . $item[3] . '.pdf">' . $peerEntry . '</a> | ';
+			$peerString .= '<a href="../submit/' . $peerEntry . '.pdf">' . $peerEntry . '</a> | ';
 		}
 	
 		echo "<tr><td>$appId</td><td>$userId</td><td>$generalApp</td><td>$supplement</td><td>$peerString</td></tr>";
