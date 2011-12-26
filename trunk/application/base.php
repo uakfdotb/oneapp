@@ -16,7 +16,7 @@ if(isset($_SESSION['user_id'])) {
 			$result = startApplication($_SESSION['user_id'], 0);
 			
 			if($result == 0) {
-				get_page_apply("message", array("title" => "General application started", "message" => "You have started the general application. Please <a href=\"base.php\">click here</a> to continue."));
+				get_page_apply("message", array("title" => "General application started", "message" => "You have started the general application. Please <a href=\"base.php\">click here</a> to continue.", "redirect" => "base.php"));
 			} else {
 				get_page_apply("message", array("title" => "Error", "message" => "There was an error while starting your general application. Please <a href=\"base.php\">click here</a> to continue."));
 			}

@@ -12,7 +12,7 @@ if(isset($_SESSION['user_id'])) {
 		$result = startApplication($_SESSION['user_id'], $_REQUEST['club']);
 		
 		if($result == 0) {
-			get_page_apply("message", array("title" => "Club added successfully", "message" => "The requested club has been added successfully. You can view the <a href=\"clubs.php\">list of clubs</a> you are applying to or <a href=\"addClub.php\">add another club</a>."));
+			get_page_apply("message", array("title" => "Club added successfully", "message" => "The requested club has been added successfully. You can view the <a href=\"clubs.php\">list of clubs</a> you are applying to or <a href=\"addClub.php\">add another club</a>.", "redirect" => "clubs.php"));
 		} else if($result == -1) {
 			get_page_apply("message", array("title" => "Addition failed", "message" => "This club has already been added. Click <a href=\"clubs.php\">here</a> to return to the list of clubs you are applying to."));
 		} else if($result == -2) {
