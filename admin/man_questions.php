@@ -33,6 +33,7 @@ if(isset($_SESSION['admin_id'])) {
 		echo '<form method="get" action="man_questions.php">';
 		echo '<select name="category">';
 		echo '<option value="0">Profile</option>';
+		echo '<option value="-1">Recommendation</option>';
 		
 		$result = mysql_query("SELECT id,name FROM basecat");
 		while($row = mysql_fetch_array($result)) {
