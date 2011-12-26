@@ -15,7 +15,8 @@ if(isset($_SESSION['root'])) {
 		
 		if($action == 'clear') {
 			//clear all application data of the user
-			mysql_query("DELETE FROM answers, applications USING applications INNER JOIN answers WHERE applications.user_id = '$user_id' AND applications.id = answers.application_id");
+			mysql_query("DELETE FROM answers USING applications INNER JOIN answers WHERE applications.user_id = '$user_id' AND applications.id = answers.application_id");
+			mysql_query("DELETE FROM applications WHERE user_id = '$user_id'");
 		} else if($action == 'delete!!') {
 			//keep application data in case it's useful later
 			mysql_query("DELETE FROM users WHERE id = '$user_id'");
