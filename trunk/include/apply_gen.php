@@ -139,6 +139,8 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			$index = $i % $min_length;
 			writeField($id, $answer_id, $name_array[$index], $desc_array[$index], $subtype_array[$index], $answer_array[$i], $mutable, $i);
 		}
+	} else if($type_array['type'] == "code") {
+		echo page_convert($desc);
 	}
 }
 
