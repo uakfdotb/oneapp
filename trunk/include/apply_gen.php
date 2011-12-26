@@ -33,10 +33,14 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			$cols = 75;
 		}
 		
-		echo "<p><b>$name</b>: $desc";
+		echo "<p><b>$name</b>";
+		
+		if($desc != '') {
+			echo ": $desc";
+		}
 		
 		if($type_array['status'] == "optional") {
-			echo " (optional)";
+			echo " <b>(optional)</b>";
 		}
 		
 		echo "<br><textarea ";
