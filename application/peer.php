@@ -18,6 +18,8 @@ if(isset($_SESSION['user_id'])) {
 		else if($requestResult == 3) $message = "Error: error while sending email (do not re-attempt; contact us instead).";
 		else if($requestResult == 4) $message = "Error: you have requested too many recommendations already.";
 		else if($requestResult == 5) $message = "Error: the email address provided has already received a recommendation result from you.";
+	} else if(isset($_REQUEST['toggle']) && isset($_REQUEST['id'])) {
+		toggleRecommendation($_SESSION['user_id'], $_REQUEST['id']);
 	}
 	
 	$recList = listRecommendations($_SESSION['user_id']);

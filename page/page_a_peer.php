@@ -6,16 +6,22 @@ if(isset($message)) {
 }
 ?>
 
-<p>The recommendations that you have already requested are listed below.</p>
+<p>The recommendations that you have already requested are listed below. For information on submitting different peer recommendations to different clubs, click <a target="_blank" href="../doc/submit_different.html">here</a>.</p>
 
-<table><tr><th>Name</th><th>Email</th><th>Status</th></tr>
+<table><tr><th>Name</th><th>Email</th><th>Status</th><th>Toggle (<a target="_blank" href="../doc/submit_different.html">?</a>)</th></tr>
 
 <?
 foreach($recList as $rec) {
-	echo "<tr><td>" . $rec[0] . "</td>";
-	echo "<td>" . $rec[1] . "</td>";
-	$statusString = ($rec[2] == "0") ? "incomplete" : "complete";
-	echo "<td>" . $statusString . "</td></tr>";
+	echo "<tr><td>" . $rec[1] . "</td>";
+	echo "<td>" . $rec[2] . "</td>";
+	
+	$statusString = ($rec[3] == "0") ? "incomplete" : "complete (enabled)";
+	if($rec[3] == 2) $statusString = "complete (disabled)";
+	echo "<td>" . $statusString . "</td>";
+	
+	echo "<td><form method=\"POST\" action=\"peer.php?toggle=true&id=" . $rec[0] . "\">";
+	echo "<input type=\"submit\" value=\"Toggle\">";
+	echo "</form></td>";
 }
 ?>
 

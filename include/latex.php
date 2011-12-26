@@ -79,6 +79,10 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 		$result = mysql_query("SELECT supplements.varname, supplements.vartype, answers.val FROM answers, supplements WHERE answers.application_id = '$application_id' AND supplements.id = answers.var_id ORDER BY supplements.orderId");
 	}
 	
+	return generatePDFByResult($result, $targetDirectory);
+}
+
+function generatePDFByResult($result, $targetDirectory) {
 	$body_string = "";
 	
 	while($row = mysql_fetch_row($result)) {
