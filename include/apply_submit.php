@@ -212,7 +212,7 @@ function checkCompletedApplication($user_id, $club_id, $application_id) {
 	while($row = mysql_fetch_array($result)) {
 		$typeArray = getTypeArray($row[1]);
 		
-		if($typeArray['status'] != "optional") {
+		if($typeArray['status'] == "required") {
 			array_push($warnings, "Answer to the required question \"" . $row[0] . "\" has not been completed.");
 		}
 	}
