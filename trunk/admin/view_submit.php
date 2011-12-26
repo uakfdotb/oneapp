@@ -19,7 +19,7 @@ if(isset($_SESSION['admin_id'])) {
 	<p>The submissions for your club appear below. You received a total of <?= count($array) ?> submissions.</p>
 
 	<table>
-	<tr><th>App ID</th><th>User ID</th><th>General application</th><th>Supplement</th></tr>
+	<tr><th>App ID</th><th>User ID</th><th>General application</th><th>Supplement</th><th>Peer recommendations</th></tr>
 
 	<?
 	foreach($array as $item) {
@@ -27,8 +27,13 @@ if(isset($_SESSION['admin_id'])) {
 		$userId = '<a href="user_detail.php?id=' . $item[1] . '">' . $item[1] . '</a>';
 		$generalApp = '<a href="../submit/' . $item[2] . '.pdf">' . $item[2] . '</a>';
 		$supplement = '<a href="../submit/' . $item[3] . '.pdf">' . $item[3] . '</a>';
+		
+		$peerString = "";
+		foreach($item[4] as $peerEntry) {
+			$peerString .= '<a href="../submit/' . $item[3] . '.pdf">' . $peerEntry . '</a> | ';
+		}
 	
-		echo "<tr><td>$appId</td><td>$userId</td><td>$generalApp</td><td>$supplement</td></tr>";
+		echo "<tr><td>$appId</td><td>$userId</td><td>$generalApp</td><td>$supplement</td><td>$peerString</td></tr>";
 	}
 	?>
 

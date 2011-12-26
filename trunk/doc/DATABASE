@@ -1,6 +1,6 @@
 baseapp: contains the general application fields
 -------
-category: if 0, this means profile; otherwise, it is category id in basecat table
+category: if 0, this means profile, if -1, this means peer recommendation; otherwise, it is category id in basecat table
 orderId: means what order it displays in the category (lowest orderIds are displayed first)
 varname: the name of the question or field
 vardesc: the body of the question or field
@@ -35,6 +35,7 @@ description: a description of the club
 view_time: PHP time() when the club can be added to user applications
 open_time: PHP time() when the supplement can be submitted
 close_time: PHP time() when the supplement can no longer be submitted
+num_recommend: the number of peer recommendations required for this club
 
 admins: contains the admin accounts
 ------
@@ -55,7 +56,8 @@ applications: list of applications; each user has one for general application an
 ------------
 user_id: the user that this application belongs to
 club_id: the club being applied to, or 0 for general application
-submitted: empty string ('') if not submitted, or the PDF filename if this application has been submitted
+submitted: empty string ('') if not submitted, or array of PDF filenames if this application has been submitted
+	first two in the array are the general application and supplement, in that order; remainder is recommendations
 
 answers: contains list of user responses
 -------
@@ -69,8 +71,14 @@ user_id: the user that this recommendation is written for
 author: the name of the author of this recommendation
 email: the email address of the author of this recommendation
 auth: 64-character authentication code needed to submit this recommendation
-text: the body of this recommendation
-status: 0 if not submitted, 1 if submitted
+status: 0 if not submitted, 1 if submitted (and enabled), 2 if disabled but submitted
+filename: the name of the PDF generated for this recommendation, if submitted
+
+recommender_answers: contains answers from recommenders
+-------------------
+recommend_id: the id in the recommendations table that this answer is a part of
+var_id: the id in baseapp that this row answers
+val: the recommender's response to the question
 
 pages: contains database pages
 -----

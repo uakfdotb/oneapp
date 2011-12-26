@@ -146,6 +146,23 @@ function submitApplication($user_id, $application_id) {
 		return "application cannot be submitted at this time";
 	}
 	
+	//verify that enough peer recommendations have been inputted; grab the filenames while we're at it
+	$result = mysql_query("SELECT num_recommend FROM clubs WHERE id = '" . $checkResult[1] . "'");
+	$recommendResult = mysql_query("SELECT filename FROM recommendations WHERE user_id = '$user_id' AND status = '1'");
+	
+	if($row = mysql_fetch_array($result)) {
+		if($row[0] > mysql_num_rows($recommendResult)) {
+			return "not enough peer recommendations";
+		}
+	} else {
+		return "internal error, club not found";
+	}
+	
+	$peerString = "";
+	while($row = mysql_fetch_array($recommendResult)) {
+		$peerString .= ":" . $row[0];
+	}
+	
 	//create supplement PDF
 	$createSupplementResult = createApplicationPDF($user_id, $application_id, "../submit/");
 	
@@ -162,7 +179,7 @@ function submitApplication($user_id, $application_id) {
 	}
 	
 	//update database
-	$submitName = escape($createGeneralResult[1] . ":" . $createSupplementResult[1]);
+	$submitName = escape($createGeneralResult[1] . ":" . $createSupplementResult[1] . $peerString);
 	mysql_query("UPDATE applications SET submitted='$submitName' WHERE id='$application_id' AND user_id='$user_id'");
 	
 	return TRUE;
@@ -253,7 +270,7 @@ function getApplication($user_id, $club_id) {
 	}
 }
 
-//returns array of (id, user_id, general application PDF, supplement PDF)
+//returns array of (id, user_id, general application PDF, supplement PDF, array(peer rec PDFs))
 function listCompletedApplications($club_id) {
 	$club_id = escape($club_id);
 	$result = mysql_query("SELECT id, user_id, submitted FROM applications WHERE club_id='$club_id' AND submitted != ''");
@@ -261,7 +278,13 @@ function listCompletedApplications($club_id) {
 	$array = array();
 	while($row = mysql_fetch_array($result)) {
 		$submitParts = explode(":", $row['submitted']);
-		array_push($array, array($row['id'], $row['user_id'], $submitParts[0], $submitParts[1]));
+		
+		$peerArray = array();
+		for($i = 2; $i < count($submitParts); $i++) {
+			array_push($peerArray, $submitParts[$i]);
+		}
+		
+		array_push($array, array($row['id'], $row['user_id'], $submitParts[0], $submitParts[1], $peerArray));
 	}
 	
 	return $array;
