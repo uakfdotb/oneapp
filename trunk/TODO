@@ -2,3 +2,4 @@ admin: better type field handling when adding questions
 admin: a manual
 everyone: instant redirect after actions with confirmation
 user: view club details without adding club
+admin: multi-question insert
