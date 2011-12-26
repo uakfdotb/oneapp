@@ -1,5 +1,12 @@
 <html>
-<head><title><?= $config['site_name'] ?></title></head>
+<head>
+<title><?= $config['site_name'] ?></title>
+<?
+if(isset($redirect)) {
+	echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=' . $redirect . '">';	
+}
+?>
+</head>
 <body>
 
 <ul>
