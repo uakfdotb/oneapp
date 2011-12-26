@@ -53,14 +53,14 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		echo "<br><textarea ";
 		
-		if($type_array['showchars'] == false) { //use == so "false" evaluates to false
+		if($type_array['showchars']) {
 			echo "onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 		}
 		
 		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString>" . htmlspecialchars($answer) . "</textarea>";
 		
-		if($type_array['showchars'] == false) {
+		if($type_array['showchars']) {
 			echo "<br><font size=\"1\">(Maximum characters: $maxLength)<br>";
 			echo "You have <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"> characters left.</font>";
 		}
@@ -74,8 +74,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		}
 		
 		echo "<input ";
-		
-		if($type_array['showchars'] == false) {
+		if($type_array['showchars']) {
 			echo "onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldname, $maxLength);\" ";
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" maxlength=\"$maxLength\" ";
 		}
@@ -83,7 +82,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" /> ";
 		echo $desc;
 		
-		if($type_array['showchars'] == false) {
+		if($type_array['showchars']) {
 			echo "<font size=\"1\">(Maximum characters: $maxLength)<br>";
 			echo "You have <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"> characters left.</font>";
 		}

@@ -30,6 +30,10 @@ function toArray($str, $main_delimiter = ";", $sub_delimiter = ":") {
 		if(count($part_array) >= 2) {
 			$key = trim($part_array[0]);
 			$value = trim($part_array[1]);
+			
+			if($value == "false") $value = false;
+			else if($value == "true") $value = true;
+			
 			$array[$key] = $value;
 		}
 	}
