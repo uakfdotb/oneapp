@@ -28,8 +28,8 @@ function toArray($str, $main_delimiter = ";", $sub_delimiter = ":") {
 		$part_array = explode($sub_delimiter, $part, 2);
 		
 		if(count($part_array) >= 2) {
-			$key = $part_array[0];
-			$value = $part_array[1];
+			$key = trim($part_array[0]);
+			$value = trim($part_array[1]);
 			$array[$key] = $value;
 		}
 	}
