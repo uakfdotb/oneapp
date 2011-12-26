@@ -6,11 +6,13 @@ function writeApplicationHeader($club_id, $application_id, $category_id) {
 }
 
 function writeApplicationFooter() {
-	echo '<input type="submit" value="Submit">';
+	echo '<input type="submit" value="Save">';
 	echo "</form>";
 }
 
-function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable = true, $repeat_id = -1) {
+//writes a field
+// repeat_id = 256 means that there is no repetition; -1 doesn't work and 0 is used as an actual ID
+function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable = true, $repeat_id = 256) {
 	$mutableString = "";
 	if(!$mutable) {
 		$mutableString = " readonly=\"readonly\"";

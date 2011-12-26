@@ -36,7 +36,7 @@ function startApplication($user_id, $club_id) {
 	
 	//now insert blank answers to answers table
 	if($club_id == 0) {
-		$result = mysql_query("SELECT id FROM baseapp WHERE category != '0'");
+		$result = mysql_query("SELECT id FROM baseapp WHERE category != '0' AND category != '-1'");
 	} else {
 		$result = mysql_query("SELECT id FROM supplements WHERE club_id='$club_id'");
 	}
@@ -62,7 +62,7 @@ function processSubmission($array) {
 				$answer_id = $parts[1];
 				$repeat_id = $parts[2];
 				
-				if($repeat_id == -1) {
+				if($repeat_id == 256) {
 					$answers[$var_id] = array($answer_id, $value);
 				} else {
 					$value = str_replace("|", "?", $value); //| is going to be our delimiter
@@ -133,6 +133,11 @@ function submitApplication($user_id, $application_id) {
 	
 	if($checkResult[0] !== 0) {
 		return "check failed";
+	}
+	
+	//verify that the user is not trying to submit the general application
+	if($checkResult[1] == 0) {
+		return "";
 	}
 	
 	//verify that the application can be submitted at this time
