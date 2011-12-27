@@ -555,7 +555,13 @@ function clubInfo($club_id) {
 //returns boolean: true=proceed, false=lock up; the difference between this and lockAction is that this can be used for repeated tasks, like admin
 // then, only if action was unsuccessful would lockAction be called
 function checkLock($action) {
-	global $lock_time_initial, $lock_time_overload, $lock_count_overload, $lock_time_reset, $lock_time_max; //overload applies to IP address only
+	global $config;
+	$lock_time_initial = $config['lock_time_initial'];
+	$lock_time_overload = $config['lock_time_overload'];
+	$lock_count_overload = $config['lock_count_overload'];
+	$lock_time_reset = $config['lock_time_reset'];
+	$lock_time_max = $config['lock_time_max'];
+	
 	if(!isset($lock_time_initial[$action])) {
 		return true; //well we can't do anything...
 	}
@@ -585,7 +591,13 @@ function checkLock($action) {
 
 //returns boolean: true=proceed, false=lock up
 function lockAction($action) {
-	global $lock_time_initial, $lock_time_overload, $lock_count_overload, $lock_time_reset, $lock_time_max; //overload applies to IP address only
+	global $config;
+	$lock_time_initial = $config['lock_time_initial'];
+	$lock_time_overload = $config['lock_time_overload'];
+	$lock_count_overload = $config['lock_count_overload'];
+	$lock_time_reset = $config['lock_time_reset'];
+	$lock_time_max = $config['lock_time_max'];
+	
 	if(!isset($lock_time_initial[$action])) {
 		return true; //well we can't do anything...
 	}

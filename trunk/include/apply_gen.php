@@ -37,8 +37,8 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			$rows = 15;
 			$cols = 75;
 		} else if($type_array['size'] == "huge") {
-			$rows = 30;
-			$cols = 130;
+			$rows = 22;
+			$cols = 120;
 		}
 		
 		echo "<p><b>$name</b>";
