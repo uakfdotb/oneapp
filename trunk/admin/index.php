@@ -25,6 +25,7 @@ if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
     echo "<a href=\"man_questions.php\">Manage questions</a>";
     echo "<br><a href=\"view_submit.php\">View submissions</a>";
     echo "<br><a href=\"man_club.php\">Manage club information</a>";
+    echo "<br><a href=\"preview.php\">Preview application</a>";
     
     echo "<br><br><a href=\"index.php?action=logout\">Logout</a>";
 } else {
