@@ -4,4 +4,3 @@ everyone: instant redirect after actions with confirmation
 user: view club details without adding club
 root: user list
 user: better handling in the show club details, to see if they already submitted
-user: resend peer recommendation email and delete incomplete recommendations

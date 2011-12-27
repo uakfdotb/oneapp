@@ -34,8 +34,14 @@ function toggleRecommendation($user_id, $id) {
 	mysql_query("UPDATE recommendations SET status='$newState' WHERE id='$id'");
 }
 
-//0: success; 1: invalid email address provided; 2: invalid name provided; 3: email error; 4: too many recommendations; 5: email sent already
+//0: success; 1: invalid email address provided; 2: invalid name provided;
+//3: email error; 4: too many recommendations; 5: email sent already
+//6: locked out
 function requestRecommendation($user_id, $name, $email, $message) {
+	if(!checkLock("peer")) {
+		return 6;
+	}
+	
 	$config = $GLOBALS['config'];
 	
 	$user_id = escape($user_id);
@@ -63,6 +69,8 @@ function requestRecommendation($user_id, $name, $email, $message) {
 	if($row[0] > 0) {
 		return 5; //email address already asked
 	}
+	
+	lockAction("peer");
 	
 	//first insert into recommendations table
 	$auth = escape(uid(64));
