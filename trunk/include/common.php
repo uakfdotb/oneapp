@@ -238,7 +238,7 @@ function savePage($page, $text) {
 //3: email address invalid or in use; 4: database error; 5: username in use;
 //6: email error; 7: try again later; 8: disabled
 function register($username, $email, $profile) {
-	if(!lockAction("register")) {
+	if(!checkLock("register")) {
 		return 7;
 	}
 	
@@ -268,6 +268,7 @@ function register($username, $email, $profile) {
 		return 5;
 	}
 	
+	lockAction("register");
 	$result = mysql_query("INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')");
 	
 	if($result !== FALSE) {
