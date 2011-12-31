@@ -6,5 +6,6 @@
 <a href="userlist.php">User list</a> |
 <a href="rm_peer.php">Remove recommendation</a> |
 <a href="check_pdf.php">Check extra PDFs</a> |
+<a href="check_nohome.php">Check questions w/o home</a> |
 <a href="check_mismatch.php">Check mismatched applications</a>
 <br>

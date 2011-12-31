@@ -18,33 +18,7 @@ if(isset($_SESSION['admin_id'])) {
 	$catHidden = ""; //outputted for forms in case we need category specification
 	
 	if($club_id == 0) { //use category instead of club_id if we're dealing with the base application
-		$database = "baseapp";
-		
-		if(isset($_REQUEST['category'])) {
-			$category = escape($_REQUEST['category']);
-		} else {
-			$category = 0;
-		}
-		
-		$whereString = "category = '$category'";
-		$catHidden = '<input type="hidden" name="category" value="' . $category . '">';
-		
-		//allow user to select category
-		echo '<form method="get" action="man_questions.php">';
-		echo '<select name="category">';
-		echo '<option value="0">Profile</option>';
-		echo '<option value="-1">Recommendation</option>';
-		
-		$result = mysql_query("SELECT id,name FROM basecat");
-		while($row = mysql_fetch_array($result)) {
-			$selectedString = "";
-			if($row['id'] == $category) {
-				$selectedString = " selected";
-			}
-			echo '<option value="' . $row['id'] . '"' . $selectedString . '>' . $row['name'] . '</option>';
-		}
-		
-		echo '</select><input type="submit" value="Set category"></form>';
+		include("category_manager.php");
 	} else {
 		//output a warning if we are in the available window
 		if(isAvailableWindow($club_id)) {
@@ -93,8 +67,8 @@ if(isset($_SESSION['admin_id'])) {
 			if($row = mysql_fetch_array($result)) {
 				if(!is_null($row[0])) {
 					$rowOrderId = escape($row[0]);
-					mysql_query("UPDATE $database SET orderId='$orderId' WHERE orderId='$rowOrderId'");
-					mysql_query("UPDATE $database SET orderId='$rowOrderId' WHERE id='$qid'");
+					mysql_query("UPDATE $database SET orderId='$orderId' WHERE orderId='$rowOrderId' AND $whereString");
+					mysql_query("UPDATE $database SET orderId='$rowOrderId' WHERE id='$qid' AND $whereString");
 					
 					echo "<p>Move successful!</p>";
 				}
@@ -109,7 +83,8 @@ if(isset($_SESSION['admin_id'])) {
 				$result = mysql_query("SELECT MAX(orderId) FROM $database WHERE $whereString");
 				
 				if($row = mysql_fetch_array($result)) {
-					$orderId = escape($row[0] + 1);
+					if(is_null($row[0])) $orderId = 1;
+					else $orderId = escape($row[0] + 1);
 					
 					if($club_id == 0) {
 						mysql_query("INSERT INTO baseapp (orderId, varname, vardesc, vartype, category) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '$category')");

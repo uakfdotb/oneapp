@@ -246,7 +246,7 @@ function clubExists($club_id) {
 
 //returns array of (category_id, category_name)
 function listCategories() {
-	$result = mysql_query("SELECT id, name FROM basecat");
+	$result = mysql_query("SELECT id, name FROM basecat ORDER BY orderId");
 	
 	$list = array();
 	while($row = mysql_fetch_array($result)) {
