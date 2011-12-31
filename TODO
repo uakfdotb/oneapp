@@ -2,4 +2,3 @@ admin: better type field handling when adding questions
 admin: a manual
 user: view club details without adding club
 user: better handling in the show club details, to see if they already submitted
-test: does it work?

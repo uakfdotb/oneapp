@@ -109,4 +109,12 @@ function checkMismatchedApplications($club_id, $act = false) { //$act means whet
 	return $numMismatches;
 }
 
+//checks for questions without a "home"
+// this means questions whose category or club has been deleted
+// todo: this seems a bit inefficient
+function checkNoHome() {
+	mysql_query("DELETE FROM baseapp WHERE category != '0' AND category != '-1' (SELECT COUNT(id) FROM basecat WHERE id = baseapp.category) < 1");
+	mysql_query("DELETE FROM supplements WHERE (SELECT COUNT(id) FROM clubs WHERE id = supplements.club_id) < 1");
+}
+
 ?>

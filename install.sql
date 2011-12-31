@@ -1,5 +1,5 @@
 CREATE TABLE baseapp (id INT PRIMARY KEY AUTO_INCREMENT, category INT, orderId INT, varname VARCHAR(256), vardesc VARCHAR(256), vartype VARCHAR(256));
-CREATE TABLE basecat (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32));
+CREATE TABLE basecat (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), orderId INT);
 CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(64), password VARCHAR(128), email VARCHAR(256));
 CREATE TABLE reset (user_id INT PRIMARY KEY, time INT, auth VARCHAR(64));
 CREATE TABLE profiles (user_id INT, var_id INT, val VARCHAR(256));
@@ -11,4 +11,5 @@ CREATE TABLE answers (id INT PRIMARY KEY AUTO_INCREMENT, application_id INT, var
 CREATE TABLE recommendations (id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, author VARCHAR(64), email VARCHAR(256), auth VARCHAR(64), status INT, filename VARCHAR(32));
 CREATE TABLE recommender_answers (id INT PRIMARY KEY AUTO_INCREMENT, recommend_id INT, var_id INT, val TEXT);
 CREATE TABLE pages (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), text TEXT);
+CREATE TABLE club_notes (application_id INT, note TEXT, category VARCHAR(16), rank INT);
 CREATE TABLE locks (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, ip VARCHAR(16), time INT, action VARCHAR(16), num INT);
