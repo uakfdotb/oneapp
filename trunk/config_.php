@@ -11,6 +11,7 @@ $config['mail_smtp_host'] = '';
 $config['mail_smtp_port'] = 465;
 
 $config['site_name'] = "My Site";
+$config['organization_name'] = "An Organization";
 $config['site_address'] = ""; //no trailing slash
 
 //lock configuration
@@ -35,6 +36,15 @@ $config['style'] = 0;
 $config['app_enabled'] = true;
 
 $config['latex_path'] = "/usr/bin/pdflatex";
+
+$config['page_display'] = array('index', 'dbpage.php?page=about', 'login', 'register', 'dbpage.php?page=contact');
+$config['page_display_names'] = array('Home', 'About Us', 'Login', 'Register', 'Contact Us');
+
+$config['apply_page_display'] = array('index', 'account', 'logout');
+$config['apply_page_display_names'] = array('Home', 'Account', 'Logout');
+
+$config['apply_side_display'] = array('clubs', 'base', 'supplement', 'peer');
+$config['apply_side_display_names'] = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations');
 
 $config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the current time
 $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements
