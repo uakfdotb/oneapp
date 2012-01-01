@@ -15,7 +15,7 @@ $config['site_address'] = ""; //no trailing slash
 
 //lock configuration
 //the time in seconds a user must wait before trying again; otherwise they get locked out (count not increased)
-$config['lock_time_initial'] = array('checkuser' => 5, 'checkadmin' => 5, 'register' => 20, 'root' => 10, 'peer' => 10);
+$config['lock_time_initial'] = array('checkuser' => 5, 'checkadmin' => 5, 'register' => 20 'root' => 10, 'peer' => 10);
 //the time that overloads last
 $config['lock_time_overload'] = array('checkuser' => 60*2, 'checkadmin' => 60*2, 'register' => 60*2, 'root' => 60*2, 'peer' => 60*2);
 //the number of tries a user has (that passes the lock_time_initial test) before being locked by overload

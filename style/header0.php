@@ -1,5 +1,6 @@
 <html>
 <head>
+<link href="style/style1/style1.css" rel="stylesheet" type="text/css">
 <title><?= $config['site_name'] ?></title>
 <?
 if(isset($redirect)) {
@@ -8,11 +9,23 @@ if(isset($redirect)) {
 ?>
 </head>
 <body>
+<div id="container">
+	<div id="topbar" align="left">
+		<table width=100% cellpadding="0" cellspacing="0" >
+			<tr>
+			<td><img src="images/logo.jpg" alt="logo" height="60" /></td>
+			<td VALIGN="BOTTOM"><p class="schooltop">SCHOOL NAME<p align="right">Not your school? <a href="#">Click Here</a></p></p></td>
+			</tr>
+		</table>
+	</div>
 
-<ul>
+<div id="navbar">
 <?
 for($i = 0; $i < count($page_display); $i++) {
-	echo '<li><a href=' . $page_display[$i] . '.php>' . $page_display_names[$i] . '</a></li>';
+	echo '<a href=' . $page_display[$i] . '.php>' . $page_display_names[$i] . '</a>';
 }
 ?>
-</ul>
+</div>
+
+<div id ="main">
+		<div id="box">
