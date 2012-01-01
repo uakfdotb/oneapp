@@ -145,11 +145,18 @@ function get_page_apply($page, $args = array()) {
 		$base_path = "../";
 	}
 	
+	$style_page_include = $base_path . "style/style" . stripAlphaNumeric($_SESSION['style']) . "/page_a_" . $page . ".php";
 	$page_include = $base_path . "page/page_a_" . $page . ".php";
 	$stylepath = $base_path . "astyle";
 	
 	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
-	include($page_include);
+	
+	if(file_exists($style_page_include)) {
+		include($style_page_include);
+	} else {
+		include($page_include);
+	}
+	
 	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
 }
 
