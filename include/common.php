@@ -106,18 +106,25 @@ function get_page($page, $args = array()) {
 	$timeString = timeString();
 	
 	//figure out what pages need to be displayed
-	$page_display = array('index', 'about', 'login', 'register', 'contact');
-	$page_display_names = array('Home', 'About Us', 'Login', 'Register', 'Contact Us');
+	$page_display = $config['page_display'];
+	$page_display_names = $config['page_display_names'];
 	
 	if(!isset($base_path)) {
 		$base_path = "";
 	}
 	
+	$style_page_include = $base_path . "style/style" . stripAlphaNumeric($_SESSION['style']) . "/page_" . $page . ".php";
 	$page_include = $base_path . "page/page_" . $page . ".php";
 	$stylepath = $base_path . "style";
 	
 	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
-	include($page_include);
+	
+	if(file_exists($style_page_include)) {
+		include($style_page_include);
+	} else {
+		include($page_include);
+	}
+	
 	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
 }
 
@@ -128,11 +135,11 @@ function get_page_apply($page, $args = array()) {
 	$timeString = timeString();
 	
 	//figure out what pages need to be displayed
-	$page_display = array('index', 'account', 'logout');
-	$page_display_names = array('Home', 'Account', 'Logout');
+	$page_display = $config['apply_page_display'];
+	$page_display_names = $config['apply_page_display_names'];
 	
-	$side_display = array('clubs', 'base', 'supplement', 'peer');
-	$side_display_names = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations');
+	$side_display = $config['apply_side_display'];
+	$side_display_names = $config['apply_side_display_names'];
 	
 	if(!isset($base_path)) {
 		$base_path = "../";

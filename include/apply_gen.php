@@ -67,7 +67,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		echo '</p>';
 	} else if($type_array['type'] == "short") {
-		echo "<p>$name ";
+		echo $name . " ";
 		
 		if($type_array['status'] == "optional") {
 			echo "(optional) ";
@@ -87,9 +87,9 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "You have <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"> characters left.</font>";
 		}
 		
-		echo '</p>';
+		echo '<br />';
 	} else if($type_array['type'] == "select") {
-		echo '<p>' . $name;
+		echo $name;
 		
 		if($type_array['status'] == "optional") {
 			echo " (optional)";
@@ -128,7 +128,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "</select>";
 		}
 		
-		echo '</p>';
+		echo '<br />';
 	} else if($type_array['type'] == "text") {
 		echo "<p>$desc</p>";
 	} else if($type_array['type'] == "repeat") {
