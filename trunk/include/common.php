@@ -145,7 +145,7 @@ function get_page_apply($page, $args = array()) {
 		$base_path = "../";
 	}
 	
-	$style_page_include = $base_path . "style/style" . stripAlphaNumeric($_SESSION['style']) . "/page_a_" . $page . ".php";
+	$style_page_include = $base_path . "astyle/style" . stripAlphaNumeric($_SESSION['style']) . "/page_a_" . $page . ".php";
 	$page_include = $base_path . "page/page_a_" . $page . ".php";
 	$stylepath = $base_path . "astyle";
 	
@@ -156,6 +156,36 @@ function get_page_apply($page, $args = array()) {
 	} else {
 		include($page_include);
 	}
+	
+	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
+}
+
+function get_admin_header() {
+	$config = $GLOBALS['config'];
+	$timeString = timeString();
+	
+	$page_display = $config['admin_page_display'];
+	$page_display_names = $config['admin_page_display_names'];
+	$side_display = $config['admin_side_display'];
+	$side_display_names = $config['admin_side_display_names'];
+	
+	$base_path = "../";
+	$stylepath = $base_path . "astyle";
+	
+	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
+}
+
+function get_admin_footer() {
+	$config = $GLOBALS['config'];
+	$timeString = timeString();
+	
+	$page_display = $config['admin_page_display'];
+	$page_display_names = $config['admin_page_display_names'];
+	$side_display = $config['admin_side_display'];
+	$side_display_names = $config['admin_side_display_names'];
+	
+	$base_path = "../";
+	$stylepath = $base_path . "astyle";
 	
 	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
 }
