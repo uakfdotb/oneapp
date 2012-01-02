@@ -42,9 +42,9 @@
 			</td>
 			</tr>
 			<tr bgcolor=#DEDEDE><td>
-			<p class="test">Not Registered? <a href="#">Click Here</a></p>
-			<p class="test">Forgot Password? <a href="#">Click Here</a></p>
-			<p class="test">Forgot Username? <a href="#">Click Here</a></p><p></p>
+			<p class="test">Not Registered? <a href="register.php">Click Here</a></p>
+			<p class="test">Forgot Password? <a href="reset.php">Click Here</a></p>
+			<p class="test">Forgot Username? <a href="forgotusername.php">Click Here</a></p><p></p>
 			</td>
 			</tr>
 			</table>
