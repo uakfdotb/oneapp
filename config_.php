@@ -46,6 +46,12 @@ $config['apply_page_display_names'] = array('Home', 'Account', 'Logout');
 $config['apply_side_display'] = array('clubs', 'base', 'supplement', 'peer');
 $config['apply_side_display_names'] = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations');
 
+$config['admin_page_display'] = array('index', 'index.php?action=logout&ex=');
+$config['admin_page_display_names'] = array('Home', 'Logout');
+
+$config['admin_side_display'] = array('man_questions', 'view_submit', 'man_club', 'preview', 'man_notes');
+$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'Manage club information', 'Preview application', 'Notes settings');
+
 $config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the current time
 $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements
 ?>

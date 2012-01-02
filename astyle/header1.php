@@ -10,7 +10,7 @@
 		<table width=100% cellpadding="0" cellspacing="0" >
 			<tr>
 			<td><img src="<?= $base_path ?>astyle/style1/logo.jpg" alt="logo" height="60" /></td>
-			<td VALIGN="BOTTOM"><p class="schooltop">SCHOOL NAME<p align="right">Not your school? <a href="#">Click Here</a></p></p></td>
+			<td VALIGN="BOTTOM"><p class="schooltop"><?= $config['organization_name'] ?></p></td>
 			</tr>
 		</table>
 	</div>

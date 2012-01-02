@@ -10,12 +10,8 @@ if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
 	
 	if($club_id != 0) {
-		if(isset($_REQUEST['description']) && isset($_REQUEST['view_time']) && isset($_REQUEST['open_time']) && isset($_REQUEST['close_time'])) {
-			$description = escape($_REQUEST['description']);
-			$view_time = strtotime($_REQUEST['view_time']);
-			$open_time = strtotime($_REQUEST['open_time']);
-			$close_time = strtotime($_REQUEST['close_time']);
-			$num_recommend = escape($_REQUEST['num_recommend']);
+		if(isset($_REQUEST['cat_enabled']) && isset(['box_enabled'])) {
+			$cat_enabled = 
 			
 			mysql_query("UPDATE clubs SET description='$description', view_time='$view_time', open_time='$open_time', close_time='$close_time', num_recommend='$num_recommend' WHERE id='$club_id'");
 		}
@@ -37,7 +33,7 @@ if(isset($_SESSION['admin_id'])) {
 			echo "Error: your club cannot be found in the clubs table.<br>";
 		}
 	} else {
-		echo "General application admin does not have a club to manage.<br>";
+		echo "General application cannot view submissions, so note functions are not available.<br>";
 	}
 }
 
