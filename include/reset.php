@@ -66,7 +66,7 @@ function resetRequest($username, $email, $reset_password = true) {
 		$emailResult = one_mail("Your application system username", $content, $email);
 	}
 	
-	if($emailResult == 0) {
+	if($emailResult) {
 		return 0;
 	} else {
 		return 3;

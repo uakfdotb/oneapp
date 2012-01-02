@@ -17,6 +17,8 @@ if(isset($_SESSION['user_id'])) {
 		get_page("message", array("title" => "Error", "message" => "No user found with that email address!"));
 	} else if($result == 2) {
 		get_page("message", array("title" => "Error", "message" => "A reset request has been recently sent. Check your email and find those details or wait for the current reset request to expire."));
+	} else if($result == 3) {
+		get_page("message", array("title" => "Error", "message" => "You have been temporarily locked out. Please try again later."));
 	}
 } else {
 	get_page("forgotusername");
