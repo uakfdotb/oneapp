@@ -1,5 +1,10 @@
 <?php
 
+//headers
+include("../include/common.php");          
+get_admin_header();                                                         
+
+
 //not a security risk because they can see categories by logging in anyway
 // if they access this directly they can't do very much
 
@@ -30,4 +35,5 @@ while($row = mysql_fetch_array($result)) {
 
 echo '</select><input type="submit" value="Set category"></form>';
 
+get_admin_footer();
 ?>

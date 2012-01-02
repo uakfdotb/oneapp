@@ -7,6 +7,7 @@ include("../config.php");
 include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
+get_admin_header();
 
 include("../include/apply_submit.php");
 
@@ -41,6 +42,7 @@ if(isset($_SESSION['admin_id'])) {
 
 <?
 }
+get_admin_footer();
 ?>
 
 <a href="./">back</a>
