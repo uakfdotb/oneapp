@@ -13,7 +13,7 @@ if(isset($redirect)) {
 	<div id="topbar" align="left">
 		<table width=100% cellpadding="0" cellspacing="0" >
 			<tr>
-			<td><img src="<?= $base_path ?>style/style1/logo.jpg" alt="logo" height="60" /></td>
+			<td><a href="index.php"><img src="<?= $base_path ?>style/style1/logo.jpg" alt="logo" height="60" /></td>
 			<td VALIGN="BOTTOM"><p class="schooltop"><?= $config['organization_name'] ?></p></td>
 			</tr>
 		</table>
