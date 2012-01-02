@@ -16,11 +16,11 @@ $config['site_address'] = ""; //no trailing slash
 
 //lock configuration
 //the time in seconds a user must wait before trying again; otherwise they get locked out (count not increased)
-$config['lock_time_initial'] = array('checkuser' => 5, 'checkadmin' => 5, 'register' => 20, 'root' => 10, 'peer' => 10);
+$config['lock_time_initial'] = array('checkuser' => 5, 'checkadmin' => 5, 'register' => 20, 'root' => 10, 'peer' => 10, 'reset' => 60, 'reset_check' => 60);
 //the time that overloads last
-$config['lock_time_overload'] = array('checkuser' => 60*2, 'checkadmin' => 60*2, 'register' => 60*2, 'root' => 60*2, 'peer' => 60*2);
+$config['lock_time_overload'] = array('checkuser' => 60*2, 'checkadmin' => 60*2, 'register' => 60*2, 'root' => 60*2, 'peer' => 60*2, 'reset' => 60*2, 'reset_check' => 60*2);
 //the number of tries a user has (that passes the lock_time_initial test) before being locked by overload
-$config['lock_count_overload'] = array('checkuser' => 12, 'checkadmin' => 12, 'register' => 12, 'root' => '12', 'peer' => 12);
+$config['lock_count_overload'] = array('checkuser' => 12, 'checkadmin' => 12, 'register' => 12, 'root' => '12', 'peer' => 12, 'reset' => 12, 'reset_check' => 12);
 //if a previous lock found less than this many seconds ago, count++; otherwise old entry is replaced
 $config['lock_time_reset'] = 60;
 //max time to store locks in the database; this way we can clear old locks with one function
