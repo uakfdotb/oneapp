@@ -7,6 +7,7 @@ include("../config.php");
 include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
+get_admin_header();
 
 if(isset($_SESSION['admin_id']) && isset($_REQUEST['id'])) {
 	$user_id = escape($_REQUEST['id']);
@@ -20,6 +21,7 @@ if(isset($_SESSION['admin_id']) && isset($_REQUEST['id'])) {
 		echo "<b>" . $item[0] . "</b>: " . $item[1] . "<br>";
 	}
 }
+get_admin_footer();
 ?>
 
 <a href="./">back</a>

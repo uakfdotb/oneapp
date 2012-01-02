@@ -7,6 +7,7 @@ include("../config.php");
 include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
+get_admin_header();
 
 if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
 	$checkResult = checkAdmin($_REQUEST['username'], $_REQUEST['password']);
@@ -39,6 +40,7 @@ if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
 
 <?
 }
+get_admin_footer();
 ?>
 
 </body>

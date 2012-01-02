@@ -7,8 +7,10 @@ include("../config.php");
 include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
+get_admin_header();
 
 include("../include/apply_gen.php");
+
 
 if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
@@ -168,6 +170,7 @@ if(isset($_SESSION['admin_id'])) {
 	echo '<br><input type="submit" value="Add multiple questions">';
 	echo '</form>';
 }
+get_admin_footer();
 ?>
 
 <a href="./">back</a>
