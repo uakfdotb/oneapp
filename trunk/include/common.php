@@ -173,6 +173,7 @@ function get_admin_header() {
 	$stylepath = $base_path . "astyle";
 	
 	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
+	echo "<div id=\"spacebox\"></div>";
 }
 
 function get_admin_footer() {
