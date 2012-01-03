@@ -40,6 +40,11 @@ if(isset($_SESSION['admin_id'])) {
 		echo "General application admin does not have a club to manage.<br>";
 	}
 }
+else{
+
+      header('Location: index.php?action=logout&ex=.php');
+}
+
 
 get_admin_footer();
 ?>

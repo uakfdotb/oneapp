@@ -19,6 +19,11 @@ if(isset($_SESSION['admin_id']) && isset($_REQUEST['id'])) {
 		echo "<b>" . $item[0] . "</b>: " . $item[1] . "<br>";
 	}
 }
+else{
+
+      header('Location: index.php?action=logout&ex=.php');
+}
+
 
 get_admin_footer();
 ?>
