@@ -165,6 +165,10 @@ if(isset($_SESSION['admin_id'])) {
 	
 	echo "</table>";
 }
+else{
+
+      header('Location: index.php?action=logout&ex=.php');
+}
 
 get_admin_footer();
 ?>

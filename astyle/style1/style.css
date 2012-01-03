@@ -10,9 +10,9 @@ h4{font-size:28px; text-align:center; margin-top:1%px; margin-right:40px; margin
 h1{font-size:18px;}
 h2{font-size:14px; color:white;}
 h3{font-size:13px; border-bottom:solid 1px #DEDEDE; padding:4px 0; margin-bottom:10px;}
-p{font-size:11px;text-decoration:none;color:#999999; margin:0px;}
+p {font-size:11px;text-decoration:none;color:#999999; margin:0px;}
 a:hover{text-decoration:none;color:#ABB4BA;}
-a{text-decoration:none; color:#1A3E5B;}
+a {text-decoration:none; color:#1A3E5B;}
 h5 a:hover{color:#1A3E5B;}
 
 /* ------------------------------
@@ -79,7 +79,8 @@ CUSTOM CLASSES
 	margin:0px; 
 	text-decoration:none;
 	text-align:center;
-	}
+}
+
 .test a{color:#1A3E5B;}
 .test a:hover{text-decoration:none;color:#999999;}
 
@@ -112,6 +113,21 @@ CUSTOM CLASSES
 	font-variant:small-caps;
 	font-weight:bold;
 }
+
 #spacebox {
     height:10%;
 }
+
+p.mess{
+    color:red;
+    font-weight:bold;
+}
+
+
+tr.bgon{
+    bgcolor:red;
+    }
+
+tr.bgoff{
+
+    }

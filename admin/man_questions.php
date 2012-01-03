@@ -39,17 +39,46 @@ if(isset($_SESSION['admin_id'])) {
 				$result = mysql_query("SELECT varname, vardesc, vartype FROM $database WHERE id='$qid' AND $whereString");
 				
 				if($row = mysql_fetch_array($result)) {
-					echo '<form method="post" action="man_questions.php?action=edit">';
+					echo '<form method="post" action="man_questions.php?action=edit"><table class="borderon">';
 					echo '<input type="hidden" name="id" value="' . $qid . '">';
 					echo $catHidden;
-					echo 'Name: <input type="text" name="varname" value="' . $row['varname'] . '">';
-					echo '<br>Description: <br><textarea name="vardesc">' . $row['vardesc'] . '</textarea>';
-					echo '<br>Type: <input type="text" name="vartype" value="' . $row['vartype'] . '">';
-					echo '<br><input type="submit" value="Update">';
-					echo '</form>';
+					echo '<tr><td align="right"><p class="messpart">Name</p></td><td><input type="text" name="varname" value="' . $row['varname'] . '" style="width:100%"></td></tr>';
+					echo '<tr><td align="right"><p class="messpart">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px">' . $row['vardesc'] . '</textarea></td></tr>';
+					echo '<tr><td align="right"><p class="messpart">Type</p></td><td><input type="text" name="vartype" value="' . $row['vartype'] . '" style="width:100%">';
+					echo '<tr><td colspan="2" align="right"><input type="submit" value="Update"></td></tr>';
+					echo '</table></form><br><br>';
 				}
 			}
-		} else if(($_REQUEST['action'] == "up" || $_REQUEST['action'] == "down") && isset($_REQUEST['id']) && isset($_REQUEST['orderId'])) {
+		} 
+		
+		else {
+			        echo '<table class="borderon">';
+        //single add form
+        echo '<tr><td width=50%><form method="post" action="man_questions.php?action=add">';
+        echo '<table>';
+        echo $catHidden;
+        echo '<tr><td><p align="right">Name</p></td><td><input type="text" name="varname" style="width:100%"></td></tr>';
+        echo '<tr><td><p align="right">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px"></textarea></td><tr>';
+        echo '<tr><td><p align="right">Type</p></td><td><input type="text" name="vartype" style="width:100%"></td></tr>';
+
+        echo '</table></form></td><td>';
+
+        //multi-add form
+        echo '<form method="post" action="man_questions.php?action=addmulti">';
+        echo '<table>';
+        echo $catHidden;
+        echo '<tr><p>Data</tr><tr><textarea rows="10" cols="50" name="data" style="width:100%;hight=100%;resize:none"></textarea></tr>';
+
+        echo '</table></form>';
+
+        echo '</td></tr>';
+        echo '<tr align="center"><td><input type="submit" value="Add question"></td><td><input type="submit" value="Add multiple questions"></td></tr>';
+
+        echo'</table><br><br>';
+
+
+
+			if(($_REQUEST['action'] == "up" || $_REQUEST['action'] == "down") && isset($_REQUEST['id']) && isset($_REQUEST['orderId'])) {
 			$qid = escape($_REQUEST['id']);
 			$orderId = escape($_REQUEST['orderId']);
 			
@@ -122,10 +151,37 @@ if(isset($_SESSION['admin_id'])) {
 			}
 		}
 	}
+	}
 	
 	$result = mysql_query("SELECT id, orderId, varname, vardesc, vartype FROM $database WHERE $whereString ORDER BY orderId");
-	
-	echo "<table><tr><th>Question name</th><th>Description</th><th>Type</th><th>Up</th><th>Down</th><th>Edit</th><th>Delete</th></tr>";
+if(isset($_REQUEST['action'])){
+} else {
+        echo '<table class="borderon">';
+        //single add form
+        echo '<tr><td width=50%><form method="post" action="man_questions.php?action=add">';
+        echo '<table>';
+        echo $catHidden;
+        echo '<tr><td><p align="right">Name</p></td><td><input type="text" name="varname" style="width:100%"></td></tr>';
+        echo '<tr><td><p align="right">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px"></textarea></td><tr>';
+        echo '<tr><td><p align="right">Type</p></td><td><input type="text" name="vartype" style="width:100%"></td></tr>';
+
+        echo '</table></form></td><td>';
+
+        //multi-add form
+        echo '<form method="post" action="man_questions.php?action=addmulti">';
+        echo '<table>';
+        echo $catHidden;
+        echo '<tr><p>Data</tr><tr><textarea rows="10" cols="50" name="data" style="width:100%;hight=100%;resize:none"></textarea></tr>';
+
+        echo '</table></form>';
+
+        echo '</td></tr>';
+        echo '<tr align="center"><td><input type="submit" value="Add question"></td><td><input type="submit" value="Add multiple questions"></td></tr>';
+
+        echo'</table><br><br>';
+}
+
+	echo "<table cellspacing=0 class=\"borderon\"><tr align=\"left\"><th><p class=\"mess\">Question name</p></th><th><p class=\"mess\">Description</p></th><th><p class=\"mess\">Type</p></th><th><p class=\"mess\">Up</p></th><th><p class=\"mess\">Down</p></th><th><p class=\"mess\">Edit</p></th><th><p class=\"mess\">Delete</p></th></tr>";
 	
 	while($row = mysql_fetch_array($result)) {
 		echo "<form method=\"post\" action=\"man_questions.php\">";
@@ -133,38 +189,37 @@ if(isset($_SESSION['admin_id'])) {
 		echo "<input type=\"hidden\" name=\"orderId\" value=\"" . $row['orderId'] . "\">";
 		echo $catHidden;
 		
-		echo "<tr><td>";
+		echo '<tr bgcolor="';
+		if(($row['orderId'] % 2) == 1) {
+			echo "#F2F5F7";
+		}
+		else {
+		     echo "white";
+		     }
+		echo "\"><td><p class=\"messpart\">";
 		echo $row['varname'];
-		echo "</td><td>";
+		echo "</p></td><td><p class=\"messpart\">";
 		echo $row['vardesc'];
-		echo "</td><td>";
+		echo "</p></td><td><p class=\"messpart\">";
 		echo $row['vartype'];
-		echo "</td>";
+		echo "</p></td>";
 		
-		echo '<td><input type="submit" name="action" value="up"></td>';
+		echo '<td>';
+		if($row['orderId'] != 1){
+		echo '<input type="submit" name="action" value="up">';
+		}
+		echo '</td>';
 		echo '<td><input type="submit" name="action" value="down"></td>';
 		echo '<td><input type="submit" name="action" value="edit"></td>';
 		echo '<td><input type="submit" name="action" value="delete"></td>';
 		echo "</tr></form>";
 	}
 	
-	echo '</table><br><br>';
+	echo '</table>';
 	
-	//single add form
-	echo '<form method="post" action="man_questions.php?action=add">';
-	echo $catHidden;
-	echo 'Name: <input type="text" name="varname">';
-	echo '<br>Description: <br><textarea name="vardesc"></textarea>';
-	echo '<br>Type: <input type="text" name="vartype">';
-	echo '<br><input type="submit" value="Add question">';
-	echo '</form>';
-	
-	//multi-add form
-	echo '<form method="post" action="man_questions.php?action=addmulti">';
-	echo $catHidden;
-	echo 'Data:<br><textarea rows="10" cols="50" name="data"></textarea>';
-	echo '<br><input type="submit" value="Add multiple questions">';
-	echo '</form>';
+}
+else{ 
+      header('Location: index.php?action=logout&ex=.php');
 }
 
 get_admin_footer();
