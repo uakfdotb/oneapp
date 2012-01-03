@@ -10,16 +10,17 @@ if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
 	$checkResult = checkAdmin($_REQUEST['username'], $_REQUEST['password']);
     if($checkResult !== FALSE) {
     	$_SESSION['admin_id'] = $checkResult;
-    	echo "Click <a href=\"index.php\">here</a> to continue.";
     } else {
         echo "Username or password is incorrect, or you have been locked out for multiple attempts. Click <a href=\"index.php\">here</a> to continue.";
     }
 } else if(isset($_REQUEST['action'])) {
 	if($_REQUEST['action'] == 'logout') {
 		unset($_SESSION['admin_id']);
-		echo "You are now logged out. Click <a href=\"index.php\">here</a> to continue.";
+		echo "You are now logged out.";
 	}
-} else if(isset($_SESSION['admin_id'])) {
+}
+
+if(isset($_SESSION['admin_id'])) {
     echo "<a href=\"man_questions.php\">Manage questions</a>";
     echo "<br><a href=\"view_submit.php\">View submissions</a>";
     echo "<br><a href=\"man_club.php\">Manage club information</a>";
