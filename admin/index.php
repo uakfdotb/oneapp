@@ -28,12 +28,36 @@ if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
     echo "<br><br><a href=\"index.php?action=logout\">Logout</a>";
 } else {
 ?>
+	<h1>Administrator Page</h1>
+	<p>Log in with the Usename and Password given to you by your root owner. If you do not have one please contact them and ask them to give you one. Root owners have all privledges granted. Please contact your local root before contacting us about any problems!</p>
+<div id="spacebox"></div>
+
+<div id="col_mid" class="borderon">
+<div class="center">
+<table cellpadding="0" cellspacing="0" width=100%>
+<tr bgcolor=#1A3E5B><td class="center"><h2>Log In</h2></td></tr>
+<tr bgcolor=#F2F5F7><td>
 
     <form method="POST" action="index.php">
-    Username: <input type="text" name="username"><br>
-    Password: <input type="password" name="password"><br>
-    <input type="submit" name="submit" value="Submit">
+    <table>
+    <tr>
+	<td><p align="right">Username:</p></td>
+	<td><input type="text" name="username"/></td>
+    </tr>
+    <tr>
+	<td><p align="right">Password:</p></td>
+	<td><input type="password" name="password"/></td>
+    </tr>
+    <tr>
+	<td colspan="2" align="right"><input type="submit" value="Submit" align="center"/></td>
+    </tr>
+    </table>
     </form>
+
+<td></tr>
+</table>
+</div>
+</div>
 
 <?
 }

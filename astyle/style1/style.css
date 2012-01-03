@@ -35,6 +35,7 @@ html, body {
 #col_holder{width:100%;}
 #col_left{width:25%; height:100%; float:left; background-color:#1A3E5B;}
 #col_right{width:75%; float:left;}
+#col_mid{width:60%; margin-left:6%; float:center;}
 div.spacer{clear:both; height:2%; display:block;}
 
 #footer{width:90%; display:block; margin-left:5%; margin-top:1%; padding-bottom:1%; font-size:11px; text-align:center; color:#666666; border-top:solid 1px #DEDEDE;}
@@ -110,4 +111,7 @@ CUSTOM CLASSES
 	font-size:14px;
 	font-variant:small-caps;
 	font-weight:bold;
+}
+#spacebox {
+    height:10%;
 }
