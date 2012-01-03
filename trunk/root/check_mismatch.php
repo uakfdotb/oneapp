@@ -1,14 +1,12 @@
-<html>
-<body>
-
 <?php
-include("header.php");
 include("../config.php");
 include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
 include("../include/chk.php");
+
+get_root_header();
 
 if(isset($_SESSION['root']) && isset($_REQUEST['club_id'])) {
 	if(isset($_REQUEST['act'])) {
@@ -27,5 +25,6 @@ Club ID: <input type="text" name="club_id"><br>
 <input type="submit" name="act" value="Check and fix errors" />
 </form>
 
-</body>
-</html>
+<?
+get_root_footer();
+?>

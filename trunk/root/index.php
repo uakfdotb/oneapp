@@ -1,11 +1,10 @@
-<html>
-<body>
-
 <?php
 include("../include/common.php");
 include("../config.php");
 include("../include/db_connect.php");
 include("../include/session.php");
+
+get_root_header();
 
 if(isset($_REQUEST['action'])) {
 	if($_REQUEST['action'] == 'logout') {
@@ -20,7 +19,6 @@ if(isset($_REQUEST['action'])) {
 		echo "Password is incorrect or you have been locked out. Click <a href=\"index.php\">here</a> to continue.";
 	}
 } else if(isset($_SESSION['root'])) {
-	include("header.php");
 	echo '<a href="index.php?action=logout">Logout</a>';
 } else {
 ?>
@@ -30,6 +28,6 @@ if(isset($_REQUEST['action'])) {
 	</form>
 <?
 }
+
+get_root_footer();
 ?>
-</body>
-</html>

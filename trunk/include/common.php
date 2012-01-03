@@ -191,6 +191,37 @@ function get_admin_footer() {
 	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
 }
 
+function get_root_header() {
+	$config = $GLOBALS['config'];
+	$timeString = timeString();
+	
+	$page_display = $config['root_page_display'];
+	$page_display_names = $config['root_page_display_names'];
+	$side_display = $config['root_side_display'];
+	$side_display_names = $config['root_side_display_names'];
+	
+	$base_path = "../";
+	$stylepath = $base_path . "astyle";
+	
+	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
+	echo "<div id=\"spacebox\"></div>";
+}
+
+function get_root_footer() {
+	$config = $GLOBALS['config'];
+	$timeString = timeString();
+	
+	$page_display = $config['root_page_display'];
+	$page_display_names = $config['root_page_display_names'];
+	$side_display = $config['root_side_display'];
+	$side_display_names = $config['root_side_display_names'];
+	
+	$base_path = "../";
+	$stylepath = $base_path . "astyle";
+	
+	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
+}
+
 function page_exists($page) {
 	return file_exists("page/" . $page . ".php");
 }

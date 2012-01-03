@@ -100,6 +100,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		$tname = "checkbox";
 		if($type_array['method'] == "multiple") {
 			$tname = "checkbox";
+			$fieldName .= "[]"; //for multiple selection, PHP needs to know with an [] at the end of field name
 		} else if($type_array['method'] == "single") {
 			$tname = "radio";
 		} else if($type_array['method'] == "dropdown") {
@@ -107,9 +108,14 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo ": <select name=\"$fieldName\"$mutableString>";
 		}
 		
+		//for checkboxes, answer will be an array separated by $config['form_array_delimiter']
+		// we just explode it anyway for convenience and get one element if it's single selection
+		$config = $GLOBALS['config'];
+		$answerArray = explode($config['form_array_delimiter'], $answer);
+		
 		foreach($choices as $choice) {
 			$selectedString = "";
-			if($choice == $answer) {
+			if(in_array($choice, $answerArray)) {
 				if($tname === false) {
 					$selectedString = " selected";
 				} else {

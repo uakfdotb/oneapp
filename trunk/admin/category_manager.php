@@ -30,4 +30,6 @@ while($row = mysql_fetch_array($result)) {
 
 echo '</select><input type="submit" value="Set category"></form>';
 
+$catHidden = '<input type="hidden" name="category" value="' . $category . '" />';
+
 ?>

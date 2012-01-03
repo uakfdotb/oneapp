@@ -1,12 +1,10 @@
-<html>
-<body>
-
 <?php
-include("header.php");
 include("../config.php");
 include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
+
+get_root_header();
 
 if(isset($_SESSION['root'])) {
 	if(isset($_REQUEST['user_id'])) {
@@ -49,7 +47,6 @@ if(isset($_SESSION['root'])) {
 	echo ' <input type="submit" value="List">';
 	echo '</form>';
 }
-?>
 
-</body>
-</html>
+get_root_footer();
+?>

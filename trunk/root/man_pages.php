@@ -1,12 +1,10 @@
-<html>
-<body>
-
 <?php
-include("header.php");
 include("../config.php");
 include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
+
+get_root_header();
 
 if(isset($_SESSION['root'])) {
     if(isset($_REQUEST['action']) && isset($_REQUEST['page'])) {
@@ -60,5 +58,7 @@ while($row = mysql_fetch_array($result)) {
 Page name <input type="text" name="page">
 <input type="submit" value="Add">
 </form>
-</body>
-</html>
+
+<?
+get_root_footer();
+?>

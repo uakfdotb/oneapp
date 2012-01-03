@@ -51,10 +51,17 @@ function startApplication($user_id, $club_id) {
 
 //returns $answers, array $var_id = (answer_id, answer_value) for use with saveApplication
 function processSubmission($array) {
+	$config = $GLOBALS['config'];
 	$answers = array();
 	
 	foreach($array as $key => $value) {
 		if(string_begins_with($key, "a_")) {
+			//convert value from array if it is an array
+			// at the time of this comment, this is only used for checkboxes
+			if(is_array($value)) {
+				$value = implode($config['form_array_delimiter'], $value); //
+			}
+			
 			$parts = explode("_", substr($key, 2));
 			
 			if(count($parts) == 3) {

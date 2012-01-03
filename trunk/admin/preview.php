@@ -23,12 +23,9 @@ if(isset($_SESSION['admin_id'])) {
 	while($row = mysql_fetch_array($result)) {
 		writeField(0, 0, $row['varname'], $row['vardesc'], $row['vartype']);
 	}
+} else {
+	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }
-else{
-
-      header('Location: index.php?action=logout&ex=.php');
-}
-
 
 get_admin_footer();
 ?>

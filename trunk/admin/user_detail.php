@@ -18,12 +18,9 @@ if(isset($_SESSION['admin_id']) && isset($_REQUEST['id'])) {
 	foreach($profile as $item) {
 		echo "<b>" . $item[0] . "</b>: " . $item[1] . "<br>";
 	}
+} else {
+	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }
-else{
-
-      header('Location: index.php?action=logout&ex=.php');
-}
-
 
 get_admin_footer();
 ?>

@@ -66,12 +66,9 @@ if(isset($_SESSION['admin_id'])) {
 	} else {
 		echo "General application cannot view submissions, so note functions are not available.<br>";
 	}
+} else {
+	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }
-else{
-
-      header('Location: index.php?action=logout&ex=.php');
-}
-
 
 get_admin_footer();
 ?>

@@ -39,10 +39,8 @@ if(isset($_SESSION['admin_id'])) {
 	} else {
 		echo "General application admin does not have a club to manage.<br>";
 	}
-}
-else{
-
-      header('Location: index.php?action=logout&ex=.php');
+} else {
+	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }
 
 
