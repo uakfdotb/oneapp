@@ -107,11 +107,11 @@ if(isset($_SESSION['admin_id'])) {
 	//list the applications, applying filters only when we loop (inefficient but okay)
 	$array = listCompletedApplications($club_id);
 
-	echo "<table><tr><th>App ID</th><th>User ID</th><th>General application</th><th>Supplement</th><th>Recommendations</th>";
+	echo "<table><tr><th><p class=\"mess\">App ID</p></th><th><p class=\"mess\">User ID</p></th><th><p class=\"mess\">General application</p></th><th><p class=\"mess\">Supplement</p></th><th><p class=\"mess\">Recommendations</p></th>";
 	
-	if($box_enabled) echo "<th>The Box</th>";
-	if($cat_enabled) echo "<th>Category</th>";
-	if($box_enabled || $cat_enabled) echo "<th>Update</th>";
+	if($box_enabled) echo "<th><p class=\"mess\">The Box</p></th>";
+	if($cat_enabled) echo "<th><p class=\"mess\">Category</p></th>";
+	if($box_enabled || $cat_enabled) echo "<th><p class=\"mess\">Update</p></th>";
 	
 	echo "</tr>";
 
@@ -123,9 +123,9 @@ if(isset($_SESSION['admin_id'])) {
 		
 		echo "<form method=\"post\" action=view_submit.php?id=$appId>";
 		
-		$userId = '<a href="user_detail.php?id=' . $item[1] . '">' . $item[1] . '</a>';
-		$generalApp = '<a href="../submit/' . $item[2] . '.pdf">link</a>';
-		$supplement = '<a href="../submit/' . $item[3] . '.pdf">link</a>';
+		$userId = '<p><a href="user_detail.php?id=' . $item[1] . '">' . $item[1] . '</a></p>';
+		$generalApp = '<p><a href="../submit/' . $item[2] . '.pdf">Download</a></p>';
+		$supplement = '<p><a href="../submit/' . $item[3] . '.pdf">Download</a></p>';
 		
 		$peerString = "";
 		foreach($item[4] as $peerEntry) {
