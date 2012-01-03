@@ -14,6 +14,8 @@ $config['site_name'] = "My Site";
 $config['organization_name'] = "An Organization";
 $config['site_address'] = ""; //no trailing slash
 
+$config['form_array_delimiter'] = "*~"; //this is used for checkboxes
+
 //lock configuration
 //the time in seconds a user must wait before trying again; otherwise they get locked out (count not increased)
 $config['lock_time_initial'] = array('checkuser' => 5, 'checkadmin' => 5, 'register' => 20, 'root' => 10, 'peer' => 10, 'reset' => 60, 'reset_check' => 60);
@@ -49,8 +51,14 @@ $config['apply_side_display_names'] = array('Clubs', 'General Application', 'Sup
 $config['admin_page_display'] = array('index', 'index.php?action=logout&ex=');
 $config['admin_page_display_names'] = array('Home', 'Logout');
 
-$config['admin_side_display'] = array('man_questions', 'view_submit', 'man_club', 'preview', 'man_notes');
-$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'Manage club information', 'Preview application', 'Notes settings');
+$config['admin_side_display'] = array('man_questions', 'view_submit', 'man_club', 'preview', 'man_notes', 'gen_pdf');
+$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'Manage club information', 'Preview application', 'Notes settings', 'Generate PDF');
+
+$config['root_page_display'] = array('index', 'index.php?action=logout&ex=');
+$config['root_page_display_names'] = array('Home', 'Logout');
+
+$config['root_side_display'] = array('index', 'man_pages', 'man_admins', 'man_cat', 'man_clubs', 'userlist', 'rm_peer', 'check_pdf', 'check_nohome', 'check_mismatch');
+$config['root_side_display_names'] = array('Home', 'Manage pages', 'Manage admins', 'Manage categories', 'Manage clubs', 'User list', 'Remove recommendations', 'Check extra PDFs', 'Check questions without a home', 'Check mismatched applications');
 
 $config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the current time
 $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements

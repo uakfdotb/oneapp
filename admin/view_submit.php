@@ -67,11 +67,30 @@ if(isset($_SESSION['admin_id'])) {
 		}
 	}
 	
-	//box filter manager currently nonexistent
+	//box filter manager
+	if($box_enabled) {
+		//filter might already be set, so retrieve it
+		// todo: somehow merge this code with the catfilter code, because it's the same..
+		$boxFilter = "";
+		if(isset($_REQUEST['boxFilter'])) {
+			//store filter in session so that we can get it when user changes something
+			// this way, we don't have to worry about setting it everywhere
+			$boxFilter = $_REQUEST['boxFilter'];
+			$_SESSION['boxFilter'] = $boxFilter;
+		} else if(isset($_SESSION['boxFilter'])) {
+			$boxFilter = $_SESSION['boxFilter'];
+		}
+	
+		//just show a field with the filter text written by default
+		echo '<form method="POST" action="view_submit.php">';
+		echo "Textbox filter: <input type=\"text\" name=\"boxFilter\" value=\"$boxFilter\">";
+		echo "<input type=\"submit\" value=\"Filter\">";
+		echo "</form>";
+	}
 	
 	//category filter manager
-	// first, we retrieve a list of categories (this will be used in dropdown as well)
 	if($cat_enabled) {
+		//first, we retrieve a list of categories (this will be used in dropdown as well)
 		$catResult = mysql_query("SELECT name FROM club_notes_categories WHERE club_id = '$club_id'");
 		$catList = array();
 	
@@ -119,9 +138,11 @@ if(isset($_SESSION['admin_id'])) {
 		$appId = $item[0];
 		
 		//filtering; skip if match fails
-		if($cat_enabled && $catFilter != "" && $toolsMap[$appId][1] != $catFilter) continue;
+		if($box_enabled && $boxFilter != "" && (!isset($toolsMap[$appId]) || strpos($toolsMap[$appId][0], $boxFilter) === FALSE)) continue;
+		if($cat_enabled && $catFilter != "" && (!isset($toolsMap[$appId]) || $toolsMap[$appId][1] != $catFilter)) continue;
 		
-		echo "<form method=\"post\" action=view_submit.php?id=$appId>";
+		//form needed in case the update categories or box
+		if($box_enabled || $cat_enabled) echo "<form method=\"post\" action=view_submit.php?id=$appId>";
 		
 		$userId = '<p><a href="user_detail.php?id=' . $item[1] . '">' . $item[1] . '</a></p>';
 		$generalApp = '<p><a href="../submit/' . $item[2] . '.pdf">Download</a></p>';
@@ -129,7 +150,7 @@ if(isset($_SESSION['admin_id'])) {
 		
 		$peerString = "";
 		foreach($item[4] as $peerEntry) {
-			$peerString .= '<a href="../submit/' . $peerEntry . '.pdf">link</a> | ';
+			$peerString .= '<a href="../submit/' . $peerEntry . '.pdf">Download</a> | ';
 		}
 	
 		echo "<tr><td>$appId</td><td>$userId</td><td>$generalApp</td><td>$supplement</td><td>$peerString</td>";
@@ -160,14 +181,13 @@ if(isset($_SESSION['admin_id'])) {
 			echo '<td><input type="submit" value="update" /></td>';
 		}
 		
+		if($box_enabled || $cat_enabled) echo "</form>";
 		echo '</tr>';
 	}
 	
 	echo "</table>";
-}
-else{
-
-      header('Location: index.php?action=logout&ex=.php');
+} else {
+	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }
 
 get_admin_footer();
