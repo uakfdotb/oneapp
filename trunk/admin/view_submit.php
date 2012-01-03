@@ -81,17 +81,27 @@ if(isset($_SESSION['admin_id'])) {
 	
 		// filter might already be set, so retrieve it
 		$catFilter = "";
-		if(isset($_REQUEST['catFilter'])) $catFilter = $_REQUEST['catFilter'];
+		if(isset($_REQUEST['catFilter'])) {
+			//store catfilter in session so that we can get it when user changes something
+			// this way, we don't have to worry about setting it everywhere
+			$catFilter = $_REQUEST['catFilter'];
+			$_SESSION['catFilter'] = $catFilter;
+		} else if(isset($_SESSION['catFilter'])) {
+			$catFilter = $_SESSION['catFilter'];
+		}
 	
 		// now, we give user a filter selection dropdown, preselecting the current filter if any
+		echo '<form method="POST" action="view_submit.php">';
 		echo "Category filter: <select name=\"catFilter\">";
+		echo "<option value=\"\">No filtering</option>";
 	
 		foreach($catList as $catElement) {
 			$selectedString = ($catElement == $catFilter) ? " selected" : "";
-			echo "<option name=\"$catElement\"$selectedString>$catElement</option>";
+			echo "<option value=\"$catElement\"$selectedString>$catElement</option>";
 		}
 	
-		echo "</select><br />";
+		echo "</select><input type=\"submit\" value=\"Filter\">";
+		echo "</form>";
 	}
 	
 	//list the applications, applying filters only when we loop (inefficient but okay)
@@ -107,6 +117,10 @@ if(isset($_SESSION['admin_id'])) {
 
 	foreach($array as $item) {
 		$appId = $item[0];
+		
+		//filtering; skip if match fails
+		if($cat_enabled && $catFilter != "" && $toolsMap[$appId][1] != $catFilter) continue;
+		
 		echo "<form method=\"post\" action=view_submit.php?id=$appId>";
 		
 		$userId = '<a href="user_detail.php?id=' . $item[1] . '">' . $item[1] . '</a>';
