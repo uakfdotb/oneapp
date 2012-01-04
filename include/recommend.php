@@ -134,14 +134,14 @@ function writeRecommendation($recommend_id, $user_id, $auth) {
 	$result = mysql_query("SELECT recommender_answers.id, baseapp.id, baseapp.varname, baseapp.vardesc, baseapp.vartype, recommender_answers.val FROM recommender_answers, baseapp WHERE recommender_answers.recommend_id = '$recommend_id' AND baseapp.id = recommender_answers.var_id AND baseapp.category = '-1' ORDER BY baseapp.orderId");
 	
 	echo '<SCRIPT LANGUAGE="JavaScript" SRC="style/limit.js"></SCRIPT>';
-	echo "<form method=\"POST\" action=\"recommend.php?id=$recommend_id&user_id=$user_id&auth=$auth&submit=submit\">";
+	echo "<form method=\"POST\" action=\"recommend.php?id=$recommend_id&user_id=$user_id&auth=$auth&submit=submit\"><table width=400px";
 	
 	while($row = mysql_fetch_row($result)) {
 		writeField($row[1], $row[0], $row[2], $row[3], $row[4], $row[5], $mutable);
 	}
 	
-	echo '<input type="submit" value="I\'m done. Submit.">';
-	echo "</form>";
+	echo '<tr><tr colspan="2" align="center"><input type="submit" value="I\'m done. Submit."></tr></td>';
+	echo "</table></form>";
 }
 
 //0: success; -1: already submitted; -2: internal error; -3: incomplete

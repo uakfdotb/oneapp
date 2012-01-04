@@ -19,10 +19,13 @@ if(isset($_SESSION['admin_id'])) {
 	}
 	
 	$result = mysql_query("SELECT varname, vardesc, vartype FROM $database WHERE $whereString ORDER BY orderId");
-	
+
+	<table>
 	while($row = mysql_fetch_array($result)) {
 		writeField(0, 0, $row['varname'], $row['vardesc'], $row['vartype']);
 	}
+	</table>
+
 } else {
 	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }
