@@ -126,11 +126,11 @@ if(isset($_SESSION['admin_id'])) {
 	//list the applications, applying filters only when we loop (inefficient but okay)
 	$array = listCompletedApplications($club_id);
 
-	echo "<table><tr><th><p class=\"mess\">App ID</p></th><th><p class=\"mess\">User ID</p></th><th><p class=\"mess\">General application</p></th><th><p class=\"mess\">Supplement</p></th><th><p class=\"mess\">Recommendations</p></th>";
+	echo "<table><tr><th><p class=\"admin_table_header\">App ID</p></th><th><p class=\"admin_table_header\">User ID</p></th><th><p class=\"admin_table_header\">General application</p></th><th><p class=\"admin_table_header\">Supplement</p></th><th><p class=\"admin_table_header\">Recommendations</p></th>";
 	
-	if($box_enabled) echo "<th><p class=\"mess\">The Box</p></th>";
-	if($cat_enabled) echo "<th><p class=\"mess\">Category</p></th>";
-	if($box_enabled || $cat_enabled) echo "<th><p class=\"mess\">Update</p></th>";
+	if($box_enabled) echo "<th><p class=\"admin_table_header\">The Box</p></th>";
+	if($cat_enabled) echo "<th><p class=\"admin_table_header\">Category</p></th>";
+	if($box_enabled || $cat_enabled) echo "<th><p class=\"admin_table_header\">Update</p></th>";
 	
 	echo "</tr>";
 

@@ -47,6 +47,11 @@ function checkExtraPDFs($doDelete = false) {
 // returns number of mismatches
 // does not check general application
 function checkMismatchedApplications($club_id, $act = false) { //$act means whether or not to fix
+	if($club_id == '' || $club_id == 0) {
+		echo "Error: club ID invalid (general application check not supported)<br />";
+		return;
+	}
+	
 	$club_id = escape($club_id);
 	$numMismatches = 0;
 	

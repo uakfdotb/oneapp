@@ -84,7 +84,7 @@ CUSTOM CLASSES
 .test a{color:#1A3E5B;}
 .test a:hover{text-decoration:none;color:#999999;}
 
-.borderon{
+.borderon table.admin_table{
 	border:solid 1px #1A3E5B;
 	}
 	
@@ -118,10 +118,23 @@ CUSTOM CLASSES
     height:10%;
 }
 
-p.mess{
+p.admin_table_header{
     color:red;
     font-weight:bold;
 }
+
+tr#admin_login{
+	background-color:#1A3E5B;
+}
+
+td#admin_login{
+	text-align:center;
+}
+
+tr#admin_login_error{
+	background-color:#F2F5F7;
+}
+
 
 
 tr.bgon{

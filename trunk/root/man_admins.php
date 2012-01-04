@@ -24,14 +24,14 @@ if(isset($_SESSION['root'])) {
 	} else {
 		$result = mysql_query("SELECT id,club_id,username,email FROM admins");		
 		echo '<form action="man_admins.php?action=add" method="post"><table class="borderon" align="center">';
-		echo '<tr><td align="right"><p class="messpart">Admin username</p></td><td><input type="text" name="username" style="width:100%"></td></tr>';
-		echo '<tr><td align="right"><p class="messpart">Password</p></td><td><input type="password" name="password" style="width:100%"></td></tr>';
-		echo '<tr><td align="right"><p class="messpart">Email address</p></td><td><input type="text" name="email" style="width:100%"></td></tr>';
-		echo '<tr><td align="right"><p class="messpart">Club ID</p></td><td><input type="text" name="club_id" style="width:100%"></td></tr>';
+		echo '<tr><td align="right"><p class="admin_table_entry">Admin username</p></td><td><input type="text" name="username" style="width:100%"></td></tr>';
+		echo '<tr><td align="right"><p class="admin_table_entry">Password</p></td><td><input type="password" name="password" style="width:100%"></td></tr>';
+		echo '<tr><td align="right"><p class="admin_table_entry">Email address</p></td><td><input type="text" name="email" style="width:100%"></td></tr>';
+		echo '<tr><td align="right"><p class="admin_table_entry">Club ID</p></td><td><input type="text" name="club_id" style="width:100%"></td></tr>';
 		echo '<tr><td align="right" colspan="2"><input type="submit" value="Add admin"></td></tr>';
 		echo '</table></form><br><br>';
 		
-		echo "<table width=100%><tr><th><p class=\"mess\">Username</th></p><th><p class=\"mess\">Email</p></th><th><p class=\"mess\">Club ID</p></th><th><p class=\"mess\">Change pass</p></th><th><p class=\"mess\">Update</p></th><th><p class=\"mess\">Delete</p></th></tr>";
+		echo "<table width=100%><tr><th><p class=\"admin_table_header\">Username</th></p><th><p class=\"admin_table_header\">Email</p></th><th><p class=\"admin_table_header\">Club ID</p></th><th><p class=\"admin_table_header\">Change pass</p></th><th><p class=\"admin_table_header\">Update</p></th><th><p class=\"admin_table_header\">Delete</p></th></tr>";
 		
 		while($row = mysql_fetch_array($result)) {
 			echo "<form method=\"post\" action=\"man_admins.php\">";
