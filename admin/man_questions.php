@@ -138,14 +138,14 @@ if(isset($_SESSION['admin_id'])) {
 		echo '<table class="borderon">';
 		//single add form
 		echo '<tr><td width=50%>';
-		echo '<table>';
+		echo '<table id="questions_single_add_form">';
 		echo '<tr><td><p align="right">Name</p></td><td><input type="text" name="varname" style="width:100%"></td></tr>';
 		echo '<tr><td><p align="right">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px"></textarea></td><tr>';
 		echo '<tr><td><p align="right">Type</p></td><td><input type="text" name="vartype" style="width:100%"></td></tr>';
 		echo '</table></td><td>';
 
 		//multi-add form
-		echo '<table>';
+		echo '<table id="questions_multi_add_form">';
 		echo $catHidden;
 		echo '<tr><p>Data</tr><tr><textarea rows="10" cols="50" name="data" style="width:100%;hight=100%;resize:none"></textarea></tr>';
 		echo '</table>';
@@ -158,7 +158,7 @@ if(isset($_SESSION['admin_id'])) {
 	
 	$result = mysql_query("SELECT id, orderId, varname, vardesc, vartype FROM $database WHERE $whereString ORDER BY orderId");
 
-	echo "<table cellspacing=0 class=\"borderon\"><tr align=\"left\"><th><p class=\"mess\">Question name</p></th><th><p class=\"mess\">Description</p></th><th><p class=\"mess\">Type</p></th><th><p class=\"mess\">Up</p></th><th><p class=\"mess\">Down</p></th><th><p class=\"mess\">Edit</p></th><th><p class=\"mess\">Delete</p></th></tr>";
+	echo "<table cellspacing=0 class=\"admin_table\"><tr align=\"left\"><th><p class=\"admin_table_header\">Question name</p></th><th><p class=\"admin_table_header\">Description</p></th><th><p class=\"admin_header\">Type</p></th><th><p class=\"admin_table_header\">Up</p></th><th><p class=\"admin_table_header\">Down</p></th><th><p class=\"admin_table_header\">Edit</p></th><th><p class=\"admin_table_header\">Delete</p></th></tr>";
 	
 	while($row = mysql_fetch_array($result)) {
 		echo "<form method=\"post\" action=\"man_questions.php\">";
@@ -174,11 +174,11 @@ if(isset($_SESSION['admin_id'])) {
 			echo "white";
 		}
 		
-		echo "\"><td><p class=\"messpart\">";
+		echo "\"><td><p class=\"admin_table_entry\">";
 		echo $row['varname'];
-		echo "</p></td><td><p class=\"messpart\">";
+		echo "</p></td><td><p class=\"admin_table_entry\">";
 		echo $row['vardesc'];
-		echo "</p></td><td><p class=\"messpart\">";
+		echo "</p></td><td><p class=\"admin_table_entry\">";
 		echo $row['vartype'];
 		echo "</p></td>";
 		

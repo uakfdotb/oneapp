@@ -67,6 +67,18 @@ CUSTOM CLASSES
 	margin-left:6%;
 }
 
+tr#admin_login{
+	background-color:#1A3E5B;
+}
+
+td#admin_login{
+	text-align:center;
+}
+
+tr#admin_login_error{
+	background-color:#F2F5F7;
+}
+
 .center{
 	text-align:center;
 	}
