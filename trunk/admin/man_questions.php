@@ -46,9 +46,9 @@ if(isset($_SESSION['admin_id'])) {
 					echo '<form method="post" action="man_questions.php?action=edit"><table class="borderon">';
 					echo '<input type="hidden" name="id" value="' . $qid . '">';
 					echo $catHidden;
-					echo '<tr><td align="right"><p class="admin_table_entry">Name</p></td><td><input type="text" name="varname" value="' . $row['varname'] . '" style="width:100%"></td></tr>';
-					echo '<tr><td align="right"><p class="admin_table_entry">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px">' . $row['vardesc'] . '</textarea></td></tr>';
-					echo '<tr><td align="right"><p class="admin_table_entry">Type</p></td><td><input type="text" name="vartype" value="' . $row['vartype'] . '" style="width:100%">';
+					echo '<tr><td align="right"><p class="messpart">Name</p></td><td><input type="text" name="varname" value="' . $row['varname'] . '" style="width:100%"></td></tr>';
+					echo '<tr><td align="right"><p class="messpart">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px">' . $row['vardesc'] . '</textarea></td></tr>';
+					echo '<tr><td align="right"><p class="messpart">Type</p></td><td><input type="text" name="vartype" value="' . $row['vartype'] . '" style="width:100%">';
 					echo '<tr><td colspan="2" align="right"><input type="submit" value="Update"></td></tr>';
 					echo '</table></form><br><br>';
 					
@@ -138,14 +138,14 @@ if(isset($_SESSION['admin_id'])) {
 		echo '<table class="borderon">';
 		//single add form
 		echo '<tr><td width=50%>';
-		echo '<table id="questions_single_add_form">';
+		echo '<table>';
 		echo '<tr><td><p align="right">Name</p></td><td><input type="text" name="varname" style="width:100%"></td></tr>';
 		echo '<tr><td><p align="right">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px"></textarea></td><tr>';
 		echo '<tr><td><p align="right">Type</p></td><td><input type="text" name="vartype" style="width:100%"></td></tr>';
 		echo '</table></td><td>';
 
 		//multi-add form
-		echo '<table id="questions_multi_add_form">';
+		echo '<table>';
 		echo $catHidden;
 		echo '<tr><p>Data</tr><tr><textarea rows="10" cols="50" name="data" style="width:100%;hight=100%;resize:none"></textarea></tr>';
 		echo '</table>';
@@ -158,27 +158,22 @@ if(isset($_SESSION['admin_id'])) {
 	
 	$result = mysql_query("SELECT id, orderId, varname, vardesc, vartype FROM $database WHERE $whereString ORDER BY orderId");
 
-	echo "<table cellspacing=0 class=\"admin_table\"><tr align=\"left\"><th><p class=\"admin_table_header\">Question name</p></th><th><p class=\"admin_table_header\">Description</p></th><th><p class=\"admin_table_header\">Type</p></th><th><p class=\"admin_table_header\">Up</p></th><th><p class=\"admin_table_header\">Down</p></th><th><p class=\"admin_table_header\">Edit</p></th><th><p class=\"admin_table_header\">Delete</p></th></tr>";
+	echo "<table cellspacing=0 class=\"borderon\" width=100%><tr align=\"left\"><th><p class=\"mess\">Question name</p></th><th><p class=\"mess\">Description</p></th><th><p class=\"mess\">Type</p></th><th><p class=\"mess\">Up</p></th><th><p class=\"mess\">Down</p></th><th><p class=\"mess\">Edit</p></th><th><p class=\"mess\">Delete</p></th></tr>";
 	
+	$rowcounter=0;
 	while($row = mysql_fetch_array($result)) {
 		echo "<form method=\"post\" action=\"man_questions.php\">";
 		echo "<input type=\"hidden\" name=\"id\" value=\"" . $row['id'] . "\">";
 		echo "<input type=\"hidden\" name=\"orderId\" value=\"" . $row['orderId'] . "\">";
 		echo $catHidden;
 		
-		echo '<tr bgcolor="';
-		
-		if(($row['orderId'] % 2) == 1) {
-			echo "#F2F5F7";
-		} else {
-			echo "white";
-		}
-		
-		echo "\"><td><p class=\"admin_table_entry\">";
+		echo '<tr class="band';
+		echo $rowcounter%2+1;
+		echo "\"><td><p class=\"messpart\">";
 		echo $row['varname'];
-		echo "</p></td><td><p class=\"admin_table_entry\">";
+		echo "</p></td><td><p class=\"messpart\">";
 		echo $row['vardesc'];
-		echo "</p></td><td><p class=\"admin_table_entry\">";
+		echo "</p></td><td><p class=\"messpart\">";
 		echo $row['vartype'];
 		echo "</p></td>";
 		
@@ -187,6 +182,7 @@ if(isset($_SESSION['admin_id'])) {
 		echo '<td><input type="submit" name="action" value="edit"></td>';
 		echo '<td><input type="submit" name="action" value="delete"></td>';
 		echo "</tr></form>";
+		$rowcounter=$rowcounter+1;
 	}
 	
 	echo '</table>';
