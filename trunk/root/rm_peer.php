@@ -30,12 +30,10 @@ if(isset($_SESSION['root'])) {
 			echo '<tr align="center" class="band' . $rowcounter%2 . '">';
 			echo '<td><p>' . $row['author'] . '</p></td>';
 			echo '<td><p>' . $row['email'] . '</p></td>';
-			echo '<td><p>';
-			$word1 = $row['auth'];
-			$word = wordwrap($word1, 15, "<br>", true);
-			echo $word;
-			echo '</p></td>';
+			echo '<td><p>' . wordwrap($row['auth'], 15, "<br>", true) . '</p></td>';
 			
+			//find the status string
+			// status of 0 means incomplete, 1 means complete and enabled, 2 means complete and disabled
 			$statusString = ($row['status'] == "0") ? "incomplete" : "complete (enabled)";
 			if($row['status'] == 2) $statusString = "complete (disabled)";
 			echo "<td><p>" . $statusString . "</p></td>";

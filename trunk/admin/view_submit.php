@@ -12,24 +12,25 @@ if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
 	
 	//check if this admin is using textboxes and categories
-	$result = mysql_query("SELECT box_enabled, cat_enabled FROM admins WHERE id='" . escape($_SESSION['admin_id']) . "'");
+	$result = mysql_query("SELECT box_enabled, cat_enabled, comment_enabled FROM admins WHERE id='" . escape($_SESSION['admin_id']) . "'");
 	$row = mysql_fetch_array($result);
 	$box_enabled = ($row['box_enabled'] == 1) ? true : false;
 	$cat_enabled = ($row['cat_enabled'] == 1) ? true : false;
+	$comment_enabled = ($row['comment_enabled'] == 1) ? true : false;
 		
 	//we will need to construct a map from the application database IDs to the box and category note values if enabled
 	// we do this now so that we can check if an entry exists already for updating the notes table
-	if($box_enabled || $cat_enabled) {
-		$toolsResult = mysql_query("SELECT application_id, box, category FROM club_notes WHERE club_id = '$club_id'");
+	if($box_enabled || $cat_enabled || $comment_enabled) {
+		$toolsResult = mysql_query("SELECT application_id, box, category, comments FROM club_notes WHERE club_id = '$club_id'");
 		$toolsMap = array();
 	
 		while($row = mysql_fetch_array($toolsResult)) {
-			$toolsMap[$row['application_id']] = array($row['box'], $row['category']);
+			$toolsMap[$row['application_id']] = array($row['box'], $row['category'], $row['comments']);
 		}
 	}
 	
 	//check if notes table needs to be updated; use toolsMap to see if INSERT or UPDATE should be used
-	if(($box_enabled || $cat_enabled) && isset($_REQUEST['id'])) {
+	if(($box_enabled || $cat_enabled || $comment_enabled) && isset($_REQUEST['id'])) {
 		$application_id = escape($_REQUEST['id']);
 		
 		//verify that it belongs to this admin's club
@@ -57,9 +58,13 @@ if(isset($_SESSION['admin_id'])) {
 					$updateString .= "category = '" . escape($_REQUEST['category']) . "', ";
 					$toolsMap[$application_id][1] = $_REQUEST['category'];
 				}
+		
+				if($comment_enabled && isset($_REQUEST['comments'])) {
+					$updateString .= "comments = '" . escape($_REQUEST['comments']) . "', ";
+					$toolsMap[$application_id][2] = $_REQUEST['comments'];
+				}
 			
 				if(strlen($updateString) > 0) {
-				
 					$updateString = substr($updateString, 0, -2);
 					mysql_query("UPDATE club_notes SET $updateString WHERE application_id='$application_id' AND club_id='$club_id'");
 				}
@@ -130,6 +135,7 @@ if(isset($_SESSION['admin_id'])) {
 	
 	if($box_enabled) echo "<th><p class=\"admin_table_header\">The Box</p></th>";
 	if($cat_enabled) echo "<th><p class=\"admin_table_header\">Category</p></th>";
+	if($comment_enabled) echo "<th><p class=\"admin_table_header\">Comments</p></th>";
 	if($box_enabled || $cat_enabled) echo "<th><p class=\"admin_table_header\">Update</p></th>";
 	
 	echo "</tr>";
@@ -175,6 +181,10 @@ if(isset($_SESSION['admin_id'])) {
 			}
 			
 			echo "</select></td>";
+		}
+		
+		if($comment_enabled) {
+			echo "<td><p><a href=\"comments.php?id=$appId\">comments</a></p></td>";
 		}
 		
 		if($box_enabled || $cat_enabled) {
