@@ -2,12 +2,13 @@
 
 function writeApplicationHeader($club_id, $application_id, $category_id) {
 	echo '<SCRIPT LANGUAGE="JavaScript" SRC="../style/limit.js"></SCRIPT>';
-	echo "<form method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\">";
+	echo "<form method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\"><table>";
+	echo '<tr><td colspan="2" align="center"><input type="submit" value="Save"></td></tr>';
 }
 
 function writeApplicationFooter() {
-	echo '<input type="submit" value="Save">';
-	echo "</form>";
+	echo '<tr><td colspan="2" align="center"><input type="submit" value="Save"></td></tr>';
+	echo "</table></form>";
 }
 
 //writes a field
@@ -32,46 +33,62 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 	if($type_array['type'] == "essay") {
 		$rows = 5;
 		$cols = 40;
+		$heig = 100;
 		
 		if($type_array['size'] == "large") {
 			$rows = 15;
 			$cols = 75;
+			$heig = 200;
 		} else if($type_array['size'] == "huge") {
 			$rows = 22;
 			$cols = 120;
+			$heig = 400;
 		}
 		
-		echo "<p><b>$name</b>";
+		echo '<tr><td colspan="2"><p class="name">';
+		
+		if($type_array['status'] != "optional") {
+			echo "*";
+		}
+		
+		echo "$name</p>";
 		
 		if($desc != '') {
-			echo ": $desc";
+			echo "<p class=\"desc\">$desc</p>";
 		}
 		
-		if($type_array['status'] == "optional") {
-			echo " <b>(optional)</b>";
-		}
-		
-		echo "<br><textarea ";
+		echo "</td></tr><tr><td colspan=\"2\"><textarea ";
 		
 		if($type_array['showchars']) {
 			echo "onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 		}
 		
-		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString>" . htmlspecialchars($answer) . "</textarea>";
+		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString style=\"width:90%;height:";
+		echo $heig;
+		echo "px;resize:none\">" . htmlspecialchars($answer) . "</textarea>";
 		
 		if($type_array['showchars']) {
-			echo "<br><font size=\"1\">(Maximum characters: $maxLength)<br>";
-			echo "You have <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"> characters left.</font>";
+			echo "<p class=\"desc\">(Max Characters: $maxLength)<br>";
+			echo "Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"></p>";
 		}
 		
-		echo '</p>';
+		echo '</td></tr>';
 	} else if($type_array['type'] == "short") {
-		echo $name . " ";
 		
-		if($type_array['status'] == "optional") {
-			echo "(optional) ";
+		echo '<tr><td><p class="name">';
+		
+		if($type_array['status'] != "optional") {
+			echo "*";
 		}
+		
+		echo "$name</p>";
+		
+		if($desc != '') {
+			echo "<p class=\"desc\">$desc</p>";
+		}
+		
+		echo "</td><td>";
 		
 		echo "<input ";
 		if($type_array['showchars']) {
@@ -79,21 +96,23 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" maxlength=\"$maxLength\" ";
 		}
 		
-		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" /> ";
-		echo $desc;
+		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" style=\"width:90%\" /> ";
 		
 		if($type_array['showchars']) {
-			echo "<font size=\"1\">(Maximum characters: $maxLength)<br>";
-			echo "You have <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"> characters left.</font>";
+			echo "<p class=\"desc\">(Max Characters: $maxLength)<br>";
+			echo "Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"></p>";
 		}
 		
-		echo '<br />';
+		echo '</td></tr>';
 	} else if($type_array['type'] == "select") {
-		echo $name;
 		
-		if($type_array['status'] == "optional") {
-			echo " (optional)";
+		echo '<tr><td><p class="name">';
+		
+		if($type_array['status'] != "optional") {
+			echo "*";
 		}
+		
+		echo "$name</p></td><td>";
 		
 		$choices = explode(";", $desc);
 		
@@ -105,7 +124,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			$tname = "radio";
 		} else if($type_array['method'] == "dropdown") {
 			$tname = false;
-			echo ": <select name=\"$fieldName\"$mutableString>";
+			echo "<select name=\"$fieldName\"$mutableString>";
 		}
 		
 		//for checkboxes, answer will be an array separated by $config['form_array_delimiter']
@@ -134,9 +153,23 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "</select>";
 		}
 		
-		echo '<br />';
+		echo '</td></tr>';
 	} else if($type_array['type'] == "text") {
-		echo "<p>$desc</p>";
+		
+		echo '<tr><td colspan="2"><p class="name">';
+		
+		if($type_array['status'] != "optional") {
+			echo "*";
+		}
+		
+		echo "$name</p>";
+		
+		if($desc != '') {
+			echo "<p class=\"desc\">$desc</p>";
+		}
+		
+		echo "</td></tr>";
+		
 	} else if($type_array['type'] == "repeat") {
 		$num = $type_array['num'];
 		$subtype_array = explode("|", $type_array['subtype']);
@@ -163,7 +196,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			writeField($id, $answer_id, $thisName, $thisDesc, $thisType, $answer_array[$i], $mutable, $i);
 		}
 	} else if($type_array['type'] == "code") {
-		echo page_convert($desc);
+		echo '<tr><td colspan="2">' . page_convert($desc) . '</td></tr>';
 	}
 }
 
