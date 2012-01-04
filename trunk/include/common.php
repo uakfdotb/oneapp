@@ -617,13 +617,13 @@ function getApplicationByUserClub($user_id, $club_id) {
 	}
 }
 
-//returns array (club name, club description, open_time, close_time)
+//returns array (club name, club description, open_time, close_time, num_recommendations)
 function clubInfo($club_id) {
 	$club_id = escape($club_id);
-	$result = mysql_query("SELECT name, description, open_time, close_time FROM clubs WHERE id='$club_id'");
+	$result = mysql_query("SELECT name, description, open_time, close_time, num_recommend FROM clubs WHERE id='$club_id'");
 	
 	if($row = mysql_fetch_array($result)) {
-		return array($row[0], $row[1], clubTimeString($row[2]), clubTimeString($row[3]));
+		return array($row[0], $row[1], clubTimeString($row[2]), clubTimeString($row[3]), $row[4]);
 	} else {
 		return array("Unknown", "Club could not be found");
 	}

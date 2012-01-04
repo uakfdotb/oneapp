@@ -10,7 +10,7 @@ h4{font-size:28px; text-align:center; margin-top:1%px; margin-right:40px; margin
 h1{font-size:18px;}
 h2{font-size:14px; color:white;}
 h3{font-size:13px; border-bottom:solid 1px #DEDEDE; padding:4px 0; margin-bottom:10px;}
-p{font-size:11px;text-decoration:none;color:#999999; margin:0px;}
+p{font-size:11px;text-decoration:none;color:#999999;}
 a:hover{text-decoration:none;color:#ABB4BA;}
 a{text-decoration:none; color:#1A3E5B;}
 h5 a:hover{color:#1A3E5B;}
@@ -67,7 +67,7 @@ CUSTOM CLASSES
 	margin-left:6%;
 }
 
-.center{
+.center, #admin_login{
 	text-align:center;
 	}
 
