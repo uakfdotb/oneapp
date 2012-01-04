@@ -16,7 +16,7 @@ if(isset($_SESSION['root']) && isset($_REQUEST['club_id'])) {
 		$numMismatches = checkMismatchedApplications($_REQUEST['club_id']);
 		echo "Total errors: $numMismatches";
 	}
-}
+
 ?>
 
 <form method="post" action="check_mismatch.php">
@@ -26,5 +26,6 @@ Club ID: <input type="text" name="club_id"><br>
 </form>
 
 <?
+}
 get_root_footer();
 ?>

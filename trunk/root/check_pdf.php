@@ -20,7 +20,7 @@ if(isset($_SESSION['root'])) {
 		}
 		echo "</ul>";
 	}
-}
+
 ?>
 
 <form method="post" action="check_pdf.php">
@@ -28,5 +28,6 @@ if(isset($_SESSION['root'])) {
 </form>
 
 <?
+}
 get_root_footer();
 ?>
