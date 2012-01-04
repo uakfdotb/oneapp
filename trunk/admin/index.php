@@ -40,7 +40,7 @@ if(isset($_SESSION['admin_id'])) {
 	<p>Log in with the Usename and Password given to you by your root owner. If you do not have one please contact them and ask them to give you one. Root owners have all privledges granted. Please contact your local root before contacting us about any problems!</p>
 	<div id="spacebox"></div>
 
-	<div id="col_mid" class="borderon">
+	<div id="admin_table">
 	<div class="center">
 	<table cellpadding="0" cellspacing="0" width=100%>
 	<tr id="admin_login"><td id="admin_login"><h2>Log In</h2></td></tr>

@@ -35,7 +35,7 @@ html, body {
 #col_holder{width:100%;}
 #col_left{width:25%; height:100%; float:left; background-color:#1A3E5B;}
 #col_right{width:75%; float:left;}
-#col_mid{width:60%; margin-left:6%; float:center;}
+#col_mid, #admin_table{width:60%; margin-left:6%; float:center;}
 div.spacer{clear:both; height:2%; display:block;}
 
 #footer{width:90%; display:block; margin-left:5%; margin-top:1%; padding-bottom:1%; font-size:11px; text-align:center; color:#666666; border-top:solid 1px #DEDEDE;}
@@ -68,7 +68,7 @@ CUSTOM CLASSES
 	margin-left:6%;
 }
 
-.center{
+.center, #admin_login{
 	text-align:center;
 	}
 
@@ -84,7 +84,7 @@ CUSTOM CLASSES
 .test a{color:#1A3E5B;}
 .test a:hover{text-decoration:none;color:#999999;}
 
-.borderon table.admin_table{
+.borderon, div#admin_table{
 	border:solid 1px #1A3E5B;
 	}
 	
@@ -134,8 +134,6 @@ td#admin_login{
 tr#admin_login_error{
 	background-color:#F2F5F7;
 }
-
-
 
 tr.bgon{
     bgcolor:red;
