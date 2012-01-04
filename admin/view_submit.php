@@ -136,7 +136,7 @@ if(isset($_SESSION['admin_id'])) {
 	if($box_enabled) echo "<th><p class=\"admin_table_header\">The Box</p></th>";
 	if($cat_enabled) echo "<th><p class=\"admin_table_header\">Category</p></th>";
 	if($comment_enabled) echo "<th><p class=\"admin_table_header\">Comments</p></th>";
-	if($box_enabled || $cat_enabled) echo "<th><p class=\"admin_table_header\">Update</p></th>";
+	if($box_enabled || $cat_enabled) echo "<th><p class=\"admin_table_header\">Update</p></th>"; //comments are updated through separate page
 	
 	echo "</tr>";
 
@@ -159,7 +159,7 @@ if(isset($_SESSION['admin_id'])) {
 			$peerString .= '<a href="../submit/' . $peerEntry . '.pdf">Download</a> | ';
 		}
 	
-		echo "<tr><td>$appId</td><td>$userId</td><td>$generalApp</td><td>$supplement</td><td>$peerString</td>";
+		echo "<tr><td><p>$appId</p></td><td>$userId</td><td>$generalApp</td><td>$supplement</td><td>$peerString</td>";
 		
 		if($box_enabled) {
 			if(isset($toolsMap[$appId])) $boxValue = $toolsMap[$appId][0];
@@ -187,7 +187,7 @@ if(isset($_SESSION['admin_id'])) {
 			echo "<td><p><a href=\"comments.php?id=$appId\">comments</a></p></td>";
 		}
 		
-		if($box_enabled || $cat_enabled) {
+		if($box_enabled || $cat_enabled) { //comments are updated through separate page
 			echo '<td><input type="submit" value="update" /></td>';
 		}
 		
