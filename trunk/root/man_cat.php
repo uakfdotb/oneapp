@@ -31,7 +31,7 @@ if(isset($_SESSION['root'])) {
 			$name = escape($_REQUEST['name']);
 			
 			mysql_query("UPDATE basecat SET name='$name' WHERE id='$cat_id'");
-			echo "Category updated successfully! Click <a href=\"man_cat.php\">here</a> to continue.";
+			echo "<p>Category updated successfully! Click <a href=\"man_cat.php\">here</a> to continue.</p>";
 		} else if($action == 'up' || $action == 'down') {
 			$cat_id = escape($_REQUEST['id']);
 			
@@ -64,16 +64,16 @@ if(isset($_SESSION['root'])) {
 		$result = mysql_query("SELECT id,name FROM basecat");
 		
 		echo '<form action="man_cat.php?action=add" method="post">';
-		echo 'Category name<input type="text" name="name">';
-		echo '<input type="submit" value="Add category">';
-		echo '</form>';
+		echo '<p>Category name <input type="text" name="name">';
+		echo '<input type="submit" value="Add category"></p>';
+		echo '</form><br><br>';
 		
-		echo "<table><tr><th>Category name</th><th>Update</th><th>Delete</th><th>Up</th><th>Down</th></tr>";
+		echo "<table width=100% cellspacing=0 class=\"borderon\"><tr><th><p class=\"admin_table_header\">Category name</p></th><th><p class=\"admin_table_header\">Update</p></th><th><p class=\"admin_table_header\">Delete</p></th><th><p class=\"admin_table_header\">Up</p></th><th><p class=\"admin_table_header\">Down</p></th></tr>";
 		
 		while($row = mysql_fetch_array($result)) {
 			echo "<form method=\"post\" action=\"man_cat.php\">";
 			echo "<input type=\"hidden\" name=\"id\" value=\"" . $row['id'] . "\">";
-			echo "<tr><td><input type=\"text\" name=\"name\" value=\"" . $row['name'] . "\"></td>";
+			echo "<tr align=\"center\"><td><input type=\"text\" name=\"name\" value=\"" . $row['name'] . "\" style=\"width:100%\"></td>";
 			echo "<td><input type=\"submit\" name=\"action\" value=\"update\"></td>";
 			echo "<td><input type=\"submit\" name=\"action\" value=\"delete\"></td>";
 			echo "<td><input type=\"submit\" name=\"action\" value=\"up\"></td>";
