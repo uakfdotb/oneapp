@@ -46,9 +46,9 @@ if(isset($_SESSION['admin_id'])) {
 					echo '<form method="post" action="man_questions.php?action=edit"><table class="borderon">';
 					echo '<input type="hidden" name="id" value="' . $qid . '">';
 					echo $catHidden;
-					echo '<tr><td align="right"><p class="messpart">Name</p></td><td><input type="text" name="varname" value="' . $row['varname'] . '" style="width:100%"></td></tr>';
-					echo '<tr><td align="right"><p class="messpart">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px">' . $row['vardesc'] . '</textarea></td></tr>';
-					echo '<tr><td align="right"><p class="messpart">Type</p></td><td><input type="text" name="vartype" value="' . $row['vartype'] . '" style="width:100%">';
+					echo '<tr><td align="right"><p class="admin_table_entry">Name</p></td><td><input type="text" name="varname" value="' . $row['varname'] . '" style="width:100%"></td></tr>';
+					echo '<tr><td align="right"><p class="admin_table_entry">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px">' . $row['vardesc'] . '</textarea></td></tr>';
+					echo '<tr><td align="right"><p class="admin_table_entry">Type</p></td><td><input type="text" name="vartype" value="' . $row['vartype'] . '" style="width:100%">';
 					echo '<tr><td colspan="2" align="right"><input type="submit" value="Update"></td></tr>';
 					echo '</table></form><br><br>';
 					
@@ -158,7 +158,7 @@ if(isset($_SESSION['admin_id'])) {
 	
 	$result = mysql_query("SELECT id, orderId, varname, vardesc, vartype FROM $database WHERE $whereString ORDER BY orderId");
 
-	echo "<table cellspacing=0 class=\"admin_table\"><tr align=\"left\"><th><p class=\"admin_table_header\">Question name</p></th><th><p class=\"admin_table_header\">Description</p></th><th><p class=\"admin_header\">Type</p></th><th><p class=\"admin_table_header\">Up</p></th><th><p class=\"admin_table_header\">Down</p></th><th><p class=\"admin_table_header\">Edit</p></th><th><p class=\"admin_table_header\">Delete</p></th></tr>";
+	echo "<table cellspacing=0 class=\"admin_table\"><tr align=\"left\"><th><p class=\"admin_table_header\">Question name</p></th><th><p class=\"admin_table_header\">Description</p></th><th><p class=\"admin_table_header\">Type</p></th><th><p class=\"admin_table_header\">Up</p></th><th><p class=\"admin_table_header\">Down</p></th><th><p class=\"admin_table_header\">Edit</p></th><th><p class=\"admin_table_header\">Delete</p></th></tr>";
 	
 	while($row = mysql_fetch_array($result)) {
 		echo "<form method=\"post\" action=\"man_questions.php\">";
