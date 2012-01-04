@@ -154,6 +154,8 @@ if(isset($_SESSION['admin_id'])) {
 		//buttons
 		echo '<tr align="center"><td><input type="submit" name="action" value="Add question"></td><td><input type="submit" name="action" value="Add multiple questions"></td></tr>';
 		echo'</table><br><br>';
+		
+		echo '</form>';
 	}
 	
 	$result = mysql_query("SELECT id, orderId, varname, vardesc, vartype FROM $database WHERE $whereString ORDER BY orderId");
