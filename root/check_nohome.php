@@ -12,7 +12,7 @@ if(isset($_SESSION['root'])) {
 	if(isset($_REQUEST['delete'])) {
 		checkNoHome();
 	}
-}
+
 ?>
 
 <form method="post" action="check_nohome.php">
@@ -20,5 +20,6 @@ if(isset($_SESSION['root'])) {
 </form>
 
 <?
+}
 get_root_footer();
 ?>
