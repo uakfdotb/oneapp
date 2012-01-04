@@ -5,6 +5,7 @@ include("../include/db_connect.php");
 include("../include/session.php");
 
 include("../include/apply_gen.php");
+include("../include/apply_admin.php");
 
 get_admin_header();
 
@@ -79,24 +80,12 @@ if(isset($_SESSION['admin_id'])) {
 			}
 		} else if($_REQUEST['action'] == "Add question") {
 			if(isset($_REQUEST['varname']) && isset($_REQUEST['vardesc']) && isset($_REQUEST['vartype'])) {
-				$varname = escape($_REQUEST['varname']);
-				$vardesc = escape($_REQUEST['vardesc']);
-				$vartype = escape($_REQUEST['vartype']);
+				$result = insertQuestion($_REQUEST['varname'], $_REQUEST['vardesc'], $_REQUEST['vartype'], $club_id, $database, $whereString);
 				
-				//increment from highest orderId
-				$result = mysql_query("SELECT MAX(orderId) FROM $database WHERE $whereString");
-				
-				if($row = mysql_fetch_array($result)) {
-					if(is_null($row[0])) $orderId = 1;
-					else $orderId = escape($row[0] + 1);
-					
-					if($club_id == 0) {
-						mysql_query("INSERT INTO baseapp (orderId, varname, vardesc, vartype, category) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '$category')");
-					} else {
-						mysql_query("INSERT INTO supplements (orderId, varname, vardesc, vartype, club_id) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '$club_id')");
-					}
-					
+				if($result === TRUE) {
 					echo "<p>Addition successful!</p>";
+				} else {
+					echo "<p>Addition failed: $result</p>";
 				}
 			}
 		} else if($_REQUEST['action'] == "delete") {
@@ -107,23 +96,12 @@ if(isset($_SESSION['admin_id'])) {
 			$dataLines = explode("\n", $dataText);
 			
 			for($i = 0; $i < count($dataLines) - 2; $i+=3) {
-				$varname = escape($dataLines[$i]);
-				$vardesc = escape($dataLines[$i + 1]);
-				$vartype = escape($dataLines[$i + 2]);
+				$result = insertQuestion($dataLines[$i], $dataLines[$i + 1], $dataLines[$i + 2], $club_id, $database, $whereString);
 				
-				//increment from highest orderId
-				$result = mysql_query("SELECT MAX(orderId) FROM $database WHERE $whereString");
-				
-				if($row = mysql_fetch_array($result)) {
-					$orderId = escape($row[0] + 1);
-					
-					if($club_id == 0) {
-						mysql_query("INSERT INTO baseapp (orderId, varname, vardesc, vartype, category) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '$category')");
-					} else {
-						mysql_query("INSERT INTO supplements (orderId, varname, vardesc, vartype, club_id) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '$club_id')");
-					}
-					
-					echo "<p>Addition successful for $varname!</p>";
+				if($result === TRUE) {
+					echo "<p>Addition successful!</p>";
+				} else {
+					echo "<p>Addition failed: $result</p>";
 				}
 			}
 		}
