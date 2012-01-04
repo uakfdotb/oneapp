@@ -57,8 +57,8 @@ $config['admin_side_display_names'] = array('Manage questions', 'View submission
 $config['root_page_display'] = array('index', 'index.php?action=logout&ex=');
 $config['root_page_display_names'] = array('Home', 'Logout');
 
-$config['root_side_display'] = array('index', 'man_pages', 'man_admins', 'man_cat', 'man_clubs', 'userlist', 'rm_peer', 'check_pdf', 'check_nohome', 'check_mismatch', 'statistics');
-$config['root_side_display_names'] = array('Home', 'Manage pages', 'Manage admins', 'Manage categories', 'Manage clubs', 'User list', 'Remove recommendations', 'Check extra PDFs', 'Check questions without a home', 'Check mismatched applications', 'Statistics');
+$config['root_side_display'] = array('index', 'man_pages', 'man_admins', 'man_cat', 'man_clubs', 'userlist', 'rm_peer', 'check_pdf', 'check_nohome', 'check_mismatch', 'statistics', 'man_config');
+$config['root_side_display_names'] = array('Home', 'Manage pages', 'Manage admins', 'Manage categories', 'Manage clubs', 'User list', 'Remove recommendations', 'Check extra PDFs', 'Check questions without a home', 'Check mismatched applications', 'Statistics', 'Edit configuration');
 
 $config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the current time
 $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements

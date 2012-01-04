@@ -1,0 +1,59 @@
+<?php
+
+//strips quotes from a PHP config entry
+function stripFromPHP($str) {
+	$startIndex = 0;
+	$endIndex = strlen($str);
+	
+	$firstquote = strpos($str, "'");
+	$lastquote = strrpos($str, "'");
+	
+	if($firstquote !== FALSE) $startIndex = $firstquote + 1;
+	if($lastquote !== FALSE) $endIndex = $lastquote;
+	
+	//make sure we're not using " quotes
+	if($firstquote === FALSE && $lastquote === FALSE) {
+		$firstquote = strpos($str, '"');
+		$lastquote = strrpos($str, '"');
+		
+		if($firstquote !== FALSE) $startIndex = $firstquote + 1;
+		if($lastquote !== FALSE) $endIndex = $lastquote;
+	}
+	
+	return substr($str, $startIndex, $endIndex - $startIndex);
+}
+
+function fromPHPArray($str) {
+	//first, strip the "array(" and ")"
+	$startIndex = strpos($str, '(') + 1;
+	$endIndex = strrpos($str, ')');
+	$str = substr($str, $startIndex, $endIndex - $startIndex);
+	
+	//convert to raw array
+	$array = explode(", ", $str);
+	
+	//strip elements
+	$stripArray = array();
+	foreach($array as $entry) {
+		array_push($stripArray, stripFromPHP($entry));
+	}
+	
+	//convert to simple semicolon-delimited array
+	return implode(";", $stripArray);
+}
+
+function toPHPArray($str) {
+	//first get raw array
+	$array = explode(";", $str);
+	
+	//escape and add quotes to elements
+	$safeArray = array();
+	foreach($array as $entry) {
+		array_push($safeArray, "'" . escapePHP($entry) . "'");
+	}
+	
+	//implode to comma+space-delimited array and add "array(" and ")"
+	return "array(" . implode(", ", $safeArray) . ")";
+}
+
+?>
