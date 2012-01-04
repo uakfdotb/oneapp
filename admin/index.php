@@ -30,7 +30,8 @@ if(isset($_SESSION['admin_id'])) {
 ?>
 
 	<h1>Welcome Administrator</h1>
-	<p>This is your home. From here you have multiple options available to the right.<br />Please note, your club application will remain closed unless you activate it from <a href="man_club.php">Manage Club Information</a>.</p> 
+	<p>This is your home. From here you have multiple options available to the right.</p>
+	<p>Please note, your club application will remain closed unless you activate it from <a href="man_club.php">Manage Club Information</a>.</p> 
 
 <?
 } else {
@@ -38,10 +39,9 @@ if(isset($_SESSION['admin_id'])) {
 
 	<h1>Administrator Page</h1>
 	<p>Log in with the Usename and Password given to you by your root owner. If you do not have one please contact them and ask them to give you one. Root owners have all privledges granted. Please contact your local root before contacting us about any problems!</p>
-	<div id="spacebox"></div>
 
 	<div id="admin_table">
-	<div class="center">
+	<div id="admin_login">
 	<table cellpadding="0" cellspacing="0" width=100%>
 	<tr id="admin_login"><td id="admin_login"><h2>Log In</h2></td></tr>
 	<tr id="admin_form">

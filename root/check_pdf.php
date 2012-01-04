@@ -23,9 +23,9 @@ if(isset($_SESSION['root'])) {
 
 ?>
 
-<form method="post" action="check_pdf.php">
-<input type="submit" name="delete" value="Delete extra PDFs" />
-</form>
+	<form method="post" action="check_pdf.php">
+	<input type="submit" name="delete" value="Delete extra PDFs" />
+	</form>
 
 <?
 }

@@ -227,13 +227,17 @@ function checkCompletedApplication($user_id, $club_id, $application_id) {
 	return $warnings;
 }
 
-//returns array of (club_id, club_name)
-function listClubs() {
-	$result = mysql_query("SELECT id, name FROM clubs");
+//returns array of (club_id, club_name{, club_desc})
+function listClubs($includeDescription = false) {
+	$descriptionString = "";
+	if($includeDescription) $descriptionString = ", description";
+	
+	$result = mysql_query("SELECT id, name$descriptionString FROM clubs");
 	
 	$list = array();
 	while($row = mysql_fetch_array($result)) {
-		array_push($list, array($row[0], $row[1]));
+		if(!$includeDescription) array_push($list, array($row[0], $row[1]));
+		else array_push($list, array($row[0], $row[1], $row[2]));
 	}
 	
 	return $list;
