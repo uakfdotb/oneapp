@@ -9,7 +9,7 @@
 	<div id="topbar" align="left">
 		<table width=100% cellpadding="0" cellspacing="0" >
 			<tr>
-			<td><a href="../index.php"><img src="<?= $base_path ?>astyle/style1/logo.jpg" alt="logo" height="60" /></a></td>
+			<td><a href="../index.php"><img src="<?= $base_path ?>astyle/style1/logo.jpg" alt="logo" height="60" border="0" /></a></td>
 			<td VALIGN="BOTTOM"><p class="schooltop"><?= $config['organization_name'] ?></p></td>
 			</tr>
 		</table>
