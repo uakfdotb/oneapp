@@ -14,22 +14,26 @@ if(isset($_SESSION['admin_id'])) {
 		if(isset($_REQUEST['notesupdate'])) {
 			$box_enabled = isset($_REQUEST['box_enabled']) ? 1 : 0;
 			$cat_enabled = isset($_REQUEST['cat_enabled']) ? 1 : 0;
+			$comment_enabled = isset($_REQUEST['comment_enabled']) ? 1 : 0;
 			
-			mysql_query("UPDATE admins SET box_enabled = '$box_enabled', cat_enabled = '$cat_enabled' WHERE id = '" . $_SESSION['admin_id'] . "'");
+			mysql_query("UPDATE admins SET box_enabled = '$box_enabled', cat_enabled = '$cat_enabled', comment_enabled = '$comment_enabled' WHERE id = '" . $_SESSION['admin_id'] . "'");
 		}
 		
-		$result = mysql_query("SELECT box_enabled, cat_enabled FROM admins WHERE id='" . $_SESSION['admin_id'] . "'");
+		$result = mysql_query("SELECT box_enabled, cat_enabled, comment_enabled FROM admins WHERE id='" . $_SESSION['admin_id'] . "'");
 		
 		if($row = mysql_fetch_array($result)) {
 			$box_checked = "";
 			$cat_checked = "";
+			$comment_checked = "";
 			
 			if($row['box_enabled'] == 1) $box_checked = " checked";
 			if($row['cat_enabled'] == 1) $cat_checked = " checked";
+			if($row['comment_enabled'] == 1) $comment_checked = " checked";
 ?>
 			<form method="post" action="man_notes.php">
 			<input type="checkbox" name="box_enabled" value="true" <?= $box_checked ?>/> Textboxes enabled
 			<br /><input type="checkbox" name="cat_enabled" value="true" <?= $cat_checked ?>/> Categories enabled
+			<br /><input type="checkbox" name="comment_enabled" value="true" <?= $comment_checked ?>/> Comments enabled
 			<br /><input type="submit" name="notesupdate" value="Update" />
 			</form>
 <?
