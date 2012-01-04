@@ -19,7 +19,10 @@ if(isset($_REQUEST['action'])) {
 		echo "Password is incorrect or you have been locked out. Click <a href=\"index.php\">here</a> to continue.";
 	}
 } else if(isset($_SESSION['root'])) {
-	echo '<a href="index.php?action=logout">Logout</a>';
+?>
+	<h1>Welcome Root!</h1>
+	<p>As a root administrator, you can add clubs, delete clubs, add admin and delete admin. If you have any problems please refer to the root manual.</p>
+<?
 } else {
 ?>
 	<form method="POST" action="index.php">

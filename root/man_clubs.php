@@ -30,20 +30,20 @@ if(isset($_SESSION['root'])) {
 	} else {
 		$result = mysql_query("SELECT id,name,description FROM clubs");
 		
-		echo '<form action="man_clubs.php?action=add_club" method="post">';
-		echo 'Club name<input type="text" name="name"><br>';
-		echo 'Description<br><textarea name="description"></textarea><br>';
-		echo '<input type="submit" value="Add club">';
-		echo '</form>';
+		echo '<form action="man_clubs.php?action=add_club" method="post"><table class="borderon">';
+		echo '<tr><td align="right"><p>Club name</p></td><td><input type="text" name="name" style="width:100%"></td></tr>';
+		echo '<tr><td align="right"><p>Description</p></td><td><textarea name="description" style="width:100%;resize:none"></textarea></td></tr>';
+		echo '<tr><td colspan="2" align="right"><input type="submit" value="Add club"></td></tr>';
+		echo '</table></form><br><br>';
 		
-		echo "<table><tr><th>ID</th><th>Club name</th><th>Description</th><th>Edit</th><th>Delete</th></tr>";
+		echo "<table class=\"borderon\" width=100% cellspacing=0><tr><th><p class=\"admin_table_header\">ID</p></th><th><p class=\"admin_table_header\">Club name</p></th><th><p class=\"admin_table_header\">Description</p></th><th><p class=\"admin_table_header\">Edit</p></th><th><p class=\"admin_table_header\">Delete</p></th></tr>";
 		
 		while($row = mysql_fetch_array($result)) {
 			echo "<form method=\"post\" action=\"man_clubs.php\">";
 			echo "<input type=\"hidden\" name=\"id\" value=\"" . $row['id'] . "\">";
-			echo "<tr><td>" . $row['id'] . "</td>";
-			echo "<td>" . $row['name'] . "</td>";
-			echo "<td><textarea name=\"description\">" . $row['description'] . "</textarea></td>";
+			echo "<tr align=\"center\"><td><p>" . $row['id'] . "</p></td>";
+			echo "<td><p>" . $row['name'] . "</p></td>";
+			echo "<td><textarea name=\"description\" style=\"width:100%;resize:none\">" . $row['description'] . "</textarea></td>";
 			
 			echo "<td><input type=\"submit\" name=\"action\" value=\"update\"></td>";
 			echo "<td><input type=\"submit\" name=\"action\" value=\"delete\"></td>";
