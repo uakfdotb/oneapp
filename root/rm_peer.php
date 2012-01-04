@@ -23,14 +23,20 @@ if(isset($_SESSION['root'])) {
 		}
 		
 		$result = mysql_query("SELECT * FROM recommendations WHERE user_id = '$user_id'");
-		echo '<table width=100% class="borderon"><tr><th><p class=\"admin_table_header\">Author</p></th><th><p class=\"admin_table_header\">Email</p></th><th><p class=\"admin_table_header\">Auth</p></th><th><p class=\"admin_table_header\">Status</p></th><th><p class=\"admin_table_header\">File</p></th><th><p class=\"admin_table_header\">Delete</p></th></tr>';
+		echo '<table class="borderon" width=100%><tr><th><p class="admin_table_header">Author</p></th><th><p class="admin_table_header">Email</p></th><th width=100px><p class="admin_table_header">Auth</p></th><th><p class="admin_table_header">Status</p></th><th><p class="admin_table_header">File</p></th><th><p class="admin_table_header">Delete</p></th></tr>';
 		
 		$rowcounter = 1; //used to identify which row we are on for banding
 		while($row = mysql_fetch_array($result)) {
-			echo '<tr align="center" class="band' . $rowcounter%2+1 . '">';
+			echo '<tr align="center" class="band';
+			echo $rowcounter%2;
+			echo '">';
 			echo '<td><p>' . $row['author'] . '</p></td>';
 			echo '<td><p>' . $row['email'] . '</p></td>';
-			echo '<td><p>' . $row['auth'] . '</p></td>';
+			echo '<td><p>';
+			$word1 = $row['auth'];
+			$word = wordwrap($word1, 15, "<br>", true);
+			echo $word;
+			echo '</p></td>';
 			
 			$statusString = ($row['status'] == "0") ? "incomplete" : "complete (enabled)";
 			if($row['status'] == 2) $statusString = "complete (disabled)";
@@ -39,7 +45,7 @@ if(isset($_SESSION['root'])) {
 			if($row['filename'] != '') {
 				echo '<td><a href="../submit/' . $row['filename'] . '.pdf">link</a></td>';
 			} else {
-				echo '<td>N/A</td>';
+				echo '<td><p>N/A</p></td>';
 			}
 			
 			echo "<td><form method=\"POST\" action=\"rm_peer.php?user_id=$user_id&remove_id=" . $row['id'] . "\">";
