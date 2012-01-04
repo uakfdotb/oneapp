@@ -27,9 +27,7 @@ if(isset($_SESSION['root'])) {
 		
 		$rowcounter = 1; //used to identify which row we are on for banding
 		while($row = mysql_fetch_array($result)) {
-			echo '<tr align="center" class="band';
-			echo $rowcounter%2;
-			echo '">';
+			echo '<tr align="center" class="band' . $rowcounter%2 . '">';
 			echo '<td><p>' . $row['author'] . '</p></td>';
 			echo '<td><p>' . $row['email'] . '</p></td>';
 			echo '<td><p>';
