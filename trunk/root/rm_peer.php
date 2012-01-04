@@ -24,11 +24,11 @@ if(isset($_SESSION['root'])) {
 		
 		$result = mysql_query("SELECT * FROM recommendations WHERE user_id = '$user_id'");
 		echo '<table width=100% class="borderon"><tr><th><p class=\"admin_table_header\">Author</p></th><th><p class=\"admin_table_header\">Email</p></th><th><p class=\"admin_table_header\">Auth</p></th><th><p class=\"admin_table_header\">Status</p></th><th><p class=\"admin_table_header\">File</p></th><th><p class=\"admin_table_header\">Delete</p></th></tr>';
-		$rowcounter=1;
+		
+		$rowcounter = 1; //used to identify which row we are on for banding
 		while($row = mysql_fetch_array($result)) {
-			echo '<tr align="center" class="band';
-			echo $rowcounter%2+1;
-			echo '"><td><p>' . $row['author'] . '</p></td>';
+			echo '<tr align="center" class="band' . $rowcounter%2+1 . '">';
+			echo '<td><p>' . $row['author'] . '</p></td>';
 			echo '<td><p>' . $row['email'] . '</p></td>';
 			echo '<td><p>' . $row['auth'] . '</p></td>';
 			
@@ -46,6 +46,7 @@ if(isset($_SESSION['root'])) {
 			echo '<input type="submit" value="Delete" /></form></td>';
 			
 			echo '</tr>';
+			
 			$rowcounter=$rowcounter+1;
 		}
 		
