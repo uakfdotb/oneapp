@@ -39,5 +39,5 @@ while($row = mysql_fetch_array($pagesResult)) {
 
 <form action="man_pages.php?action=add" method="get">
 <p class="messpar">Page name <input type="text" name="page">
-<input type="submit" value="Add">
+<input type="submit" name="action" value="Add">
 </form></p>
