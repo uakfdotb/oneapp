@@ -44,16 +44,15 @@ function checkExtraPDFs($doDelete = false) {
 }
 
 //checks for mismatched entries in supplements and answers tables that occurs when a club changes it's application
-// returns number of mismatches
+// returns array of strings describing mismatches
 // does not check general application
 function checkMismatchedApplications($club_id, $act = false) { //$act means whether or not to fix
 	if($club_id == '' || $club_id == 0) {
-		echo "Error: club ID invalid (general application check not supported)<br />";
-		return;
+		return array("Error: club ID invalid (general application check not supported)<br />");
 	}
 	
 	$club_id = escape($club_id);
-	$numMismatches = 0;
+	$mismatches = array();
 	
 	//first get the base list from supplements
 	$result = mysql_query("SELECT id FROM supplements WHERE club_id = '$club_id'");
@@ -79,11 +78,10 @@ function checkMismatchedApplications($club_id, $act = false) { //$act means whet
 			$var_id = $answer_row[1];
 			
 			if(!array_key_exists($var_id, $id_array)) { //this question has been deleted
-				echo "Extra question $var_id at answers.id=$answer_id, applications.id=$app_id<br>";
-				$numMismatches++;
+				array_push($mismatches, "Extra question $var_id at answers.id=$answer_id, applications.id=$app_id<br>");
 				
 				if($submittedStatus) {
-					echo "WARNING: $app_id has already been submitted<br>";
+					array_push($mismatches, "WARNING: $app_id has already been submitted<br>");
 				}
 				
 				if($act) {
@@ -97,11 +95,10 @@ function checkMismatchedApplications($club_id, $act = false) { //$act means whet
 		//check for new questions in id_array
 		foreach($id_array as $var_id => $dummy) {
 			if(!array_key_exists($var_id, $ans_array)) {
-				echo "Missing question $var_id on applications.id=$app_id<br>";
-				$numMismatches++;
+				array_push($mismatches, "Missing question $var_id on applications.id=$app_id<br>");
 				
 				if($submittedStatus) {
-					echo "WARNING: $app_id has already been submitted<br>";
+					array_push($mismatches, "WARNING: $app_id has already been submitted<br>");
 				}
 				
 				if($act) {
@@ -111,14 +108,14 @@ function checkMismatchedApplications($club_id, $act = false) { //$act means whet
 		}
 	}
 	
-	return $numMismatches;
+	return $mismatches;
 }
 
 //checks for questions without a "home"
 // this means questions whose category or club has been deleted
 // todo: this seems a bit inefficient
 function checkNoHome() {
-	mysql_query("DELETE FROM baseapp WHERE category != '0' AND category != '-1' (SELECT COUNT(id) FROM basecat WHERE id = baseapp.category) < 1");
+	mysql_query("DELETE FROM baseapp WHERE category != '0' AND category != '-1' AND (SELECT COUNT(id) FROM basecat WHERE id = baseapp.category) < 1");
 	mysql_query("DELETE FROM supplements WHERE (SELECT COUNT(id) FROM clubs WHERE id = supplements.club_id) < 1");
 }
 

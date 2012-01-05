@@ -6,28 +6,15 @@ include("../include/session.php");
 
 include("../include/chk.php");
 
-get_root_header();
-
 if(isset($_SESSION['root'])) {
+	$pdfArray = false;
+	
 	if(isset($_REQUEST['delete'])) {
 		checkExtraPDFs(true);
 	} else {
 		$pdfArray = checkExtraPDFs();
-		
-		echo "<ul>";
-		foreach($pdfArray as $path) {
-			echo "<li><a href=\"$path\">$path</a></li>";
-		}
-		echo "</ul>";
 	}
-
-?>
-
-	<form method="post" action="check_pdf.php">
-	<input type="submit" name="delete" value="Delete extra PDFs" />
-	</form>
-
-<?
+	
+	get_page_advanced("check_pdf", "root", array('pdfArray' => $pdfArray));
 }
-get_root_footer();
 ?>

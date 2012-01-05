@@ -1,3 +1,5 @@
+<h1>User details</h1>
+
 <?
 echo "<b>Username</b>: $username<br>";
 

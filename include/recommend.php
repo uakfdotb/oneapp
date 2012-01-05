@@ -190,4 +190,10 @@ function submitRecommendation($recommend_id, $recommendation) {
 	return 0;
 }
 
+function getStatusString($status) {
+	if($status == 0) return "incomplete";
+	else if($status == 1) return "complete (enabled)";
+	else return "complete  (disabled)";
+}
+
 ?>

@@ -33,7 +33,7 @@ html, body {
 #navbar a:hover{color:#ABB4BA; text-align:right;}
 #main{width:auto; display:block; padding:2px 0;}
 #col_holder{width:100%;}
-#col_left{width:25%; height:100%; float:left; background-color:#1A3E5B;}
+#col_left{width:25%; float:left; background-color:#1A3E5B;}
 #col_right{width:75%; float:left;}
 #col_mid, #admin_table{width:60%; margin-left:6%; float:center;}
 div.spacer{clear:both; height:2%; display:block;}
@@ -115,7 +115,7 @@ CUSTOM CLASSES
 }
 
 #spacebox {
-    height:10%;
+    height:2%;
 }
 
 p.admin_table_header{
@@ -150,4 +150,16 @@ tr.bgoff{
 .desc{
     font-size:11px;
     font-style:italic;
+}
+
+#band1{
+	background-color:#DEDEDE;
+}
+
+#band2{
+	background-color:white;
+}
+
+#bandwarning{
+	background-color:#EBC5CA;
 }

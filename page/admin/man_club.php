@@ -1,3 +1,5 @@
+<h1>Club management</h1>
+
 <form method="post" action="man_club.php">
 Description<br> <textarea name="description"><?= $description ?></textarea><br>
 View time <input type="text" name="view_time" value="<?= date('m/d/y H:i:s', $view_time) ?>" /> MM/DD/YY (hh:mm:ss)<br>
