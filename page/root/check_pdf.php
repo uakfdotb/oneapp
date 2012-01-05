@@ -1,3 +1,5 @@
+<h1>Extra PDF check</h1>
+
 <?
 if($pdfArray !== FALSE) {
 	echo "<ul>";

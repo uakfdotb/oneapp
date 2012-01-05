@@ -1,3 +1,5 @@
+<h1>Check for mismatched application answers</h1>
+
 <?
 if(isset($mismatches) && $mismatches !== FALSE) {
 	foreach($mismatches as $mismatch) {
