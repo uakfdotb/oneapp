@@ -4,8 +4,6 @@ include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
-get_admin_header();
-
 if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
 	
@@ -23,26 +21,14 @@ if(isset($_SESSION['admin_id'])) {
 		$result = mysql_query("SELECT description, view_time, open_time, close_time, num_recommend FROM clubs WHERE id='$club_id'");
 		
 		if($row = mysql_fetch_array($result)) {
-?>
-			<form method="post" action="man_club.php">
-			Description<br> <textarea name="description"><?= $row['description'] ?></textarea><br>
-			View time <input type="text" name="view_time" value="<?= date('m/d/y H:i:s', $row['view_time']) ?>" /> MM/DD/YY (hh:mm:ss)<br>
-			Open time <input type="text" name="open_time" value="<?= date('m/d/y H:i:s', $row['open_time']) ?>" /><br>
-			Close time <input type="text" name="close_time" value="<?= date('m/d/y H:i:s', $row['close_time']) ?>" /><br>
-			Number of recommenations <input type="text" name="num_recommend" value="<?= $row['num_recommend'] ?>" /><br>
-			<input type="submit" value="Update" />
-			</form>
-<?
+			get_page_advanced("man_club", "admin", array('description' => $row['description'], 'view_time' => $row['view_time'], 'open_time' => $row['open_time'], 'close_time' => $row['close_time'], 'num_recommend' => $row['num_recommend']));
 		} else {
-			echo "Error: your club cannot be found in the clubs table.<br>";
+			get_page_advanced("message", "admin", array('message' => "Error: your club cannot be found in the clubs table.", 'title' => "Manage Club"));
 		}
 	} else {
-		echo "General application admin does not have a club to manage.<br>";
+		get_page_advanced("message", "admin", array('message' => "General application admin does not have a club to manage.", 'title' => "Manage Club"));
 	}
 } else {
 	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }
-
-
-get_admin_footer();
 ?>

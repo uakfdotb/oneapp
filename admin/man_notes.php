@@ -4,8 +4,6 @@ include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
-get_admin_header();
-
 if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
 	
@@ -21,22 +19,14 @@ if(isset($_SESSION['admin_id'])) {
 		
 		$result = mysql_query("SELECT box_enabled, cat_enabled, comment_enabled FROM admins WHERE id='" . $_SESSION['admin_id'] . "'");
 		
+		$box_enabled = false;
+		$cat_enabled = false;
+		$comment_enabled = false;
+		
 		if($row = mysql_fetch_array($result)) {
-			$box_checked = "";
-			$cat_checked = "";
-			$comment_checked = "";
-			
-			if($row['box_enabled'] == 1) $box_checked = " checked";
-			if($row['cat_enabled'] == 1) $cat_checked = " checked";
-			if($row['comment_enabled'] == 1) $comment_checked = " checked";
-?>
-			<form method="post" action="man_notes.php">
-			<input type="checkbox" name="box_enabled" value="true" <?= $box_checked ?>/> Textboxes enabled
-			<br /><input type="checkbox" name="cat_enabled" value="true" <?= $cat_checked ?>/> Categories enabled
-			<br /><input type="checkbox" name="comment_enabled" value="true" <?= $comment_checked ?>/> Comments enabled
-			<br /><input type="submit" name="notesupdate" value="Update" />
-			</form>
-<?
+			$box_enabled = $row['box_enabled'] == 1;
+			$cat_enabled = $row['cat_enabled'] == 1;
+			$comment_enabled = $row['comment_enabled'] == 1;
 		}
 		
 		//now, the categories for the notes_category feature
@@ -52,27 +42,17 @@ if(isset($_SESSION['admin_id'])) {
 		}
 		
 		$result = mysql_query("SELECT name FROM club_notes_categories WHERE club_id = '$club_id'");
-		echo "<table><tr><th>Category name</th><th>Delete</th></tr>";
+		$categories = array();
 		
 		while($row = mysql_fetch_array($result)) {
-			echo "<tr><td>" . $row[0] . "</td>";
-			echo "<td><form method=\"post\" action=\"man_notes.php?name=" . urlencode($row[0]) . "\">";
-			echo "<input type=\"submit\" name=\"action\" value=\"delete\" />";
-			echo "</form></td></tr>";
+			array_push($categories, $row[0]);
 		}
 		
-		echo "</table>";
-		
-		echo '<form method="POST" action="man_notes.php?action=add">';
-		echo 'Category name <input type="text" name="name" />';
-		echo '<input type="submit" value="Add category" />';
-		echo '</form>';
+		get_page_advanced("man_notes", "admin", array('box_enabled' => $box_enabled, 'cat_enabled' => $cat_enabled, 'comment_enabled' => $comment_enabled, 'categories' => $categories));
 	} else {
-		echo "General application cannot view submissions, so note functions are not available.<br>";
+		get_page_advanced("message", "admin", array('message' => "General application cannot view submissions, so note functions are not available.", 'title' => "Manage Club"));
 	}
 } else {
 	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }
-
-get_admin_footer();
 ?>
