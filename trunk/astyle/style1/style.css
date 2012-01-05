@@ -175,14 +175,14 @@ tr.bgoff{
     margin:0;
 }
 
-#band1{
+.band1{
 	background-color:#DEDEDE;
 }
 
-#band2{
+.band2{
 	background-color:white;
 }
 
-#bandwarning{
+.bandwarning{
 	background-color:#EBC5CA;
 }
