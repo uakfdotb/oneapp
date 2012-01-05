@@ -1,3 +1,2 @@
 admin: better type field handling when adding questions
-user: better handling in the show club details, to see if they already submitted
 user: see list of opened clubs in side nav bar, see status (submited, started, not started) next to each club
