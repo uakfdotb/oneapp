@@ -19,16 +19,16 @@ if(isset($_SESSION['root'])) {
 		}
 	}
 	
-	$result = mysql_query("SELECT id FROM users");
+	$result = mysql_query("SELECT id, accessed FROM users");
 	$profileHeader = getProfile(0); //0 is invalid user ID; returns array of (profile question, user response, ID)
 	
-	$users = array();
+	$users = array(); // array of (last_login_time, (username, email), profile_array)
 	
 	while($row = mysql_fetch_array($result)) {
 		$infoUser = getUserInformation($row[0]); //array of (username, email)
 		$profileUser = getProfile($row[0]);
 		
-		$users[$row[0]] = array($infoUser, $profileUser);
+		$users[$row[0]] = array($row[1], $infoUser, $profileUser);
 	}
 	
 	get_page_advanced("userlist", "root", array('userList' => $users, 'profileHeader' => $profileHeader));

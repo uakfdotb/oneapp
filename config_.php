@@ -31,6 +31,10 @@ $config['lock_time_max'] = 60*5;
 //time it takes for reset to expire; users can only have one reset request at a time
 $config['reset_time'] = 60*60*72;
 
+//time before a user is deleted after registration if they do not access their account
+$config['activation_time'] = 60*60*48;
+
+//maximum number of recommenders that can be added
 $config['max_recommend'] = 10;
 
 $config['root_password'] = '';

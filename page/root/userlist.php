@@ -12,18 +12,22 @@
 	<th><p class="admin_table_header"><?= $item[0] ?></p></th>
 <? } ?>
 
+	<th><p class="admin_table_header">Last active</p></th>
 	<th><p class="admin_table_header">Reset apps</p></th>
 	<th><p class="admin_table_header">Delete user</p></th>
 </tr>
 
 <?
 foreach($userList as $user_id => $user) {
-	$infoUser = $user[0]; //array of (username, email)
-	$profileUser = $user[1]; //contains profile fields
+	$infoUser = $user[1]; //array of (username, email)
+	$profileUser = $user[2]; //contains profile fields
+	
+	$banding = "";
+	if($user[0] == 0) $banding = " id=\"bandwarning\"";
 ?>
 	
 	<form method="post" action="userlist.php">
-	<input type="hidden" name="id" value="<?= $user_id ?>"><tr align="center">
+	<input type="hidden" name="id" value="<?= $user_id ?>"><tr align="center"<?= $banding ?>>
 	<td><p><?= $user_id ?></p></td>
 	<td><p><?= $infoUser[0] ?></p></td>
 	<td><p><?= $infoUser[1] ?></p></td>
@@ -32,6 +36,7 @@ foreach($userList as $user_id => $user) {
 		<td><p><?= $item[1] ?></p></td>
 	<? } ?>
 	
+	<td><p><?= timeString($user[0]) ?></p></td>
 	<td><input type="submit" name="action" value="reset"></td>
 	<td><input type="submit" name="action" value="delete!!"></td>
 	</form></tr>

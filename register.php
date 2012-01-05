@@ -14,7 +14,7 @@ if(isset($_SESSION['user_id'])) {
 	$result = register($_REQUEST['username'], $_REQUEST['email'], $data);
 	
 	if($result == 0) {
-		get_page("message", array("title" => "Registration successful", "message" => "Your account has been created. You should be receiving an email shortly with your login details (you should change your password immediately after logging into your account) and information on how to start your application. Click <a href=\"application/\">here</a> to continue."));
+		get_page("message", array("title" => "Registration successful", "message" => "Your account has been created. You should be receiving an email shortly with your login details (you should change your password immediately after logging into your account) and information on how to start your application. Note that if you login to your account within a certain period, your account will be deleted. Click <a href=\"login.php\">here</a> to continue."));
 	} else if($result == 1) {
 		get_page("message", array("title" => "Error", "message" => "Error: a submitted field is too long. Click <a href=\"register.php\">here</a> to try again."));
 	} else if($result == 3) {

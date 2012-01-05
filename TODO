@@ -1,6 +1,3 @@
 admin: better type field handling when adding questions
-admin: a manual
 user: better handling in the show club details, to see if they already submitted
 user: see list of opened clubs in side nav bar, see status (submited, started, not started) next to each club
-admin: ask if require general app
-auto: delete accounts that have not been signed in for 24 hours ago

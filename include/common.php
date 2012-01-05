@@ -68,13 +68,17 @@ function basePath() {
 	return $basePath;
 }
 
-function timeString() {
+function timeString($time = -1) {
 	global $config;
-	return date($config['time_dateformat']);
+	
+	if($time == -1) $time = time();
+	return date($config['time_dateformat'], $time);
 }
 
-function clubTimeString($time) {
+function clubTimeString($time = -1) {
 	global $config;
+	
+	if($time == -1) $time = time();
 	return date($config['club_dateformat'], $time);
 }
 
@@ -303,10 +307,12 @@ function register($username, $email, $profile) {
 		return 7;
 	}
 	
+	//verify that fields have been properly entered
 	if(strlen($username) == 0 || strlen($email) == 0) {
 		return 1;
 	}
 	
+	//check if registration is enabled
 	$config = $GLOBALS['config'];
 	if(!$config['app_enabled']) {
 		return 8;
@@ -317,10 +323,13 @@ function register($username, $email, $profile) {
 	$gen_password = uid(12);
 	$password = escape(chash($gen_password));
 	
+	//validate email address (after MySQL escaping...)
 	if(!validEmail($email)) {
 		return 3;
 	}
 	
+	//verify that email and username are not in use
+	// we check each one separately to respond with different error codes
 	$result = mysql_query("SELECT id FROM users WHERE email='" . $email . "'");
 	
 	if(mysql_num_rows($result) > 0) {
@@ -333,8 +342,15 @@ function register($username, $email, $profile) {
 		return 5;
 	}
 	
+	$registerTime = time();
+	
+	//delete old accounts
+	// these are accounts that have not been accessed (accessed=0 in oneapp.users) with register_time < time() - config[activation_time]
+	$activeTime = $registerTime - $config['activation_time'];
+	mysql_query("DELETE FROM users WHERE accessed = '0' AND register_time < '$activeTime'");
+	
 	lockAction("register");
-	$result = mysql_query("INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')");
+	$result = mysql_query("INSERT INTO users (username, password, email, register_time, accessed) VALUES ('$username', '$password', '$email', '$registerTime', '0')");
 	
 	if($result !== FALSE) {
 		$user_id = mysql_insert_id();
@@ -427,6 +443,10 @@ function checkLogin($username, $password) {
 	
 	if($row = mysql_fetch_array($result)) {
 		if(strcmp($password, $row['password']) == 0) {
+			//update this user's last login time (users.accessed)
+			$loginTime = time();
+			mysql_query("UPDATE users SET accessed = '$loginTime' WHERE id = '" . $row['id'] . "'");
+			
 			return $row['id'];
 		} else {
 			return -1;
