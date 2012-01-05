@@ -11,8 +11,8 @@ function insertQuestion($varname, $vardesc, $vartype, $club_id, $database, $wher
 		return "type map does not contain required 'type' attribute";
 	}
 	
-	if($varname == '' || $vardesc == '') {
-		return "name or description of variable left blank";
+	if($varname == '' || ($typArray['type'] == "select" && $vardesc == '')) {
+		return "name (or description if type=select) of variable left blank";
 	}
 	
 	if($database != "supplements" && $database != "baseapp") {
@@ -20,7 +20,7 @@ function insertQuestion($varname, $vardesc, $vartype, $club_id, $database, $wher
 	}
 	
 	$varname = escape($varname);
-	$vardesc = escape($vartype);
+	$vardesc = escape($vardesc);
 	$vartype = escape($vartype);
 	
 	//increment from highest orderId
