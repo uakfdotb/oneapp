@@ -61,4 +61,5 @@ while($row = mysql_fetch_array($pagesResult)) {
 <li><b>reset</b>: the message sent to users when they reset their password</li>
 <li><b>request_recommendation</b>: the message sent to a recommender when a user requests a recommendation; note that users can (and should) add a message when requesting a recommendation</li>
 <li><b>forgotusername</b>: the message sent to users when they request their username to be sent to their email address</li>
+<li><b>footertext</b>: changes the footer text for some styles</li>
 </ul>

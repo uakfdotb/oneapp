@@ -16,4 +16,6 @@ $pages['request_recommendation'] = 'A user has requested a recommendation from y
 
 $pages['forgotusername'] = 'A request has been received to send your username to you. If you did not submit this request, please ignore this email; no further action needs to be taken.[br][br]Your username: $USERNAME$[br][br]Thanks,[br]- $site_name$';
 
+$pages['footertext'] = 'Copyright information or other details about your website go here.';
+
 ?>
