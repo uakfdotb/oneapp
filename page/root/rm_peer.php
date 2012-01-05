@@ -1,3 +1,7 @@
+<h1>Remove peer recommendations</h1>
+
+<p>This tool is provided so that you can remove recommendations if a user accidentally requests one or provides an invalid email address. To retrieve the user ID, you should use the User List page. Then, enter the user ID, and a list of recommendations will be displayed. If you press delete, the recommendation request will be deleted (note that the recommender will receive an error if he or she then tries to submit a recommendation).</p>
+
 <form method="GET" action="rm_peer.php">
 User ID: <input type="text" name="user_id" />
 <input type="submit" value="List">

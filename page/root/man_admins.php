@@ -1,5 +1,9 @@
 <h1>Admin management</h1>
 
+<p>The admin management tools allows you to add and remove administrators for clubs. The Club ID can be retrieved from the club management page. An email address is not used but can be provided for your own use. Passwords will be hashed using SHA-1 and securely stored in the database. You can reset an administrator's password using the update function.</p>
+
+<p>Note that if you delete and then re-add an administrator, the only information that will be deleted is the information on this page plus notes features (the textbox, categories, and comments shown on the <b>View Submissions</b> page in the application administration section.</p>
+
 <?
 if(isset($message) && $message != "") {
 	echo "<p>$message</p>";

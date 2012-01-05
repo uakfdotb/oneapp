@@ -1,5 +1,7 @@
 <h1>Category manager</h1>
 
+<p>Here, you can manage the categories for the general application. Note that if you delete a category, the questions in the category will no longer be accessible even if you add another category with the same name (this is because categories are identified by their ID). If you wish to update the name of the category and already have questions in the category, use the update feature (do NOT delete and then re-add with another name).</p>
+
 <?
 if(isset($message) && $message != '') {
 	echo "<p>$message</p>";
