@@ -9,5 +9,7 @@ include("../include/statistics.php");
 if(isset($_SESSION['root'])) {
 	$stat_array = calculateStatistics();
 	get_page_advanced("statistics", "root", array('stat_array' => $stat_array));
+} else {
+	header('Location: index.php');
 }
 ?>

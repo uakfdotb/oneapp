@@ -70,5 +70,7 @@ if(isset($_SESSION['root'])) {
 	}
 	
 	get_page_advanced("man_cat", "root", array('message' => $message, 'catList' => $catList));
+} else {
+	header('Location: index.php');
 }
 ?>

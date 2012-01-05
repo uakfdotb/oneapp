@@ -16,5 +16,7 @@ if(isset($_SESSION['root'])) {
 	}
 	
 	get_page_advanced("check_pdf", "root", array('pdfArray' => $pdfArray));
+} else {
+	header('Location: index.php');
 }
 ?>

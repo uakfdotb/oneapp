@@ -33,5 +33,7 @@ if(isset($_SESSION['root'])) {
 	$result = mysql_query("SELECT name FROM pages");
 	//we can't pass a variable named "page", so we set as "epage" for edit page
 	get_page_advanced("man_pages", "root", array('epage' => $page, 'contents' => $contents, 'pagesResult' => $result));
+} else {
+	header('Location: index.php');
 }
 ?>

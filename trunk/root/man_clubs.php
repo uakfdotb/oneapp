@@ -31,5 +31,7 @@ if(isset($_SESSION['root'])) {
 	
 	$result = mysql_query("SELECT id,name,description FROM clubs");
 	get_page_advanced("man_clubs", "root", array('message' => $message, 'clubsResult' => $result));
+} else {
+	header('Location: index.php');
 }
 ?>

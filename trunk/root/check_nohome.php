@@ -12,5 +12,7 @@ if(isset($_SESSION['root'])) {
 	}
 	
 	get_page_advanced("check_nohome", "root");
+} else {
+	header('Location: index.php');
 }
 ?>

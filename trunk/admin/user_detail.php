@@ -13,6 +13,6 @@ if(isset($_SESSION['admin_id']) && isset($_REQUEST['id'])) {
 	
 	get_page_advanced("user_detail", "admin", array('username' => $username, 'profile' => $profile));
 } else {
-	header('Location: index.php?error=' . urlencode("You are not logged in!"));
+	header('Location: index.php');
 }
 ?>

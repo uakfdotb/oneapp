@@ -31,5 +31,7 @@ if(isset($_SESSION['root'])) {
 	}
 	
 	get_page_advanced("man_admins", "root", array('message' => $message, 'adminList' => $adminList));
+} else {
+	header('Location: index.php');
 }
 ?>
