@@ -7,6 +7,7 @@ include("../include/session.php");
 include("../include/config.php");
 
 if(isset($_SESSION['root'])) {
+	//todo: editing style option will cause session.php to change session style!
 	$option_list = array('mail_smtp', 'mail_username', 'mail_password', 'mail_smtp_host', 'mail_smtp_port', 'site_name', 'organization_name', 'site_address', 'form_array_delimiter', 'max_recommend', 'root_password', 'style', 'app_enabled', 'latex_path', 'time_dateformat', 'club_dateformat', 'page_display', 'page_display_names');
 	$hide_options = array('mail_password', 'root_password');
 	$array_options = array("page_display", "page_display_names");
@@ -15,23 +16,15 @@ if(isset($_SESSION['root'])) {
 	if(isset($_REQUEST['submit'])) {
 		$options = array();
 		
-		$options['mail_smtp'] = escapePHP($_REQUEST['mail_smtp']);
-		$options['mail_username'] = escapePHP($_REQUEST['mail_username']);
-		$options['mail_password'] = escapePHP($_REQUEST['mail_password']);
-		$options['mail_smtp_host'] = escapePHP($_REQUEST['mail_smtp_host']);
-		$options['mail_smtp_port'] = escapePHP($_REQUEST['mail_smtp_port']);
-		$options['site_name'] = escapePHP($_REQUEST['site_name']);
-		$options['organization_name'] = escapePHP($_REQUEST['organization_name']);
-		$options['site_address'] = escapePHP($_REQUEST['site_address']);
-		$options['form_array_delimiter'] = escapePHP($_REQUEST['form_array_delimiter']);
-		$options['max_recommend'] = escapePHP($_REQUEST['max_recommend']);
-		$options['root_password'] = escapePHP($_REQUEST['root_password']);
-		$options['style'] = escapePHP($_REQUEST['style']);
-		$options['app_enabled'] = escapePHP($_REQUEST['app_enabled']);
-		$options['latex_path'] = escapePHP($_REQUEST['latex_path']);
-		$options['time_dateformat'] = escapePHP($_REQUEST['time_dateformat']);
-		$options['club_dateformat'] = escapePHP($_REQUEST['club_dateformat']);
+		foreach($option_list as $option_name) {
+			if(array_key_exists($option_name, $_REQUEST) && !in_array($option_name, $array_options)) {
+				$options[$option_name] = escapePHP($_REQUEST[$option_name]);
+			} else {
+				$options[$option_name] = ''; //this will write previous value
+			}
+		}
 		
+		//todo: load arrays from array automatically
 		$options['page_display'] = toPHPArray($_REQUEST['page_display']);
 		$options['page_display_names'] = toPHPArray($_REQUEST['page_display_names']);
 		
@@ -103,6 +96,6 @@ if(isset($_SESSION['root'])) {
 		}
 	}
 
-	get_page_advanced("man_clubs", "root", array('optionsMap' => $options));
+	get_page_advanced("man_config", "root", array('optionsMap' => $options));
 }
 ?>
