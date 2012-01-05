@@ -6,8 +6,6 @@ include("../include/session.php");
 
 include("../include/config.php");
 
-get_root_header();
-
 if(isset($_SESSION['root'])) {
 	$option_list = array('mail_smtp', 'mail_username', 'mail_password', 'mail_smtp_host', 'mail_smtp_port', 'site_name', 'organization_name', 'site_address', 'form_array_delimiter', 'max_recommend', 'root_password', 'style', 'app_enabled', 'latex_path', 'time_dateformat', 'club_dateformat', 'page_display', 'page_display_names');
 	$hide_options = array('mail_password', 'root_password');
@@ -105,19 +103,6 @@ if(isset($_SESSION['root'])) {
 		}
 	}
 
-	echo '<form method="post" action="man_config.php">';
-	
-	for($i = 0; $i < count($option_list); $i++) {
-		$option_name = $option_list[$i];
-		$option_value = "";
-		if(array_key_exists($option_name, $options)) {
-			$option_value = $options[$option_name];
-		}
-		
-		echo $option_list[$i] . ' <input type="text" name="' . $option_name . '" value="' . htmlspecialchars($option_value) . '"><br>';
-	}
-	echo '<input type="submit" name="submit" value="Submit"></form>';
+	get_page_advanced("man_clubs", "root", array('optionsMap' => $options));
 }
-
-get_root_footer();
 ?>

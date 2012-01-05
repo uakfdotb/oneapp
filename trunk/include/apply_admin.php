@@ -31,7 +31,7 @@ function insertQuestion($varname, $vardesc, $vartype, $club_id, $database, $wher
 		else $orderId = escape($row[0] + 1);
 	
 		if($club_id == 0) {
-			mysql_query("INSERT INTO baseapp (orderId, varname, vardesc, vartype, category) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '$category')");
+			mysql_query("INSERT INTO baseapp (orderId, varname, vardesc, vartype, category) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '" . $_SESSION['category'] . "')");
 		} else {
 			mysql_query("INSERT INTO supplements (orderId, varname, vardesc, vartype, club_id) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '$club_id')");
 		}

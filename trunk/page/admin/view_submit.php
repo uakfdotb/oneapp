@@ -1,4 +1,4 @@
-<div id="spacebox"></div>
+<h1>View submissions</h1>
 
 <?
 //box filter manager

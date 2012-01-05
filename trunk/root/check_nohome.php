@@ -6,20 +6,11 @@ include("../include/session.php");
 
 include("../include/chk.php");
 
-get_root_header();
-
 if(isset($_SESSION['root'])) {
 	if(isset($_REQUEST['delete'])) {
 		checkNoHome();
 	}
-
-?>
-
-	<form method="post" action="check_nohome.php">
-	<input type="submit" name="delete" value="Delete questions whose club/category has been deleted" />
-	</form>
-
-<?
+	
+	get_page_advanced("check_nohome", "root");
 }
-get_root_footer();
 ?>

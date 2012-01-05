@@ -1,3 +1,5 @@
+<h1>Notes feature selector</h1>
+
 <form method="post" action="man_notes.php">
 <input type="checkbox" name="box_enabled" value="true" <?= $box_enabled ? "checked" : "" ?>/> Textboxes enabled
 <br /><input type="checkbox" name="cat_enabled" value="true" <?= $cat_enabled ? "checked" : "" ?>/> Categories enabled
