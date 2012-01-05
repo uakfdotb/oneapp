@@ -17,7 +17,7 @@ username: the user's username
 password: the user's password, hashed with chash() in common.php
 email: the user's email address
 register_time: the time() when the user registered his/her account
-accessed: boolean (0 or 1) on whether the user has logged in; initially 0, and set to 1 on every login
+accessed: time() when the user last logged in, or 0 if they have never logged in (set to 0 after registration)
 
 reset: contains list of reset requests
 -----
