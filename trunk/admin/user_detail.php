@@ -4,8 +4,6 @@ include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
-get_admin_header();
-
 if(isset($_SESSION['admin_id']) && isset($_REQUEST['id'])) {
 	//todo: admins currently can get information of users that didn't apply to their club
 	$user_id = escape($_REQUEST['id']);
@@ -13,14 +11,8 @@ if(isset($_SESSION['admin_id']) && isset($_REQUEST['id'])) {
 	$username = $userinfo[0];
 	$profile = getProfile($user_id);
 	
-	echo "<b>Username</b>: $username<br>";
-	
-	foreach($profile as $item) {
-		echo "<b>" . $item[0] . "</b>: " . $item[1] . "<br>";
-	}
+	page_advanced_include("user_detail", "admin", array('username' => $username, 'profile' => $profile);
 } else {
 	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }
-
-get_admin_footer();
 ?>

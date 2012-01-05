@@ -4,8 +4,6 @@ include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
-get_admin_header();
-
 $errorMessage = "";
 
 if(isset($_REQUEST['error'])) {
@@ -27,58 +25,8 @@ if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
 }
 
 if(isset($_SESSION['admin_id'])) {
-?>
-
-	<h1>Welcome Administrator</h1>
-	<p>This is your home. From here you have multiple options available to the right.</p>
-	<p>Please note, your club application will remain closed unless you activate it from <a href="man_club.php">Manage Club Information</a>.</p> 
-
-<?
+	get_page_advanced("index", "admin");
 } else {
-?>
-
-	<h1>Administrator Page</h1>
-	<p>Log in with the Usename and Password given to you by your root owner. If you do not have one please contact them and ask them to give you one. Root owners have all privledges granted. Please contact your local root before contacting us about any problems!</p>
-
-	<div id="admin_table">
-	<div id="admin_login">
-	<table cellpadding="0" cellspacing="0" width=100%>
-	<tr id="admin_login"><td id="admin_login"><h2>Log In</h2></td></tr>
-	<tr id="admin_form">
-
-		<form method="POST" action="index.php">
-		<table>
-		<tr id="admin_username">
-		<td><p id="admin_username" align="right">Username:</p></td>
-		<td><input type="text" name="username"/></td>
-		</tr>
-		<tr id="admin_password">
-		<td><p id="admin_password" align="right">Password:</p></td>
-		<td><input type="password" name="password"/></td>
-		</tr>
-		<tr id="admin_submit">
-		<td colspan="2" align="right"><input type="submit" value="Submit" align="center"/></td>
-		</tr>
-		</table>
-		</form>
-
-	</tr>
-
-	<?
-	if(isset($errorMessage) && $errorMessage != "") {
-	?>
-		<tr id="admin_login_error"><td id="admin_login_error" colspan="2"><p id="admin_login_error" class="center"><?= $errorMessage ?></p></td></tr>
-	<?
-	}
-	?>
-
-
-	</table>
-	</div>
-	</div>
-
-<?
+	get_page_advanced("index_login", "admin", array('message' => $errorMessage));
 }
-
-get_admin_footer();
 ?>

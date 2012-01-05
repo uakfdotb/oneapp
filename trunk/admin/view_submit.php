@@ -6,8 +6,6 @@ include("../include/session.php");
 
 include("../include/apply_submit.php");
 
-get_admin_header();
-
 if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
 	
@@ -17,12 +15,17 @@ if(isset($_SESSION['admin_id'])) {
 	$box_enabled = ($row['box_enabled'] == 1) ? true : false;
 	$cat_enabled = ($row['cat_enabled'] == 1) ? true : false;
 	$comment_enabled = ($row['comment_enabled'] == 1) ? true : false;
+	
+	//defaults
+	$toolsMap = array();
+	$catList = array();
+	$catFilter = "";
+	$boxFilter = "";
 		
 	//we will need to construct a map from the application database IDs to the box and category note values if enabled
 	// we do this now so that we can check if an entry exists already for updating the notes table
 	if($box_enabled || $cat_enabled || $comment_enabled) {
 		$toolsResult = mysql_query("SELECT application_id, box, category, comments FROM club_notes WHERE club_id = '$club_id'");
-		$toolsMap = array();
 	
 		while($row = mysql_fetch_array($toolsResult)) {
 			$toolsMap[$row['application_id']] = array($row['box'], $row['category'], $row['comments']);
@@ -76,7 +79,7 @@ if(isset($_SESSION['admin_id'])) {
 	if($box_enabled) {
 		//filter might already be set, so retrieve it
 		// todo: somehow merge this code with the catfilter code, because it's the same..
-		$boxFilter = "";
+		
 		if(isset($_REQUEST['boxFilter'])) {
 			//store filter in session so that we can get it when user changes something
 			// this way, we don't have to worry about setting it everywhere
@@ -85,26 +88,19 @@ if(isset($_SESSION['admin_id'])) {
 		} else if(isset($_SESSION['boxFilter'])) {
 			$boxFilter = $_SESSION['boxFilter'];
 		}
-	
-		//just show a field with the filter text written by default
-		echo '<form method="POST" action="view_submit.php">';
-		echo "Textbox filter: <input type=\"text\" name=\"boxFilter\" value=\"$boxFilter\">";
-		echo "<input type=\"submit\" value=\"Filter\">";
-		echo "</form>";
 	}
 	
 	//category filter manager
 	if($cat_enabled) {
 		//first, we retrieve a list of categories (this will be used in dropdown as well)
 		$catResult = mysql_query("SELECT name FROM club_notes_categories WHERE club_id = '$club_id'");
-		$catList = array();
 	
 		while($row = mysql_fetch_array($catResult)) {
 			array_push($catList, $row[0]);
 		}
 	
 		// filter might already be set, so retrieve it
-		$catFilter = "";
+		
 		if(isset($_REQUEST['catFilter'])) {
 			//store catfilter in session so that we can get it when user changes something
 			// this way, we don't have to worry about setting it everywhere
@@ -113,92 +109,13 @@ if(isset($_SESSION['admin_id'])) {
 		} else if(isset($_SESSION['catFilter'])) {
 			$catFilter = $_SESSION['catFilter'];
 		}
-	
-		// now, we give user a filter selection dropdown, preselecting the current filter if any
-		echo '<form method="POST" action="view_submit.php">';
-		echo "Category filter: <select name=\"catFilter\">";
-		echo "<option value=\"\">No filtering</option>";
-	
-		foreach($catList as $catElement) {
-			$selectedString = ($catElement == $catFilter) ? " selected" : "";
-			echo "<option value=\"$catElement\"$selectedString>$catElement</option>";
-		}
-	
-		echo "</select><input type=\"submit\" value=\"Filter\">";
-		echo "</form>";
 	}
 	
 	//list the applications, applying filters only when we loop (inefficient but okay)
 	$array = listCompletedApplications($club_id);
-
-	echo "<table><tr><th><p class=\"admin_table_header\">App ID</p></th><th><p class=\"admin_table_header\">User ID</p></th><th><p class=\"admin_table_header\">General application</p></th><th><p class=\"admin_table_header\">Supplement</p></th><th><p class=\"admin_table_header\">Recommendations</p></th>";
 	
-	if($box_enabled) echo "<th><p class=\"admin_table_header\">The Box</p></th>";
-	if($cat_enabled) echo "<th><p class=\"admin_table_header\">Category</p></th>";
-	if($comment_enabled) echo "<th><p class=\"admin_table_header\">Comments</p></th>";
-	if($box_enabled || $cat_enabled) echo "<th><p class=\"admin_table_header\">Update</p></th>"; //comments are updated through separate page
-	
-	echo "</tr>";
-
-	foreach($array as $item) {
-		$appId = $item[0];
-		
-		//filtering; skip if match fails
-		if($box_enabled && $boxFilter != "" && (!isset($toolsMap[$appId]) || strpos($toolsMap[$appId][0], $boxFilter) === FALSE)) continue;
-		if($cat_enabled && $catFilter != "" && (!isset($toolsMap[$appId]) || $toolsMap[$appId][1] != $catFilter)) continue;
-		
-		//form needed in case the update categories or box
-		if($box_enabled || $cat_enabled) echo "<form method=\"post\" action=view_submit.php?id=$appId>";
-		
-		$userId = '<p><a href="user_detail.php?id=' . $item[1] . '">' . $item[1] . '</a></p>';
-		$generalApp = '<p><a href="../submit/' . $item[2] . '.pdf">Download</a></p>';
-		$supplement = '<p><a href="../submit/' . $item[3] . '.pdf">Download</a></p>';
-		
-		$peerString = "";
-		foreach($item[4] as $peerEntry) {
-			$peerString .= '<a href="../submit/' . $peerEntry . '.pdf">Download</a> | ';
-		}
-	
-		echo "<tr><td><p>$appId</p></td><td>$userId</td><td>$generalApp</td><td>$supplement</td><td>$peerString</td>";
-		
-		if($box_enabled) {
-			if(isset($toolsMap[$appId])) $boxValue = $toolsMap[$appId][0];
-			else $boxValue = "";
-			
-			echo "<td><input type=\"text\" value=\"$boxValue\" name=\"box\" /></td>";
-		}
-		
-		if($cat_enabled) {
-			if(isset($toolsMap[$appId])) $catValue = $toolsMap[$appId][1];
-			else $catValue = "";
-			
-			//display a list of categories, and pre-select the catValue on dropdown
-			echo "<td><select name=\"category\">";
-			
-			foreach($catList as $catElement) {
-				$selectedString = ($catElement == $catValue) ? " selected" : "";
-				echo "<option name=\"$catElement\"$selectedString>$catElement</option>";
-			}
-			
-			echo "</select></td>";
-		}
-		
-		if($comment_enabled) {
-			echo "<td><p><a href=\"comments.php?id=$appId\">comments</a></p></td>";
-		}
-		
-		if($box_enabled || $cat_enabled) { //comments are updated through separate page
-			echo '<td><input type="submit" value="update" /></td>';
-		}
-		
-		if($box_enabled || $cat_enabled) echo "</form>";
-		echo '</tr>';
-	}
-	
-	echo "</table>";
+	get_page_advanced("view_submit", "admin", array("box_enabled" => $box_enabled, "cat_enabled" => $cat_enabled, "comment_enabled" => $comment_enabled, "catList" => $catList, "catFilter" => $catFilter, "boxFilter" => $boxFilter, "toolsMap" => $toolsMap, "array" => $array));
 } else {
 	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }
-
-get_admin_footer();
 ?>

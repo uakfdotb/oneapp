@@ -41,11 +41,31 @@ function toArray($str, $main_delimiter = ";", $sub_delimiter = ":") {
 	return $array;
 }
 
-//returns a path to the include directory, without trailing slash
+//returns an absolute path to the include directory, without trailing slash
 function includePath() {
 	$self = __FILE__;
 	$lastSlash = strrpos($self, "/");
 	return substr($self, 0, $lastSlash);
+}
+
+//returns a relative path to the oneapp/ directory, without trailing slash
+function basePath() {
+	$commonPath = __FILE__;
+	$requestPath = $_SERVER['SCRIPT_FILENAME'];
+	
+	//count the number of slashes
+	// number of .. needed for include level is numslashes(request) - numslashes(common)
+	// then add one more to get to base
+	$commonSlashes = substr_count($commonPath, '/');
+	$requestSlashes = substr_count($requestPath, '/');
+	$numParent = $requestSlashes - $commonSlashes + 1;
+	
+	$basePath = ".";
+	for($i = 0; $i < $numParent; $i++) {
+		$basePath .= "/..";
+	}
+	
+	return $basePath;
 }
 
 function timeString() {
@@ -109,15 +129,14 @@ function get_page($page, $args = array()) {
 	$page_display = $config['page_display'];
 	$page_display_names = $config['page_display_names'];
 	
-	if(!isset($base_path)) {
-		$base_path = "";
-	}
+	$basePath = basePath();
 	
-	$style_page_include = $base_path . "style/style" . stripAlphaNumeric($_SESSION['style']) . "/page_" . $page . ".php";
-	$page_include = $base_path . "page/page_" . $page . ".php";
-	$stylepath = $base_path . "style";
+	$style = stripAlphaNumeric($_SESSION['style']);
+	$style_page_include = $basePath . "/style/style$style/page/$page.php";
+	$page_include = $basePath . "/page/$page.php";
+	$stylepath = $basePath . "/style";
 	
-	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
+	include("$stylepath/header$style.php");
 	
 	if(file_exists($style_page_include)) {
 		include($style_page_include);
@@ -125,31 +144,34 @@ function get_page($page, $args = array()) {
 		include($page_include);
 	}
 	
-	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
+	include("$stylepath/footer$style.php");
 }
 
-function get_page_apply($page, $args = array()) {
+function get_page_advanced($page, $context, $args = array()) {
 	//let pages use some variables
 	extract($args);
 	$config = $GLOBALS['config'];
 	$timeString = timeString();
 	
 	//figure out what pages need to be displayed
-	$page_display = $config['apply_page_display'];
-	$page_display_names = $config['apply_page_display_names'];
-	
-	$side_display = $config['apply_side_display'];
-	$side_display_names = $config['apply_side_display_names'];
-	
-	if(!isset($base_path)) {
-		$base_path = "../";
+	if($context != "apply" && $context != "root" && $context != "admin") {
+		$context = "apply"; //this should never happen
 	}
 	
-	$style_page_include = $base_path . "astyle/style" . stripAlphaNumeric($_SESSION['style']) . "/page_a_" . $page . ".php";
-	$page_include = $base_path . "page/page_a_" . $page . ".php";
-	$stylepath = $base_path . "astyle";
+	$page_display = $config[$context . '_page_display'];
+	$page_display_names = $config[$context . '_page_display_names'];
 	
-	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
+	$side_display = $config[$context . '_side_display'];
+	$side_display_names = $config[$context . '_side_display_names'];
+	
+	$basePath = basePath();
+	
+	$style = stripAlphaNumeric($_SESSION['style']);
+	$style_page_include = $basePath . "/astyle/style$style/$context/$page.php";
+	$page_include = $basePath . "/page/$context/$page.php";
+	$stylepath = $basePath . "/astyle";
+	
+	include("$stylepath/header$style.php");
 	
 	if(file_exists($style_page_include)) {
 		include($style_page_include);
@@ -157,69 +179,32 @@ function get_page_apply($page, $args = array()) {
 		include($page_include);
 	}
 	
-	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
+	include("$stylepath/footer$style.php");
 }
 
-function get_admin_header() {
+
+//this is called from pages to include another page
+function page_advanced_include($target, $context, $args = array()) {
+	//let pages use some variables
+	extract($args);
 	$config = $GLOBALS['config'];
 	$timeString = timeString();
 	
-	$page_display = $config['admin_page_display'];
-	$page_display_names = $config['admin_page_display_names'];
-	$side_display = $config['admin_side_display'];
-	$side_display_names = $config['admin_side_display_names'];
+	if($context != "apply" && $context != "root" && $context != "admin") {
+		$context = "apply"; //this should never happen
+	}
 	
-	$base_path = "../";
-	$stylepath = $base_path . "astyle";
+	$basePath = basePath();
 	
-	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
-	echo "<div id=\"spacebox\"></div>";
-}
-
-function get_admin_footer() {
-	$config = $GLOBALS['config'];
-	$timeString = timeString();
+	$style = stripAlphaNumeric($_SESSION['style']);
+	$style_page_include = $basePath . "/astyle/style$style/$context/$target.php";
+	$page_include = $basePath . "/page/$context/$target.php";
 	
-	$page_display = $config['admin_page_display'];
-	$page_display_names = $config['admin_page_display_names'];
-	$side_display = $config['admin_side_display'];
-	$side_display_names = $config['admin_side_display_names'];
-	
-	$base_path = "../";
-	$stylepath = $base_path . "astyle";
-	
-	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
-}
-
-function get_root_header() {
-	$config = $GLOBALS['config'];
-	$timeString = timeString();
-	
-	$page_display = $config['root_page_display'];
-	$page_display_names = $config['root_page_display_names'];
-	$side_display = $config['root_side_display'];
-	$side_display_names = $config['root_side_display_names'];
-	
-	$base_path = "../";
-	$stylepath = $base_path . "astyle";
-	
-	include("$stylepath/header" . stripAlphaNumeric($_SESSION['style']) . ".php");
-	echo "<div id=\"spacebox\"></div>";
-}
-
-function get_root_footer() {
-	$config = $GLOBALS['config'];
-	$timeString = timeString();
-	
-	$page_display = $config['root_page_display'];
-	$page_display_names = $config['root_page_display_names'];
-	$side_display = $config['root_side_display'];
-	$side_display_names = $config['root_side_display_names'];
-	
-	$base_path = "../";
-	$stylepath = $base_path . "astyle";
-	
-	include("$stylepath/footer" . stripAlphaNumeric($_SESSION['style']) . ".php");
+	if(file_exists($style_page_include)) {
+		include($style_page_include);
+	} else {
+		include($page_include);
+	}
 }
 
 function page_exists($page) {
@@ -318,6 +303,10 @@ function register($username, $email, $profile) {
 		return 7;
 	}
 	
+	if(strlen($username) == 0 || strlen($email == 0)) {
+		return 1;
+	}
+	
 	$config = $GLOBALS['config'];
 	if(!$config['app_enabled']) {
 		return 8;
@@ -384,16 +373,20 @@ function updateAccount($user_id, $oldPassword, $newPassword, $newPasswordConfirm
 		$set_string = "";
 		
 		if(strlen($newPassword) > 0 || strlen($newPasswordConfirm) > 0) {
-			if($newPassword == $newPasswordConfirm) {
-				$validPassword =  validPassword($newPassword);
+			if(strlen($newPassword) >= 6) { //enforce minimum password length of six
+				if($newPassword == $newPasswordConfirm) {
+					$validPassword =  validPassword($newPassword);
 			
-				if($validPassword == 0) {
-					$set_string .= "password = '" . escape(chash($newPassword)) . "', ";
+					if($validPassword == 0) {
+						$set_string .= "password = '" . escape(chash($newPassword)) . "', ";
+					} else {
+						return $validPassword;
+					}
 				} else {
-					return $validPassword;
+					return 11;
 				}
 			} else {
-				return 11;
+				return 1;
 			}
 		}
 		
