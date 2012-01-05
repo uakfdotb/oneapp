@@ -20,7 +20,7 @@ if(isset($message) && $message != '') {
 while($row = mysql_fetch_array($clubsResult)) {
 ?>
 	<form method="post" action="man_clubs.php">
-	<input type="hidden" name="id" value="<? $row['id'] ?>">
+	<input type="hidden" name="id" value="<?= $row['id'] ?>">
 	<tr align="center"><td><p><?= $row['id'] ?></p></td>
 	<td><p><?= $row['name'] ?></p></td>
 	<td><textarea name="description" style="width:100%;resize:none"><?= $row['description'] ?></textarea></td>
