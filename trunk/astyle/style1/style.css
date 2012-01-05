@@ -139,8 +139,8 @@ CUSTOM CLASSES
     height:2%;
 }
 
-p.admin_table_header{
-    color:red;
+.admin_table_header{
+    color:#1A3E5B;
     font-weight:bold;
 }
 
@@ -148,7 +148,7 @@ tr#admin_login{
 	background-color:#1A3E5B;
 }
 
-td#admin_login{
+tr#admin_login{
 	text-align:center;
 }
 
