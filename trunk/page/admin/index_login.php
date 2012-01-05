@@ -1,5 +1,6 @@
 <h1>Administrator Page</h1>
-<p>Log in with the Usename and Password given to you by your root owner. If you do not have one please contact them and ask them to give you one. Root owners have all privledges granted. Please contact your local root before contacting us about any problems!</p>
+
+<p>Log in with the administrator username and password. These are added through <b>Admin Management</b> in the root administration section. If you do not know your username and password, then you should contact your root administrator.</p>
 
 <div id="admin_table">
 <div id="admin_login">

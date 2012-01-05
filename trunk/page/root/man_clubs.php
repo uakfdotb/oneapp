@@ -1,5 +1,7 @@
 <h1>Club manager</h1>
 
+<p>This manager allows you to add, remove, and edit clubs. If you delete a club that has a supplement, the supplement will no longer be accessible (and you can delete these residual questions through the <b>Delete questions without a home</b> tool). Also, you will need to create one or more admins for a club before the club information can be edited.</p>
+
 <?
 if(isset($message) && $message != '') {
 	echo "<p>$message</p>";

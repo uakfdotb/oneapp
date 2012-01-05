@@ -1,5 +1,7 @@
 <h1>Configuration Editor</h1>
 
+<p>Here, you can manage your configuration. You should not edit this page unless you know what you are doing! Also, note that this page will only work if the permissions of config.php are set such that the webserver user can write to it.</p>
+
 <form method="post" action="man_config.php">
 <table>
 

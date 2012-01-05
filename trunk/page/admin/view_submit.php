@@ -1,5 +1,7 @@
 <h1>View submissions</h1>
 
+<p>A list of submissions appears below. Certain features allow you to better organize your submissions if you are evaluating them online, and can be enabled <a href="man_notes.php">here</a>. Otherwise, simply print the general application, supplement, and any peer recommendations for the users.</p>
+
 <?
 //box filter manager
 if($box_enabled) { //just show a field with the filter text written by default

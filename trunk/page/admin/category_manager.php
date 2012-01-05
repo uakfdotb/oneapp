@@ -1,3 +1,5 @@
+<!-- This is an included category manager, not an actual page. This page should only display the update category form. -->
+
 <?
 if($_SESSION['category'] != -2) {
 ?>

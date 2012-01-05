@@ -1,3 +1,7 @@
+<h1>User List</h1>
+
+<p>Here, all registered users are listed. Note that this includes users who have registered but not logged in yet (highlighted). <b>Reset apps</b> will delete all applications and responses of the user from the database, including on the general application. <b>Delete user</b> will delete the user completely (but will not delete applications and responses).</p>
+
 <table width=100% class="borderon">
 <tr>
 	<th><p class="admin_table_header">ID</p></th>

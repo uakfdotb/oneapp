@@ -1,5 +1,9 @@
 <h1>Question Manager</h1>
 
+<p>Here, you can customize your application. You can either add one question at a time, or multiple questions. With multiple questions, the name goes on the first line, then the description, then the type on the third line.</p>
+
+<p>If you are not sure what to do here, you should use the <b>Easy Question Adder</b> to generate the name, description, and type (then, copy and paste the output to the form on the right). NOTE: at the time of this message, the easy question adder is still in development.</p>
+
 <?
 page_advanced_include("category_manager", "admin", array("categories" => $categories));
 

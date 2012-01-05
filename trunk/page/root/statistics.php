@@ -1,5 +1,7 @@
 <h1>Statistics</h1>
 
+<p>This page shows general statistics for your website. Most of the fields should be self-explanatory and are simple counts.</p>
+
 <table>
 <tr>
 	<th><p class="admin_table_header">Name</p></th>
