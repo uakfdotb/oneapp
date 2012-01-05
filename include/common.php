@@ -303,7 +303,7 @@ function register($username, $email, $profile) {
 		return 7;
 	}
 	
-	if(strlen($username) == 0 || strlen($email == 0)) {
+	if(strlen($username) == 0 || strlen($email) == 0) {
 		return 1;
 	}
 	
