@@ -43,13 +43,13 @@ $config['page_display'] = array('index', 'dbpage.php?page=about', 'login', 'regi
 $config['page_display_names'] = array('Home', 'About Us', 'Login', 'Register', 'Contact Us');
 
 $config['apply_page_display'] = array('index', 'account', 'logout');
-$config['apply_page_display_names'] = array('Home', 'Account', 'Logout');
+$config['apply_page_display_names'] = array('My Workspace', 'Account', 'Logout');
 
 $config['apply_side_display'] = array('clubs', 'base', 'supplement', 'peer');
 $config['apply_side_display_names'] = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations');
 
 $config['admin_page_display'] = array('index', 'index.php?action=logout&ex=');
-$config['admin_page_display_names'] = array('Home', 'Logout');
+$config['admin_page_display_names'] = array('Admin Home', 'Logout');
 
 $config['admin_side_display'] = array('man_questions', 'view_submit', 'man_club', 'preview', 'man_notes', 'gen_pdf');
 $config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'Manage club information', 'Preview application', 'Notes settings', 'Generate PDF');
@@ -58,7 +58,7 @@ $config['root_page_display'] = array('index', 'index.php?action=logout&ex=');
 $config['root_page_display_names'] = array('Home', 'Logout');
 
 $config['root_side_display'] = array('index', 'man_pages', 'man_admins', 'man_cat', 'man_clubs', 'userlist', 'rm_peer', 'check_pdf', 'check_nohome', 'check_mismatch', 'statistics', 'man_config');
-$config['root_side_display_names'] = array('Home', 'Manage pages', 'Manage admins', 'Manage categories', 'Manage clubs', 'User list', 'Remove recommendations', 'Check extra PDFs', 'Check questions without a home', 'Check mismatched applications', 'Statistics', 'Edit configuration');
+$config['root_side_display_names'] = array('Root Home', 'Manage pages', 'Manage admins', 'Manage categories', 'Manage clubs', 'User list', 'Remove recommendations', 'Check extra PDFs', 'Check questions without a home', 'Check mismatched applications', 'Statistics', 'Edit configuration');
 
 $config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the current time
 $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements
