@@ -4,6 +4,8 @@
 
 <p>If you are not sure what to do here, you should use the <b>Easy Question Adder</b> to generate the name, description, and type (then, copy and paste the output to the form on the right). NOTE: at the time of this message, the easy question adder is still in development.</p>
 
+<p>You can also <a href="man_questions.php?action=deleteall">delete all questions</a>.</p>
+
 <?
 page_advanced_include("category_manager", "admin", array("categories" => $categories));
 
