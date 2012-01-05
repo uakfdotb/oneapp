@@ -19,8 +19,14 @@ if(isset($_SESSION['root'])) {
 			$contents = page_db_part($page);
 		} else if($_REQUEST['action'] == "Delete") {
 			deletePage($page);
-		} else if($_REQUEST['action'] == "add") {
-			savePage($page, "");
+		} else if($_REQUEST['action'] == "Add") {
+			include_once("../include/default_pages.php");
+			
+			if(array_key_exists($page, $pages)) {
+				savePage($page, $pages[$page]);
+			} else {
+				savePage($page, "");
+			}
 		}
 	}
 
