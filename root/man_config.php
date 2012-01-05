@@ -97,5 +97,7 @@ if(isset($_SESSION['root'])) {
 	}
 
 	get_page_advanced("man_config", "root", array('optionsMap' => $options));
+} else {
+	header('Location: index.php');
 }
 ?>

@@ -32,5 +32,7 @@ if(isset($_SESSION['root'])) {
 	}
 	
 	get_page_advanced("userlist", "root", array('userList' => $users, 'profileHeader' => $profileHeader));
+} else {
+	header('Location: index.php');
 }
 ?>

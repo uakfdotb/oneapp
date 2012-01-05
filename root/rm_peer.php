@@ -24,5 +24,7 @@ if(isset($_SESSION['root'])) {
 	}
 	
 	get_page_advanced("rm_peer", "root", array('user_id' => $user_id, 'recommendationResult' => $recommendationResult));
+} else {
+	header('Location: index.php');
 }
 ?>

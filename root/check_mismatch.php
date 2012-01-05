@@ -18,5 +18,7 @@ if(isset($_SESSION['root'])){
 		}
 	}
 	get_page_advanced("check_mismatch", "root", array('mismatches' => $mismatches));
+} else {
+	header('Location: index.php');
 }
 ?>
