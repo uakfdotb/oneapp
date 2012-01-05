@@ -1,0 +1,72 @@
+========
+= oneapp
+========
+
+License
+-------
+
+oneapp is released under the GNU GPL v3.0.
+
+Get oneapp
+----------
+
+First, you will want to download the oneapp system. The recommended method is to do an SVN checkout:
+	svn checkout http://oneapp.googlecode.com/svn/trunk/ oneapp
+
+You probably want to export to get rid of svn directories:
+	svn export oneapp oneapp_work
+
+Alternatively, you can access the project page at http://code.google.com/p/oneapp/, select Downloads, and download the latest version.
+
+Installation
+------------
+
+First, create a database and set it up with install.sql:
+	mysql -u root -p
+		[enter password]
+		CREATE DATABASE oneapp;
+		use oneapp;
+		source path/to/oneapp/install.sql
+
+You should also create a separate user with only permissions to modify the new database:
+		GRANT ALL ON oneapp.* TO 'oneapp'@'localhost' IDENTIFIED BY 'password';
+		exit
+
+Now, copy config_.php to config.php:
+	cd path/to/oneapp
+	cp config_.php config.php
+
+Open up config.php in your favorite editor and set at least the following fields:
+	db_name: the database name, 'oneapp' in this example
+	db_hostname: the database host; 'localhost' if your MySQL server will be on the same server as your web server
+	db_username: the database username, 'oneapp' in this example
+	db_password: the database password, 'password' in this example
+	
+	mail_smtp: true if you wish to send mail through SMTP, or false to send directly (via PHP mail() command)
+	mail_username: the email address to send from; also SMTP username if using mail_smtp
+	mail_password: the password if sending through another mail server
+	mail_smtp_host: the host if sending through another mail server; protocol should be included (like ssl://smtp.gmail.com)
+	mail_smtp_port: the port if sending through another mail server; default 25 if no encryption, 465 if SSL
+	
+	site_name: the name of the website
+	organization_name: the name of your organization (e.g., the school name)
+	site_address: URL where oneapp will be accessed later
+	
+	root_password: password to access the root administration area
+
+Good job! You're done configuring oneapp. Now, you still need to install a few packages for oneapp to work (assuming you already have a webserver, PHP, and MySQL). On Debian and similar systems:
+	sudo aptitude install texlive-latex-recommended php-pear
+
+If mail_smtp is true:
+	pear install Net_SMTP Mail
+
+Alright, now copy over oneapp to your webroot:
+	cp -r oneapp /var/www/oneapp
+
+And go to [site_address] and see if everything is working properly.
+You should then be able to go to [site_address]/root to enter the root administration area, and then login with your root password that you set earlier.
+
+Find any bugs? Have any feature requests? Submit using our issue tracker at http://code.google.com/p/oneapp/issues/list
+Want to use our hosting? Visit http://one-app.org/ (a fee to support our hosting servers is required).
+Want to see a simple demo? http://demo.one-app.org/
+Have a nice day!
