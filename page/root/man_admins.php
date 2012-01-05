@@ -34,9 +34,9 @@ if(isset($message) && $message != "") {
 
 <table width=100%>
 <tr>
-	<th><p class="admin_table_header">Username</th></p>
+	<th><p class="admin_table_header">Club ID</th></p>
+	<th><p class="admin_table_header">Username</p></th>
 	<th><p class="admin_table_header">Email</p></th>
-	<th><p class="admin_table_header">Club ID</p></th>
 	<th><p class="admin_table_header">Change pass</p></th>
 	<th><p class="admin_table_header">Update</p></th>
 	<th><p class="admin_table_header">Delete</p></th>
@@ -47,12 +47,13 @@ foreach($adminList as $item) {
 ?>
 	<form method="post" action="man_admins.php">
 	<input type="hidden" name="id" value="<?= $item[0] ?>">
-	<tr><td><input type="text" name="username" value="<?= $item[1] ?>" style="width:100%"></td>
-	<td><input type="text" name="email" value="<?= $item[2] ?>" style="width:100%"></td>
-	<td><input type="text" name="club_id" value="<?= $item[3] ?>" style="width:100%"></td>
-	<td><input type="password" name="password" style="width:100%"></td>
-	<td><input type="submit" name="action" value="update"></td>
-	<td><input type="submit" name="action" value="delete"></td>
+	<tr>
+		<td><input type="text" name="club_id" value="<?= $item[1] ?>" style="width:100%"></td>
+		<td><input type="text" name="username" value="<?= $item[2] ?>" style="width:100%"></td>
+		<td><input type="text" name="email" value="<?= $item[3] ?>" style="width:100%"></td>
+		<td><input type="password" name="password" style="width:100%"></td>
+		<td><input type="submit" name="action" value="update"></td>
+		<td><input type="submit" name="action" value="delete"></td>
 	</tr>
 	</form>
 <?
