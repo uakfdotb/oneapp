@@ -6,9 +6,9 @@ if(isset($message)) {
 }
 ?>
 
-<p>The recommendations that you have already requested are listed below. For information on submitting different peer recommendations to different clubs, click <a target="_blank" href="../doc/submit_different.html">here</a>.</p>
+<p>The recommendations that you have already requested are listed below. For information on submitting different peer recommendations to different clubs, click <a target="_blank" href="../help.php?page=submit_different">here</a>.</p>
 
-<table><tr><th>Name</th><th>Email</th><th>Status</th><th>Toggle (<a target="_blank" href="../doc/submit_different.html">?</a>)</th></tr>
+<table><tr><th>Name</th><th>Email</th><th>Status</th><th>Toggle (<a target="_blank" href="../help.php?page=submit_different">?</a>)</th></tr>
 
 <?
 foreach($recList as $rec) {
