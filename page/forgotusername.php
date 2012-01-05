@@ -4,5 +4,5 @@
 
 <form action="forgotusername.php" method="POST">
 Email address: <input type="text" name="email">
-<br><input type="submit" value="Reset password">
+<br><input type="submit" value="Send me my username">
 </form>
