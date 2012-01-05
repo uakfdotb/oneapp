@@ -6,7 +6,7 @@ include("../include/session.php");
 
 if(isset($_REQUEST['action'])) {
 	if($_REQUEST['action'] == 'logout') {
-		unset($_SESSION['root']);
+		session_unset();
 		get_page_advanced("message", "root", array('message' => "You have been logged out. Click <a href=\"index.php\">here</a> to continue.", 'title' => "Logged out"));
 	}
 } else if(isset($_REQUEST['password'])) {
