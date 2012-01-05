@@ -31,6 +31,39 @@ for($i = 0; $i < count($page_display); $i++) {
 <?
 for($i = 0; $i < count($side_display); $i++) {
 	echo '<li class="sidenav"><a id="asidenav" href=' . $side_display[$i] . '.php>' . $side_display_names[$i] . '</a></li>';
+	
+	if($side_display[$i] == "supplement") {
+		//display all the supplements this user is working on
+		$clubsApplied = getUserClubsApplied($_SESSION['user_id']);
+		
+		echo "<ul>";
+		foreach($clubsApplied as $item) {
+			$club_id = $item[0];
+			$club_name = $item[1];
+			echo "<li class=\"sidenav1\">";
+			echo "<a id=\"asidenav1\" href=\"app.php?club_id=$club_id&action=view\">";
+			echo $club_name;
+			echo "</a></li>";
+		}
+		echo "</ul>";
+	} else if($side_display[$i] == "base") {
+		//display the general application categories
+		include_once($basePath . "/include/apply_submit.php");
+		if(isApplicationStarted($_SESSION['user_id'], 0)) {
+			$categoryList = listCategories();
+			
+			echo "<ul>";
+			foreach($categoryList as $item) {
+				$cat_id = $item[0];
+				$cat_name = $item[1];
+				echo "<li class=\"sidenav1\">";
+				echo "<a id=\"asidenav1\" href=\"app.php?club_id=0&cat_id=$cat_id&action=view\">";
+				echo $cat_name;
+				echo "</a></li>";
+			}
+			echo "</ul>";
+		}
+	}
 }
 ?>
 				</ul>
