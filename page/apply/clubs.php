@@ -7,7 +7,7 @@ foreach($clubsApplied as $item) {
 	$club_name = $item[1];
 	$app_id = $item[3];
 	echo "<li><a href=\"clubDetail.php?app_id=$app_id&club_id=$club_id\">";
-	echo $club_name;
+	echo $club_name . " (" . $clubStates[$club_id] . ")";
 	echo "</a></li>";
 }
 ?>

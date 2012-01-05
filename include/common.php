@@ -123,6 +123,15 @@ function one_mail($subject, $body, $to) { //returns true=ok, false=notok
 //PAGE FUNCTIONS
 //..............
 
+function getStyle() {
+	if(isset($_SESSION['style'])) {
+		return stripAlphaNumeric($_SESSION['style']);
+	} else {
+		$config = $GLOBALS['config'];
+		return stripAlphaNumeric($config['style']);
+	}
+}
+
 function get_page($page, $args = array()) {
 	//let pages use some variables
 	extract($args);
@@ -135,7 +144,7 @@ function get_page($page, $args = array()) {
 	
 	$basePath = basePath();
 	
-	$style = stripAlphaNumeric($_SESSION['style']);
+	$style = getStyle();
 	$style_page_include = $basePath . "/style/style$style/page/$page.php";
 	$page_include = $basePath . "/page/$page.php";
 	$stylepath = $basePath . "/style";
@@ -170,7 +179,7 @@ function get_page_advanced($page, $context, $args = array()) {
 	
 	$basePath = basePath();
 	
-	$style = stripAlphaNumeric($_SESSION['style']);
+	$style = getStyle();
 	$style_page_include = $basePath . "/astyle/style$style/$context/$page.php";
 	$page_include = $basePath . "/page/$context/$page.php";
 	$stylepath = $basePath . "/astyle";
