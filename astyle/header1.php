@@ -32,7 +32,7 @@ for($i = 0; $i < count($page_display); $i++) {
 for($i = 0; $i < count($side_display); $i++) {
 	echo '<li class="sidenav"><a id="asidenav" href=' . $side_display[$i] . '.php>' . $side_display_names[$i] . '</a></li>';
 	
-	if($side_display[$i] == "supplement") {
+	if($side_display[$i] == "supplement" && isset($_SESSION['user_id'])) {
 		//display all the supplements this user is working on
 		$clubsApplied = getUserClubsApplied($_SESSION['user_id']);
 		
@@ -46,7 +46,7 @@ for($i = 0; $i < count($side_display); $i++) {
 			echo "</a></li>";
 		}
 		echo "</ul>";
-	} else if($side_display[$i] == "base") {
+	} else if($side_display[$i] == "base" && isset($_SESSION['user_id'])) {
 		//display the general application categories
 		include_once($basePath . "/include/apply_submit.php");
 		if(isApplicationStarted($_SESSION['user_id'], 0)) {
