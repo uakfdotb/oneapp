@@ -22,6 +22,7 @@ function insertQuestion($varname, $vardesc, $vartype, $club_id, $database, $wher
 	$varname = escape($varname);
 	$vardesc = escape($vardesc);
 	$vartype = escape($vartype);
+	$club_id = escape($club_id);
 	
 	//increment from highest orderId
 	$result = mysql_query("SELECT MAX(orderId) FROM $database WHERE $whereString");
@@ -40,6 +41,10 @@ function insertQuestion($varname, $vardesc, $vartype, $club_id, $database, $wher
 	} else {
 		return "internal error"; //this shouldn't occur, since MAX would return null if no rows are found
 	}
+}
+
+function deleteQuestions($database, $whereString) {
+	mysql_query("DELETE FROM $database WHERE $whereString");
 }
 
 ?>

@@ -88,6 +88,8 @@ if(isset($_SESSION['admin_id'])) {
 					$message = "Addition failed: $result";
 				}
 			}
+		} else if($_REQUEST['action'] == "deleteall") {
+			deleteQuestions($database, $whereString);
 		}
 	}
 	
