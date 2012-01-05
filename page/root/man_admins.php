@@ -43,9 +43,9 @@ foreach($adminList as $item) {
 ?>
 	<form method="post" action="man_admins.php">
 	<input type="hidden" name="id" value="<?= $item[0] ?>">
-	<tr><td><input type="text" name="username" value="<?= $item[1] ?>" style=\"width:100%\"></td>
-	<td><input type="text" name="email" value="<?= $item[2] ?>" style=\"width:100%\"></td>
-	<td><input type="text" name="club_id" value="<?= $item[3] ?>" style=\"width:100%\"></td>
+	<tr><td><input type="text" name="username" value="<?= $item[1] ?>" style="width:100%"></td>
+	<td><input type="text" name="email" value="<?= $item[2] ?>" style="width:100%"></td>
+	<td><input type="text" name="club_id" value="<?= $item[3] ?>" style="width:100%"></td>
 	<td><input type="password" name="password" style="width:100%"></td>
 	<td><input type="submit" name="action" value="update"></td>
 	<td><input type="submit" name="action" value="delete"></td>
