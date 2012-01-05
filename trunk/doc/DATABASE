@@ -9,12 +9,15 @@ vartype: type; this is a semi-colon separated list of key-value pairs, which are
 basecat: contains a list of categories in the general application
 -------
 name: the name of the category
+orderId: means what order the categories will be displayed in admin lists as well as on user list
 
 users: contains the user accounts
 -----
 username: the user's username
 password: the user's password, hashed with chash() in common.php
 email: the user's email address
+register_time: the time() when the user registered his/her account
+accessed: boolean (0 or 1) on whether the user has logged in; initially 0, and set to 1 on every login
 
 reset: contains list of reset requests
 -----
@@ -43,6 +46,9 @@ club_id: the club that this admin is in charge of, or 0 if in charge of the gene
 username: the admin's username
 password: the admin's password, hashed with chash() in common.php
 email: the admin's email address
+box_enabled: whether text boxes are enabled on the application submissions list
+cat_enabled: whether categories are enabled
+comment_enabled: whether comments are enabled
 
 supplements: contains the supplement fields for the clubs
 -----------
@@ -56,7 +62,7 @@ applications: list of applications; each user has one for general application an
 ------------
 user_id: the user that this application belongs to
 club_id: the club being applied to, or 0 for general application
-submitted: empty string ('') if not submitted, or array of PDF filenames if this application has been submitted
+submitted: empty string ('') if not submitted, or colon-delimited array of PDF filenames if this application has been submitted
 	first two in the array are the general application and supplement, in that order; remainder is recommendations
 
 answers: contains list of user responses
@@ -84,6 +90,20 @@ pages: contains database pages
 -----
 name: the name of the page, used to identify it from the PHP code
 text: the body of the page
+
+club_notes: stores values for the notes features
+----------
+application_id: id in applications table that these notes are for
+club_id: club id that this entry belongs to
+box: textbox value
+category: category value; note that users can tamper with submission or delete categories, so this may not be in club_notes_categories
+rank: at the time of this documentation, ranks have not been implemented yet
+comments: comments of less than 10,000 characters stored for this user
+
+club_notes_categories: stores the possible categories for the notes_categories feature
+---------------------
+club_id: the club id that this category has been added for
+name: the text to display and also used to identify this category
 
 locks: contains information to prevent flooding the oneapp system
 -----
