@@ -17,7 +17,7 @@ if(isset($_SESSION['admin_id']) && $_REQUEST['id']) {
 			$current_comments = $row[0];
 		}
 		
-		get_page_advanced("comments", "admin", array('comments' => $current_comments));
+		get_page_advanced("comments", "admin", array('comments' => $current_comments, 'app_id' => $app_id));
 	} else {
 		get_page_advanced("message", "admin", array('message' => "General application admin cannot store comments (no submissions).", 'title' => "Comments error"));
 	}
