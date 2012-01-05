@@ -2,6 +2,10 @@
 
 <!-- This page uses datetimepicker, from http://www.rainforestnet.com/datetimepicker/datetimepicker.htm, which is free software released under the GNU GPL v3.0. OneApp is not affiliated with this software. -->
 
+<p>Here, you can edit settings for your club. View time is the time at which your club will be available for addition into a user's supplement list. Open time is the time when the club supplement can be submitted. Close time is the submission deadline. The number of recommendations field is the required number of recommendations for your club; there is no upper limit on the number that can be submitted, except the maximum number of recommendations a user can request (set in the configuration file).</p>
+
+<p>The calendar icon to the right of certain fields allows you to more easily edit dates. Javascript must be enabled to use this function. Dates can always be entered manually, using any of the <a href="http://www.php.net/manual/en/datetime.formats.compound.php">supported formats</a>.</p>
+
 <SCRIPT LANGUAGE="JavaScript" SRC="../astyle/style1/datetimepicker/datetimepicker_css.js"></SCRIPT>
 <form method="post" action="man_club.php">
 Description<br> <textarea name="description"><?= $description ?></textarea><br>
