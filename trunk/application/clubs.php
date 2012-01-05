@@ -6,9 +6,9 @@ include("../include/session.php");
 
 if(isset($_SESSION['user_id'])) {
 	$clubsApplied = getUserClubsApplied($_SESSION['user_id']);
-	get_page_apply("clubs", array("clubsApplied" => $clubsApplied));
+	get_page_advanced("clubs", "apply", array("clubsApplied" => $clubsApplied));
 } else {
-	get_page_apply("message", array("title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
+	get_page_advanced("message", "apply", array("title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
 }
 
 ?>

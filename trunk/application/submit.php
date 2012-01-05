@@ -25,24 +25,24 @@ if(isset($_SESSION['user_id'])) {
 					$result = submitApplication($_SESSION['user_id'], $app_id);
 					
 					if($result === TRUE) { //true on success, string on failure
-						get_page_apply("message", array("title" => "Application submission", "message" => "Application submitted successfully"));
+						get_page_advanced("message", "apply", array("title" => "Application submission", "message" => "Application submitted successfully"));
 					} else {
-						get_page_apply("message", array("title" => "Application submission", "message" => "There was an error while submitting your application: " . $result));
+						get_page_advanced("message", "apply", array("title" => "Application submission", "message" => "There was an error while submitting your application: " . $result));
 					}
 				} else {
-					get_page_apply("submit_confirm", array("club_id" => $club_id, "app_id" => $app_id));
+					get_page_advanced("submit_confirm", "apply", array("club_id" => $club_id, "app_id" => $app_id));
 				}
 			} else {
-				get_page_apply("submit_warnings", array("genCheck" => $genCheck, "appCheck" => $appCheck));
+				get_page_advanced("submit_warnings", "apply", array("genCheck" => $genCheck, "appCheck" => $appCheck));
 			}
 		} else {
-			get_page_apply("message", array("title" => "Error", "message" => "Error: you cannot submit the general application. Instead, go to the clubs page, select a club, and then press submit. This will submit your general application and supplement, if any, to the club."));
+			get_page_advanced("message", "apply", array("title" => "Error", "message" => "Error: you cannot submit the general application. Instead, go to the clubs page, select a club, and then press submit. This will submit your general application and supplement, if any, to the club."));
 		}
 	} else {
-		get_page_apply("message", array("title" => "Internal error", "message" => "Internal error: app_id or club_id unspecified."));
+		get_page_advanced("message", "apply", array("title" => "Internal error", "message" => "Internal error: app_id or club_id unspecified."));
 	}
 } else {
-	get_page_apply("message", array("title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
+	get_page_advanced("message", "apply", array("title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
 }
 
 ?>
