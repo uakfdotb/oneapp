@@ -20,7 +20,7 @@ if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
 } else if(isset($_REQUEST['action'])) {
 	if($_REQUEST['action'] == 'logout') {
 		$errorMessage = "You are now logged out.";
-		unset($_SESSION['admin_id']);
+		session_unset();
 	}
 }
 
