@@ -30,7 +30,7 @@
 			<td><input type="text" name="username" style="width:100%" /></td>
 			</tr>
 			<tr>
-			<td><p align="right">Password:</p></td>
+			<td cellspacing="0" cellmargin="0"><p align="right">Password:</p></td>
 			<td><input type="password" name="password" style="width:100%" /></td>
 			</tr>
 			<tr>
@@ -44,7 +44,7 @@
 			<tr bgcolor=#DEDEDE><td>
 			<p class="test">Not Registered? <a href="register.php">Click Here</a></p>
 			<p class="test">Forgot Password? <a href="reset.php">Click Here</a></p>
-			<p class="test">Forgot Username? <a href="forgotusername.php">Click Here</a></p><p></p>
+			<p class="test">Forgot Username? <a href="forgotusername.php">Click Here</a></p>
 			</td>
 			</tr>
 			</table>

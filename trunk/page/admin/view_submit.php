@@ -33,7 +33,7 @@ if($cat_enabled) { // here, we give user a filter selection dropdown, preselecti
 }
 ?>
 
-<table><tr>
+<table width="100%" class="borderon"><tr>
 	<th><p class="admin_table_header">App ID</p></th>
 	<th><p class="admin_table_header">User ID</p></th>
 	<th><p class="admin_table_header">General application</p></th>
