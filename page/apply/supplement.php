@@ -1,4 +1,4 @@
-<h1>Clubs</h1>
+<h1>Supplements</h1>
 
 <p>Select a supplement below to work on. To submit your application to a club, go to the clubs page, select the club, and press submit.</p>
 

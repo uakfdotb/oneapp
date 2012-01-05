@@ -1,6 +1,6 @@
 <html>
 <head>
-<link href="<?= $basePath ?>/style/style1/style1.css" rel="stylesheet" type="text/css">
+<link href="<?= $basePath ?>/style/style1/style.css" rel="stylesheet" type="text/css">
 <title><?= $config['site_name'] ?></title>
 <?
 if(isset($redirect)) {

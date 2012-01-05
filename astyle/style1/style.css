@@ -104,7 +104,7 @@ CUSTOM CLASSES
 
 .sidenav{
 	list-style: none;
-	margin-top:30px;
+	margin-top:12px;
 	}
 
 #asidenav {
@@ -112,6 +112,17 @@ CUSTOM CLASSES
 	font-size:14px;
 	font-variant:small-caps;
 	font-weight:bold;
+}
+
+.sidenav1{
+	list-style:none;
+	margin-top:6px;
+}
+
+#asidenav1{
+	color:white;
+	font-size:12px;
+	font-weight:italic;
 }
 
 #spacebox {
