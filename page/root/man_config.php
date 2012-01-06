@@ -7,10 +7,15 @@
 
 <?
 foreach($optionsMap as $key => $value) {
+	$inputType = "text";
+	if($value === FALSE) { //this denotes a hidden value
+		$value = '';
+		$inputType = "password";
+	}
 ?>
 	<tr>
 	<td><p><?= $key ?></p></td>
-	<td><p><input type="text" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>" /></p></td>
+	<td><p><input type="<?= $inputType ?>" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>" /></p></td>
 <?
 }
 ?>

@@ -18,25 +18,30 @@ if(isset($_SESSION['root'])) {
 		
 		foreach($option_list as $option_name) {
 			if(array_key_exists($option_name, $_REQUEST) && !in_array($option_name, $array_options)) {
-				$options[$option_name] = escapePHP($_REQUEST[$option_name]);
+				if(!in_array($option_name, $array_options)) {
+					$options[$option_name] = escapePHP($_REQUEST[$option_name]);
+				} else {
+					$options[$option_name] = toPHPArray($_REQUEST[$option_name]);
+				}
 			} else {
 				$options[$option_name] = ''; //this will write previous value
 			}
 		}
 		
-		//todo: load arrays from array automatically
-		$options['page_display'] = toPHPArray($_REQUEST['page_display']);
-		$options['page_display_names'] = toPHPArray($_REQUEST['page_display_names']);
-		
-		
-		if(($options['mail_username'] != '' || $options['mail_smtp_host'] != '' || $options['mail_smtp_port'] != '') && $options['mail_password'] == '') {
+		if(!isset($options['mail_password']) || $options['mail_password'] == '') {
 			$options['mail_username'] = '';
 			$options['mail_smtp_host'] = '';
 			$options['mail_smtp_port'] = '';
 		}
 		
-		if(!is_numeric($options['max_recommend'])) {
+		if(isset($options['max_recommend']) && !is_numeric($options['max_recommend'])) {
 			$options['max_recommend'] = 10;
+		}
+		
+		if(isset($options['root_password']) && $options['root_password'] != '') {
+			//hash the password
+			$options['root_password_salt'] = uid(32);
+			$options['root_password'] = ":" . chash($options['root_password_salt'] . $options['root_password']);
 		}
 		
 		//read/write config file
@@ -50,21 +55,30 @@ if(isset($_SESSION['root'])) {
 				$option_name = substr($line, $begin_index, $end_index - $begin_index);
 				
 				if(array_key_exists($option_name, $options) && $options[$option_name] != '') {
-					fwrite($fout, '$config[\'' . $option_name . "'] = ");
+					$option_value = $options[$option_name];
+					$force_no_quotes = in_array($option_name, $array_options);
+					writeOption($fout, $option_name, $option_value, $force_no_quotes);
 					
-					if($options[$option_name] != 'true' && $options[$option_name] != 'false' && !in_array($option_name, $array_options)) {
-						fwrite($fout, "'" . $options[$option_name] . "'");
-					} else {
-						fwrite($fout, $options[$option_name]);
-					}
-					fwrite($fout, ";\n");
+					unset($options[$option_name]);
 				} else {
 					fwrite($fout, $line);
 				}
-			} else {
+			} else if(trim($line) != "?>") { //we write this after the extra options below
 				fwrite($fout, $line);
 			}
 		}
+		
+		//store any extra options at the end
+		// we still only allow options from the option list (which is good) to be set because of how $options is populated
+		foreach($options as $option_name => $option_value) {
+			if($option_value != '') {
+				$force_no_quotes = in_array($option_name, $array_options);
+				writeOption($fout, $option_name, $option_value, $force_no_quotes);
+			}
+		}
+		
+		//end the PHP section
+		fwrite($fout, "?>\n");
 		
 		fclose($fin);
 		fclose($fout);
@@ -93,6 +107,13 @@ if(isset($_SESSION['root'])) {
 					$options[$key] = stripFromPHP($val);
 				}
 			}
+		}
+	}
+	
+	//now let the user edit other options not in config
+	foreach($option_list as $option_name) {
+		if(!array_key_exists($option_name, $options)) {
+			$options[$option_name] = FALSE; //value of false denotes hidden type, show as password box
 		}
 	}
 
