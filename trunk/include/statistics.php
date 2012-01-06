@@ -4,6 +4,7 @@
 function calculateStatistics() {
 	global $config;
 	$stat_array = array();
+	$indent = '&nbsp;&nbsp;&nbsp;&nbsp;';
 	
 	//number of clubs
 	$result = mysql_query("SELECT COUNT(*) FROM clubs");
@@ -38,16 +39,16 @@ function calculateStatistics() {
 	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id = '0' AND submitted != ''");
 	$row = mysql_fetch_array($result);
 	$numGenSubmitted = $row[0];
-	$stat_array['Submitted general applications'] = array($numGenSubmitted, $numGen);
+	$stat_array[$indent . 'Submitted general applications'] = array($numGenSubmitted, $numGen);
 	
 	//number of unsubmitted general applications; just subtract (total - number submitted)
 	$numUnsubmittedGen = $numGen - $numGenSubmitted;
-	$stat_array['Unsubmitted general applications'] = array($numUnsubmittedGen, $numGen);
+	$stat_array[$indent . 'Unsubmitted general applications'] = array($numUnsubmittedGen, $numGen);
 	
 	//number of general application questions
 	$result = mysql_query("SELECT COUNT(*) FROM baseapp");
 	$row = mysql_fetch_array($result);
-	$stat_array['General application questions'] = array($row[0], -1);
+	$stat_array[$indent . 'General application questions'] = array($row[0], -1);
 	
 	//number of supplements requested (users may request multiple)
 	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id != '0'");
@@ -59,16 +60,16 @@ function calculateStatistics() {
 	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id != '0' AND submitted != ''");
 	$row = mysql_fetch_array($result);
 	$numSupSubmitted = $row[0];
-	$stat_array['Submitted supplements'] = array($numSupSubmitted, $numSup);
+	$stat_array[$indent . 'Submitted supplements'] = array($numSupSubmitted, $numSup);
 	
 	//number of unsubmitted supplements
 	$numUnsubmittedSup = $numSup - $numSupSubmitted;
-	$stat_array['Unsubmitted supplements'] = array($numUnsubmittedSup, $numSup);
+	$stat_array[$indent . 'Unsubmitted supplements'] = array($numUnsubmittedSup, $numSup);
 	
 	//number of supplement questions (total)
 	$result = mysql_query("SELECT COUNT(*) FROM supplements");
 	$row = mysql_fetch_array($result);
-	$stat_array['Supplement questions'] = array($row[0], -1);
+	$stat_array[$indent . 'Supplement questions'] = array($row[0], -1);
 	
 	//number of recommendations requested
 	$result = mysql_query("SELECT COUNT(*) FROM recommendations");
