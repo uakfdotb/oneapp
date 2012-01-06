@@ -11,7 +11,7 @@
 
 <? foreach($responseStat as $item) { ?>
 	<tr>
-	<td colspan="3"><p><?= $item[0] ?></p></td>
+	<td colspan="3" class="top_border"><p><?= $item[0] ?></p></td>
 	</tr>
 	
 	<? foreach($item[1] as $response => $count) { ?>
