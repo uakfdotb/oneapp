@@ -14,8 +14,22 @@ if(isset($_SESSION['root'])) {
 			$name = escape($_REQUEST['name']);
 			$description = escape($_REQUEST['description']);
 			
-			mysql_query("INSERT INTO clubs (name, description, view_time, open_time, close_time) VALUES ('$name', '$description', '0', '0', '0')");
-			$message = "Club added successfully! Click <a href=\"man_clubs.php\">here</a> to continue.";
+			//verify that limit has not been reached
+			$limitFail = false;
+			if(isset($config['limits']) && isset($config['limits']['clubs']) && $config['limits']['clubs'] > 0) {
+				$result = mysql_query("SELECT COUNT(*) FROM clubs");
+				$row = mysql_fetch_array($result);
+				
+				if($row[0] >= $config['limits']['clubs']) {
+					$message = "Limit on # clubs has been reached! Update limits in configuration or contact your hosting provider.";
+					$limitFail = true;
+				}
+			}
+			
+			if(!$limitFail) {
+				mysql_query("INSERT INTO clubs (name, description, view_time, open_time, close_time) VALUES ('$name', '$description', '0', '0', '0')");
+				$message = "Club added successfully! Click <a href=\"man_clubs.php\">here</a> to continue.";
+			}
 		} else if($action == 'delete') {
 			$club_id = escape($_REQUEST['id']);
 			mysql_query("DELETE FROM clubs WHERE id='$club_id'");

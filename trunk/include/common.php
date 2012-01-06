@@ -327,6 +327,16 @@ function register($username, $email, $profile) {
 		return 8;
 	}
 	
+	//make sure that there are not too many users
+	if(isset($config['limits']) && isset($config['limits']['users']) && $config['limits']['users'] > 0) {
+		$result = mysql_query("SELECT COUNT(*) FROM users");
+		$row = mysql_fetch_array($result);
+		
+		if($row[0] >= $config['limits']['users']) {
+			return 8;
+		}
+	}
+	
 	$username = escape($username);
 	$email = escape($email);
 	$gen_password = uid(12);

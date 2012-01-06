@@ -12,7 +12,7 @@ function calculateStatistics() {
 	if(isset($config['limits']) && isset($config['limits']['clubs']) && $config['limits']['clubs'] > 0)
 		$stat_array['Clubs'] = array($numClubs, $config['limits']['clubs']);
 	else
-		$stat_array['Clubs'] = array($numClubs, $numClubs);
+		$stat_array['Clubs'] = array($numClubs, -1);
 	
 	//number of users
 	$result = mysql_query("SELECT COUNT(*) FROM users");
@@ -21,7 +21,7 @@ function calculateStatistics() {
 	if(isset($config['limits']) && isset($config['limits']['users']) && $config['limits']['users'] > 0)
 		$stat_array['Users'] = array($numUsers, $config['limits']['users']);
 	else
-		$stat_array['Users'] = array($numUsers, $numUsers);
+		$stat_array['Users'] = array($numUsers, -1);
 	
 	//total number of applications
 	$result = mysql_query("SELECT COUNT(*) FROM applications");
@@ -32,7 +32,7 @@ function calculateStatistics() {
 	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id = '0'");
 	$row = mysql_fetch_array($result);
 	$numGen = $row[0];
-	$stat_array['General applications'] = array($row[0], $row[0]);
+	$stat_array['General applications'] = array($row[0], -1);
 	
 	//number of submitted general applications
 	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id = '0' AND submitted != ''");
@@ -53,7 +53,7 @@ function calculateStatistics() {
 	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id != '0'");
 	$row = mysql_fetch_array($result);
 	$numSup = $row[0];
-	$stat_array['Supplements requested'] = array($numSup, $numSup);
+	$stat_array['Supplements requested'] = array($numSup, -1);
 	
 	//number of submitted supplements
 	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id != '0' AND submitted != ''");
