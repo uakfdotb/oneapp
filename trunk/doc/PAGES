@@ -7,7 +7,7 @@ affclubs.php: displays a list of affiliated clubs and their information
 	Should link to affclubs_info.php, which takes in id=<club id>
 affclubs_info.php: displays detailed information about a club
 	$clubInfo: array(club name, club description, open time, close time, number of recommendations needed)
-dbpage.php: retrieves a page from the database and displays it (TODO: allow styles to customize page convert function)
+dbpage.php: retrieves a page from the database and displays it
 	$dbpage: the name of the requested page
 forgotusername.php: the form used to access the forgot username function (no variables)
 	Should submit to forgotusername.php, with email=<inputted email address>
