@@ -33,7 +33,7 @@ if($cat_enabled) { // here, we give user a filter selection dropdown, preselecti
 }
 ?>
 
-<table width="100%" class="borderon"><tr>
+<table width="100%"><tr>
 	<th><p class="admin_table_header">App ID</p></th>
 	<th><p class="admin_table_header">User ID</p></th>
 	<th><p class="admin_table_header">General application</p></th>
@@ -48,6 +48,7 @@ if($cat_enabled) { // here, we give user a filter selection dropdown, preselecti
 </tr>
 
 <?
+$counter=1;
 foreach($array as $item) {
 	$appId = $item[0];
 	
@@ -65,16 +66,17 @@ foreach($array as $item) {
 	
 	$peerString = "";
 	foreach($item[4] as $peerEntry) {
+	$band_counter=$counter%2+1;
 		$peerString .= '<a href="../submit/' . $peerEntry . '.pdf">Download</a> | ';
 	}
 
-	echo "<tr><td><p>$appId</p></td><td>$userId</td><td>$generalApp</td><td>$supplement</td><td>$peerString</td>";
+	echo "<tr class=\"band".$band_counter."><td class=\"top_border\"><p>$appId</p></td><td class=\"top_border\">$userId</td><td class=\"top_border\">$generalApp</td><td class=\"top_border\">$supplement</td><td class=\"top_border\">$peerString</td>";
 	
 	if($box_enabled) {
 		if(isset($toolsMap[$appId])) $boxValue = $toolsMap[$appId][0];
 		else $boxValue = "";
 		
-		echo "<td><input type=\"text\" value=\"$boxValue\" name=\"box\" /></td>";
+		echo "<td class=\"top_border\"><input type=\"text\" value=\"$boxValue\" name=\"box\" style=\"width:100%;resize:none\"/></td>";
 	}
 	
 	if($cat_enabled) {
@@ -82,7 +84,7 @@ foreach($array as $item) {
 		else $catValue = "";
 		
 		//display a list of categories, and pre-select the catValue on dropdown
-		echo "<td><select name=\"category\">";
+		echo "<td class=\"top_border\" width=100%><select name=\"category\">";
 		
 		foreach($catList as $catElement) {
 			$selectedString = ($catElement == $catValue) ? " selected" : "";
@@ -93,11 +95,11 @@ foreach($array as $item) {
 	}
 	
 	if($comment_enabled) {
-		echo "<td><p><a href=\"comments.php?id=$appId\">comments</a></p></td>";
+		echo "<td class=\"top_border\"><p><a href=\"comments.php?id=$appId\">comments</a></p></td>";
 	}
 	
 	if($box_enabled || $cat_enabled) { //comments are updated through separate page
-		echo '<td><input type="submit" value="update" /></td>';
+		echo '<td class=\"top_border\"><input type="submit" value="update" /></td>';
 	}
 	
 	if($box_enabled || $cat_enabled) echo "</form>";
