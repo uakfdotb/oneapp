@@ -98,7 +98,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		echo "<input ";
 		if($type_array['showchars']) {
-			echo "onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldname, $maxLength);\" ";
+			echo "onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" maxlength=\"$maxLength\" ";
 		}
 		
