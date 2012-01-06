@@ -119,4 +119,43 @@ function checkNoHome() {
 	mysql_query("DELETE FROM supplements WHERE (SELECT COUNT(id) FROM clubs WHERE id = supplements.club_id) < 1");
 }
 
+//does most cleaning operations to delete useless database entries
+function fullClean() {
+	checkNoHome();
+	
+	mysql_query("DELETE FROM admins WHERE (SELECT COUNT(id) FROM clubs WHERE id = admins.club_id) < 1");
+	mysql_query("DELETE FROM applications WHERE (SELECT COUNT(id) FROM clubs WHERE id = applications.club_id) < 1 OR (SELECT COUNT(id) FROM users WHERE id = applications.user_id) < 1");
+	mysql_query("DELETE FROM profiles WHERE (SELECT COUNT(id) FROM users WHERE id = profiles.user_id) < 1 OR (SELECT COUNT(id) FROM baseapp WHERE id = profiles.var_id) < 1");
+	mysql_query("DELETE FROM recommendations WHERE (SELECT COUNT(id) FROM users WHERE id = recommendations.user_id) < 1");
+	mysql_query("DELETE FROM club_notes WHERE (SELECT COUNT(id) FROM clubs WHERE id = club_notes.club_id) < 1 OR (SELECT COUNT(id) FROM applications WHERE id = club_notes.application_id) < 1");
+	mysql_query("DELETE FROM club_notes_categories WHERE (SELECT COUNT(id) FROM clubs WHERE id = club_notes_categories.club_id) < 1");
+	mysql_query("DELETE FROM admins WHERE (SELECT COUNT(id) FROM clubs WHERE id = admins.club_id) < 1");
+	
+	//delete answers
+	mysql_query("DELETE FROM answers WHERE (SELECT COUNT(id) FROM applications WHERE id = answers.application_id) < 1");
+	mysql_query("DELETE FROM recommender_answers WHERE (SELECT COUNT(id) FROM recommendations WHERE id = recommender_answers.recommend_id) < 1");
+	
+	mysql_query("DELETE FROM reset");
+	mysql_query("DELETE FROM locks");
+}
+
+function databaseWipe() {
+	mysql_query("DELETE FROM baseapp");
+	mysql_query("DELETE FROM basecat");
+	mysql_query("DELETE FROM users");
+	mysql_query("DELETE FROM reset");
+	mysql_query("DELETE FROM profiles");
+	mysql_query("DELETE FROM clubs");
+	mysql_query("DELETE FROM admins");
+	mysql_query("DELETE FROM supplements");
+	mysql_query("DELETE FROM applications");
+	mysql_query("DELETE FROM answers");
+	mysql_query("DELETE FROM recommendations");
+	mysql_query("DELETE FROM recommender_answers");
+	mysql_query("DELETE FROM pages");
+	mysql_query("DELETE FROM club_notes");
+	mysql_query("DELETE FROM club_notes_categories");
+	mysql_query("DELETE FROM locks");
+}
+
 ?>
