@@ -53,7 +53,8 @@ if(isset($editInfo) && $editInfo !== 0) {
 <?
 }
 ?>
-<p align="right"><a href="man_questions.php?action=deleteall">Delete All Questions!</a></p>
+<SCRIPT LANGUAGE="JavaScript" SRC="<?= $stylePath ?>/confirm.js"></SCRIPT>
+<p align="right"><a onclick="return confirmSubmit()" href="man_questions.php?action=deleteall">Delete All Questions!</a></p>
 
 <table cellspacing=0 width=100%><tr align="left"><th><p class="admin_table_header">Question name</p></th><th><p class="admin_table_header">Description</p></th><th><p class="admin_table_header">Type</p></th><th><p class="admin_table_header">Up</p></th><th><p class="admin_table_header">Down</p></th><th><p class="admin_table_header">Edit</p></th><th><p class="admin_table_header">Delete</p></th></tr>
 

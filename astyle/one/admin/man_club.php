@@ -6,12 +6,12 @@
 
 <p>The calendar icon to the right of certain fields allows you to more easily edit dates. Javascript must be enabled to use this function. Dates can always be entered manually, using any of the <a href="http://www.php.net/manual/en/datetime.formats.compound.php">supported formats</a>.</p>
 
-<SCRIPT LANGUAGE="JavaScript" SRC="../astyle/style1/datetimepicker/datetimepicker_css.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="<?= $stylePath ?>/datetimepicker/datetimepicker_css.js"></SCRIPT>
 <form method="post" action="man_club.php">
 Description<br> <textarea name="description"><?= $description ?></textarea><br>
-View time <input type="text" id="view_time" name="view_time" value="<?= date('m/d/y H:i:s', $view_time) ?>" /><img src="../astyle/style1/datetimepicker/images/cal.gif" onclick="javascript:NewCssCal('view_time', 'MMddyyyy', 'arrow', true)" style="cursor:pointer"/>  MM/DD/YY (hh:mm:ss)<br>
-Open time <input type="text" id="open_time" name="open_time" value="<?= date('m/d/y H:i:s', $open_time) ?>" /><img src="../astyle/style1/datetimepicker/images/cal.gif" onclick="javascript:NewCssCal('open_time', 'MMddyyyy', 'arrow', true)" style="cursor:pointer"/><br>
-Close time <input type="text" id="close_time" name="close_time" value="<?= date('m/d/y H:i:s', $close_time) ?>" /><img src="../astyle/style1/datetimepicker/images/cal.gif" onclick="javascript:NewCssCal('close_time', 'MMddyyyy', 'arrow', true)" style="cursor:pointer"/><br>
+View time <input type="text" id="view_time" name="view_time" value="<?= date('m/d/y H:i:s', $view_time) ?>" /><img src="<?= $stylePath ?>/datetimepicker/images/cal.gif" onclick="javascript:NewCssCal('view_time', 'MMddyyyy', 'arrow', true)" style="cursor:pointer"/>  MM/DD/YY (hh:mm:ss)<br>
+Open time <input type="text" id="open_time" name="open_time" value="<?= date('m/d/y H:i:s', $open_time) ?>" /><img src="<?= $stylePath ?>/datetimepicker/images/cal.gif" onclick="javascript:NewCssCal('open_time', 'MMddyyyy', 'arrow', true)" style="cursor:pointer"/><br>
+Close time <input type="text" id="close_time" name="close_time" value="<?= date('m/d/y H:i:s', $close_time) ?>" /><img src="<?= $stylePath ?>/datetimepicker/images/cal.gif" onclick="javascript:NewCssCal('close_time', 'MMddyyyy', 'arrow', true)" style="cursor:pointer"/><br>
 Number of recommenations <input type="text" name="num_recommend" value="<?= $num_recommend ?>" /><br>
 <input type="submit" value="Update" />
 </form>
