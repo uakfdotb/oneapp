@@ -1,5 +1,9 @@
 <h1>Easy Question Adder</h1>
 
-<p>The three-line format has been generated and should appear below. You may wish to <a href="man_questions.php">add your question</a> or <a href="easy_question.php">generate another one</a>.</p>
+<p>The three-line format has been generated and should appear below. You may wish to <a href="easy_question.php">try again</a> or press the button below to add your question.</p>
 
-<pre><?= $generate ?></pre>
+<form method="POST" action="man_questions.php">
+<input type="hidden" name="action" value="Add multiple questions" />
+<textarea name="data" cols="60" rows="10"><?= $generate ?></textarea>
+<br /><input type="submit" value="Add your question" />
+</form>
