@@ -112,7 +112,8 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			}
 			else {
 				if($answer != "") {
-					$question_string .= '\underline{' . $answer . '}';
+					//$question_string .= '\underline{' . $answer . '}';
+					$question_string .= $answer;
 				} else {
 					$question_string .= '\hrulefill{}';
 				}
