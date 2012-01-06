@@ -52,7 +52,12 @@ CUSTOM CLASSES
 
 #schoolname{
 	text-align:center;
-	}
+}
+
+#schoolname h4{
+    font-size:24px;
+}
+
 #logbox{
 	text-align:center;
 	width:88%;
@@ -69,14 +74,14 @@ CUSTOM CLASSES
 
 .center, #admin_login{
 	text-align:center;
-	}
+}
 
 .test{
 	margin:0; 
 	text-decoration:none;
 	text-align:center;
 	color:gray;
-	}
+}
 
 .test a{color:#1A3E5B;}
 
