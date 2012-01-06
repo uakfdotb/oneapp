@@ -112,7 +112,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "*";
 		}
 		
-		echo "$name</p></td><td>";
+		echo "$name</p></td><td><p>";
 		
 		$choices = explode(";", $desc);
 		
@@ -153,7 +153,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "</select>";
 		}
 		
-		echo '</td></tr>';
+		echo '</p></td></tr>';
 	} else if($type_array['type'] == "text") {
 		
 		echo '<tr><td colspan="2"><p class="name">';
