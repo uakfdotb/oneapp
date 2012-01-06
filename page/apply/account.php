@@ -15,12 +15,8 @@ if(isset($message)) {
 	<td>Old password</td>
 	<td><input type="password" name="old_password"> enter old password here to update information</td>
 </tr>
-<?
-//profile information
-foreach($profile as $item) {
-	echo "<tr><td>" . $item[0] . "</td><td>" . $item[1] . "</td></tr>";
-}
-?>
+
+<? page_advanced_include("user_profile", "apply", array('profile' => $profile)); ?>
 
 <tr>
 	<td>New password</td>
