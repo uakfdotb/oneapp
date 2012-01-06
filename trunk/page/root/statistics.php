@@ -2,10 +2,10 @@
 
 <p>This page shows general statistics for your website. Most of the fields should be self-explanatory and are simple counts.</p>
 
-<table>
+<table width=100%>
 <tr>
-	<th><p class="admin_table_header">Name</p></th>
-	<th><p class="admin_table_header">Value</p></th>
+	<th width=40%><p class="admin_table_header" align="left">Name</p></th>
+	<th width=20%><p class="admin_table_header" align="center">Value</p></th>
 	<th> <!--Graphs--> </tr>
 </tr>
 
@@ -15,10 +15,15 @@ foreach($stat_array as $name => $valueArray) {
 ?>
 	<tr>
 	<td><p class="admin_table_entry"><?= $name ?></p></td>
-	<td><p class="admin_table_entry"><?= $valueArray[0] ?></p></td>
+	<td align="center"><p class="admin_table_entry">
+
+<? echo $valueArray[0];
+   if($valueArray[1]!=-1){ echo "/".$valueArray[1];} 
+?>
+	</p></td>
 	<td>
 	<? if($valueArray[1] != -1) { ?>
-		<img src="../include/ratingbox.php?rating=<?= $valueArray[0] * 100 / $valueArray[1] ?>">
+		<img src="../include/ratingbox.php?rating=<?= $valueArray[0] * 100 / $valueArray[1] ?>" width=50%>
 	<? } ?>
 	</td>
 	</tr>
