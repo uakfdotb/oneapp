@@ -53,7 +53,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		echo '<tr><td colspan="2"><p class="name">';
 		
-		if($type_array['status'] != "optional") {
+		if($type_array['status'] == "required") {
 			echo "*";
 		}
 		
