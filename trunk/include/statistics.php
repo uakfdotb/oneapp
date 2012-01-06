@@ -85,4 +85,59 @@ function calculateStatistics() {
 	return $stat_array;
 }
 
+//returns array (users submitted, users total)
+function adminStatistics($club_id) {
+	$club_id = escape($club_id);
+	
+	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id = '$club_id'");
+	$row = mysql_fetch_array($result);
+	$usersSubmitted = $row[0];
+	
+	$result = mysql_query("SELECT COUNT(*) FROM users");
+	$row = mysql_fetch_array($result);
+	$usersTotal = $row[0];
+	
+	return array($usersSubmitted, $usersTotal);
+}
+
+//array of (question name, array(choice -> #)); note that total responses can be derived from adminStatistics
+function responseStatistics($club_id, $include_short, $limit) {
+	global $config;
+	$club_id = escape($club_id);
+	
+	//first, get a map of variables ids that either type=short or type=select
+	$result = mysql_query("SELECT id, varname, vartype FROM supplements WHERE club_id = '$club_id' ORDER BY orderId");
+	$responseMap = array();
+	
+	while($row = mysql_fetch_array($result)) {
+		$typeArray = getTypeArray($row['vartype']);
+		
+		if(($typeArray['type'] == "short" && $include_short) || $typeArray['type'] == "select") {
+			$responseMap[$row['id']] = array($row['varname'], array());
+		}
+	}
+	
+	//now get the user responses
+	$result = mysql_query("SELECT answers.var_id, answers.val FROM answers, applications WHERE answers.application_id = applications.id AND applications.club_id = '$club_id'");
+	
+	while($row = mysql_fetch_array($result)) {
+		if(array_key_exists($row[0], $responseMap)) { //this is true unless supplements desynchronize
+			//response might have multiple parts with form_array_delimiter
+			$responseArray = explode($config['form_array_delimiter'], $row[1]);
+			
+			foreach($responseArray as $response) {
+				if(!array_key_exists($response, $responseMap[$row[0]][1])) { //if we haven't encountered this response yet for this question
+					$responseMap[$row[0]][1][$response] = 0;
+				} else if($responseMap[$row[0]][1][$response] >= $limit) { //if we're going to be displaying too many options
+					continue;
+				}
+			
+				$responseMap[$row[0]][1][$response]++;
+			}
+		}
+	}
+	
+	return $responseMap;
+}
+
 ?>
