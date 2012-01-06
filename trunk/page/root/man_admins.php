@@ -11,7 +11,7 @@ if(isset($message) && $message != "") {
 ?>
 
 <form action="man_admins.php?action=add" method="post">
-<table class="borderon" align="center">
+<table align="center" class="borderon" bgcolor=#F2F5F7>
 <tr>
 	<td align="right"><p class="admin_table_entry">Admin username</p></td>
 	<td><input type="text" name="username" style="width:100%"></td>

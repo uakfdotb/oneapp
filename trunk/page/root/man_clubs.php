@@ -9,7 +9,7 @@ if(isset($message) && $message != '') {
 ?>
 
 <form action="man_clubs.php?action=add_club" method="post">
-<table class="borderon" align="center">
+<table class="borderon" align="center" bgcolor=#F2F5F7>
 <tr><td align="right"><p>Club name</p></td><td><input type="text" name="name" style="width:100%"></td></tr>
 <tr><td align="right"><p>Description</p></td><td><textarea name="description" style="width:100%;resize:none"></textarea></td></tr>
 <tr><td colspan="2" align="right"><input type="submit" value="Add club"></td></tr>
@@ -17,18 +17,28 @@ if(isset($message) && $message != '') {
 </form>
 <br><br>
 <?
+$counter =0;
 while($row = mysql_fetch_array($clubsResult)) {
+	   if($counter>0){
+		$class_string="class=\"top_border\"";
+	   } else {
+	     	$class_string="";
+	   }
+	   $band_class=($counter+1)%2+1;
 ?>
-	<tr><table width=100% class="borderon">
+	<tr><table <?=$class_string?> width=100% cellspacing=0>
+	<tr class="band<?=$band_class?>"><td colspan="2" height=10</tr>
 	<form method="post" action="man_clubs.php">
 	<input type="hidden" name="id" value="<?= $row['id'] ?>">
-	<tr><td><p style="font-weight:bold">Club ID:</p></td><td><p><?= $row['id'] ?></p></td></tr>
-	<tr><td><p style="font-weight:bold">Club Name:</p></td><td><p><?= $row['name'] ?></p></td></tr>
-	<tr><td colspan="2"><p style="font-weight:bold">Description:</p><textarea name="description" style="width:100%;resize:none"><?= $row['description'] ?></textarea></td></tr>
-	<tr><td></td><td align="right"><input type="submit" name="action" value="update"><input type="submit" name="action" value="delete"><br></td></tr>
+	<tr class="band<?=$band_class?>"><td width=20%><p style="font-weight:bold">Club ID:</p></td><td><p><?= $row['id'] ?></p></td></tr>
+	<tr class="band<?=$band_class?>"><td><p style="font-weight:bold">Club Name:</p></td><td><p><?= $row['name'] ?></p></td></tr>
+	<tr class="band<?=$band_class?>" align="center"><td colspan="2"><p style="font-weight:bold" align="left">Description:</p><textarea name="description" style="width:95%;height:100;resize:none" class="band<?=$band_class?>"><?= $row['description'] ?></textarea></td></tr>
+	<tr class="band<?=$band_class?>"><td></td><td align="right"><input type="submit" name="action" value="update"><input type="submit" name="action" value="delete"><br></td></tr>
 	</form>
+	<tr class="band<?=$band_class?>"><td colspan="2" height=10px></td></tr>
 	</table></tr>
 <?
+	$counter=$counter+1;
 }
 ?>
 </table>
