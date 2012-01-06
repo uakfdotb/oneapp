@@ -7,11 +7,6 @@
 	<th><p class="admin_table_header">ID</p></th>
 	<th><p class="admin_table_header">Username</p></th>
 	<th><p class="admin_table_header">Email</p></th>
-
-<? foreach($profileHeader as $item) { ?>
-	<th><p class="admin_table_header"><?= $item[0] ?></p></th>
-<? } ?>
-
 	<th><p class="admin_table_header">Last active</p></th>
 	<th><p class="admin_table_header">Reset apps</p></th>
 	<th><p class="admin_table_header">Delete user</p></th>
@@ -20,7 +15,6 @@
 <?
 foreach($userList as $user_id => $user) {
 	$infoUser = $user[1]; //array of (username, email)
-	$profileUser = $user[2]; //contains profile fields
 	
 	$banding = "";
 	if($user[0] == 0) $banding = " class=\"bandwarning\"";
