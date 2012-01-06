@@ -234,6 +234,8 @@ function style_function($name) {
 		} else {
 			return FALSE;
 		}
+	} else {
+		return FALSE;
 	}
 }
 
@@ -267,7 +269,7 @@ function page_convert($str) {
 	
 	//see if style provides this function
 	$styleFunction = style_function("page_convert");
-	if($style_function !== FALSE) {
+	if($styleFunction !== FALSE) {
 		return $styleFunction($str);
 	}
 
