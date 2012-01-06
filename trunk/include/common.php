@@ -618,7 +618,14 @@ function checkRoot($password) {
 	}
 	
 	$config = $GLOBALS['config'];
-	if($password == $config['root_password']) {
+	
+	$root_password = $config['root_password'];
+	if(substr($root_password, 0, 1) == ':') { //rest of root password is actually a hash
+		$root_password = substr($root_password, 1);
+		$password = chash($config['root_password_salt'] . $password);
+	}
+	
+	if($password == $root_password) {
 		return true;
 	} else {
 		lockAction("root");

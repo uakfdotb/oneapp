@@ -56,4 +56,16 @@ function toPHPArray($str) {
 	return "array(" . implode(", ", $safeArray) . ")";
 }
 
+function writeOption($fh, $option_name, $option_value, $force_no_quotes) {
+	fwrite($fh, '$config[\'' . $option_name . "'] = ");
+	
+	if($option_value != 'true' && $option_value != 'false' && !$force_no_quotes) {
+		fwrite($fh, "'" . $option_value . "'");
+	} else {
+		fwrite($fh, $option_value);
+	}
+	
+	fwrite($fh, ";\n");
+}
+
 ?>
