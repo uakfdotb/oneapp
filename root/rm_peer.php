@@ -20,7 +20,7 @@ if(isset($_SESSION['root'])) {
 			mysql_query("DELETE FROM recommendations WHERE id = '$recommend_id'");
 		}
 		
-		$result = mysql_query("SELECT * FROM recommendations WHERE user_id = '$user_id'");
+		$recommendationResult = mysql_query("SELECT * FROM recommendations WHERE user_id = '$user_id'");
 	}
 	
 	get_page_advanced("rm_peer", "root", array('user_id' => $user_id, 'recommendationResult' => $recommendationResult));
