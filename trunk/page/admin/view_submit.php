@@ -70,7 +70,7 @@ foreach($array as $item) {
 		$peerString .= '<a href="../submit/' . $peerEntry . '.pdf">Download</a> | ';
 	}
 
-	echo "<tr class=\"band".$band_counter."><td class=\"top_border\"><p>$appId</p></td><td class=\"top_border\">$userId</td><td class=\"top_border\">$generalApp</td><td class=\"top_border\">$supplement</td><td class=\"top_border\">$peerString</td>";
+	echo "<tr class=\"band" . $band_counter . "\"><td class=\"top_border\"><p>$appId</p></td><td class=\"top_border\">$userId</td><td class=\"top_border\">$generalApp</td><td class=\"top_border\">$supplement</td><td class=\"top_border\">$peerString</td>";
 	
 	if($box_enabled) {
 		if(isset($toolsMap[$appId])) $boxValue = $toolsMap[$appId][0];
