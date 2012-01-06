@@ -178,7 +178,7 @@ function submitRecommendation($recommend_id, $recommendation) {
 	}
 	
 	//create the PDF
-	$result = mysql_query("SELECT baseapp.varname, baseapp.vartype, recommender_answers.val FROM recommender_answers, baseapp WHERE recommender_answers.recommend_id = '$recommend_id' AND baseapp.id = recommender_answers.var_id ORDER BY baseapp.orderId");
+	$result = mysql_query("SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, recommender_answers.val FROM recommender_answers, baseapp WHERE recommender_answers.recommend_id = '$recommend_id' AND baseapp.id = recommender_answers.var_id ORDER BY baseapp.orderId");
 	$createResult = generatePDFByResult($result, "submit/");
 	
 	if(!$createResult[0]) { //if error during PDF generation
