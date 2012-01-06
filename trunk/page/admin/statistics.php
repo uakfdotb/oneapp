@@ -1,6 +1,6 @@
 <h1>Statistics</h1>
 
-<p>You have received <?= $adminStat[0] ?> submissions out of <?= $adminStat[1] ?> total users. Below is a breakdown of responses to questions on your supplement.</p>
+<p>You have received <?= $adminStat[0] ?> submissions out of <?= $adminStat[1] ?> total applications and <?= $adminStat[2] ?> total users. Below is a breakdown of responses to questions on your supplement.</p>
 
 <table width=100%>
 <tr>

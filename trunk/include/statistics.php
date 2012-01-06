@@ -85,19 +85,23 @@ function calculateStatistics() {
 	return $stat_array;
 }
 
-//returns array (users submitted, users total)
+//returns array (users submitted, users applied, users total)
 function adminStatistics($club_id) {
 	$club_id = escape($club_id);
 	
-	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id = '$club_id'");
+	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id = '$club_id' AND submitted != ''");
 	$row = mysql_fetch_array($result);
 	$usersSubmitted = $row[0];
+	
+	$result = mysql_query("SELECT COUNT(*) FROM applications WHERE club_id = '$club_id'");
+	$row = mysql_fetch_array($result);
+	$usersApplied = $row[0];
 	
 	$result = mysql_query("SELECT COUNT(*) FROM users");
 	$row = mysql_fetch_array($result);
 	$usersTotal = $row[0];
 	
-	return array($usersSubmitted, $usersTotal);
+	return array($usersSubmitted, $usersApplied, $usersTotal);
 }
 
 //array of (question name, array(choice -> #)); note that total responses can be derived from adminStatistics
