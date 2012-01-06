@@ -60,9 +60,9 @@ foreach($array as $item) {
 	//form needed in case the update categories or box
 	if($box_enabled || $cat_enabled) echo "<form method=\"post\" action=view_submit.php?id=$appId>";
 	
-	$userId = '<p><a href="user_detail.php?id=' . $item[1] . '">' . $item[1] . '</a></p>';
-	$generalApp = '<p><a href="../submit/' . $item[2] . '.pdf">Download</a></p>';
-	$supplement = '<p><a href="../submit/' . $item[3] . '.pdf">Download</a></p>';
+	$userId = '<a href="user_detail.php?id=' . $item[1] . '">' . $item[1] . '</a>';
+	$generalApp = '<a href="../submit/' . $item[2] . '.pdf">Download</a>';
+	$supplement = '<a href="../submit/' . $item[3] . '.pdf">Download</a>';
 	
 	$peerString = "";
 	foreach($item[4] as $peerEntry) {
@@ -70,7 +70,7 @@ foreach($array as $item) {
 		$peerString .= '<a href="../submit/' . $peerEntry . '.pdf">Download</a> | ';
 	}
 
-	echo "<tr class=\"band" . $band_counter . "\"><td class=\"top_border\"><p>$appId</p></td><td class=\"top_border\">$userId</td><td class=\"top_border\">$generalApp</td><td class=\"top_border\">$supplement</td><td class=\"top_border\">$peerString</td>";
+	echo "<tr class=\"band" . $band_counter . "\"><td class=\"top_border\"><p>$appId</p></td><td class=\"top_border\"><p>$userId</p></td><td class=\"top_border\"><p>$generalApp</p></td><td class=\"top_border\"><p>$supplement</p></td><td class=\"top_border\"><p>$peerString</p></td>";
 	
 	if($box_enabled) {
 		if(isset($toolsMap[$appId])) $boxValue = $toolsMap[$appId][0];
