@@ -67,15 +67,15 @@ for($i = 0; $i < count($side_display); $i++) {
 	
 	if($side_display[$i] == "supplement" && isset($_SESSION['user_id'])) {
 		//display all the supplements this user is working on
-		$clubsApplied = getUserClubsApplied($_SESSION['user_id']);
+		$styleClubsApplied = getUserClubsApplied($_SESSION['user_id']);
 		
 		echo "<ul>";
-		foreach($clubsApplied as $item) {
-			$club_id = $item[0];
-			$club_name = $item[1];
+		foreach($styleClubsApplied as $styleItem) {
+			$style_club_id = $styleItem[0];
+			$style_club_name = $styleItem[1];
 			echo "<li class=\"sidenav1\">";
-			echo "<a href=\"app.php?club_id=$club_id&action=view\">";
-			echo $club_name;
+			echo "<a href=\"app.php?club_id=$style_club_id&action=view\">";
+			echo $style_club_name;
 			echo "</a></li>";
 		}
 		echo "</ul>";
@@ -83,15 +83,15 @@ for($i = 0; $i < count($side_display); $i++) {
 		//display the general application categories
 		include_once($basePath . "/include/apply_submit.php");
 		if(isApplicationStarted($_SESSION['user_id'], 0)) {
-			$categoryList = listCategories();
+			$styleCategoryList = listCategories();
 			
 			echo "<ul>";
-			foreach($categoryList as $item) {
-				$cat_id = $item[0];
-				$cat_name = $item[1];
+			foreach($styleCategoryList as $styleItem) {
+				$style_cat_id = $styleItem[0];
+				$style_cat_name = $styleItem[1];
 				echo "<li class=\"sidenav1\">";
-				echo "<a href=\"app.php?club_id=0&cat_id=$cat_id&action=view\">";
-				echo $cat_name;
+				echo "<a href=\"app.php?club_id=0&cat_id=$style_cat_id&action=view\">";
+				echo $style_cat_name;
 				echo "</a></li>";
 			}
 			echo "</ul>";

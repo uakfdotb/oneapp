@@ -262,7 +262,7 @@ function page_db_part($page) {
 	if($row = mysql_fetch_array($result)) {
 		return $row['text'];
 	} else {
-		include_once(includePath() . "/default_pages.php");
+		include(includePath() . "/default_pages.php");
 		
 		if(isset($pages[$page])) {
 			return $pages[$page];
