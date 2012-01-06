@@ -14,6 +14,12 @@ function writeApplicationFooter() {
 //writes a field
 // repeat_id = 256 means that there is no repetition; -1 doesn't work and 0 is used as an actual ID
 function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable = true, $repeat_id = 256) {
+	//see if style provides this function
+	$styleFunction = style_function("writeField");
+	if($styleFunction !== FALSE) {
+		return $styleFunction($str);
+	}
+	
 	$mutableString = "";
 	if(!$mutable) {
 		$mutableString = " readonly=\"readonly\"";
@@ -33,16 +39,16 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 	if($type_array['type'] == "essay") {
 		$rows = 5;
 		$cols = 40;
-		$heig = 100;
+		$height = 100;
 		
 		if($type_array['size'] == "large") {
 			$rows = 15;
 			$cols = 75;
-			$heig = 200;
+			$height = 200;
 		} else if($type_array['size'] == "huge") {
 			$rows = 22;
 			$cols = 120;
-			$heig = 400;
+			$height = 400;
 		}
 		
 		echo '<tr><td colspan="2"><p class="name">';
@@ -65,7 +71,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		}
 		
 		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString style=\"width:90%;height:";
-		echo $heig;
+		echo $height;
 		echo "px;resize:none\">" . htmlspecialchars($answer) . "</textarea>";
 		
 		if($type_array['showchars']) {
@@ -155,7 +161,6 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		echo '</p></td></tr>';
 	} else if($type_array['type'] == "text") {
-		
 		echo '<tr><td colspan="2"><p class="name">';
 		
 		if($type_array['status'] != "optional") {
