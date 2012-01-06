@@ -28,14 +28,9 @@ foreach($userList as $user_id => $user) {
 	
 	<form method="post" action="userlist.php">
 	<input type="hidden" name="id" value="<?= $user_id ?>"><tr align="center"<?= $banding ?> style="padding-top:1">
-	<td><p><?= $user_id ?></p></td>
+	<td><p><a href="user_detail.php?id=<?= $user_id ?>"><?= $user_id ?></a></p></td>
 	<td><p><?= $infoUser[0] ?></p></td>
 	<td><p><?= $infoUser[1] ?></p></td>
-	
-	<? foreach($profileUser as $item) { ?>
-		<td><p><?= $item[1] ?></p></td>
-	<? } ?>
-	
 	<td><p><?= timeString($user[0]) ?></p></td>
 	<td><input type="submit" name="action" value="reset"></td>
 	<td><input type="submit" name="action" value="delete!!"></td>
