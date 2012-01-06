@@ -4,11 +4,13 @@
 
 <p>If you are not sure what to do here, you should use the <b>Easy Question Adder</b> to generate the name, description, and type (then, copy and paste the output to the form on the right). NOTE: at the time of this message, the easy question adder is still in development.</p>
 
-<p>You can also <a href="man_questions.php?action=deleteall">delete all questions</a>.</p>
-
+<div align="center">
 <?
 page_advanced_include("category_manager", "admin", array("categories" => $categories));
-
+?>
+<div id="spacebox"></div>
+</div>
+<?
 if($isAvailableWindow) {
 	echo '<p>WARNING: your club is currently in the available window, and users may have already added the club to their applications list! Changes will not automatically be reflected in the user application; a script in root management needs to be executed.</p>';
 }
@@ -18,7 +20,7 @@ if(isset($message) && $message != "") {
 }
 
 if(isset($editInfo) && $editInfo !== 0) {
-	echo '<form method="post" action="man_questions.php?action=edit"><table class="borderon">';
+	echo '<form method="post" action="man_questions.php?action=edit"><table class="borderon band1" align="center">';
 	echo '<input type="hidden" name="id" value="' . $editInfo[0] . '">';
 	echo '<tr><td align="right"><p class="messpart">Name</p></td><td><input type="text" name="varname" value="' . $editInfo[1] . '" style="width:100%"></td></tr>';
 	echo '<tr><td align="right"><p class="messpart">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px">' . $editInfo[2] . '</textarea></td></tr>';
@@ -30,7 +32,7 @@ if(isset($editInfo) && $editInfo !== 0) {
 ?>
 	<form method="post" action="man_questions.php">
 	
-	<table class="borderon">
+	<table class="borderon band1" align="center">
 	<tr><td width=50%>
 	<table>
 	<tr><td><p align="right">Name</p></td><td><input type="text" name="varname" style="width:100%"></td></tr>
@@ -51,8 +53,9 @@ if(isset($editInfo) && $editInfo !== 0) {
 <?
 }
 ?>
+<p align="right"><a href="man_questions.php?action=deleteall">Delete All Questions!</a>.</p>
 
-<table cellspacing=0 class="borderon" width=100%><tr align="left"><th><p class="mess">Question name</p></th><th><p class="mess">Description</p></th><th><p class="mess">Type</p></th><th><p class="mess">Up</p></th><th><p class="mess">Down</p></th><th><p class="mess">Edit</p></th><th><p class="mess">Delete</p></th></tr>
+<table cellspacing=0 width=100%><tr align="left"><th><p class="admin_table_header">Question name</p></th><th><p class="admin_table_header">Description</p></th><th><p class="admin_table_header">Type</p></th><th><p class="admin_table_header">Up</p></th><th><p class="admin_table_header">Down</p></th><th><p class="admin_table_header">Edit</p></th><th><p class="admin_table_header">Delete</p></th></tr>
 
 <?
 $rowcounter=0;
@@ -63,14 +66,14 @@ foreach($questionList as $question) {
 	<input type="hidden" name="orderId" value="<?= $question[1] ?>">
 	
 	<tr class="band<?= $rowcounter % 2 + 1?>">
-	<td><p class="messpart"><?= $question[2] ?></p></td>
-	<td><p class="messpart"><?= $question[3] ?></p></td>
-	<td><p class="messpart"><?= $question[4] ?></p></td>
+	<td class="top_border"><p class="messpart"><?= $question[2] ?></p></td>
+	<td class="top_border"><p class="messpart"><?= $question[3] ?></p></td>
+	<td class="top_border"><p class="messpart"><?= $question[4] ?></p></td>
 	
-	<td><input type="submit" name="action" value="up"></td>
-	<td><input type="submit" name="action" value="down"></td>
-	<td><input type="submit" name="action" value="edit"></td>
-	<td><input type="submit" name="action" value="delete"></td>
+	<td class="top_border"><input type="submit" name="action" value="up"></td>
+	<td class="top_border"><input type="submit" name="action" value="down"></td>
+	<td class="top_border"><input type="submit" name="action" value="edit"></td>
+	<td class="top_border"><input type="submit" name="action" value="delete"></td>
 	</tr></form>
 <?
 	$rowcounter++;
