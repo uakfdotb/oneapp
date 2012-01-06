@@ -145,11 +145,11 @@ function get_page($page, $args = array()) {
 	$basePath = basePath();
 	
 	$style = getStyle();
-	$style_page_include = $basePath . "/style/style$style/page/$page.php";
+	$stylePath = $basePath . "/style/$style";
+	$style_page_include = "$stylePath/page/$page.php";
 	$page_include = $basePath . "/page/$page.php";
-	$stylepath = $basePath . "/style";
 	
-	include("$stylepath/header$style.php");
+	include("$stylePath/header.php");
 	
 	if(file_exists($style_page_include)) {
 		include($style_page_include);
@@ -157,7 +157,7 @@ function get_page($page, $args = array()) {
 		include($page_include);
 	}
 	
-	include("$stylepath/footer$style.php");
+	include("$stylePath/footer.php");
 }
 
 function get_page_advanced($page, $context, $args = array()) {
@@ -180,11 +180,11 @@ function get_page_advanced($page, $context, $args = array()) {
 	$basePath = basePath();
 	
 	$style = getStyle();
-	$style_page_include = $basePath . "/astyle/style$style/$context/$page.php";
+	$stylePath = $basePath . "/astyle/$style";
+	$style_page_include = "$stylePath/$context/$page.php";
 	$page_include = $basePath . "/page/$context/$page.php";
-	$stylepath = $basePath . "/astyle";
 	
-	include("$stylepath/header$style.php");
+	include("$stylePath/header.php");
 	
 	if(file_exists($style_page_include)) {
 		include($style_page_include);
@@ -192,7 +192,7 @@ function get_page_advanced($page, $context, $args = array()) {
 		include($page_include);
 	}
 	
-	include("$stylepath/footer$style.php");
+	include("$stylePath/footer.php");
 }
 
 
@@ -209,14 +209,31 @@ function page_advanced_include($target, $context, $args = array()) {
 	
 	$basePath = basePath();
 	
-	$style = stripAlphaNumeric($_SESSION['style']);
-	$style_page_include = $basePath . "/astyle/style$style/$context/$target.php";
+	$style = getStyle();
+	$stylePath = $basePath . "/astyle/$style";
+	$style_page_include = "$stylePath/$context/$target.php";
 	$page_include = $basePath . "/page/$context/$target.php";
 	
 	if(file_exists($style_page_include)) {
 		include($style_page_include);
 	} else {
 		include($page_include);
+	}
+}
+
+function style_function($name) {
+	$basePath = basePath();
+	$style = getStyle();
+	$stylePath = $basePath . "/astyle/$style";
+	
+	if(file_exists($stylePath . "/include.php")) {
+		include_once($stylePath . "/include.php");
+		
+		if(function_exists($style . "_" . $name)) {
+			return $style . "_" . $name;
+		} else {
+			return FALSE;
+		}
 	}
 }
 
@@ -247,6 +264,12 @@ function page_db_part($page) {
 
 function page_convert($str) {
 	$config = $GLOBALS['config'];
+	
+	//see if style provides this function
+	$styleFunction = style_function("page_convert");
+	if($style_function !== FALSE) {
+		return $styleFunction($str);
+	}
 
 	$str = htmlentities($str);
 	$str = str_replace("[p]", "<p>", $str);

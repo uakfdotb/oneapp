@@ -1,5 +1,5 @@
 <div id="imgmain" >
-	<img src="style/style1/logo.jpg" alt="logo" width="680"/>
+	<img src="<?= $stylePath ?>/logo.jpg" alt="logo" width="680"/>
 </div>
 <div id="schoolname">
 	<h4><?= $config['organization_name'] ?></h4>

@@ -23,11 +23,11 @@ if(isset($_SESSION['site_name'])) {
 }
 
 if(isset($_REQUEST['style'])) {
-	$_SESSION['style'] = intval($_REQUEST['style']);
+	$_SESSION['style'] = preg_replace('/[^A-Za-z0-9_\-]/', '_', $_REQUEST['style']);
 }
 
 if(!isset($_SESSION['style'])) {
-    $_SESSION['style'] = intval($config['style']);
+    $_SESSION['style'] = preg_replace('/[^A-Za-z0-9_\-]/', '_', $config['style']);
 }
 
 ?>

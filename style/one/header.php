@@ -1,6 +1,6 @@
 <html>
 <head>
-<link href="<?= $basePath ?>/style/style1/style.css" rel="stylesheet" type="text/css">
+<link href="<?= $stylePath ?>/style.css" rel="stylesheet" type="text/css">
 <title><?= $config['site_name'] ?></title>
 <?
 if(isset($redirect)) {
@@ -13,7 +13,7 @@ if(isset($redirect)) {
 	<div id="topbar" align="left">
 		<table width=100% cellpadding="0" cellspacing="0" >
 			<tr>
-			<td><a href="index.php"><img src="<?= $basePath ?>/style/style1/logo.jpg" alt="logo" height="60" border="0" /></td>
+			<td><a href="index.php"><img src="<?= $stylePath ?>/logo.jpg" alt="logo" height="60" border="0" /></td>
 			<td VALIGN="BOTTOM"><p class="schooltop"><?= $config['organization_name'] ?></p></td>
 			</tr>
 		</table>
