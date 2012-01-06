@@ -20,7 +20,7 @@
 		<td><p><?= $response ?> (<?= $count ?>/<?= $adminStat[0] ?>)</p></td>
 		<td>
 		<? if($adminStat[0] != 0) { //make sure we don't divide by 0 ?>
-			<img src="../include/ratingbox.php?rating=<?= $count[0] * 100 / $adminStat[0] ?>" width=50%>
+			<img src="../include/ratingbox.php?rating=<?= $count * 100 / $adminStat[0] ?>" width=50%>
 		<? } ?>
 		</td>
 	<? } ?>

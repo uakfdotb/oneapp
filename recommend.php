@@ -10,7 +10,7 @@ include("include/apply_submit.php");
 include("include/latex.php");
 
 if(isset($_SESSION['user_id'])) {
-	get_page("message", array("title" => "Logged In", "message" => "You are already logged in! Click <a href=\"application/\">here</a> to continue."));
+	get_page("message", array("title" => "Logged In", "message" => "You are already logged in (you must logout before you can submit a recommendation)! Click <a href=\"application/\">here</a> to continue."));
 } else if(isset($_REQUEST['id']) && isset($_REQUEST['user_id']) && isset($_REQUEST['auth'])) {
 	//validate the id, user_id, and auth
 	$name = authenticateRecommendation($_REQUEST['id'], $_REQUEST['user_id'], $_REQUEST['auth']);
