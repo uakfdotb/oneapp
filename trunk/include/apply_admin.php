@@ -15,6 +15,9 @@ function insertQuestion($varname, $vardesc, $vartype, $club_id, $database, $wher
 		return "name (or description if type=select) of variable left blank";
 	}
 	
+	//add spaces to type array
+	$vartype = str_replace(";", "; ", $vartype);
+	
 	if($database != "supplements" && $database != "baseapp") {
 		return "internal error: invalid database";
 	}
