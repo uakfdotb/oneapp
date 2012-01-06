@@ -11,7 +11,36 @@ if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
 	
 	if(isset($_REQUEST['type'])) {
-		
+		if(isset($_REQUEST['done'])) {
+			$type = trim($_REQUEST['type']);
+			$name = trim($_REQUEST['name']);
+			
+			$description = str_replace("\r", "", trim($_REQUEST['description']));
+			if($type == "select") $description = str_replace("\n", ";", $description);
+			
+			$status = "optional";
+			if(isset($_REQUEST['status'])) $status = trim($_REQUEST['status']);
+			
+			$showchars = "false";
+			if(isset($_REQUEST['showchars'])) $showchars = trim($_REQUEST['showchars']);
+			
+			$length = 10000;
+			if(isset($_REQUEST['length'])) $length = trim($_REQUEST['length']);
+			
+			$method = "";
+			if(isset($_REQUEST['method'])) $method = trim($_REQUEST['method']);
+			
+			$size = "";
+			if(isset($_REQUEST['size'])) $size = trim($_REQUEST['size']);
+			
+			$generate = $name . "\n";
+			$generate .= $description . "\n";
+			$generate .= "type:$type; status:$status; showchars:$showchars; length:$length; method:$method; size:$size";
+			
+			get_page_advanced("easyq_generated", "admin", array('generate' => $generate));
+		} else {
+			get_page_advanced("easyq_question", "admin", array('type' => $_REQUEST['type']));
+		}
 	} else {
 		get_page_advanced("easyq_type", "admin");
 	}
