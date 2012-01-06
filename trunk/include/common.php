@@ -149,7 +149,9 @@ function get_page($page, $args = array()) {
 	$style_page_include = "$stylePath/page/$page.php";
 	$page_include = $basePath . "/page/$page.php";
 	
-	include("$stylePath/header.php");
+	if(file_exists("$stylePath/header.php")) {
+		include("$stylePath/header.php");
+	}
 	
 	if(file_exists($style_page_include)) {
 		include($style_page_include);
@@ -157,7 +159,9 @@ function get_page($page, $args = array()) {
 		include($page_include);
 	}
 	
-	include("$stylePath/footer.php");
+	if(file_exists("$stylePath/footer.php")) {
+		include("$stylePath/footer.php");
+	}
 }
 
 function get_page_advanced($page, $context, $args = array()) {
@@ -184,7 +188,9 @@ function get_page_advanced($page, $context, $args = array()) {
 	$style_page_include = "$stylePath/$context/$page.php";
 	$page_include = $basePath . "/page/$context/$page.php";
 	
-	include("$stylePath/header.php");
+	if(file_exists("$stylePath/header.php")) {
+		include("$stylePath/header.php");
+	}
 	
 	if(file_exists($style_page_include)) {
 		include($style_page_include);
@@ -192,7 +198,9 @@ function get_page_advanced($page, $context, $args = array()) {
 		include($page_include);
 	}
 	
-	include("$stylePath/footer.php");
+	if(file_exists("$stylePath/footer.php")) {
+		include("$stylePath/footer.php");
+	}
 }
 
 
