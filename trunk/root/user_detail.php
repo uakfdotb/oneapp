@@ -11,7 +11,7 @@ if(isset($_SESSION['root']) && isset($_REQUEST['id'])) {
 	$username = $userinfo[0];
 	$profile = getProfile($user_id);
 	
-	get_page_advanced("user_detail", "admin", array('username' => $username, 'profile' => $profile));
+	get_page_advanced("user_detail", "root", array('username' => $username, 'profile' => $profile));
 } else {
 	header('Location: index.php');
 }
