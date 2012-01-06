@@ -10,12 +10,17 @@
 </tr>
 
 <?
-foreach($stat_array as $name => $value) {
+foreach($stat_array as $name => $valueArray) {
+	if($valueArray[1] == 0) $valueArray[1] = $valueArray[0] + 1; //avoid division by zero
 ?>
 	<tr>
 	<td><p class="admin_table_entry"><?= $name ?></p></td>
-	<td><p class="admin_table_entry"><?= $value ?></p></td>
-	<td><img src="../include/ratingbox.php?rating=<?= $value ?>"></td>
+	<td><p class="admin_table_entry"><?= $valueArray[0] ?></p></td>
+	<td>
+	<? if($valueArray[1] != -1) { ?>
+		<img src="../include/ratingbox.php?rating=<?= $valueArray[0] * 100 / $valueArray[1] ?>">
+	<? } ?>
+	</td>
 	</tr>
 <? } ?>
 
