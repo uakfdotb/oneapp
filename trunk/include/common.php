@@ -504,6 +504,10 @@ function getProfile($userid) {
 	return $profile;
 }
 
+function displayProfile($userid) {
+	
+}
+
 //returns array (username, email address)
 function getUserInformation($user_id) {
 	$user_id = escape($user_id);
