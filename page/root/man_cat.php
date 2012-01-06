@@ -7,14 +7,13 @@ if(isset($message) && $message != '') {
 	echo "<p>$message</p>";
 }
 ?>
-
-<form action="man_cat.php?action=add" method="post"><p>
-Category name <input type="text" name="name">
-<input type="submit" value="Add category">
-</p></form>
-<br><br>
+<br>
+<form action="man_cat.php?action=add" method="post"><table align="center" class="borderon" bgcolor=#F2F5F7><tr>
+<td><p class="admin_table_part">Category name</p></td><td><input type="text" name="name"></td><td><input type="submit" value="Add category"></td>
+</tr></table></form>
+<br>
 		
-<table width=100% cellspacing=0 class="borderon">
+<table width=100% cellspacing=0>
 <tr>
 	<th><p class="admin_table_header">Category name</p></th>
 	<th><p class="admin_table_header">Update</p></th>

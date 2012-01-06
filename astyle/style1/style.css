@@ -176,7 +176,7 @@ tr.bgoff{
 }
 
 .band1{
-	background-color:#DEDEDE;
+	background-color:#F2F5F7;
 }
 
 .band2{
@@ -185,4 +185,20 @@ tr.bgoff{
 
 .bandwarning{
 	background-color:#EBC5CA;
+}
+
+tr.band1{
+        bgcolor:#F2F5F7;
+}
+
+tr.band2{
+        bgcolor:white;
+}
+
+.top_border{
+    border-top:1px solid #ABB4BA;
+}
+
+textarea.band1{
+    border:1px solid #ABB4BA;
 }
