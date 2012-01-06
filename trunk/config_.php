@@ -66,4 +66,7 @@ $config['root_side_display_names'] = array('Root Home', 'Manage pages', 'Manage 
 
 $config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the current time
 $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements
+
+//-1 means unlimited
+$config['limits'] = array('clubs' => -1, 'users' => -1);
 ?>
