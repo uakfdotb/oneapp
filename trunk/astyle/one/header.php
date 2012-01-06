@@ -1,6 +1,6 @@
 <html>
 <head>
-<link href="<?= $basePath ?>/astyle/style1/style.css" rel="stylesheet" type="text/css">
+<link href="<?= $stylePath ?>/style.css" rel="stylesheet" type="text/css">
 
 <script type="text/javascript">
 tday  =new Array("Sun","Mon","Tue","Wed","Thur","Fri","Sat");
@@ -41,7 +41,7 @@ window.onload=GetClock;
 	<div id="topbar" align="left">
 		<table width=100% cellpadding="0" cellspacing="0" >
 			<tr>
-			<td><a href="../index.php"><img src="<?= $basePath ?>/astyle/style1/logo.jpg" alt="logo" height="60" border="0" /></a></td>
+			<td><a href="../index.php"><img src="<?= $stylePath ?>/logo.jpg" alt="logo" height="60" border="0" /></a></td>
 			<td VALIGN="BOTTOM"><p class="schooltop"><?= $config['organization_name'] ?></p></td>
 			</tr>
 		</table>

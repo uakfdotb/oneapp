@@ -43,7 +43,7 @@ $config['max_recommend'] = 10;
 $config['root_password'] = '';
 $config['root_password_hash'] = '3YzxnnkZYOHRHIiP';
 
-$config['style'] = 0;
+$config['style'] = 'basic';
 $config['app_enabled'] = true;
 
 $config['latex_path'] = "/usr/bin/pdflatex";
