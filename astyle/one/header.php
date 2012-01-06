@@ -59,7 +59,7 @@ for($i = 0; $i < count($page_display); $i++) {
 	<div id ="col_holder">
 		<div id="col_left">
 			<div id="side_bar">
-				<ul style="margin-left: 10px; padding-left: 0;">
+				<ul style="margin-left: 10px; padding-left: 0; margin-right:5px">
 
 <?
 for($i = 0; $i < count($side_display); $i++) {
