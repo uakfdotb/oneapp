@@ -7,9 +7,17 @@
 			<div id="content">
 			    <img src="<?=$stylePath?>/logo.jpg" width=100%>
 			</div>
-			<div id="content">
-			    <h1>HI KURTIS</h1>
-			</div>
+<?
+//retrieve other slides from files.txt
+$style_fh = fopen($stylePath . "/file.txt", 'r');
+
+while (($style_buffer = fgets($style_fh)) !== false) {
+	$style_buffer = trim($style_buffer);
+	echo '<div id="content">';
+	echo "<img src=\"$style_buffer\" width=\"100%\" />";
+	echo '</div>';
+}
+?>
 		</div>
 	</div>
     </div>
