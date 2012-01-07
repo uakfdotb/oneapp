@@ -67,7 +67,7 @@ foreach($array as $item) {
 	$peerString = "";
 	foreach($item[4] as $peerEntry) {
 	$band_counter=$counter%2+1;
-		$peerString .= '<a href="../submit/' . $peerEntry . '.pdf">Download</a> | ';
+		$peerString .= "<a href=\"../submit/$peerEntry.pdf\">PDF</a> (<a href=\"view_recommendation.php?peer_pdf=$peerEntry&user_id=" . $item[1] . "\">detail</a>) ";
 	}
 
 	echo "<tr class=\"band" . $band_counter . "\"><td class=\"top_border\"><p>$appId</p></td><td class=\"top_border\"><p>$userId</p></td><td class=\"top_border\"><p>$generalApp</p></td><td class=\"top_border\"><p>$supplement</p></td><td class=\"top_border\"><p>$peerString</p></td>";
