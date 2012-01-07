@@ -1,14 +1,14 @@
 /* ------------------------------
 HTML Redefine Tags
 ------------------------------ */
-body{font-family:courier; font-size:12px; margin:20px; padding:0;}
+body{font-family:verdana; font-size:12px; margin:20px; padding:0;}
 
 input, form, textarea
 h1, h2, h3, h4, h5, h6{margin:0; padding:0;}
-h4{font-size:28px; text-align:center; margin-top:1%px; margin-right:40px; margin-left:40px; border-bottom:solid 2px #DEDEDE; border-top:solid 2px #DEDEDE; }
+h4{font-size:28px; text-align:center; margin-top:10px; margin-right:40px; margin-left:40px; border-bottom:solid 2px #DEDEDE; border-top:solid 2px #DEDEDE; }
 h1{font-size:18px;}
 h2{font-size:14px; color:white;}
-h3{font-size:13px; border-bottom:solid 1px #DEDEDE; padding:4px 0; margin-bottom:10px;}
+h3{font-size:13px; border-bottom:solid 1px #DEDEDE; margin-bottom:10px;}
 p{font-size:11px;text-decoration:none;color:#393737;}
 a:hover{text-decoration:none;color:#ABB4BA;}
 a{text-decoration:none; color:#1A3E5B;}
@@ -115,5 +115,5 @@ CUSTOM CLASSES
 .pagination div {cursor:pointer; padding:0; margin:0; text-align:center; color:#222}
 .pagination div:hover {}
 div.current {}
-div#content {width:680px; height:170px; padding:0px; background:white;}
+div#content {float:center; width:680px; height:170px; padding:0px; background:white; overflow:hidden;}
 /*END SLIDESHOW*/

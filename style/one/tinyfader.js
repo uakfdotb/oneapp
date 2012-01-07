@@ -28,7 +28,7 @@ TINY.fader=function(){
 		clearInterval(p.si); clearInterval(this.u.ai); this.u.ai=0; this.c=i;
 		if(p.o>=100&&!v){p.o=0; p.style.opacity=0; p.style.filter='alpha(opacity=0)'}
 		if(this.g){for(var x=0;x<this.l;x++){this.g[x].className=x==i?this.s:''}}
-		p.si=setInterval(new Function(this.n+'.fade('+i+','+a+')'),40) //40 is the time interval
+		p.si=setInterval(new Function(this.n+'.fade('+i+','+a+')'),10) //40 is the time interval
 	},
 	fade.prototype.fade=function(i,a){
 		var p=this.u[i];

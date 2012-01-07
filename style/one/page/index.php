@@ -8,14 +8,16 @@
 			    <img src="<?=$stylePath?>/logo.jpg" width=100%>
 			</div>
 <?
+$imgcounter=0;
 //retrieve other slides from files.txt
 $style_fh = fopen($stylePath . "/file.txt", 'r');
 
 while (($style_buffer = fgets($style_fh)) !== false) {
 	$style_buffer = trim($style_buffer);
 	echo '<div id="content">';
-	echo "<img src=\"$style_buffer\" width=\"100%\" />";
+	echo "<img src=\"$style_buffer\"/>";
 	echo '</div>';
+	$imgcounter=$imgcounter+1;
 }
 ?>
 		</div>
@@ -23,7 +25,13 @@ while (($style_buffer = fgets($style_fh)) !== false) {
     </div>
     <div id="pagination" class="pagination">
         <div onclick="slideshow.pos(0)"></div>
-    	<div onclick="slideshow.pos(1)"></div>
+<?
+$counter=1;
+while($counter<=$imgcounter){
+	echo '<div onclick="slideshow.pos($counter)"></div>';
+	$counter=$counter+1;
+}
+?>
     </div>
 </div>
 
