@@ -40,7 +40,7 @@ if($cat_enabled) { // here, we give user a filter selection dropdown, preselecti
 	<th><p class="admin_table_header">Supplement</p></th>
 	<th><p class="admin_table_header">Recs</p></th>
 	<?
-	if($box_enabled) echo "<th><p class=\"admin_table_header\">TheBox</p></th>";
+	if($box_enabled) echo "<th><p class=\"admin_table_header\">TheTextBox</p></th>";
 	if($cat_enabled) echo "<th><p class=\"admin_table_header\">Category</p></th>";
 	if($comment_enabled) echo "<th><p class=\"admin_table_header\">Comments</p></th>";
 	if($box_enabled || $cat_enabled) echo "<th><p class=\"admin_table_header\">Update</p></th>"; //comments are updated through separate page
