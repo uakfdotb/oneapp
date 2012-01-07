@@ -24,7 +24,7 @@ if(isset($_SESSION['user_id'])) {
 				if(isset($_REQUEST['confirm'])) { //require confirmation before final submission
 					$result = submitApplication($_SESSION['user_id'], $app_id);
 					
-					if($result === TRUE) { //true on success, string on failure
+					if(is_array($result)) { //true on success, string on failure
 						get_page_advanced("message", "apply", array("title" => "Application submission", "message" => "Application submitted successfully"));
 					} else {
 						get_page_advanced("message", "apply", array("title" => "Application submission", "message" => "There was an error while submitting your application: " . $result));
