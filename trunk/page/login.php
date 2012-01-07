@@ -1,7 +1,7 @@
 <h1>Login</h1>
 <?
 if(isset($message) && $message != "") {
-	echo "<p>The username/password was incorrect. Please try again.</p>";
+	echo "<p>$message</p>";
 }
 ?>
 
