@@ -158,6 +158,8 @@ function generatePDFByResult($result, $targetDirectory) {
 		$body_string .= latexAppendQuestion($row[0], $row[1], $row[2], $row[3]);
 	}
 	
+	if($body_string == "") $body_string = "No content in this application.";
+	
 	if(substr($targetDirectory, -1) != "/") { //add trailing slash if not present
 		$targetDirectory .= "/";
 	}
