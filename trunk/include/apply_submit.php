@@ -131,7 +131,11 @@ function saveApplication($user_id, $application_id, $answers) { //$answers is ar
 	return TRUE;
 }
 
-function submitApplication($user_id, $application_id) {
+//submits the application, doing all the checks and then generating PDFs and updating database along the way
+// if do_submit is false, then the PDFs will be generated but they want be added to the database
+// this is used for viewing the PDF prior to submission
+// returns: error message on fail, or PDF array on success (recommendations not in array)
+function submitApplication($user_id, $application_id, $do_submit = true) {
 	$user_id = escape($user_id);
 	$application_id = escape($application_id);
 	
@@ -186,10 +190,16 @@ function submitApplication($user_id, $application_id) {
 	}
 	
 	//update database
-	$submitName = escape($createGeneralResult[1] . ":" . $createSupplementResult[1] . $peerString);
-	mysql_query("UPDATE applications SET submitted='$submitName' WHERE id='$application_id' AND user_id='$user_id'");
+	if($do_submit) {
+		$submitName = escape($createGeneralResult[1] . ":" . $createSupplementResult[1] . $peerString);
+		mysql_query("UPDATE applications SET submitted='$submitName' WHERE id='$application_id' AND user_id='$user_id'");
+	}
 	
-	return TRUE;
+	//some maintenance
+	include(includePath() . "/chk.php");
+	checkExtraPDFs(true, true); //delete old, extra PDFs
+	
+	return array($createGeneralResult[1], $createSupplementResult[1]);
 }
 
 //returns array of strings, which are warnings

@@ -1,10 +1,21 @@
 <?php
 
 //returns an array of the paths of extra PDFs
-function checkExtraPDFs($doDelete = false) {
+// if doDelete is true the PDFs will also be deleted
+// if onlyOld is true then only PDFs will creation time > one hour ago will be deleted
+function checkExtraPDFs($doDelete = false, $onlyOld = false) {
 	//list directory
 	$submitPath = "../submit";
 	$fileList = list_directory($submitPath);
+	
+	//remove files that are less than an hour old from our list
+	if($onlyOld) {
+		foreach($fileList as $key => $filename) {
+			if(time() - filemtime($submitPath . "/" . $filename) < 3600) {
+				unset($fileList[$key]);
+			}
+		}
+	}
 	
 	//get all submitted PDFs
 	$result = mysql_query("SELECT submitted FROM applications WHERE submitted != ''");
