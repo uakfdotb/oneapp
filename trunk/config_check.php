@@ -88,6 +88,18 @@ if(isset($config['latex_path'])) {
 	}
 }
 
+if(!extension_loaded('zip')) {
+	result('PHP zip extension', 'PHP zip extension is not loaded, file backups will not work', false);
+} else {
+	result('PHP zip extension', 'PHP zip extension is loaded', true);
+}
+
+if(!extension_loaded('gd')) {
+	result('PHP gd extension', 'PHP gd extension is not loaded, statistics bars will not work', false);
+} else {
+	result('PHP gd extension', 'PHP gd extension is loaded', true);
+}
+
 if(!file_exists('submit') || !is_writable('submit')) {
 	result('Submission directory', 'Submission directory submit/ does not exist or is not writable', false);
 } else {
@@ -98,6 +110,12 @@ if(!file_exists('pdf') || !is_writable('pdf')) {
 	result('PDF directory', 'PDF directory pdf/ does not exist or is not writable', false);
 } else {
 	result('PDF directory', 'PDF directory exists and is writable', true);
+}
+
+if(!file_exists('backup') || !is_writable('backup')) {
+	result('Backup directory', 'Backup directory backup/ does not exist or is not writable', false);
+} else {
+	result('Backup directory', 'Backup directory exists and is writable', true);
 }
 
 if(isset($config['style'])) {
