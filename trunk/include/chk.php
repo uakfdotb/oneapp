@@ -134,13 +134,16 @@ function checkNoHome() {
 function fullClean() {
 	checkNoHome();
 	
-	mysql_query("DELETE FROM admins WHERE (SELECT COUNT(id) FROM clubs WHERE id = admins.club_id) < 1");
-	mysql_query("DELETE FROM applications WHERE (SELECT COUNT(id) FROM clubs WHERE id = applications.club_id) < 1 OR (SELECT COUNT(id) FROM users WHERE id = applications.user_id) < 1");
+	mysql_query("DELETE FROM admins WHERE club_id != '0' AND (SELECT COUNT(id) FROM clubs WHERE id = admins.club_id) < 1");
+	mysql_query("DELETE FROM applications WHERE (applications.club_id != '0' AND (SELECT COUNT(id) FROM clubs WHERE id = applications.club_id) < 1) OR (SELECT COUNT(id) FROM users WHERE id = applications.user_id) < 1");
 	mysql_query("DELETE FROM profiles WHERE (SELECT COUNT(id) FROM users WHERE id = profiles.user_id) < 1 OR (SELECT COUNT(id) FROM baseapp WHERE id = profiles.var_id) < 1");
 	mysql_query("DELETE FROM recommendations WHERE (SELECT COUNT(id) FROM users WHERE id = recommendations.user_id) < 1");
 	mysql_query("DELETE FROM club_notes WHERE (SELECT COUNT(id) FROM clubs WHERE id = club_notes.club_id) < 1 OR (SELECT COUNT(id) FROM applications WHERE id = club_notes.application_id) < 1");
 	mysql_query("DELETE FROM club_notes_categories WHERE (SELECT COUNT(id) FROM clubs WHERE id = club_notes_categories.club_id) < 1");
-	mysql_query("DELETE FROM admins WHERE (SELECT COUNT(id) FROM clubs WHERE id = admins.club_id) < 1");
+	
+	//delete questions
+	mysql_query("DELETE FROM baseapp WHERE baseapp.category > 0 AND (SELECT COUNT(id) FROM basecat WHERE id = baseapp.category) < 1");
+	mysql_query("DELETE FROM supplements WHERE (SELECT COUNT(id) FROM clubs WHERE id = supplements.club_id) < 1");
 	
 	//delete answers
 	mysql_query("DELETE FROM answers WHERE (SELECT COUNT(id) FROM applications WHERE id = answers.application_id) < 1");
