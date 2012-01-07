@@ -73,4 +73,9 @@ $config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the curr
 $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements
 
 $config['limits'] = array('clubs' => -1, 'users' => -1); //limit of -1 is unlimited
+
+//whether to enable the captcha system
+// in order to use this, you must install Securimage 3.0 to the oneapp root directory
+// this can be downloaded at http://www.phpcaptcha.org/download/
+$config['captcha_enabled'] = false;
 ?>
