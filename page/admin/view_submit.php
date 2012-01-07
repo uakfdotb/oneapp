@@ -38,9 +38,9 @@ if($cat_enabled) { // here, we give user a filter selection dropdown, preselecti
 	<th><p class="admin_table_header">User ID</p></th>
 	<th><p class="admin_table_header">General application</p></th>
 	<th><p class="admin_table_header">Supplement</p></th>
-	<th><p class="admin_table_header">Recommendations</p></th>
+	<th><p class="admin_table_header">Recs</p></th>
 	<?
-	if($box_enabled) echo "<th><p class=\"admin_table_header\">The Box</p></th>";
+	if($box_enabled) echo "<th><p class=\"admin_table_header\">TheBox</p></th>";
 	if($cat_enabled) echo "<th><p class=\"admin_table_header\">Category</p></th>";
 	if($comment_enabled) echo "<th><p class=\"admin_table_header\">Comments</p></th>";
 	if($box_enabled || $cat_enabled) echo "<th><p class=\"admin_table_header\">Update</p></th>"; //comments are updated through separate page
@@ -69,7 +69,7 @@ foreach($array as $item) {
 	$band_counter=$counter%2+1;
 		$peerString .= "<a href=\"../submit/$peerEntry.pdf\">PDF</a> (<a href=\"view_recommendation.php?peer_pdf=$peerEntry&user_id=" . $item[1] . "\">detail</a>) ";
 	}
-
+	        $band_counter=$counter%2+1;
 	echo "<tr class=\"band" . $band_counter . "\"><td class=\"top_border\"><p>$appId</p></td><td class=\"top_border\"><p>$userId</p></td><td class=\"top_border\"><p>$generalApp</p></td><td class=\"top_border\"><p>$supplement</p></td><td class=\"top_border\"><p>$peerString</p></td>";
 	
 	if($box_enabled) {
