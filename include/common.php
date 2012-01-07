@@ -341,10 +341,10 @@ function savePage($page, $text) {
 //DATABASE OPERATIONS
 //...................
 
-//0: success; 1: field length too long or too short
+//0: success; 1: field length too long or too short; 2: captcha failed
 //3: email address invalid or in use; 4: database error; 5: username in use;
 //6: email error; 7: try again later; 8: disabled
-function register($username, $email, $profile) {
+function register($username, $email, $profile, $captcha) {
 	if(!checkLock("register")) {
 		return 7;
 	}
@@ -392,6 +392,17 @@ function register($username, $email, $profile) {
 	
 	if(mysql_num_rows($result) > 0) {
 		return 5;
+	}
+	
+	//verify the captcha
+	if($config['captcha_enabled']) {
+		include_once basePath() . '/securimage/securimage.php';
+		$securimage = new Securimage();
+	
+		if ($securimage->check($captcha) == false) {
+			// the code was incorrect
+			return 2;
+		}
 	}
 	
 	$registerTime = time();
