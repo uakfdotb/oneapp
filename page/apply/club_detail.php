@@ -6,7 +6,7 @@
 Number of recommendations required: <?= $clubInfo[4] ?></p>
 
 <? if($checkStatus == 0) { // application is editable ?>
-<p>You may wish to <a href="submit.php?app_id=<?= $app_id ?>&club_id=<?= $club_id ?>">submit</a> your application or work on your <a href="app.php?club_id=<?= $club_id ?>&action=view">supplement</a>.</p>
+<p>You may wish to <a href="submit.php?app_id=<?= $app_id ?>&club_id=<?= $club_id ?>">submit</a> your application or work on your <a href="app.php?club_id=<?= $club_id ?>&action=view">supplement</a>. To view a preview, first press submit (there will be a confirmation before you actually submit your application).</p>
 <? } else if($checkStatus == -1) { //application has been submitted ?>
 <p>Your application has been submitted. You can still <a href="app.php?club_id=<?= $club_id ?>&action=view">view your supplement</a>.
 <? } else if($checkStatus == -3) { //supplement submission has closed ?>

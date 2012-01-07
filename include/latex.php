@@ -151,6 +151,7 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 }
 
 function generatePDFByResult($result, $targetDirectory) {
+	global $config;
 	$body_string = "";
 	
 	while($row = mysql_fetch_row($result)) {
@@ -173,6 +174,8 @@ function generatePDFByResult($result, $targetDirectory) {
 	$fout = fopen($targetDirectory . $outFile . "/" . $outFile . ".tex", 'w');
 	
 	while($line = fgets($fin)) {
+		$line = str_replace('$TIME$', timeString(), $line);
+		$line = str_replace('$ORGANIZATION$', $config['organization_name'], $line);
 		$line = str_replace('$BODY$', $body_string, $line);
 		fwrite($fout, $line);
 	}
@@ -185,7 +188,9 @@ function generatePDFByResult($result, $targetDirectory) {
 	
 	$cdCommand = "cd " . $targetDirectory . $outFile;
 	$pdfCommand = $config['latex_path'] . " --interaction=nonstopmode " . $outFile . ".tex";
-	exec($cdCommand . " && " . $pdfCommand);
+	
+	//execute pdf twice for lastpage to work (page # out of n)
+	exec($cdCommand . " && " . $pdfCommand . " && " . $pdfCommand);
 	
 	if(!file_exists($targetDirectory . $outFile . "/" . $outFile . ".pdf")) { //failed; PDF not created
 		//delete temp directory
