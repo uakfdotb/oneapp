@@ -85,6 +85,7 @@ foreach($array as $item) {
 		
 		//display a list of categories, and pre-select the catValue on dropdown
 		echo "<td class=\"top_border\" width=100%><select name=\"category\">";
+		echo "<option name=\"\">None</option>";
 		
 		foreach($catList as $catElement) {
 			$selectedString = ($catElement == $catValue) ? " selected" : "";
