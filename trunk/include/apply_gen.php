@@ -3,11 +3,11 @@
 function writeApplicationHeader($club_id, $application_id, $category_id) {
 	echo '<SCRIPT LANGUAGE="JavaScript" SRC="../style/limit.js"></SCRIPT>';
 	echo "<form method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\"><table>";
-	echo '<tr><td colspan="2" align="center"><input type="submit" value="Save"></td></tr>';
+	echo '<tr><td colspan="2" align="right"><input type="submit" value="Save" style="width:100px"></td></tr><tr style="background-color:#ABB4BA"><td colspan="2" style="height:1px"></td></tr><tr><td colspan="2" style="height:10px"></td></tr>';
 }
 
 function writeApplicationFooter() {
-	echo '<tr><td colspan="2" align="center"><input type="submit" value="Save"></td></tr>';
+	echo '<tr><td colspan="2" style="height:10px"></td><tr style="background-color:#ABB4BA"><td colspan="2" style="height:1px"></td></tr></tr><tr><td colspan="2" align="right"><input type="submit" value="Save" style="width:100px"></td></tr>';
 	echo "</table></form>";
 }
 
@@ -75,8 +75,8 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		echo "px;resize:none\">" . htmlspecialchars($answer) . "</textarea>";
 		
 		if($type_array['showchars']) {
-			echo "<p class=\"desc\">(Max Characters: $maxLength)<br>";
-			echo "Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"></p>";
+//			echo "<p class=\"desc\">(Max Characters: $maxLength)</p>";
+			echo "<p class=\"desc\">Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" style=\"width:50px;font-size:10px\" value=\"$lengthRemaining\"></p>";
 		}
 		
 		echo '</td></tr>';
@@ -105,8 +105,8 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" style=\"width:90%\" /> ";
 		
 		if($type_array['showchars']) {
-			echo "<p class=\"desc\">(Max Characters: $maxLength)<br>";
-			echo "Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" size=\"3\" value=\"$lengthRemaining\"></p>";
+//			echo "<p class=\"desc\">(Max Characters: $maxLength)</p>";
+			echo "<p class=\"desc\" align=\"right\">Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" style=\"width:50px;font-size:10px\" value=\"$lengthRemaining\"></p>";
 		}
 		
 		echo '</td></tr>';
@@ -203,6 +203,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 	} else if($type_array['type'] == "code") {
 		echo '<tr><td colspan="2">' . page_convert($desc) . '</td></tr>';
 	}
+	echo "<tr><td colspan=\"2\" style=\"height:10pxpx\"></td></tr>";
 }
 
 function getRepeatThisValue($array, $i, $n) {
