@@ -14,7 +14,7 @@ $style_fh = fopen($stylePath . "/file.txt", 'r');
 
 while (($style_buffer = fgets($style_fh)) !== false) {
 	$style_buffer = trim($style_buffer);
-	echo '<div id="content">';
+	echo '<div id="content" style="display:none">';
 	echo "<img src=\"$style_buffer\"/>";
 	echo '</div>';
 	$imgcounter=$imgcounter+1;
