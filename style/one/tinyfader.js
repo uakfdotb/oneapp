@@ -8,11 +8,19 @@ TINY.fader=function(){
 	fade.prototype.init=function(p){
 		var s=T$(p.id), u=this.u=T$$('div',s), l=u.length, i=this.l=this.c=this.z=0;
 		if(p.navid&&p.activeclass){this.g=T$$('div',T$(p.navid)); this.s=p.activeclass}
-		s.style.overflow='hidden'; this.a=p.auto||0; this.p=p.resume||0;
+		s.style.overflow='hidden';
+		this.a=p.auto||0;
+		this.p=p.resume||0;
+		
 		for(i;i<l;i++){
 			if(u[i].parentNode==s){
-				u[i].style.position='absolute'; this.l++; u[i].o=p.visible?100:0;
-				u[i].style.opacity=u[i].o/100; u[i].style.filter='alpha(opacity='+u[i].o+')'
+				u[i].style.position='absolute';
+				this.l++;
+				u[i].o=p.visible?100:0;
+				
+				u[i].style.opacity=u[i].o/100;
+				u[i].style.display='block';
+				u[i].style.filter='alpha(opacity='+u[i].o+')'
 			}
 		}
 		this.pos(p.position||0,this.a?1:0,p.visible)
