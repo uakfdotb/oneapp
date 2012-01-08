@@ -49,6 +49,8 @@ function backupZip($source, $destination) {
 		$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
 
 		foreach ($files as $file) {
+			if(substr(basename($file), 0, 1) == '.') continue; //don't add anything starting with a period
+			
 			$file = str_replace('\\', '/', realpath($file));
 
 			if (is_dir($file) === true) {
