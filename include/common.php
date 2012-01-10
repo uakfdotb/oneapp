@@ -314,6 +314,12 @@ function page_convert($str) {
 	$str = str_replace("[/i]", "</i>", $str);
 	$str = str_replace("[hr]", "<hr>", $str);
 	$str = str_replace('$site_name$', $config['site_name'], $str);
+	
+	//now add linebreaks if the user didn't add them manually
+	// before we add them we delete all linebreaks that we don't need
+	$str = str_replace(">\n<", "><", $str);
+	$str = str_replace(">\n\n<", "><", $str);
+	// now just replace
 	$str = str_replace("\n", "<br>", $str);
 	
 	return $str;

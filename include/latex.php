@@ -2,20 +2,24 @@
 
 function latexSpecialChars( $string )
 {
-    $map = array( 
-            "#"=>"\\#",
-            "$"=>"\\$",
-            "%"=>"\\%",
-            "&"=>"\\&",
-            "~"=>"\\~{}",
-            "_"=>"\\_",
-            "^"=>"\\^{}",
-            "\\"=>"\\textbackslash{}",
-            "{"=>"\\{",
-            "}"=>"\\}",
-    );
-    
-    return preg_replace( "/([\^\%~\\\\#\$%&_\{\}])/e", "\$map['$1']", $string );
+	$map = array( 
+			"#"=>"\\#",
+			"$"=>"\\$",
+			"%"=>"\\%",
+			"&"=>"\\&",
+			"~"=>"\\~{}",
+			"_"=>"\\_",
+			"^"=>"\\^{}",
+			"\\"=>"\\textbackslash{}",
+			"{"=>"\\{",
+			"}"=>"\\}",
+	);
+	
+	$string = preg_replace( "/([\^\%~\\\\#\$%&_\{\}])/e", "\$map['$1']", $string);
+	
+	//also add LaTeX linebreak where there is only one newline character
+	$string = preg_replace("/\n{1}/", " \\\\\\\\*\n", $string);
+	return $string;
 }
 
 function latexAppendQuestion($name, $desc, $type, $answer) {
@@ -51,11 +55,11 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			$question_string .= latexAppendQuestion($thisName, $thisDesc, $thisType, $answer_array[$i]);
 		}
 	} else {
-		$question_string .= '\\textbf{' . $name; //add question in bold
+		$question_string .= '\\textbf{' . latexSpecialChars($name); //add question in bold
 		
 		//add description (in bold) for essays and short answer
 		if($typeArray['type'] == "essay" || $typeArray['type'] == "short") {
-			$question_string .= ": " . $desc;
+			$question_string .= ": " . latexSpecialChars($desc);
 		}
 		$question_string .= "}"; //end bold
 	
@@ -71,7 +75,7 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			
 			//get answer as array in case we're using multiple selection
 			$config = $GLOBALS['config'];
-			$answerArray = explode($config['form_array_delimiter'], $answer);
+			$answerArray = explode($config['form_array_delimiter'], latexSpecialChars($answer));
 			
 			//this is used to indent the answer choices
 			$question_string .= "\n \\begin{quote} \\n";
@@ -88,7 +92,7 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 					$question_string .= '\tickbox';
 				}
 				
-				$question_string .= " \hspace{4pt} " . $choice;
+				$question_string .= " \hspace{4pt} " . latexSpecialChars($choice);
 			}
 			
 			$question_string .= "\\end{quote}";
@@ -97,7 +101,7 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			
 			if($typeArray['type'] == "essay") {
 				if($answer != "") {
-					$question_string .= $answer;
+					$question_string .= latexSpecialChars($answer);
 				} else {
 					$space = 2;
 		
@@ -113,7 +117,7 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			else {
 				if($answer != "") {
 					//$question_string .= '\underline{' . $answer . '}';
-					$question_string .= $answer;
+					$question_string .= latexSpecialChars($answer);
 				} else {
 					$question_string .= '\hrulefill{}';
 				}
