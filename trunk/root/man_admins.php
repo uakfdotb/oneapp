@@ -12,7 +12,7 @@ if(isset($_SESSION['root'])) {
 		
 		if($action == 'add') {
 			addAdmin($_REQUEST['username'], $_REQUEST['password'], $_REQUEST['email'], $_REQUEST['club_id']);
-			$message = "Admin added successfully! Click <a href=\"man_admins.php\">here</a> to continue.";
+			$message = "Admin added successfully! <a href=\"man_admins.php\">Click here to continue</a>";
 		} else if($action == 'delete') {
 			$admin_id = escape($_REQUEST['id']);
 			mysql_query("DELETE FROM admins WHERE id='$admin_id'");

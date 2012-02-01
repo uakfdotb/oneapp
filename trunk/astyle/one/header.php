@@ -33,7 +33,7 @@ setTimeout("GetClock()", 1000);
 window.onload=GetClock;
 </script>
 
-<title>TAMSApp</title>
+<title><?=$config['site_name'] ?></title>
 </head>
 
 <body>

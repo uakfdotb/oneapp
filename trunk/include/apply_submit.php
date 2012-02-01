@@ -242,7 +242,7 @@ function listClubs($includeDescription = false) {
 	$descriptionString = "";
 	if($includeDescription) $descriptionString = ", description";
 	
-	$result = mysql_query("SELECT id, name$descriptionString FROM clubs");
+	$result = mysql_query("SELECT id, name$descriptionString FROM clubs ORDER by name");
 	
 	$list = array();
 	while($row = mysql_fetch_array($result)) {

@@ -26,7 +26,19 @@ if(isset($message) && $message != "") {
 </tr>
 <tr>
 	<td align="right"><p class="admin_table_entry">Club ID</p></td>
-	<td><input type="text" name="club_id" style="width:100%"></td>
+	<td><select name="club_id">
+			<option value="0">General Application</option>
+		<?
+			
+			$result = mysql_query("SELECT id, name FROM clubs ORDER BY name");
+
+			while($row = mysql_fetch_array($result))
+			  {
+			    echo "<option value=\"".$row['id']."\">".$row['name']."</option>";
+			  }
+
+		?>
+	</select></td>
 </tr>
 <tr><td align="right" colspan="2"><input type="submit" value="Add admin"></td></tr>
 </table>
@@ -48,7 +60,37 @@ foreach($adminList as $item) {
 	<form method="post" action="man_admins.php">
 	<input type="hidden" name="id" value="<?= $item[0] ?>">
 	<tr>
-		<td><input type="text" name="club_id" value="<?= $item[1] ?>" style="width:100%"></td>
+		<td><select name="club_id" style="width:100%">
+                        <option value="<?= $item[1] ?>">
+			<?
+				if ($item[1]==0){
+				   echo "General App";
+				}
+				else {
+				     $result = mysql_query("SELECT id, name FROM clubs WHERE id = '$item[1]'");
+				     $row = mysql_fetch_array($result);
+				     echo $row['name'];
+				}
+			?>
+			</option>
+                <?
+
+                        $result = mysql_query("SELECT id, name FROM clubs ORDER BY name");
+
+                        while($row = mysql_fetch_array($result))
+                          {
+			    if ($row['id']!=$item[1]){
+                               echo "<option value=\"".$row['id']."\">".$row['name']."</option>";
+			       }
+                          }
+			  
+			if ($item[1]>0){
+			   echo "<option value=\"0\">General Application</option>";
+			}
+
+                ?>
+</select>
+</td>
 		<td><input type="text" name="username" value="<?= $item[2] ?>" style="width:100%"></td>
 		<td><input type="text" name="email" value="<?= $item[3] ?>" style="width:100%"></td>
 		<td><input type="password" name="password" style="width:100%"></td>
