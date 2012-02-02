@@ -1,7 +1,7 @@
 <h1>Login</h1>
 <?
 if(isset($message) && $message != "") {
-	echo "<p>$message</p>";
+	echo "<p class="message">$message</p>";
 }
 ?>
 

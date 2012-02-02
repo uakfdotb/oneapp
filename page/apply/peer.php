@@ -15,8 +15,8 @@ foreach($recList as $rec) {
 	echo "<tr align=\"center\"><td><p>" . $rec[1] . "</p></td>";
 	echo "<td><p>" . $rec[2] . "</p></td>";
 	
-	$statusString = ($rec[3] == "0") ? "incomplete" : "complete (enabled)";
-	if($rec[3] == 2) $statusString = "complete (disabled)";
+	$statusString = ($rec[3] == "0") ? "<font color=\"red\">INCOMPLETE</font>" : "<font color=\"green\">ENABLED</font>";
+	if($rec[3] == 2) $statusString = "<font color=\"red\">DISABLED</font>";
 	echo "<td><p>" . $statusString . "<p></td>";
 	
 	echo "<td><form method=\"POST\" action=\"peer.php?toggle=true&id=" . $rec[0] . "\">";
