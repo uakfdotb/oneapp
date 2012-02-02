@@ -281,6 +281,36 @@ function page_convert($str) {
 		return $styleFunction($str);
 	}
 
+
+	  $bbcode = array("<", ">",
+                "[list]", "[*]", "[/list]", 
+                "[img]", "[/img]", 
+                "[b]", "[/b]", 
+                "[u]", "[/u]", 
+                "[i]", "[/i]",
+                '[color="', "[/color]",
+                "[size=\"", "[/size]",
+                '[url="', "[/url]",
+                "[mail=\"", "[/mail]",
+                "[code]", "[/code]",
+                "[quote]", "[/quote]",
+                '"]');
+  $htmlcode = array("&lt;", "&gt;",
+                "<ul>", "<li>", "</ul>", 
+                "<img src=\"", "\">", 
+                "<b>", "</b>", 
+                "<u>", "</u>", 
+                "<i>", "</i>",
+                "<span style=\"color:", "</span>",
+                "<span style=\"font-size:", "</span>",
+                '<a href="', "</a>",
+                "<a href=\"mailto:", "</a>",
+                "<code>", "</code>",
+                "<table width=100% bgcolor=lightgray><tr><td bgcolor=white>", "</td></tr></table>",
+                '">');
+  $str = str_replace($bbcode, $htmlcode, $str);
+  $str = nl2br($str);//second pass
+
 	$str = htmlentities($str);
 	$str = str_replace("[p]", "<p>", $str);
 	$str = str_replace("[/p]", "</p>", $str);
@@ -314,14 +344,13 @@ function page_convert($str) {
 	$str = str_replace("[/i]", "</i>", $str);
 	$str = str_replace("[hr]", "<hr>", $str);
 	$str = str_replace('$site_name$', $config['site_name'], $str);
-	
+	$str = str_replace('@\[(?i)color=\s*(.?)\]\s*(.*?)\[/(?i)color\]@si','<font color="\\1">\\2</font>', $str);
 	//now add linebreaks if the user didn't add them manually
 	// before we add them we delete all linebreaks that we don't need
 	$str = str_replace(">\n<", "><", $str);
 	$str = str_replace(">\n\n<", "><", $str);
 	// now just replace
 	$str = str_replace("\n", "<br>", $str);
-	
 	return $str;
 }
 

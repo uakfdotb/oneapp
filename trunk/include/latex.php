@@ -55,22 +55,24 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			$question_string .= latexAppendQuestion($thisName, $thisDesc, $thisType, $answer_array[$i]);
 		}
 	} else {
-		$question_string .= '\\textbf{' . latexSpecialChars($name); //add question in bold
-		
-		//add description (in bold) for essays and short answer
-		if($typeArray['type'] == "essay" || $typeArray['type'] == "short") {
-			$question_string .= ": " . latexSpecialChars($desc);
+		if(strlen($name)>1){
+			     $question_string .= '\\textbf{' . latexSpecialChars($name) . '}'; //add question in bold
 		}
-		$question_string .= "}"; //end bold
+		//add description (in bold) for essays and short answer
+		if(($typeArray['type'] == "essay" || $typeArray['type'] == "short") && strlen($desc)>2) {
+			if(strlen($name)>1){
+				$question_string .= '\\newline';
+			}
+			$question_string .= '\\emph{' . latexSpecialChars($desc) . '}'; //add description in italics
+		}
 	
 		//add a separator depending on main type of the question
 		if($typeArray['type'] == "essay") {
 			$question_string .= "\n\n";
 		} else {
-			$question_string .= ". ";
 		}
 		
-		if($typeArray['type'] == "select" && $typeArray['method'] != "dropdown") { //in this case, we add tick marks and check the correct ones
+		if($typeArray['type'] == "select" && $typeArray['method'] != "dropdown") {//in this case, we add tick marks and check the correct ones
 			$choices = explode(";", $desc);
 			
 			//get answer as array in case we're using multiple selection
@@ -101,23 +103,16 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			
 			if($typeArray['type'] == "essay") {
 				if($answer != "") {
-					$question_string .= latexSpecialChars($answer);
+					$question_string .= '\\makebox{' . latexSpecialChars($answer) . '}';
 				} else {
 					$space = 2;
-		
-					if($type_array['size'] == "large") {
-						$space = 3;
-					} else if($type_array['size'] == "huge") {
-						$space = 5;
-					}
-					
 					$question_string .= '\vspace{' . $space . 'in}';
 				}
 			}
 			else {
 				if($answer != "") {
 					//$question_string .= '\underline{' . $answer . '}';
-					$question_string .= latexSpecialChars($answer);
+					$question_string .= '\\newspace' . latexSpecialChars($answer);
 				} else {
 					$question_string .= '\hrulefill{}';
 				}
