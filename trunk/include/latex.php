@@ -103,16 +103,16 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			
 			if($typeArray['type'] == "essay") {
 				if($answer != "") {
-					$question_string .= '\\makebox{' . latexSpecialChars($answer) . '}';
+					$question_string .= '\parbox{15cm}{' . latexSpecialChars($answer) . '}';
 				} else {
 					$space = 2;
-					$question_string .= '\vspace{' . $space . 'in}';
+					$question_string .= '\\vspace{' . $space . 'in}';
 				}
 			}
 			else {
 				if($answer != "") {
-					//$question_string .= '\underline{' . $answer . '}';
-					$question_string .= '\\newspace' . latexSpecialChars($answer);
+					//$question_string .= '\ulem{' . latexSpecialChars($answer) . '}'; add:\usepackage[normalem]{ulem}
+					$question_string .= '\mbox{\\newline \indent ' . latexSpecialChars($answer) . '}';
 				} else {
 					$question_string .= '\hrulefill{}';
 				}
