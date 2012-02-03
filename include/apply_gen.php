@@ -337,9 +337,9 @@ function checkApplication($user_id, $application_id, $extended = false) {
 function getApplicationStateString($user_id, $application_id) {
 	$status = checkApplication($user_id, $application_id);
 	
-	if($status == 0) return "started";
-	else if($status == -1) return "submitted";
-	else if($status == -3) return "passed deadline";
+	if($status == 0) return "<font color=\"blue\">Started</font>";
+	else if($status == -1) return "<font color=\"green\">Submitted</font>";
+	else if($status == -3) return "<font color=\"red\">Late</font>";
 	else return "error";
 }
 

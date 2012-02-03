@@ -284,7 +284,7 @@ function page_convert($str) {
 	//$str = htmlentities($str);
 
 	$bbcode = array("<", ">",
-                "[list]", "[*]", "[/list]", 
+                "[list]", "[*]", "[/list]",
                 "[img]", "[/img]", 
                 "[b]", "[/b]", 
                 "[u]", "[/u]", 
@@ -310,9 +310,7 @@ function page_convert($str) {
                 "<table width=100% bgcolor=lightgray><tr><td bgcolor=white>", "</td></tr></table>",
                 '">');
 	$str = str_replace($bbcode, $htmlcode, $str);
-	$str = nl2br($str);//second pass
-
-
+	
 	$str = str_replace("[p]", "<p>", $str);
 	$str = str_replace("[/p]", "</p>", $str);
 	$str = str_replace("\r", "", $str);
@@ -716,7 +714,7 @@ function checkRoot($password) {
 //returns array of (club id, club name, club description, user's application id)
 function getUserClubsApplied($user_id) {
 	$user_id = escape($user_id);
-	$result = mysql_query("SELECT applications.club_id, clubs.name, clubs.description, applications.id FROM applications, clubs WHERE applications.user_id='$user_id' AND applications.club_id = clubs.id AND applications.club_id != '0'");
+	$result = mysql_query("SELECT applications.club_id, clubs.name, clubs.description, applications.id FROM applications, clubs WHERE applications.user_id='$user_id' AND applications.club_id = clubs.id AND applications.club_id != '0' ORDER BY clubs.name");
 	
 	$clubs = array();
 	while($row = mysql_fetch_array($result)) {

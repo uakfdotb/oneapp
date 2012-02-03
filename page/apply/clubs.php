@@ -3,8 +3,8 @@
 <form method="GET" action="addClub.php">
 <input type="submit" value="Add club application">
 </form>
-
-<table width=80%>
+<div id="spacebox"></div>
+<table width=100% class="borderon">
 <tr>
        <th align="left"><p class="admin_table_header">Club Name</p></th>
        <th><p class="admin_table_header">Status</p></th>
