@@ -1,4 +1,4 @@
-<h1>Easy Question Adder</h1>
+<h1>Easy Q Adder</h1>
 
 <p>The three-line format has been generated and should appear below. You may wish to <a href="easy_question.php">try again</a> or press the button below to add your question.</p>
 

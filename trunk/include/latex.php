@@ -1,4 +1,5 @@
 <?php
+include("html_to_latex.php");
 
 function latexSpecialChars( $string )
 {
@@ -27,8 +28,12 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 	
 	$question_string = "";
 	
-	if($typeArray['type'] == "text" || $typeArray['type'] == "code") {
-		return;
+	if($typeArray['type'] == "text"){
+		$question_string .= '\\textbf{' . latexSpecialChars($desc) . '}';
+		return $question_string;
+	} else if($typeArray['type'] == "code") {
+		$question_string .= '\\text{' . get_html_to_latex(page_convert($desc)) . '}';
+		return $question_string;
 	} else if($typeArray['type'] == "repeat") {
 		$num = $typeArray['num'];
 		$subtype_array = explode("|", $typeArray['subtype']);
@@ -111,8 +116,8 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			}
 			else {
 				if($answer != "") {
-					//$question_string .= '\ulem{' . latexSpecialChars($answer) . '}'; add:\usepackage[normalem]{ulem}
-					$question_string .= '\mbox{\\newline \indent ' . latexSpecialChars($answer) . '}';
+					$question_string .= '\\ \ulem{' . latexSpecialChars($answer) . '}'; //add:\usepackage[normalem]{ulem}
+					//$question_string .= '\mbox{\\newline \indent ' . latexSpecialChars($answer) . '}';
 				} else {
 					$question_string .= '\hrulefill{}';
 				}
