@@ -17,6 +17,7 @@ function insertQuestion($varname, $vardesc, $vartype, $club_id, $database, $wher
 	
 	//add spaces to type array
 	$vartype = str_replace(";", "; ", $vartype);
+	$vartype = str_replace("|", "| ", $vartype);
 	
 	if($database != "supplements" && $database != "baseapp") {
 		return "internal error: invalid database";

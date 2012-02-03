@@ -197,7 +197,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			$thisName = getRepeatThisValue($name_array, $index, $n);
 			$thisDesc = getRepeatThisValue($desc_array, $index, $n);
 			$thisType = str_replace(",", ";", getRepeatThisValue($subtype_array, $index, $n));
-			
+			if($type_array['globalstatus'] == 1) $thisType .= "; status:optional";
 			writeField($id, $answer_id, $thisName, $thisDesc, $thisType, $answer_array[$i], $mutable, $i);
 		}
 	} else if($type_array['type'] == "code") {
@@ -221,6 +221,13 @@ function getRepeatThisValue($array, $i, $n) {
 function getTypeArray($type) {
 	$array = toArray($type);
 	$mainType = $array['type'];
+
+	if($mainType == "repeat" && $array['status']== "optional") {
+		$array['globalstatus'] = 1;
+	}
+	else{
+		$array['globalstatus'] = 0;
+	}
 	
 	if(!array_key_exists("length", $array)) {
 		if($mainType == "essay") {
