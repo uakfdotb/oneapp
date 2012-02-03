@@ -31,6 +31,9 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 	if($typeArray['type'] == "text"){
 		$question_string .= '\\textbf{' . latexSpecialChars($desc) . '}';
 		return $question_string;
+	} else if($typeArray['type']=="latex"){
+	       $question_string .= $desc;
+	       return $question_string;
 	} else if($typeArray['type'] == "code") {
 		$question_string .= '\\text{' . get_html_to_latex(page_convert($desc)) . '}';
 		return $question_string;
