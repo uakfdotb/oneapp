@@ -24,7 +24,7 @@ if(isset($editInfo) && $editInfo !== 0) {
 	echo '<input type="hidden" name="id" value="' . $editInfo[0] . '">';
 	echo '<tr><td align="right"><p class="messpart">Name</p></td><td><input type="text" name="varname" value="' . $editInfo[1] . '" style="width:100%"></td></tr>';
 	echo '<tr><td align="right"><p class="messpart">Description</p></td><td><textarea name="vardesc" style="resize:none;width:100%;height:120px">' . $editInfo[2] . '</textarea></td></tr>';
-	echo '<tr><td align="right"><p class="messpart">Type</p></td><td><input type="text" name="vartype" value="' . $editInfo[3] . '" style="width:100%">';
+	echo '<tr><td align="right"><p class="messpart">Type</p></td><td><input type="text" name="vartype" value="' . $editInfo[3] . '" style="width:100%" >';
 	echo '<tr><td colspan="2" align="right"><input type="submit" value="Update"></td></tr>';
 	echo '</table></form><br><br>';
 } else {

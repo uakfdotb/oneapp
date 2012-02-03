@@ -248,7 +248,7 @@ function getTypeArray($type) {
 	}
 	
 	if(!array_key_exists("status", $array)) { //whether it is required or not
-		if($mainType == "text" || $mainType == "code") {
+		if($mainType == "text" || $mainType == "code" || $mainType == "latex") {
 			$array['status'] = "optional";
 		} else {
 			$array['status'] = "required";
