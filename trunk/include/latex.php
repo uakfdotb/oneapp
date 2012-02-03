@@ -111,18 +111,18 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			
 			if($typeArray['type'] == "essay") {
 				if($answer != "") {
-					$question_string .= '\parbox{15cm}{' . latexSpecialChars($answer) . '}';
+					$question_string .= '\\begin{quote} ' . latexSpecialChars($answer) . '\\end{quote}';
 				} else {
-					$space = 2;
-					$question_string .= '\\vspace{' . $space . 'in}';
+					$space = 5;
+					$question_string .= '\\vspace{' . $space . 'ex}';
 				}
 			}
 			else {
 				if($answer != "") {
-					$question_string .= '\\ \ulem{' . latexSpecialChars($answer) . '}'; //add:\usepackage[normalem]{ulem}
+					$question_string .= '\\begin{quote} ' . latexSpecialChars($answer) . ' \\end{quote}'; //add:\usepackage[normalem]{ulem}
 					//$question_string .= '\mbox{\\newline \indent ' . latexSpecialChars($answer) . '}';
 				} else {
-					$question_string .= '\hrulefill{}';
+					$question_string .= '\\vspace{1ex}';
 				}
 			}
 		}
@@ -150,14 +150,16 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 	//get application fields
 	if($club_id == 0) {
 		$result = mysql_query("SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, answers.val FROM answers, baseapp WHERE answers.application_id = '$application_id' AND baseapp.id = answers.var_id ORDER BY baseapp.orderId");
+		$sectionheader = "General Application";
 	} else {
 		$result = mysql_query("SELECT supplements.varname, supplements.vardesc, supplements.vartype, answers.val FROM answers, supplements WHERE answers.application_id = '$application_id' AND supplements.id = answers.var_id ORDER BY supplements.orderId");
+		//$sectionheader = mysql_query("SELECT name FROM clubs where id='$club_id'");
+		$sectionheader = "Supplement";
 	}
-	
-	return generatePDFByResult($result, $targetDirectory);
+	return generatePDFByResult($result, $targetDirectory, $sectionheader);
 }
 
-function generatePDFByResult($result, $targetDirectory) {
+function generatePDFByResult($result, $targetDirectory, $sectionheader) {
 	global $config;
 	$body_string = "";
 	
@@ -181,8 +183,10 @@ function generatePDFByResult($result, $targetDirectory) {
 	
 	$fin = fopen($targetDirectory . "template.tex", 'r');
 	$fout = fopen($targetDirectory . $outFile . "/" . $outFile . ".tex", 'w');
+	$namestring = $sectionheader;
 	
 	while($line = fgets($fin)) {
+		$line = str_replace('$SECTIONNAME', $namestring, $line);
 		$line = str_replace('$TIME$', timeString(), $line);
 		$line = str_replace('$ORGANIZATION$', $config['organization_name'], $line);
 		$line = str_replace('$BODY$', $body_string, $line);
