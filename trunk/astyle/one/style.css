@@ -202,3 +202,7 @@ tr.band2{
 textarea.band1{
     border:1px solid #ABB4BA;
 }
+
+ul.errorlist {
+   list-style-type:square;
+}
