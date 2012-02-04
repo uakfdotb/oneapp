@@ -148,11 +148,14 @@ function writeRecommendation($recommend_id, $user_id, $auth) {
 function submitRecommendation($recommend_id, $recommendation) {
 	$recommend_id = escape($recommend_id);
 	
-	//make sure not already submitted
-	$result = mysql_query("SELECT status FROM recommendations WHERE id = '$recommend_id'");
+	//make sure not already submitted; also get recommender name
+	$result = mysql_query("SELECT status, author FROM recommendations WHERE id = '$recommend_id'");
+	
 	if($row = mysql_fetch_array($result)) {
 		if($row[0] != 0) {
 			return -1;
+		} else {
+			$recommender_name = $row[1];
 		}
 	} else {
 		return -2;
@@ -179,7 +182,8 @@ function submitRecommendation($recommend_id, $recommendation) {
 	
 	//create the PDF
 	$result = mysql_query("SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, recommender_answers.val FROM recommender_answers, baseapp WHERE recommender_answers.recommend_id = '$recommend_id' AND baseapp.id = recommender_answers.var_id ORDER BY baseapp.orderId");
-	$createResult = generatePDFByResult($result, "submit/");
+	
+	$createResult = generatePDFByResult($result, "submit/", "Recommendation letter", $recommender_name);
 	
 	if(!$createResult[0]) { //if error during PDF generation
 		return -2;

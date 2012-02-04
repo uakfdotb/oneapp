@@ -15,14 +15,13 @@ if(isset($_SESSION['admin_id'])) {
 	
 	if(isset($_REQUEST['gen'])) {
 		$result = mysql_query("SELECT varname, vardesc, vartype, '' FROM $database WHERE $whereString ORDER BY orderId");
-		if($club_id != 0){
-		       $whereString = "id = '" . $club_id . "'";
-		       //$sectionheader = mysql_query("SELECT name FROM clubs WHERE $whereString");
-		       $sectionheader = "Supplement";
+		if($club_id != 0) {
+			$whereString = "id = '" . $club_id . "'";
+			
+			$clubInfo = clubInfo($club_id); //array (club name, club description, open_time, close_time, num_recommendations)
+			$sectionheader = "Supplement: " . $clubInfo[0];
 		} else {
-		       $section_id=$_SESSION['category'];
-		       //$sectionheader = mysql_query("SELECT name FROM basecat where id='$section_id'");
-		       $sectionheader = "General Application";
+			$sectionheader = "General Application";
 		}
 		$createResult = generatePDFByResult($result, "../pdf/", $sectionheader);
 	
