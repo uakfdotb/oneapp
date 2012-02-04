@@ -62,7 +62,7 @@ if(isset($_SESSION['root'])) {
 		}
 	}
 	
-	$result = mysql_query("SELECT id,name FROM basecat");
+	$result = mysql_query("SELECT id,name FROM basecat ORDER BY orderId");
 	$catList = array();
 		
 	while($row = mysql_fetch_array($result)) {
