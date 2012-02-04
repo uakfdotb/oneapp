@@ -230,7 +230,7 @@ function checkCompletedApplication($user_id, $club_id, $application_id) {
 				$category = $row[2];
 			}
 			if($typeArray['status'] == "required") {
-				array_push($warnings, "<table width=\"100%\"><tr><td width=\"10%\"></td><td><p>" . $row[0] . "</p></td></td></table>");
+				array_push($warnings, "<ul><li><p>" . $row[0] . "</p></li></ul>");
 			}
 		}
 	} else {
