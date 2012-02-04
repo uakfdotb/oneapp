@@ -1,6 +1,6 @@
 <?
 //profile information
 foreach($profile as $item) {
-	echo "<tr><td><b>" . $item[0] . "</b></td><td>" . $item[1] . "</td></tr>";
+	echo "<tr><td><p><b>" . $item[0] . "</b></p></td><td><p>" . $item[1] . "</p></td></tr>";
 }
 ?>
