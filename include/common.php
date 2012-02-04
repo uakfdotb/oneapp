@@ -1006,4 +1006,18 @@ function validEmail($email)
    }
    return $isValid;
 }
+
+//1: success; -1: invalid password; -2: match not found
+function changeAdminPass($admin_id, $newpass, $confirmpass){
+	$confirmpass = escape($confirmpass);
+	$newpass = escape($newpass);
+	if($confirmpass != $newpass) {
+		return -2;
+	} else if(strlen($newpass) < 5) {
+		return -1;
+	} else {
+		mysql_query("UPDATE admins SET password = '" . escape(chash($newpass)) . "' WHERE id='" . $admin_id . "'");
+		return 1;
+	}
+}
 ?>

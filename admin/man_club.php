@@ -6,6 +6,7 @@ include("../include/session.php");
 
 if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
+	$admin_id = escape($_SESSION['admin_id']);
 	
 	if($club_id != 0) {
 		if(isset($_REQUEST['description']) && isset($_REQUEST['view_time']) && isset($_REQUEST['open_time']) && isset($_REQUEST['close_time'])) {
@@ -17,7 +18,9 @@ if(isset($_SESSION['admin_id'])) {
 			
 			mysql_query("UPDATE clubs SET description='$description', view_time='$view_time', open_time='$open_time', close_time='$close_time', num_recommend='$num_recommend' WHERE id='$club_id'");
 		}
-		
+		if(isset($_REQUEST['new_password'])) {
+			$changepass = changeAdminPass($admin_id,$_REQUEST['new_password'],$_REQUEST['new_password']);
+		}
 		$result = mysql_query("SELECT description, view_time, open_time, close_time, num_recommend FROM clubs WHERE id='$club_id'");
 		
 		if($row = mysql_fetch_array($result)) {
