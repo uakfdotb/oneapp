@@ -28,19 +28,20 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 	
 	$question_string = "";
 	
-	if($typeArray['type'] == "text"){
-		if(strlen($name)>1){
+	if($typeArray['type'] == "text") {
+		if(strlen($name) > 1) {
                              $question_string .= '\\textbf{' . latexSpecialChars($name) . '}'; //add main in bold
                 }
-                if(strlen($desc)>1) {
-                        if(strlen($name)>1){
+                if(strlen($desc) > 1) {
+                        if(strlen($name) > 1) {
                                 $question_string .= '\\newline';
                         }
+                        
                         $question_string .= '\\emph{' . latexSpecialChars($desc) . '}'; //add description in italics
                 }
 		$question_string .= '\\newline \\newline';
 		return $question_string;
-	} else if($typeArray['type']=="latex"){
+	} else if($typeArray['type']=="latex") {
 	       $question_string .= $desc;
 	       return $question_string;
 	} else if($typeArray['type'] == "code") {
@@ -72,21 +73,21 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			$question_string .= latexAppendQuestion($thisName, $thisDesc, $thisType, $answer_array[$i]);
 		}
 	} else {
-		if(strlen($name)>1){
+		if(strlen($name) > 1) {
 			     $question_string .= '\\textbf{' . latexSpecialChars($name) . '}'; //add question in bold
 		}
 		//add description (in bold) for essays and short answer
 		if(($typeArray['type'] == "essay" || $typeArray['type'] == "short") && strlen($desc)>2) {
-			if(strlen($name)>1){
+			if(strlen($name) > 1) {
 				$question_string .= '\\newline';
 			}
+			
 			$question_string .= '\\emph{' . latexSpecialChars($desc) . '}'; //add description in italics
 		}
 	
 		//add a separator depending on main type of the question
 		if($typeArray['type'] == "essay") {
 			$question_string .= "\n\n";
-		} else {
 		}
 		
 		if($typeArray['type'] == "select" && $typeArray['method'] != "dropdown") {
@@ -159,12 +160,14 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 	//get application fields
 	if($club_id == 0) {
 		$result = mysql_query("SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, answers.val FROM answers, baseapp, basecat WHERE answers.application_id = '$application_id' AND baseapp.id = answers.var_id AND basecat.id = baseapp.category ORDER BY basecat.orderId, baseapp.orderId");
+		
 		$sectionheader = "General Application";
 	} else {
 		$result = mysql_query("SELECT supplements.varname, supplements.vardesc, supplements.vartype, answers.val FROM answers, supplements WHERE answers.application_id = '$application_id' AND supplements.id = answers.var_id ORDER BY supplements.orderId");
 		
 		$sectionheader = "Supplement";
 	}
+	
 	return generatePDFByResult($result, $targetDirectory, $sectionheader);
 }
 
@@ -192,10 +195,9 @@ function generatePDFByResult($result, $targetDirectory, $sectionheader) {
 	
 	$fin = fopen($targetDirectory . "template.tex", 'r');
 	$fout = fopen($targetDirectory . $outFile . "/" . $outFile . ".tex", 'w');
-	$namestring = $sectionheader;
 	
 	while($line = fgets($fin)) {
-		$line = str_replace('$SECTIONNAME', $namestring, $line);
+		$line = str_replace('$SECTIONNAME', $sectionheader, $line);
 		$line = str_replace('$TIME$', timeString(), $line);
 		$line = str_replace('$ORGANIZATION$', $config['organization_name'], $line);
 		$line = str_replace('$BODY$', $body_string, $line);
