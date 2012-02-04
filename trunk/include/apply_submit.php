@@ -221,16 +221,27 @@ function checkCompletedApplication($user_id, $club_id, $application_id) {
 	$warnings = array();
 	
 	if($club_id == 0) {
-		$result = mysql_query("SELECT baseapp.varname, baseapp.vartype FROM answers, baseapp WHERE answers.application_id='$application_id' AND answers.var_id = baseapp.id AND answers.val = ''");
+		$result = mysql_query("SELECT baseapp.varname, baseapp.vartype, basecat.name FROM answers, baseapp, basecat WHERE answers.application_id = '$application_id' AND answers.var_id = baseapp.id AND answers.val = '' AND basecat.id = baseapp.category ORDER by basecat.orderId");
+		$category = "";
+		while($row = mysql_fetch_array($result)) {
+			$typeArray = getTypeArray($row[1]);
+			if($category != $row[2]) {
+				array_push($warnings, "<b>" . $row[2] . "</b>");
+				$category = $row[2];
+			}
+			if($typeArray['status'] == "required") {
+				array_push($warnings, "<table width=\"100%\"><tr><td width=\"10%\"></td><td><p>" . $row[0] . "</p></td></td></table>");
+			}
+		}
 	} else {
 		$result = mysql_query("SELECT supplements.varname, supplements.vartype FROM answers, supplements WHERE answers.application_id='$application_id' AND answers.var_id = supplements.id AND answers.val = ''");
-	}
 	
-	while($row = mysql_fetch_array($result)) {
-		$typeArray = getTypeArray($row[1]);
+		while($row = mysql_fetch_array($result)) {
+			$typeArray = getTypeArray($row[1]);
 		
-		if($typeArray['status'] == "required") {
-			array_push($warnings, $row[0] );
+			if($typeArray['status'] == "required") {
+				array_push($warnings, $row[0] );
+			}
 		}
 	}
 	

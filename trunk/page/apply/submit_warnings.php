@@ -1,22 +1,22 @@
 <h1>Application submission</h1>
 
 <p>Please review the errors with your application below before proceeding further.</p>
-<p><b>Warnings for general application:</b></p>
+<h3>Warnings for general application</h3>
 
 <table>
 <?
 foreach($genCheck as $warning) {
-	echo "<tr><td><p>" . $warning . "<p></td></tr>";
+	echo "<tr><p>" . $warning . "</p></tr>";
 }
 ?>
 </table>
 
-<p><b>Warnings for supplement:</b> <i>Incomplete Answers</i></p>
+<h3>Warnings for supplement</h3>
 
-<ul>
+<table>
 <?
 foreach($appCheck as $warning) {
-	echo "<li><p>" . $warning . "<p></li>";
+	echo "<tr><p>" . $warning . "<p></tr>";
 }
 ?>
-</ul>
+</table>
