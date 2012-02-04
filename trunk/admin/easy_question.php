@@ -39,7 +39,7 @@ if(isset($_SESSION['admin_id'])) {
 			if($type=="essay" || $type=="short") {
 				$generate .= "; showchars:$showchars; length:$length; size:$size";
 			} else if($type=="select") {
-			       $generate .= "; method:$method";
+				   $generate .= "; method:$method";
 			}
 			get_page_advanced("easyq_generated", "admin", array('generate' => $generate));
 		} else {
