@@ -19,12 +19,13 @@ if(isset($message) && $message != '') {
 <?
 $counter =0;
 while($row = mysql_fetch_array($clubsResult)) {
-	   if($counter>0){
-		$class_string="class=\"top_border\"";
-	   } else {
-	     	$class_string="";
-	   }
-	   $band_class=($counter+1)%2+1;
+	if($counter > 0) {
+		$class_string = "class=\"top_border\"";
+	} else {
+		$class_string = "";
+	}
+	
+	$band_class = ($counter + 1) % 2 + 1;
 ?>
 	<tr><table <?=$class_string?> width=100% cellspacing=0>
 	<tr class="band<?=$band_class?>"><td colspan="2" height=10</tr>
