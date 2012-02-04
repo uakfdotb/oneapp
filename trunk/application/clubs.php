@@ -16,10 +16,11 @@ if(isset($_SESSION['user_id'])) {
 	
 	$clubStart = array();
 	$clubClose = array();
+	
 	foreach($clubsApplied as $item) {
-		$row = clubInfo($item[0]);
-		$clubStart[$item[0]]=$row[2];
-		$clubClose[$item[0]]=$row[3];
+		$clubInfo = clubInfo($item[0]);
+		$clubStart[$item[0]] = $clubInfo[2];
+		$clubClose[$item[0]] = $clubInfo[3];
 	}
 
 	get_page_advanced("clubs", "apply", array("clubsApplied" => $clubsApplied, 'clubStates' => $clubStates, 'clubStart' => $clubStart, 'clubClose' => $clubClose));
