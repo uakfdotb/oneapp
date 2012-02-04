@@ -94,7 +94,7 @@ text: the body of the page
 club_notes: stores values for the notes features
 ----------
 application_id: id in applications table that these notes are for
-club_id: club id that this entry belongs to
+admin_id: admin id that this entry belongs to
 box: textbox value
 category: category value; note that users can tamper with submission or delete categories, so this may not be in club_notes_categories
 rank: at the time of this documentation, ranks have not been implemented yet
@@ -102,7 +102,7 @@ comments: comments of less than 10,000 characters stored for this user
 
 club_notes_categories: stores the possible categories for the notes_categories feature
 ---------------------
-club_id: the club id that this category has been added for
+admin_id: the admin id that this category has been added for
 name: the text to display and also used to identify this category
 
 locks: contains information to prevent flooding the oneapp system
