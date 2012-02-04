@@ -89,7 +89,8 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 		} else {
 		}
 		
-		if($typeArray['type'] == "select" && $typeArray['method'] != "dropdown") {//in this case, we add tick marks and check the correct ones
+		if($typeArray['type'] == "select" && $typeArray['method'] != "dropdown") {
+			//in this case, we add tick marks and check the correct ones
 			$choices = explode(";", $desc);
 			
 			//get answer as array in case we're using multiple selection
@@ -128,8 +129,7 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			}
 			else {
 				if($answer != "") {
-					$question_string .= '\\begin{quote} ' . latexSpecialChars($answer) . ' \\end{quote}'; //add:\usepackage[normalem]{ulem}
-					//$question_string .= '\mbox{\\newline \indent ' . latexSpecialChars($answer) . '}';
+					$question_string .= '\\begin{quote} ' . latexSpecialChars($answer) . ' \\end{quote}';
 				} else {
 					$question_string .= '\\vspace{1ex}';
 				}
@@ -158,11 +158,11 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 	
 	//get application fields
 	if($club_id == 0) {
-		$result = mysql_query("SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, answers.val FROM answers, baseapp WHERE answers.application_id = '$application_id' AND baseapp.id = answers.var_id ORDER BY baseapp.orderId");
+		$result = mysql_query("SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, answers.val FROM answers, baseapp, basecat WHERE answers.application_id = '$application_id' AND baseapp.id = answers.var_id AND basecat.id = baseapp.category ORDER BY basecat.orderId, baseapp.orderId");
 		$sectionheader = "General Application";
 	} else {
 		$result = mysql_query("SELECT supplements.varname, supplements.vardesc, supplements.vartype, answers.val FROM answers, supplements WHERE answers.application_id = '$application_id' AND supplements.id = answers.var_id ORDER BY supplements.orderId");
-		//$sectionheader = mysql_query("SELECT name FROM clubs where id='$club_id'");
+		
 		$sectionheader = "Supplement";
 	}
 	return generatePDFByResult($result, $targetDirectory, $sectionheader);
