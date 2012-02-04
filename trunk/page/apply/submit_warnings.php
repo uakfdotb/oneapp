@@ -13,10 +13,10 @@ foreach($genCheck as $warning) {
 
 <h3>Warnings for supplement</h3>
 
-<table>
+<ul>
 <?
 foreach($appCheck as $warning) {
-	echo "<tr><p>" . $warning . "<p></tr>";
+	echo "<li><p>" . $warning . "<p></li>";
 }
 ?>
-</table>
+</ul>
