@@ -104,6 +104,38 @@ function adminStatistics($club_id) {
 	return array($usersSubmitted, $usersApplied, $usersTotal);
 }
 
+//returns array of club id => (club name, # submitted, # applied)
+function clubStatistics() {
+	$result = mysql_query("SELECT id, name FROM clubs");
+	$clubStatistics = array();
+	
+	while($row = mysql_fetch_array($result)) {
+		$adminStatistics = adminStatistics($row['id']);
+		$clubStatistics[$row['id']] = array($row['name'], $adminStatistics[0], $adminStatistics[1]);
+	}
+	
+	return $clubStatistics;
+}
+
+//returns array of (array of (user_id, username) started, array of (user_id, username) completed)
+function clubApplicationList($club_id) {
+	$club_id = escape($club_id);
+	$result = mysql_query("SELECT applications.submitted, applications.user_id, users.username FROM applications, users WHERE applications.club_id = '$club_id' AND applications.user_id = users.id");
+	
+	$usersStarted = array();
+	$usersCompleted = array();
+	
+	while($row = mysql_fetch_row($result)) {
+		if($row[0] == '') {
+			array_push($usersStarted, array($row[1], $row[2]));
+		} else {
+			array_push($usersCompleted, array($row[1], $row[2]));
+		}
+	}
+	
+	return array($usersStarted, $usersCompleted);
+}
+
 //array of (question name, array(choice -> #)); note that total responses can be derived from adminStatistics
 function responseStatistics($club_id, $include_short, $limit) {
 	global $config;

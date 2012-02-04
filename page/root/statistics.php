@@ -6,7 +6,7 @@
 <tr>
 	<th width=40%><p class="admin_table_header" align="left">Name</p></th>
 	<th width=20%><p class="admin_table_header" align="center">Value</p></th>
-	<th> <!--Graphs--> </tr>
+	<th><!--Graphs--></th>
 </tr>
 
 <?
