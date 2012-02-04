@@ -30,15 +30,17 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 	
 	if($typeArray['type'] == "text") {
 		if($name != "") {
-				 $question_string .= '\\textbf{' . latexSpecialChars($name) . '}'; //add main in bold
-		  }
-		  if($desc != "") {
-			   if($name != "") {
-				    $question_string .= '\\newline';
-			   }
-			   
-			   $question_string .= '\\emph{' . latexSpecialChars($desc) . '}'; //add description in italics
-		  }
+			$question_string .= '\\textbf{' . latexSpecialChars($name) . '}'; //add main in bold
+		}
+		
+		if($desc != "") {
+			if($name != "") {
+				$question_string .= '\\newline';
+			}
+
+			$question_string .= '\\emph{' . latexSpecialChars($desc) . '}'; //add description in italics
+		}
+		
 		$question_string .= '\\newline \\newline';
 		return $question_string;
 	} else if($typeArray['type']=="latex") {
@@ -159,7 +161,7 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 	
 	//get application fields
 	if($club_id == 0) {
-		$result = mysql_query("SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, profiles.val FROM profiles, baseapp WHERE profiles.user_id = '$user_id' AND profiles.var_id = baseapp.id UNION ALL ( SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, answers.val FROM answers, baseapp, basecat WHERE answers.application_id = '$application_id' AND baseapp.id = answers.var_id AND basecat.id = baseapp.category ORDER BY basecat.orderId, baseapp.orderId )");
+		$result = mysql_query("SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, profiles.val, 0 AS sort_col, baseapp.orderId AS sort2_col FROM profiles, baseapp WHERE profiles.user_id = '$user_id' AND profiles.var_id = baseapp.id UNION ALL SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, answers.val, basecat.orderId AS sort_col, baseapp.orderId AS sort2_col FROM answers, baseapp, basecat WHERE answers.application_id = '$application_id' AND baseapp.id = answers.var_id AND basecat.id = baseapp.category ORDER BY sort_col, sort2_col");
 		
 		$sectionheader = "General Application";
 	} else {
