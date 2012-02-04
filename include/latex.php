@@ -29,7 +29,16 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 	$question_string = "";
 	
 	if($typeArray['type'] == "text"){
-		$question_string .= '\\textbf{' . latexSpecialChars($desc) . '}';
+		if(strlen($name)>1){
+                             $question_string .= '\\textbf{' . latexSpecialChars($name) . '}'; //add main in bold
+                }
+                if(strlen($desc)>1) {
+                        if(strlen($name)>1){
+                                $question_string .= '\\newline';
+                        }
+                        $question_string .= '\\emph{' . latexSpecialChars($desc) . '}'; //add description in italics
+                }
+		$question_string .= '\\newline \\newline';
 		return $question_string;
 	} else if($typeArray['type']=="latex"){
 	       $question_string .= $desc;
