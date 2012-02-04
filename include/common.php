@@ -284,13 +284,13 @@ function page_convert($str) {
 	$str = htmlentities($str);
 
 	$bbcode = array('[color="', "[/color]",
-                "[size=\"", "[/size]",
-                "[quote]", "[/quote]",
-                '"]');
+				"[size=\"", "[/size]",
+				"[quote]", "[/quote]",
+				'"]');
 	$htmlcode = array("<span style=\"color:", "</span>",
-                "<span style=\"font-size:", "</span>",
-                "<table width=100% bgcolor=lightgray><tr><td bgcolor=white>", "</td></tr></table>",
-                '">');
+				"<span style=\"font-size:", "</span>",
+				"<table width=100% bgcolor=lightgray><tr><td bgcolor=white>", "</td></tr></table>",
+				'">');
 	$str = str_replace($bbcode, $htmlcode, $str);
 	
 	$str = str_replace("[p]", "<p>", $str);

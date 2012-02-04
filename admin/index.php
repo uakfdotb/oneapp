@@ -12,11 +12,11 @@ if(isset($_REQUEST['error'])) {
 
 if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
 	$checkResult = checkAdmin($_REQUEST['username'], $_REQUEST['password']);
-    if($checkResult !== FALSE) {
-    	$_SESSION['admin_id'] = $checkResult;
-    } else {
-    	$errorMessage = "Incorrect username/password. You may be locked from your account.";
-    }
+	if($checkResult !== FALSE) {
+		$_SESSION['admin_id'] = $checkResult;
+	} else {
+		$errorMessage = "Incorrect username/password. You may be locked from your account.";
+	}
 } else if(isset($_REQUEST['action'])) {
 	if($_REQUEST['action'] == 'logout') {
 		$errorMessage = "You are now logged out.";
