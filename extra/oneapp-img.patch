@@ -1,0 +1,145 @@
+Index: include/default_pages.php
+===================================================================
+--- include/default_pages.php	(revision 200)
++++ include/default_pages.php	(working copy)
+@@ -18,4 +18,6 @@
+ 
+ $pages['footertext'] = 'Copyright information or other details about your website go here.';
+ 
++$pages['files.txt'] = '';
++
+ ?>
+Index: root/add_image.php
+===================================================================
+--- root/add_image.php	(revision 0)
++++ root/add_image.php	(revision 0)
+@@ -0,0 +1,67 @@
++<?php
++include("../config.php");
++include("../include/common.php");
++include("../include/db_connect.php");
++include("../include/session.php");
++
++if(isset($_SESSION['root'])){
++	$message = "";
++	
++	if((!empty($_FILES["uploaded_file"])) && ($_FILES['uploaded_file']['error'] == 0)) {
++		if(dirCount('../submit/') < 5000) {
++			//Check if the file is image and it's size is less than 1 MB
++			$filename = basename($_FILES['uploaded_file']['name']);
++			$ext = substr($filename, strrpos($filename, '.') + 1);
++			if (($ext == "jpeg" || $ext == "jpg" || $ext == "gif" || $ext == "png" || $ext == "bmp" || $ext == "svg") && 
++			    ($_FILES["uploaded_file"]["size"] < 1000000)) {
++			    //Determine the path to which we want to save this file
++			    $newname = '../submit/'.cleanfile($filename);
++			    
++		        //Attempt to move the uploaded file to it's new place
++		        if ((move_uploaded_file($_FILES['uploaded_file']['tmp_name'],$newname))) {
++		            $message = "Image added successfully. Accessible at " . $config['site_address'] . "/submit/" . cleanfile($filename);
++		        } else {
++		            echo "Error: A problem occurred during file upload!";
++		        }
++			} else {
++			    $message = "Error: Only image files (jpeg, jpg, gif, png, bmp, svg) under 1MB are accepted for upload.";
++			}
++	    } else {
++	    	$message = "Too many files in the submit directory (remove extra PDFs or contact us).";
++	    }
++	}
++	
++	$dir = new DirectoryIterator("../submit/");
++	$imagelist = array();
++	foreach($dir as $file ){
++		if($file->isFile()) {
++			$ext = substr($file, strrpos($file, '.') + 1);
++			
++			if($ext == "jpeg" || $ext == "jpg" || $ext == "gif" || $ext == "png" || $ext == "bmp" || $ext == "svg") { 
++				array_push($imagelist, $config['site_address'] . '/submit/' . $file->getFilename());
++			}
++		}
++	}
++
++	sort($imagelist);
++	
++	get_page_advanced("add_image", "root", array('message' => $message, 'imagelist' => $imagelist));
++} else {
++	header('Location: index.php');
++}
++
++function cleanfile($fname) {
++    $replace="_";
++    $pattern="/([[:alnum:]_\.-]*)/";
++    return str_replace(str_split(preg_replace($pattern,$replace,$fname)),$replace,$fname);
++}
++
++function dirCount($dir_str) {
++    $dir = new DirectoryIterator($dir_str);
++    $x = 0;
++    foreach($dir as $file ){
++        $x ++;
++    }
++    return $x;
++}
++?>
+Index: style/one/page/index.php
+===================================================================
+--- style/one/page/index.php	(revision 200)
++++ style/one/page/index.php	(working copy)
+@@ -8,16 +8,18 @@
+ 			    <img src="<?=$stylePath?>/logo.jpg" width=100%>
+ 			</div>
+ <?
+-$imgcounter=0;
++$style_imgcounter=0;
+ //retrieve other slides from files.txt
+-$style_fh = fopen($stylePath . "/file.txt", 'r');
++$style_result = explode("\n", page_db_part('files.txt'));
+ 
+-while (($style_buffer = fgets($style_fh)) !== false) {
++foreach($style_result as $style_buffer) {
+ 	$style_buffer = trim($style_buffer);
++	if($style_buffer == '') continue;
++	
+ 	echo '<div id="content" style="display:none">';
+ 	echo "<img src=\"$style_buffer\"/>";
+ 	echo '</div>';
+-	$imgcounter=$imgcounter+1;
++	$style_imgcounter=$style_imgcounter+1;
+ }
+ ?>
+ 		</div>
+@@ -27,7 +29,7 @@
+         <div onclick="slideshow.pos(0)"></div>
+ <?
+ $counter=1;
+-while($counter<=$imgcounter){
++while($counter<=$style_imgcounter){
+ 	echo '<div onclick="slideshow.pos($counter)"></div>';
+ 	$counter=$counter+1;
+ }
+Index: page/root/add_image.php
+===================================================================
+--- page/root/add_image.php	(revision 0)
++++ page/root/add_image.php	(revision 0)
+@@ -0,0 +1,21 @@
++<h1>Add an image</h1>
++
++<? if(isset($message) && $message != "") { ?>
++<p><?= $message ?></p>
++<? } ?>
++
++<p>Add an image using this tool. After adding it, you will receive the URL, which you can then add to your "files.txt" page (in page manager; make sure all image URLs are on separate lines), and it will show up on the index page.</p>
++
++<form enctype="multipart/form-data" action="add_image.php" method="post">
++<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
++Choose a file to upload: <input name="uploaded_file" type="file" /><br />
++<input type="submit" value="Upload" />
++</form>
++
++<p>A list of uploaded images appears below.</p>
++
++<ul>
++<? foreach($imagelist as $imagefile) { ?>
++<li><a href="<?= $imagefile ?>"><?= $imagefile ?></a></li>
++<? } ?>
++</ul>

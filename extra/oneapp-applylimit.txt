@@ -1,0 +1,13 @@
+Installation
+------------
+Apply the patch. Then, execute:
+	ALTER TABLE clubs ADD COLUMN limitcat VARCHAR(16);
+	CREATE TABLE club_limits (limitcat VARCHAR(16), lim INT);
+
+Also add man_limit to configuration file as root_side_display.
+
+Usage
+-----
+Edit limit categories through the clubs manager. Then, set limits on specific limit categories in the new limits manager sidebar item in root management area.
+
+Note that users will not be notified until they attempt to submit a supplement that there is a limit. However, there is an addition to the club pages that will show the limit category and the limit for that category.

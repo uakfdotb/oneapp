@@ -1,0 +1,205 @@
+Index: include/apply_submit.php
+===================================================================
+--- include/apply_submit.php	(revision 200)
++++ include/apply_submit.php	(working copy)
+@@ -134,7 +134,7 @@
+ //submits the application, doing all the checks and then generating PDFs and updating database along the way
+ // if do_submit is false, then the PDFs will be generated but they want be added to the database
+ // this is used for viewing the PDF prior to submission
+-// returns: error message on fail, or PDF array on success (recommendations not in array)
++// returns: error message on fail, or PDF array on success (recommendations not included in array)
+ function submitApplication($user_id, $application_id, $do_submit = true) {
+ 	$user_id = escape($user_id);
+ 	$application_id = escape($application_id);
+@@ -157,6 +157,30 @@
+ 		return "application cannot be submitted at this time";
+ 	}
+ 	
++	//verify the user has not exceeded the limit category for the club
++	$result = mysql_query("SELECT limitcat FROM clubs WHERE id = '" . $checkResult[1] . "'");
++	if($row = mysql_fetch_array($result)) {
++		if(!is_null($row[0])) {
++			$limitcat = escape($row[0]);
++			$result = mysql_query("SELECT lim FROM club_limits WHERE limitcat = '$limitcat'");
++			
++			if($row = mysql_fetch_array($result)) {
++				$limit = escape($row[0]);
++				
++				//get the number of clubs in this limitcat that the user has applied to
++				$result = mysql_query("SELECT COUNT(applications.id) FROM applications, clubs WHERE applications.user_id = '$user_id' AND applications.submitted != '' AND applications.club_id = clubs.id AND clubs.limitcat = '$limitcat'");
++				$row = mysql_fetch_array($result);
++				$num_applied = $row[0];
++				
++				if($num_applied >= $limit) {
++					return "user applied to too many clubs in the limiting category, " . $limitcat;
++				}
++			}
++		}
++	} else {
++		return "internal error, club not found (2)";
++	}
++	
+ 	//verify that enough peer recommendations have been inputted; grab the filenames while we're at it
+ 	$result = mysql_query("SELECT num_recommend FROM clubs WHERE id = '" . $checkResult[1] . "'");
+ 	$recommendResult = mysql_query("SELECT filename FROM recommendations WHERE user_id = '$user_id' AND status = '1'");
+Index: include/common.php
+===================================================================
+--- include/common.php	(revision 200)
++++ include/common.php	(working copy)
+@@ -719,13 +719,20 @@
+ 	}
+ }
+ 
+-//returns array (club name, club description, open_time, close_time, num_recommendations)
++//returns array (club name, club description, open_time, close_time, num_recommendations, limitcat, limit)
+ function clubInfo($club_id) {
+ 	$club_id = escape($club_id);
+-	$result = mysql_query("SELECT name, description, open_time, close_time, num_recommend FROM clubs WHERE id='$club_id'");
++	$result = mysql_query("SELECT name, description, open_time, close_time, num_recommend, limitcat FROM clubs WHERE id='$club_id'");
+ 	
+ 	if($row = mysql_fetch_array($result)) {
+-		return array($row[0], $row[1], clubTimeString($row[2]), clubTimeString($row[3]), $row[4]);
++		$limitResult = mysql_query("SELECT lim FROM club_limits WHERE limitcat = '" . escape($row[5]) . "'");
++		if($limitRow = mysql_fetch_array($limitResult)) {
++			$limit = $limitRow[0];
++		} else {
++			$limit = FALSE;
++		}
++		
++		return array($row[0], $row[1], clubTimeString($row[2]), clubTimeString($row[3]), $row[4], $row[5], $limit);
+ 	} else {
+ 		return array("Unknown", "Club could not be found");
+ 	}
+Index: root/man_clubs.php
+===================================================================
+--- root/man_clubs.php	(revision 200)
++++ root/man_clubs.php	(working copy)
+@@ -27,7 +27,7 @@
+ 			}
+ 			
+ 			if(!$limitFail) {
+-				mysql_query("INSERT INTO clubs (name, description, view_time, open_time, close_time) VALUES ('$name', '$description', '0', '0', '0')");
++				mysql_query("INSERT INTO clubs (name, description, view_time, open_time, close_time, limitcat) VALUES ('$name', '$description', '0', '0', '0', '')");
+ 				$message = "Club added successfully! Click <a href=\"man_clubs.php\">here</a> to continue.";
+ 			}
+ 		} else if($action == 'delete') {
+@@ -37,13 +37,14 @@
+ 		} else if($action == 'update') {
+ 			$club_id = escape($_REQUEST['id']);
+ 			$description = escape($_REQUEST['description']);
++			$limitcat = escape($_REQUEST['limitcat']);
+ 			
+-			mysql_query("UPDATE clubs SET description='$description' WHERE id='$club_id'");
++			mysql_query("UPDATE clubs SET description='$description', limitcat='$limitcat' WHERE id='$club_id'");
+ 			$message = "Club updated successfully! Click <a href=\"man_clubs.php\">here</a> to continue.";
+ 		}
+ 	}
+ 	
+-	$result = mysql_query("SELECT id,name,description FROM clubs");
++	$result = mysql_query("SELECT id,name,description,limitcat FROM clubs");
+ 	get_page_advanced("man_clubs", "root", array('message' => $message, 'clubsResult' => $result));
+ } else {
+ 	header('Location: index.php');
+Index: root/man_limit.php
+===================================================================
+--- root/man_limit.php	(revision 0)
++++ root/man_limit.php	(revision 0)
+@@ -0,0 +1,33 @@
++<?php
++include("../config.php");
++include("../include/common.php");
++include("../include/db_connect.php");
++include("../include/session.php");
++
++if(isset($_SESSION['root'])) {
++	$message = "";
++	
++	if(isset($_REQUEST['action'])) {
++		$action = $_REQUEST['action'];
++		
++		if($action == 'add') {
++			$limitcat = escape($_REQUEST['limitcat']);
++			$limit = escape($_REQUEST['limit']);
++			mysql_query("INSERT INTO club_limits (limitcat, lim) VALUES ('$limitcat', '$limit')");
++		} else if($action == 'delete') {
++			$limitcat = escape($_REQUEST['limitcat']);
++			mysql_query("DELETE FROM club_limits WHERE limitcat = '$limitcat'");
++		} else if($action == 'update') {
++			$limitcat = escape($_REQUEST['limitcat']);
++			$limit = escape($_REQUEST['limit']);
++			
++			mysql_query("UPDATE basecat SET limit = '$limit' WHERE limitcat = '$limitcat'");
++		}
++	}
++	
++	$result = mysql_query("SELECT limitcat, lim FROM club_limits");
++	get_page_advanced("man_limit", "root", array('result' => $result));
++} else {
++	header('Location: index.php');
++}
++?>
+Index: page/root/man_clubs.php
+===================================================================
+--- page/root/man_clubs.php	(revision 200)
++++ page/root/man_clubs.php	(working copy)
+@@ -33,6 +33,7 @@
+ 	<input type="hidden" name="id" value="<?= $row['id'] ?>">
+ 	<tr class="band<?=$band_class?>"><td width=20%><p style="font-weight:bold">Club ID:</p></td><td><p><?= $row['id'] ?></p></td></tr>
+ 	<tr class="band<?=$band_class?>"><td><p style="font-weight:bold">Club Name:</p></td><td><p><?= $row['name'] ?></p></td></tr>
++	<tr class="band<?=$band_class?>"><td><p style="font-weight:bold">Club Category:</p></td><td><input type="text" name="limitcat" value="<?= $row['limitcat'] ?>" /></td></tr>
+ 	<tr class="band<?=$band_class?>" align="center"><td colspan="2"><p style="font-weight:bold" align="left">Description:</p><textarea name="description" style="width:95%;height:100;resize:none" class="band<?=$band_class?>"><?= $row['description'] ?></textarea></td></tr>
+ 	<tr class="band<?=$band_class?>"><td></td><td align="right"><input type="submit" name="action" value="update"><input type="submit" name="action" value="delete"><br></td></tr>
+ 	</form>
+Index: page/root/man_limit.php
+===================================================================
+--- page/root/man_limit.php	(revision 0)
++++ page/root/man_limit.php	(revision 0)
+@@ -0,0 +1,32 @@
++<h1>Limit manager</h1>
++
++<p>This is for the limit extension, allowing you to edit limits. Limit category name identifies the limit category, and should be the same as the value in the club manager. The limit will determine the maximum submissions in the specified limit category per user. Do not set a category for a club if the club should not be limited (there is no way to create a category without a limit).</p>
++
++<form action="man_limit.php?action=add" method="post">
++Limit category: <input type="text" name="limitcat"><br />
++Limit: <input type="text" name="limit"><br />
++<input type="submit" value="Add category">
++</form>
++		
++<table width=100% cellspacing=0>
++<tr>
++	<th><p class="admin_table_header">Limit category</p></th>
++	<th><p class="admin_table_header">Limit</p></th>
++	<th><p class="admin_table_header">Update</p></th>
++	<th><p class="admin_table_header">Delete</p></th>
++</tr>
++
++<?
++while($row = mysql_fetch_array($result)) {
++?>
++	<form method="post" action="man_limit.php"><tr align="center">
++	<td><input type="text" name="limitcat" value="<?= $row[0] ?>" style="width:100%"></td>
++	<td><input type="text" name="limit" value="<?= $row[1] ?>" style="width:100%"></td>
++	<td><input type="submit" name="action" value="update"></td>
++	<td><input type="submit" name="action" value="delete"></td>
++	</tr></form>
++<?
++}
++?>
++
++</table>
+Index: page/affclubs_info.php
+===================================================================
+--- page/affclubs_info.php	(revision 200)
++++ page/affclubs_info.php	(working copy)
+@@ -3,6 +3,10 @@
+ <p><?= htmlentities($clubInfo[1]) ?></p>
+ 
+ <p>Submission window: between <?= $clubInfo[2] ?> and <?= $clubInfo[3] ?><br />
+-Number of recommendations required: <?= $clubInfo[4] ?></p>
++Number of recommendations required: <?= $clubInfo[4] ?>
++<? if($clubInfo[5] != '' && $clubInfo[6] !== FALSE) { ?>
++<br />Limitations: category is <?= $clubInfo[5] ?> (category limit: <?= $clubInfo[6] ?> applications)
++<? } ?>
++</p>
+ 
+ <p><a href="affclubs.php">Back</a> to affiliated clubs list.</p>

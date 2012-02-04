@@ -1,0 +1,7 @@
+Installation
+------------
+Apply the patch. Add root/add_image to the configuration file links. Use one style or apply patch to other styles with same image sysetm.
+
+Usage
+-----
+Upload images through root/add_image. Then, edit files.txt page. On each line is one image URL to display.
