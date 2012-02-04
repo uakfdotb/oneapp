@@ -6,6 +6,7 @@ include("../include/session.php");
 
 if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
+	$admin_id = escape($_SESSION['admin_id']);
 	
 	if($club_id != 0) {
 		//first, notes enabled/disabled settings
@@ -35,13 +36,13 @@ if(isset($_SESSION['admin_id'])) {
 			$catName = escape($_REQUEST['name']);
 			
 			if($_REQUEST['action'] == "delete") {
-				mysql_query("DELETE FROM club_notes_categories WHERE club_id = '$club_id' AND name = '$catName'");
+				mysql_query("DELETE FROM club_notes_categories WHERE admin_id = '$admin_id' AND name = '$catName'");
 			} else if($_REQUEST['action'] == "add") {
-				mysql_query("INSERT INTO club_notes_categories (name, club_id) VALUES ('$catName', '$club_id')");
+				mysql_query("INSERT INTO club_notes_categories (name, admin_id) VALUES ('$catName', '$admin_id')");
 			}
 		}
 		
-		$result = mysql_query("SELECT name FROM club_notes_categories WHERE club_id = '$club_id'");
+		$result = mysql_query("SELECT name FROM club_notes_categories WHERE admin_id = '$admin_id'");
 		$categories = array();
 		
 		while($row = mysql_fetch_array($result)) {

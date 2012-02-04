@@ -8,6 +8,7 @@ include("../include/apply_submit.php");
 
 if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
+	$admin_id = escape($_SESSION['admin_id']);
 	
 	if($club_id != 0) {
 		//check if this admin is using textboxes and categories
@@ -26,7 +27,7 @@ if(isset($_SESSION['admin_id'])) {
 		//we will need to construct a map from the application database IDs to the box and category note values if enabled
 		// we do this now so that we can check if an entry exists already for updating the notes table
 		if($box_enabled || $cat_enabled || $comment_enabled) {
-			$toolsResult = mysql_query("SELECT application_id, box, category, comments FROM club_notes WHERE club_id = '$club_id'");
+			$toolsResult = mysql_query("SELECT application_id, box, category, comments FROM club_notes WHERE admin_id = '$admin_id'");
 	
 			while($row = mysql_fetch_array($toolsResult)) {
 				$toolsMap[$row['application_id']] = array($row['box'], $row['category'], $row['comments']);
@@ -45,7 +46,7 @@ if(isset($_SESSION['admin_id'])) {
 					//if the tools map does not contain the ID, then we have to add it to database
 					if(!isset($toolsMap[$application_id])) {
 						$toolsMap[$application_id] = array('', '');
-						mysql_query("INSERT INTO club_notes (application_id, club_id) VALUES ('$application_id', '$club_id')");
+						mysql_query("INSERT INTO club_notes (application_id, admin_id) VALUES ('$application_id', '$admin_id')");
 					}
 				
 					//now we check what needs to be updated
@@ -70,7 +71,7 @@ if(isset($_SESSION['admin_id'])) {
 			
 					if(strlen($updateString) > 0) {
 						$updateString = substr($updateString, 0, -2);
-						mysql_query("UPDATE club_notes SET $updateString WHERE application_id='$application_id' AND club_id='$club_id'");
+						mysql_query("UPDATE club_notes SET $updateString WHERE application_id='$application_id' AND admin_id='$admin_id'");
 					}
 				}
 			}
@@ -94,7 +95,7 @@ if(isset($_SESSION['admin_id'])) {
 		//category filter manager
 		if($cat_enabled) {
 			//first, we retrieve a list of categories (this will be used in dropdown as well)
-			$catResult = mysql_query("SELECT name FROM club_notes_categories WHERE club_id = '$club_id'");
+			$catResult = mysql_query("SELECT name FROM club_notes_categories WHERE admin_id = '$admin_id'");
 	
 			while($row = mysql_fetch_array($catResult)) {
 				array_push($catList, $row[0]);
