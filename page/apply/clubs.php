@@ -30,8 +30,13 @@ foreach($clubsApplied as $item) {
 	echo "<td width=20%><p>" . $clubStates[$club_id] . "</p></td>";
 	echo "<td width=20%><p>" . $clubStart[$club_id] . "</p></td>";
 	echo "<td width=20%><p>" . $clubClose[$club_id] . "</p></td>";
-	echo "<td width=20%><p><a href=\"submit.php?app_id=" . $item[3] . "&club_id=" . $item[0] . "\">Submit</a></p></td>";
-	echo "</tr>";
+	echo "<td width=20%><p>";
+	if($clubStates[$club_id] == "<font color=\"blue\">Started</font>") {
+		echo "<a href=\"submit.php?app_id=" . $item[3] . "&club_id=" . $item[0] . "\">Submit</a>";
+	} else {
+		echo "<font color=\"red\">Not Available</font>";
+	}
+	echo "</p></td></tr>";
 }
 ?>
 

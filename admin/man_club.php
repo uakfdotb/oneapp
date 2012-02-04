@@ -29,7 +29,7 @@ if(isset($_SESSION['admin_id'])) {
 			get_page_advanced("message", "admin", array('message' => "Error: your club cannot be found in the clubs table.", 'title' => "Manage Club"));
 		}
 	} else {
-		get_page_advanced("message", "admin", array('message' => "General application admin does not have a club to manage.", 'title' => "Manage Club"));
+		get_page_advanced("message", "admin", array('message' => "General application admin does not have a club to manage. You must ask root to change this Password.", 'title' => "Manage Club"));
 	}
 } else {
 	header('Location: index.php?error=' . urlencode("You are not logged in!"));
