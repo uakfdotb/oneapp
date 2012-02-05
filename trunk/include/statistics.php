@@ -120,7 +120,7 @@ function clubStatistics() {
 //returns array of (array of (user_id, username) started, array of (user_id, username) completed)
 function clubApplicationList($club_id) {
 	$club_id = escape($club_id);
-	$result = mysql_query("SELECT applications.submitted, applications.user_id, users.username FROM applications, users WHERE applications.club_id = '$club_id' AND applications.user_id = users.id");
+	$result = mysql_query("SELECT applications.submitted, applications.user_id, users.username FROM applications, users WHERE applications.club_id = '$club_id' AND applications.user_id = users.id ORDER BY users.username");
 	
 	$usersStarted = array();
 	$usersCompleted = array();
