@@ -223,13 +223,16 @@ function checkCompletedApplication($user_id, $club_id, $application_id) {
 	if($club_id == 0) {
 		$result = mysql_query("SELECT baseapp.varname, baseapp.vartype, basecat.name FROM answers, baseapp, basecat WHERE answers.application_id = '$application_id' AND answers.var_id = baseapp.id AND answers.val = '' AND basecat.id = baseapp.category ORDER by basecat.orderId");
 		$category = "";
+		
 		while($row = mysql_fetch_array($result)) {
 			$typeArray = getTypeArray($row[1]);
-			if($category != $row[2]) {
-				array_push($warnings, "<b>" . $row[2] . "</b>");
-				$category = $row[2];
-			}
+			
 			if($typeArray['status'] == "required") {
+				if($category != $row[2]) {
+					array_push($warnings, "<b>" . $row[2] . "</b>");
+					$category = $row[2];
+				}
+				
 				array_push($warnings, "<ul class=\"errorlist\"><li><p>" . $row[0] . "</p></li></ul>");
 			}
 		}
