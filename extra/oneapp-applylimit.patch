@@ -1,6 +1,6 @@
 Index: include/apply_submit.php
 ===================================================================
---- include/apply_submit.php	(revision 200)
+--- include/apply_submit.php	(revision 210)
 +++ include/apply_submit.php	(working copy)
 @@ -134,7 +134,7 @@
  //submits the application, doing all the checks and then generating PDFs and updating database along the way
@@ -44,8 +44,17 @@ Index: include/apply_submit.php
  	$recommendResult = mysql_query("SELECT filename FROM recommendations WHERE user_id = '$user_id' AND status = '1'");
 Index: include/common.php
 ===================================================================
---- include/common.php	(revision 200)
+--- include/common.php	(revision 210)
 +++ include/common.php	(working copy)
+@@ -695,7 +695,7 @@
+ //returns array of (club id, club name, club description, user's application id)
+ function getUserClubsApplied($user_id) {
+ 	$user_id = escape($user_id);
+-	$result = mysql_query("SELECT applications.club_id, clubs.name, clubs.description, applications.id FROM applications, clubs WHERE applications.user_id='$user_id' AND applications.club_id = clubs.id AND applications.club_id != '0' ORDER BY clubs.name");
++	$result = mysql_query("SELECT applications.club_id, clubs.name, clubs.description, applications.id, clubs.limitcat FROM applications, clubs WHERE applications.user_id='$user_id' AND applications.club_id = clubs.id AND applications.club_id != '0' ORDER BY clubs.name");
+ 	
+ 	$clubs = array();
+ 	while($row = mysql_fetch_array($result)) {
 @@ -719,13 +719,20 @@
  	}
  }
@@ -72,7 +81,7 @@ Index: include/common.php
  	}
 Index: root/man_clubs.php
 ===================================================================
---- root/man_clubs.php	(revision 200)
+--- root/man_clubs.php	(revision 210)
 +++ root/man_clubs.php	(working copy)
 @@ -27,7 +27,7 @@
  			}
@@ -131,16 +140,44 @@ Index: root/man_limit.php
 +			mysql_query("UPDATE basecat SET limit = '$limit' WHERE limitcat = '$limitcat'");
 +		}
 +	}
-+	
 +	$result = mysql_query("SELECT limitcat, lim FROM club_limits");
++	
 +	get_page_advanced("man_limit", "root", array('result' => $result));
 +} else {
 +	header('Location: index.php');
 +}
 +?>
+Index: astyle/one/header.php
+===================================================================
+--- astyle/one/header.php	(revision 210)
++++ astyle/one/header.php	(working copy)
+@@ -48,6 +48,7 @@
+ 	</div>
+ 	
+ 	<div id="navbar"><table width=100% background-color="red"><tr><td><a id="clockbox"><?= $timeString ?></a></td><td align="right">
++	<a href="http://www.one-app.org/OneApp_Manual.pdf">Manual</a>
+ <?
+ for($i = 0; $i < count($page_display); $i++) {
+ 	echo '<a href=' . $page_display[$i] . '.php>' . $page_display_names[$i] . '</a> ';
+Index: application/clubs.php
+===================================================================
+--- application/clubs.php	(revision 210)
++++ application/clubs.php	(working copy)
+@@ -23,7 +23,10 @@
+ 		$clubClose[$item[0]] = $clubInfo[3];
+ 	}
+ 
+-	get_page_advanced("clubs", "apply", array("clubsApplied" => $clubsApplied, 'clubStates' => $clubStates, 'clubStart' => $clubStart, 'clubClose' => $clubClose));
++	
++	$clubLimit = mysql_query("SELECT limitcat, lim FROM club_limits");
++	
++	get_page_advanced("clubs", "apply", array("clubsApplied" => $clubsApplied, 'clubStates' => $clubStates, 'clubStart' => $clubStart, 'clubClose' => $clubClose, 'clubLimit'=> $clubLimit));
+ } else {
+ 	get_page_advanced("message", "apply", array("title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
+ }
 Index: page/root/man_clubs.php
 ===================================================================
---- page/root/man_clubs.php	(revision 200)
+--- page/root/man_clubs.php	(revision 210)
 +++ page/root/man_clubs.php	(working copy)
 @@ -33,6 +33,7 @@
  	<input type="hidden" name="id" value="<?= $row['id'] ?>">
@@ -187,9 +224,66 @@ Index: page/root/man_limit.php
 +?>
 +
 +</table>
+Index: page/apply/clubs.php
+===================================================================
+--- page/apply/clubs.php	(revision 210)
++++ page/apply/clubs.php	(working copy)
+@@ -8,9 +8,29 @@
+ 
+ <br />
+ 
++<? 
++if(count($clubLimit) != 0) {
++?>
++	<p>The following restrictions have been applied by your administrator<p>
++	<table class="borderon">
++		<tr>
++			<th><p class="admin_table_header">Category</p></th>
++			<th><p class="admin_table_header">Number of Applications Allowed</p></th>
++		</tr>
++<?
++	foreach($clubLimit as $item) {
++		echo "<tr><td><p>" . $item[0] . "</p></td><td><p>" . $item[1] . "</p></td></tr>";
++	}
++}
++?>
++</table>
++
++<br />
++
+ <table width=100% class="borderon">
+ <tr>
+        <th align="left"><p class="admin_table_header">Club Name</p></th>
++       <th><p class="admin_table_header">Category</p></th>
+        <th><p class="admin_table_header">Status</p></th>
+        <th><p class="admin_table_header">Open time</p></th>
+        <th><p class="admin_table_header">Close time</p></th>
+@@ -22,15 +42,15 @@
+ 	$club_id = $item[0];
+ 	$club_name = $item[1];
+ 	$app_id = $item[3];
++	$club_cat = $item[4];
+ 	
+ 	echo "<tr align=\"center\">";
+-	echo "<td width=40% align=\"left\"><p>";
+-	echo "<a href=\"clubDetail.php?app_id=$app_id&club_id=$club_id\">";
+-	echo $club_name . "</p></a></td>";
+-	echo "<td width=20%><p>" . $clubStates[$club_id] . "</p></td>";
+-	echo "<td width=20%><p>" . $clubStart[$club_id] . "</p></td>";
+-	echo "<td width=20%><p>" . $clubClose[$club_id] . "</p></td>";
+-	echo "<td width=20%><p>";
++	echo "<td align=\"left\"><p><a href=\"clubDetail.php?app_id=$app_id&club_id=$club_id\">" . $club_name . "</p></a></td>";
++	echo "<td><p>" . $club_cat . "</p></td>";
++	echo "<td><p>" . $clubStates[$club_id] . "</p></td>";
++	echo "<td><p>" . $clubStart[$club_id] . "</p></td>";
++	echo "<td><p>" . $clubClose[$club_id] . "</p></td>";
++	echo "<td><p>";
+ 	if($clubStates[$club_id] == "<font color=\"blue\">Started</font>") {
+ 		echo "<a href=\"submit.php?app_id=" . $item[3] . "&club_id=" . $item[0] . "\">Submit</a>";
+ 	} else {
 Index: page/affclubs_info.php
 ===================================================================
---- page/affclubs_info.php	(revision 200)
+--- page/affclubs_info.php	(revision 210)
 +++ page/affclubs_info.php	(working copy)
 @@ -3,6 +3,10 @@
  <p><?= htmlentities($clubInfo[1]) ?></p>
