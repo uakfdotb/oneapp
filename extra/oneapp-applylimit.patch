@@ -46,7 +46,7 @@ Index: include/common.php
 ===================================================================
 --- include/common.php	(revision 210)
 +++ include/common.php	(working copy)
-@@ -695,7 +695,7 @@
+@@ -695,11 +695,11 @@
  //returns array of (club id, club name, club description, user's application id)
  function getUserClubsApplied($user_id) {
  	$user_id = escape($user_id);
@@ -55,6 +55,11 @@ Index: include/common.php
  	
  	$clubs = array();
  	while($row = mysql_fetch_array($result)) {
+-		array_push($clubs, array($row[0], $row[1], $row[2], $row[3]));
++		array_push($clubs, array($row[0], $row[1], $row[2], $row[3], $row[4]));
+ 	}
+ 	
+ 	return $clubs;
 @@ -719,13 +719,20 @@
  	}
  }
@@ -92,7 +97,7 @@ Index: root/man_clubs.php
  				$message = "Club added successfully! Click <a href=\"man_clubs.php\">here</a> to continue.";
  			}
  		} else if($action == 'delete') {
-@@ -37,13 +37,14 @@
+@@ -37,14 +37,16 @@
  		} else if($action == 'update') {
  			$club_id = escape($_REQUEST['id']);
  			$description = escape($_REQUEST['description']);
@@ -105,15 +110,18 @@ Index: root/man_clubs.php
  	}
  	
 -	$result = mysql_query("SELECT id,name,description FROM clubs");
+-	get_page_advanced("man_clubs", "root", array('message' => $message, 'clubsResult' => $result));
 +	$result = mysql_query("SELECT id,name,description,limitcat FROM clubs");
- 	get_page_advanced("man_clubs", "root", array('message' => $message, 'clubsResult' => $result));
++	$clubLimit = mysql_query("SELECT limitcat, lim FROM club_limits");
++	get_page_advanced("man_clubs", "root", array('message' => $message, 'clubsResult' => $result, 'clubLimit' => $clubLimit));
  } else {
  	header('Location: index.php');
+ }
 Index: root/man_limit.php
 ===================================================================
 --- root/man_limit.php	(revision 0)
 +++ root/man_limit.php	(revision 0)
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,35 @@
 +<?php
 +include("../config.php");
 +include("../include/common.php");
@@ -132,14 +140,16 @@ Index: root/man_limit.php
 +			mysql_query("INSERT INTO club_limits (limitcat, lim) VALUES ('$limitcat', '$limit')");
 +		} else if($action == 'delete') {
 +			$limitcat = escape($_REQUEST['limitcat']);
++			mysql_query("UPDATE clubs SET limitcat = '' WHERE limitcat = '$limitcat'");
 +			mysql_query("DELETE FROM club_limits WHERE limitcat = '$limitcat'");
 +		} else if($action == 'update') {
 +			$limitcat = escape($_REQUEST['limitcat']);
 +			$limit = escape($_REQUEST['limit']);
-+			
 +			mysql_query("UPDATE basecat SET limit = '$limit' WHERE limitcat = '$limitcat'");
++			mysql_query("UPDATE club_limits SET lim = '$limit' WHERE limitcat = '$limitcat'");
 +		}
 +	}
++
 +	$result = mysql_query("SELECT limitcat, lim FROM club_limits");
 +	
 +	get_page_advanced("man_limit", "root", array('result' => $result));
@@ -147,6 +157,21 @@ Index: root/man_limit.php
 +	header('Location: index.php');
 +}
 +?>
+Index: config_.php
+===================================================================
+--- config_.php	(revision 210)
++++ config_.php	(working copy)
+@@ -66,8 +66,8 @@
+ $config['root_page_display'] = array('index', 'index.php?action=logout&ex=');
+ $config['root_page_display_names'] = array('Home', 'Logout');
+ 
+-$config['root_side_display'] = array('index', 'man_pages', 'man_admins', 'man_cat', 'man_clubs', 'userlist', 'rm_peer', 'check_pdf', 'check_nohome', 'check_mismatch', 'statistics', 'statistics_club', 'man_config', 'full_clean', 'dbwipe', 'backup');
+-$config['root_side_display_names'] = array('Root Home', 'Manage pages', 'Manage admins', 'Manage categories', 'Manage clubs', 'User list', 'Remove recommendations', 'Check extra PDFs', 'Check questions without a home', 'Check mismatched applications', 'Statistics', 'Club Statistics', 'Edit configuration', 'Full database cleaner', 'Database wipe', 'Backup');
++$config['root_side_display'] = array('index', 'man_pages', 'man_admins', 'man_cat', 'man_clubs', 'man_limit', 'userlist', 'rm_peer', 'check_pdf', 'check_nohome', 'check_mismatch', 'statistics', 'statistics_club', 'man_config', 'full_clean', 'dbwipe', 'backup');
++$config['root_side_display_names'] = array('Root Home', 'Manage pages', 'Manage admins', 'Manage categories', 'Manage clubs', 'Manage Restrictions', 'User list', 'Remove recommendations', 'Check extra PDFs', 'Check questions without a home', 'Check mismatched applications', 'Statistics', 'Club Statistics', 'Edit configuration', 'Full database cleaner', 'Database wipe', 'Backup');
+ 
+ $config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the current time
+ $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements
 Index: astyle/one/header.php
 ===================================================================
 --- astyle/one/header.php	(revision 210)
@@ -175,15 +200,56 @@ Index: application/clubs.php
  } else {
  	get_page_advanced("message", "apply", array("title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
  }
+Index: page/root/statistics_club.php
+===================================================================
+--- page/root/statistics_club.php	(revision 210)
++++ page/root/statistics_club.php	(working copy)
+@@ -16,11 +16,11 @@
+ ?>
+ 	<tr>
+ 	<td><p class="admin_table_entry"><?= $clubTuple[0] ?></p></td>
+-	<td align="center"><p class="admin_table_entry"><?= $clubTuple[1] ?> / <?= $clubTuple[2] ?></p></td>
+-	<td>
++	<td align="center"><p class="admin_table_entry"><?= $clubTuple[1] ?> / <?= $clubTuple[2]-1 ?></p></td>
++	<td align="center">
+ 		<img src="../include/ratingbox.php?rating=<?= $clubTuple[1] * 100 / $clubTuple[2] ?>" width=50%>
+ 	</td>
+-	<td><p class="admin_table_entry"><a href="statistics_club.php?club_id=<?= $club_id ?>&club_name=<?= $clubTuple[0] ?>">Details</a></p></td>
++	<td align="center"><p class="admin_table_entry"><a href="statistics_club.php?club_id=<?= $club_id ?>&club_name=<?= $clubTuple[0] ?>">Details</a></p></td>
+ 	</tr>
+ <? } ?>
+ 
 Index: page/root/man_clubs.php
 ===================================================================
 --- page/root/man_clubs.php	(revision 210)
 +++ page/root/man_clubs.php	(working copy)
-@@ -33,6 +33,7 @@
+@@ -24,7 +24,6 @@
+ 	} else {
+ 		$class_string = "";
+ 	}
+-	
+ 	$band_class = ($counter + 1) % 2 + 1;
+ ?>
+ 	<tr><table <?=$class_string?> width=100% cellspacing=0>
+@@ -33,6 +32,21 @@
  	<input type="hidden" name="id" value="<?= $row['id'] ?>">
  	<tr class="band<?=$band_class?>"><td width=20%><p style="font-weight:bold">Club ID:</p></td><td><p><?= $row['id'] ?></p></td></tr>
  	<tr class="band<?=$band_class?>"><td><p style="font-weight:bold">Club Name:</p></td><td><p><?= $row['name'] ?></p></td></tr>
-+	<tr class="band<?=$band_class?>"><td><p style="font-weight:bold">Club Category:</p></td><td><input type="text" name="limitcat" value="<?= $row['limitcat'] ?>" /></td></tr>
++	<tr class="band<?=$band_class?>"><td><p style="font-weight:bold">Club Category:</p></td><td>
++	
++	<select name="limitcat">
++		<option value="<?= $row['limitcat'] ?>" /><?= $row['limitcat'] ?></option>
++		<option value="">-------</option>
++		<?
++		$result = mysql_query("SELECT limitcat, lim FROM club_limits");
++		 while($item = mysql_fetch_row($result)) {
++				echo "<option value=\"" . $item[0] . "\" />" . $item[0] . "</option>";	
++		 }
++		?>
++	</select>
++	</td></tr>
++	
++	
  	<tr class="band<?=$band_class?>" align="center"><td colspan="2"><p style="font-weight:bold" align="left">Description:</p><textarea name="description" style="width:95%;height:100;resize:none" class="band<?=$band_class?>"><?= $row['description'] ?></textarea></td></tr>
  	<tr class="band<?=$band_class?>"><td></td><td align="right"><input type="submit" name="action" value="update"><input type="submit" name="action" value="delete"><br></td></tr>
  	</form>
@@ -191,15 +257,17 @@ Index: page/root/man_limit.php
 ===================================================================
 --- page/root/man_limit.php	(revision 0)
 +++ page/root/man_limit.php	(revision 0)
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,34 @@
 +<h1>Limit manager</h1>
 +
 +<p>This is for the limit extension, allowing you to edit limits. Limit category name identifies the limit category, and should be the same as the value in the club manager. The limit will determine the maximum submissions in the specified limit category per user. Do not set a category for a club if the club should not be limited (there is no way to create a category without a limit).</p>
 +
 +<form action="man_limit.php?action=add" method="post">
-+Limit category: <input type="text" name="limitcat"><br />
-+Limit: <input type="text" name="limit"><br />
-+<input type="submit" value="Add category">
++<table>
++<tr><td><p>Limit category</p></td><td><input type="text" name="limitcat"></td></tr>
++<tr><td><p>Limit</p></td><td><input type="text" name="limit"></td></tr>
++<tr><td colspan="2"><input type="submit" value="Add category"></td></tr>
++</table>
 +</form>
 +		
 +<table width=100% cellspacing=0>
@@ -238,12 +306,12 @@ Index: page/apply/clubs.php
 +	<p>The following restrictions have been applied by your administrator<p>
 +	<table class="borderon">
 +		<tr>
-+			<th><p class="admin_table_header">Category</p></th>
++			<th width="20%"><p class="admin_table_header">Category</p></th>
 +			<th><p class="admin_table_header">Number of Applications Allowed</p></th>
 +		</tr>
 +<?
-+	foreach($clubLimit as $item) {
-+		echo "<tr><td><p>" . $item[0] . "</p></td><td><p>" . $item[1] . "</p></td></tr>";
++	while($item = mysql_fetch_array($clubLimit)) {
++		echo "<tr align=\"center\"><td><p><b>" . $item[0] . "</b></p></td><td><p>" . $item[1] . "</p></td></tr>";
 +	}
 +}
 +?>
