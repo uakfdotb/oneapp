@@ -87,13 +87,14 @@ function processSubmission($array) {
 	return $answers;
 }
 
+//TRUE: success; string: failure (error description)
 function saveApplication($user_id, $application_id, $answers) { //$answers is array of $var_id => (answer_id, answer_value)
 	$user_id = escape($user_id);
 	$application_id = escape($application_id);
 	
 	//verify application belongs to user and hasn't been submitted; this also checks that it is available
 	if(checkApplication($user_id, $application_id) !== 0) {
-		return FALSE;
+		return "internal error: checkApplication failed";
 	}
 	
 	//get club_id
@@ -101,7 +102,7 @@ function saveApplication($user_id, $application_id, $answers) { //$answers is ar
 	if($row = mysql_fetch_array($result)) {
 		$club_id = escape($row[0]);
 	} else {
-		return FALSE;
+		return "internal error: club id lookup failed";
 	}
 	
 	foreach($answers as $var_id => $answer) {
