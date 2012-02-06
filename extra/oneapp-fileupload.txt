@@ -1,0 +1,9 @@
+Installation
+------------
+Apply the patch.
+
+Usage
+-----
+Use the type "upload" with the following parameters:
+	maxsize: the maximum file size in byte (default 1 MB)
+	extensions: comma-delimited list of extensions to accept (case insensitive)
