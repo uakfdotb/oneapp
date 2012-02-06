@@ -1,0 +1,285 @@
+Index: include/apply_submit.php
+===================================================================
+--- include/apply_submit.php	(revision 214)
++++ include/apply_submit.php	(working copy)
+@@ -59,7 +59,7 @@
+ 			//convert value from array if it is an array
+ 			// at the time of this comment, this is only used for checkboxes
+ 			if(is_array($value)) {
+-				$value = implode($config['form_array_delimiter'], $value); //
++				$value = implode($config['form_array_delimiter'], $value);
+ 			}
+ 			
+ 			$parts = explode("_", substr($key, 2));
+@@ -87,6 +87,28 @@
+ 	return $answers;
+ }
+ 
++//returns $answers, array $var_id = (answer_id, answer_value) for use with saveApplication
++function processFileSubmission($array) {
++	$config = $GLOBALS['config'];
++	$answers = array();
++	
++	foreach($array as $key => $value) {
++		if(string_begins_with($key, "a_")) {
++			$parts = explode("_", substr($key, 2));
++		
++			if(count($parts) == 3) {
++				$var_id = $parts[0];
++				$answer_id = $parts[1];
++				$repeat_id = $parts[2];
++			
++				$answers[$var_id] = array($answer_id, $key);
++			}
++		}
++	}
++	
++	return $answers;
++}
++
+ //TRUE: success; string: failure (error description)
+ function saveApplication($user_id, $application_id, $answers) { //$answers is array of $var_id => (answer_id, answer_value)
+ 	$user_id = escape($user_id);
+@@ -105,6 +127,8 @@
+ 		return "internal error: club id lookup failed";
+ 	}
+ 	
++	$error = TRUE; //TRUE means no error
++	
+ 	foreach($answers as $var_id => $answer) {
+ 		$var_id = escape($var_id);
+ 		$answer_id = escape($answer[0]);
+@@ -123,13 +147,44 @@
+ 		}
+ 		
+ 		$typeArray = getTypeArray($type);
+-		$maxLength = $typeArray['length'];
+-		$answer_value = escape(substr($answer[1], 0, $maxLength));
+ 		
++		//deal with files
++		if($typeArray['type'] == "upload") {
++			if(isset($_FILES[$answer[1]]) && !empty($_FILES[$answer[1]]) && $_FILES[$answer[1]]['error'] == 0) {
++				$filename = basename($_FILES[$answer[1]]['name']);
++				$ext = substr($filename, strrpos($filename, '.') + 1);
++				
++				$possibleExtensions = explode(",", $typeArray['extensions']);
++				$maxFileSize = $typeArray['maxsize'];
++				
++				if((empty($possibleExtensions) || $possibleExtensions[0] == '' || in_array(strtolower($ext), $possibleExtensions)) && $_FILES[$answer[1]]["size"] < $maxFileSize) {
++					//find an unused name for the file
++					do {
++						$file_id = uid(32);
++						$newname = basePath() . "/submit/" . $file_id;
++					} while(file_exists($newname));
++					
++					//attempt to move the uploaded file to its new place
++					if(move_uploaded_file($_FILES[$answer[1]]['tmp_name'], $newname)) {
++					    $answer_value = escape("file:" . $file_id . ":" . str_replace(":", "", $filename));
++					} else {
++					    $error = "file upload failed";
++					    $answer_value = '';
++					}
++				} else {
++					$error = "file extension is not accepted or file size is too large";
++					$answer_value = '';
++				}
++			}
++		} else { //cut if not a file
++			$maxLength = $typeArray['length'];
++			$answer_value = escape(substr($answer[1], 0, $maxLength));
++		}
++		
+ 		mysql_query("UPDATE answers SET val='$answer_value' WHERE id='$answer_id' AND application_id='$application_id' AND var_id='$var_id'");
+ 	}
+ 	
+-	return TRUE;
++	return $error;
+ }
+ 
+ //submits the application, doing all the checks and then generating PDFs and updating database along the way
+@@ -193,6 +248,20 @@
+ 	//update database
+ 	if($do_submit) {
+ 		$submitName = escape($createGeneralResult[1] . ":" . $createSupplementResult[1] . $peerString);
++		
++		//handle files
++		$result = mysql_query("SELECT val FROM answers WHERE application_id = '$application_id' AND val LIKE 'file:%'");
++		while($row = mysql_fetch_array($result)) {
++			$fileParts = explode(":", $row[0], 3);
++			$submitName .= escape(":*" . $fileParts[1] . "," . $fileParts[2]); //:*file_id,filename
++		}
++		
++		$result = mysql_query("SELECT val FROM answers WHERE application_id = '$gen_app_id' AND val LIKE 'file:%'");
++		while($row = mysql_fetch_array($result)) {
++			$fileParts = explode(":", $row[0], 3);
++			$submitName .= escape(":*" . $fileParts[1] . "," . $fileParts[2]); //:*file_id,filename
++		}
++		
+ 		mysql_query("UPDATE applications SET submitted='$submitName' WHERE id='$application_id' AND user_id='$user_id'");
+ 	}
+ 	
+Index: include/apply_gen.php
+===================================================================
+--- include/apply_gen.php	(revision 214)
++++ include/apply_gen.php	(working copy)
+@@ -2,7 +2,7 @@
+ 
+ function writeApplicationHeader($club_id, $application_id, $category_id) {
+ 	echo '<SCRIPT LANGUAGE="JavaScript" SRC="../style/limit.js"></SCRIPT>';
+-	echo "<form method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\"><table>";
++	echo "<form enctype=\"multipart/form-data\" method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\"><table>";
+ 	echo '<tr><td colspan="2" align="right"><input type="submit" value="Save" style="width:100px"></td></tr><tr style="background-color:#ABB4BA"><td colspan="2" style="height:1px"></td></tr><tr><td colspan="2" style="height:10px"></td></tr>';
+ }
+ 
+@@ -75,7 +75,6 @@
+ 		echo "px;resize:none\">" . htmlspecialchars($answer) . "</textarea>";
+ 		
+ 		if($type_array['showchars']) {
+-//			echo "<p class=\"desc\">(Max Characters: $maxLength)</p>";
+ 			echo "<p class=\"desc\">Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" style=\"width:50px;font-size:10px\" value=\"$lengthRemaining\"></p>";
+ 		}
+ 		
+@@ -105,8 +104,7 @@
+ 		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" style=\"width:90%\" /> ";
+ 		
+ 		if($type_array['showchars']) {
+-//			echo "<p class=\"desc\">(Max Characters: $maxLength)</p>";
+-			echo "<p class=\"desc\" align=\"right\">Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" style=\"width:50px;font-size:10px\" value=\"$lengthRemaining\"></p>";
++			echo "<p class=\"desc\" align=\"right\">Characters remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" style=\"width:50px;font-size:10px\" value=\"$lengthRemaining\"></p>";
+ 		}
+ 		
+ 		echo '</td></tr>';
+@@ -202,6 +200,34 @@
+ 		}
+ 	} else if($type_array['type'] == "code") {
+ 		echo '<tr><td colspan="2">' . page_convert($desc) . '</td></tr>';
++	} else if($type_array['type'] == "upload") {
++		echo '<tr><td><p class="name">';
++		
++		if($type_array['status'] != "optional") {
++			echo "*";
++		}
++		
++		echo "$name</p>";
++		
++		if($desc != '') {
++			echo "<p class=\"desc\">$desc</p>";
++		}
++		
++		echo "</td><td>";
++		echo "<input type=\"file\" name=\"$fieldName\"$mutableString style=\"width:90%\" /> (currently uploaded: ";
++		
++		if($answer != "") {
++			$answer_parts = explode(":", $answer, 3);
++			
++			$file_id = $answer_parts[1];
++			$file_name = $answer_parts[2];
++			
++			echo "<a href=\"../download.php?file=$file_id&filename=$file_name\">$file_name</a>";
++		} else {
++			echo "none";
++		}
++		
++		echo ')</td></tr>';
+ 	}
+ 	echo "<tr><td colspan=\"2\" style=\"height:10pxpx\"></td></tr>";
+ }
+@@ -269,6 +295,18 @@
+ 		$array['num'] = 1;
+ 	}
+ 	
++	if($mainType == "upload") {
++		if(!array_key_exists("extensions", $array)) {
++			$array['extensions'] = '';
++		} else {
++			$array['extensions'] = strtolower($array['extensions']);
++		}
++	
++		if(!array_key_exists("maxsize", $array)) {
++			$array['maxsize'] = '1000000';
++		}
++	}
++	
+ 	return $array;
+ }
+ 
+Index: download.php
+===================================================================
+--- download.php	(revision 0)
++++ download.php	(revision 0)
+@@ -0,0 +1,26 @@
++<?php
++include("include/common.php");
++include("config.php");
++include("include/db_connect.php");
++include("include/session.php");
++
++$file = "submit/" . stripAlphaNumeric($_REQUEST['file']);
++$filename = $_REQUEST['filename'];
++
++if(file_exists($file)) {
++	header('Content-Description: File Transfer');
++	header('Content-Type: application/octet-stream');
++	header('Content-Disposition: attachment; filename='.basename($filename));
++	header('Content-Transfer-Encoding: binary');
++	header('Expires: 0');
++	header('Cache-Control: must-revalidate');
++	header('Pragma: public');
++	header('Content-Length: ' . filesize($file));
++	ob_clean();
++	flush();
++	readfile($file);
++} else {
++	echo "Error: file not found!";
++}
++
++?>
+Index: application/app.php
+===================================================================
+--- application/app.php	(revision 214)
++++ application/app.php	(working copy)
+@@ -31,6 +31,7 @@
+ 			}
+ 		} else if($_REQUEST['action'] == "submit" && isset($_REQUEST['app_id'])) {
+ 			$data = processSubmission($_REQUEST);
++			$data += processFileSubmission($_FILES);
+ 			$result = saveApplication($_SESSION['user_id'], $_REQUEST['app_id'], $data);
+ 			
+ 			if($result === TRUE) {
+Index: page/admin/view_submit.php
+===================================================================
+--- page/admin/view_submit.php	(revision 214)
++++ page/admin/view_submit.php	(working copy)
+@@ -38,7 +38,7 @@
+ 	<th><p class="admin_table_header">User ID</p></th>
+ 	<th><p class="admin_table_header">General application</p></th>
+ 	<th><p class="admin_table_header">Supplement</p></th>
+-	<th><p class="admin_table_header">Recs</p></th>
++	<th><p class="admin_table_header">Recs and uploaded files</p></th>
+ 	<?
+ 	if($box_enabled) echo "<th><p class=\"admin_table_header\">TheTextBox</p></th>";
+ 	if($cat_enabled) echo "<th><p class=\"admin_table_header\">Category</p></th>";
+@@ -64,12 +64,19 @@
+ 	$generalApp = '<a href="../submit/' . $item[2] . '.pdf">Download</a>';
+ 	$supplement = '<a href="../submit/' . $item[3] . '.pdf">Download</a>';
+ 	
+-	$peerString = "";
++	$peerString = ""; //bad variable name; actually this will include files now
+ 	foreach($item[4] as $peerEntry) {
+-	$band_counter=$counter%2+1;
+-		$peerString .= "<a href=\"../submit/$peerEntry.pdf\">PDF</a> (<a href=\"view_recommendation.php?peer_pdf=$peerEntry&user_id=" . $item[1] . "\">detail</a>) ";
++		$band_counter = $counter % 2 + 1;
++		
++		if($peerEntry[0] != "*") { //if this is not an uploaded file
++			$peerString .= "<a href=\"../submit/$peerEntry.pdf\">PDF</a> (<a href=\"view_recommendation.php?peer_pdf=$peerEntry&user_id=" . $item[1] . "\">detail</a>) ";
++		} else {
++			$fileTuple = explode(",", substr($peerEntry, 1)); //now array of file id, filename
++			$peerString .= "<a href=\"../download.php?file=" . $fileTuple[0] . "&filename=" . $fileTuple[1] . "\">" . $fileTuple[1] . "</a> ";
++		}
+ 	}
+-	        $band_counter=$counter%2+1;
++	
++	$band_counter = $counter % 2 + 1;
+ 	echo "<tr class=\"band" . $band_counter . "\"><td class=\"top_border\"><p>$appId</p></td><td class=\"top_border\"><p>$userId</p></td><td class=\"top_border\"><p>$generalApp</p></td><td class=\"top_border\"><p>$supplement</p></td><td class=\"top_border\"><p>$peerString</p></td>";
+ 	
+ 	if($box_enabled) {
