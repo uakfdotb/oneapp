@@ -19,7 +19,7 @@
 <!-- status:optional,required; default is optional -->
 <? if($type != "text") { ?>
 	<p>
-	<input type="checkbox" name="state" value="required" checked /> Required (if checked, system will not allow submission if response blank)
+	<input type="checkbox" name="status" value="required" checked /> Required (if checked, system will not allow submission if response blank)
 	</p>
 <? } ?>
 
