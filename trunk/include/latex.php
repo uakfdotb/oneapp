@@ -99,7 +99,7 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			
 			//get answer as array in case we're using multiple selection
 			$config = $GLOBALS['config'];
-			$answerArray = explode($config['form_array_delimiter'], latexSpecialChars($answer));
+			$answerArray = explode($config['form_array_delimiter'], $answer);
 			
 			//this is used to indent the answer choices
 			$question_string .= "\n \\begin{quote} \n";
