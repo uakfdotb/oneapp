@@ -2,7 +2,7 @@
 
 function writeApplicationHeader($club_id, $application_id, $category_id) {
 	echo '<SCRIPT LANGUAGE="JavaScript" SRC="../style/limit.js"></SCRIPT>';
-	echo "<form method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\"><table>";
+	echo "<form method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\"><table><tr><td width\"60%\"></td><td></td></tr>";
 	echo '<tr><td colspan="2" align="right"><input type="submit" value="Save" style="width:100px"></td></tr><tr style="background-color:#ABB4BA"><td colspan="2" style="height:1px"></td></tr><tr><td colspan="2" style="height:10px"></td></tr>';
 }
 
