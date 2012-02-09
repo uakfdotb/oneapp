@@ -30,7 +30,7 @@ if(isset($_SESSION['admin_id'])) {
 			$method = "";
 			if(isset($_REQUEST['method'])) $method = trim($_REQUEST['method']);
 			
-			$size = "huge";
+			$size = "medium";
 			if(isset($_REQUEST['size'])) $size = trim($_REQUEST['size']);
 
 			$generate = $name . "\n";
