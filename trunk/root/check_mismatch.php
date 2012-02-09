@@ -17,7 +17,10 @@ if(isset($_SESSION['root'])){
 			$mismatches = checkMismatchedApplications($_REQUEST['club_id']);
 		}
 	}
-	get_page_advanced("check_mismatch", "root", array('mismatches' => $mismatches));
+	
+	$result = mysql_query("SELECT id,name FROM clubs ORDER BY name");
+	
+	get_page_advanced("check_mismatch", "root", array('mismatches' => $mismatches, 'clubInfo' => $result));
 } else {
 	header('Location: index.php');
 }

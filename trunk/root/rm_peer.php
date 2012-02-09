@@ -23,7 +23,8 @@ if(isset($_SESSION['root'])) {
 		$recommendationResult = mysql_query("SELECT * FROM recommendations WHERE user_id = '$user_id'");
 	}
 	
-	get_page_advanced("rm_peer", "root", array('user_id' => $user_id, 'recommendationResult' => $recommendationResult));
+	$result = mysql_query("SELECT id,username FROM users ORDER BY id");
+	get_page_advanced("rm_peer", "root", array('user_id' => $user_id, 'recommendationResult' => $recommendationResult, 'userdata' => $result));
 } else {
 	header('Location: index.php');
 }
