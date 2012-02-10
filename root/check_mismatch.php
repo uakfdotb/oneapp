@@ -5,6 +5,7 @@ include("../include/db_connect.php");
 include("../include/session.php");
 
 include("../include/chk.php");
+include("../include/apply_submit.php");
 
 if(isset($_SESSION['root'])){
 	$mismatches = false;
@@ -18,9 +19,8 @@ if(isset($_SESSION['root'])){
 		}
 	}
 	
-	$result = mysql_query("SELECT id,name FROM clubs ORDER BY name");
-	
-	get_page_advanced("check_mismatch", "root", array('mismatches' => $mismatches, 'clubInfo' => $result));
+	$clubInfo = listClubs();
+	get_page_advanced("check_mismatch", "root", array('mismatches' => $mismatches, 'clubInfo' => $clubInfo));
 } else {
 	header('Location: index.php');
 }
