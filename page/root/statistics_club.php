@@ -12,13 +12,12 @@
 
 <?
 foreach($stat_array as $club_id => $clubTuple) { //club tuple is (club name, # submitted, # applied)
-	if($clubTuple[2] == 0) $clubTuple[2] = 1; //avoid division by zero
 ?>
 	<tr>
 	<td><p class="admin_table_entry"><?= $clubTuple[0] ?></p></td>
 	<td align="center"><p class="admin_table_entry"><?= $clubTuple[1] ?> / <?= $clubTuple[2] ?></p></td>
 	<td>
-		<img src="../include/ratingbox.php?rating=<?= $clubTuple[1] * 100 / $clubTuple[2] ?>" width=50%>
+		<img src="../include/ratingbox.php?rating=<?= $clubTuple[1] * 100 / ($clubTuple[2] == 0 ? 1 : $clubTuple[2]) ?>" width=50%>
 	</td>
 	<td><p class="admin_table_entry"><a href="statistics_club.php?club_id=<?= $club_id ?>&club_name=<?= $clubTuple[0] ?>">Details</a></p></td>
 	</tr>
