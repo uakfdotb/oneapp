@@ -19,8 +19,8 @@ if(isset($mismatches) && $mismatches !== FALSE) {
 <table><tr><td><p>
 Club ID</p><td><select name="club_id">
 <?
-	while($row = mysql_fetch_row($clubInfo)){
-		echo "<option value=\"" . $row[0] . "\" />" . $row[1] . "</option>";
+	foreach($clubInfo as $item) {
+		echo "<option value=\"" . $item[0] . "\" />" . $item[1] . "</option>";
 	}
 ?>
 </select></td></tr>
