@@ -29,19 +29,19 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 		$question_string = "";
 		
 		if($typeArray['type'] == "text") {
-				if($name != "") {
-						$question_string .= '\\textbf{' . latexSpecialChars($name) . '}'; //add main in bold
-				}
-				
-				if($desc != "") {
-						if($name != "") {
-								$question_string .= '\\newline';
-						}
+			if(strlen($name)>1) {
+					$question_string .= '\\textbf{' . latexSpecialChars($name) . '}'; //add main in bold
+			}
+			
+			if(strlen($desc)>1) {
+					if(strlen($name)>1) {
+							$question_string .= '\\textbf{ }';
+					}
 
 			$question_string .= '\\emph{' . latexSpecialChars($desc) . '}'; //add description in italics
 		}
 		
-		$question_string .= '\\newline \\newline';
+		$question_string .= '\\newline\\newline';
 		return $question_string;
 	} else if($typeArray['type']=="latex") {
 		$question_string .= $desc;
@@ -75,14 +75,14 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 			$question_string .= latexAppendQuestion($thisName, $thisDesc, $thisType, $answer_array[$i]);
 		}
 	} else {
-		if($name != "") {
+		if(strlen($name)>1) {
 				 $question_string .= '\\textbf{' . latexSpecialChars($name) . '}'; //add question in bold
 		}
 		
 		//add description (in bold) for essays and short answer
-		if(($typeArray['type'] == "essay" || $typeArray['type'] == "short") && $desc != "") {
-			if($name != "") {
-				$question_string .= '\\newline';
+		if(($typeArray['type'] == "essay" || $typeArray['type'] == "short") && strlen($desc)>1) {
+			if(strlen($name)>1) {
+				$question_string .= '\\textbf{ }';
 			}
 			
 			$question_string .= '\\emph{' . latexSpecialChars($desc) . '}'; //add description in italics
@@ -90,24 +90,22 @@ function latexAppendQuestion($name, $desc, $type, $answer) {
 	
 		//add a separator depending on main type of the question
 		if($typeArray['type'] == "essay") {
-			$question_string .= "\n\n";
+			//$question_string .= "\\newline";
 		}
 		
 		if($typeArray['type'] == "select" && $typeArray['method'] != "dropdown") {
 			//in this case, we add tick marks and check the correct ones
 			$choices = explode(";", $desc);
-			
 			//get answer as array in case we're using multiple selection
 			$config = $GLOBALS['config'];
 			$answerArray = explode($config['form_array_delimiter'], $answer);
 			
 			//this is used to indent the answer choices
-			$question_string .= "\n \\begin{quote} \n";
+			$question_string .= "\\begin{quote}";
 			
 			//output each choice with check box before it on a separate line in the quote
 			for($i = 0; $i < count($choices); $i++) {
 				$choice = $choices[$i];
-				
 				if($i != 0) $question_string .= "\\\\\n ";
 				
 				if(in_array($choice, $answerArray)) {
