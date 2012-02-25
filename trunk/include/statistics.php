@@ -154,7 +154,7 @@ function responseStatistics($club_id, $include_short, $limit) {
 	}
 	
 	//now get the user responses
-	$result = mysql_query("SELECT answers.var_id, answers.val FROM answers, applications WHERE answers.application_id = applications.id AND applications.club_id = '$club_id'");
+	$result = mysql_query("SELECT answers.var_id, answers.val FROM answers, applications WHERE answers.application_id = applications.id AND applications.club_id = '$club_id' AND applications.submitted = ''");
 	
 	while($row = mysql_fetch_array($result)) {
 		if(array_key_exists($row[0], $responseMap)) { //this is true unless supplements desynchronize
