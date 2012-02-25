@@ -4,10 +4,10 @@
 
 <ul>
 <?
-		$root_clean_display = $config['root_clean_display'];
-		$root_clean_display_names = $config['root_clean_display_names']; 
-		for($j = 0; $j < count($root_clean_display); $j++) {
-			echo '<li><a href=' . $root_clean_display[$j] . '.php>' . $root_clean_display_names[$j] . '</a></li>';	
-		}
+	$root_clean_display = $config['root_clean_display'];
+	$root_clean_display_names = $config['root_clean_display_names']; 
+	for($j = 0; $j < count($root_clean_display); $j++) {
+		echo '<li><a href=' . $root_clean_display[$j] . '.php>' . $root_clean_display_names[$j] . '</a></li>';	
+	}
 ?>
 </ul>

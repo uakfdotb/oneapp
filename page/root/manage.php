@@ -4,10 +4,10 @@
 
 <ul>
 <?
-		$root_manage_display = $config['root_manage_display'];
-		$root_manage_display_names = $config['root_manage_display_names']; 
-		for($j = 0; $j < count($root_manage_display); $j++) {
-			echo '<li><a href=' . $root_manage_display[$j] . '.php>' . $root_manage_display_names[$j] . '</a></li>';	
-		}
+	$root_manage_display = $config['root_manage_display'];
+	$root_manage_display_names = $config['root_manage_display_names']; 
+	for($j = 0; $j < count($root_manage_display); $j++) {
+		echo '<li><a href=' . $root_manage_display[$j] . '.php>' . $root_manage_display_names[$j] . '</a></li>';	
+	}
 ?>
 </ul>

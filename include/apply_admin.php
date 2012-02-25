@@ -11,8 +11,8 @@ function insertQuestion($varname, $vardesc, $vartype, $club_id, $database, $wher
 		return "type map does not contain required 'type' attribute";
 	}
 	
-	if($varname == '' || ($typeArray['type'] == "select" && $vardesc == '')) {
-		return "name (or description if type=select) of variable left blank";
+	if($typeArray['type'] == "select" && $vardesc == '') {
+		return "description (required for select) left blank";
 	}
 	
 	//add spaces to type array

@@ -4,10 +4,10 @@
 
 <ul>
 <?
-		$root_database_display = $config['root_database_display'];
-		$root_database_display_names = $config['root_database_display_names']; 
-		for($j = 0; $j < count($root_database_display); $j++) {
-			echo '<li><a href=' . $root_database_display[$j] . '.php>' . $root_database_display_names[$j] . '</a></li>';	
-		}
+	$root_database_display = $config['root_database_display'];
+	$root_database_display_names = $config['root_database_display_names']; 
+	for($j = 0; $j < count($root_database_display); $j++) {
+		echo '<li><a href=' . $root_database_display[$j] . '.php>' . $root_database_display_names[$j] . '</a></li>';	
+	}
 ?>
 </ul>

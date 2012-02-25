@@ -14,15 +14,9 @@ if(isset($_SESSION['admin_id'])) {
 		if(isset($_REQUEST['done'])) {
 			$type = trim($_REQUEST['type']);
 			$name = trim($_REQUEST['name']);
-			if(strlen($name)<=1){
-				$name = " ";
-			}
 
 			$description = str_replace("\r", "", trim($_REQUEST['description']));
 			if($type == "select") $description = str_replace("\n", "; ", $description);
-			if(strlen($description)<=1){
-				$description = " ";
-			}
 
 			$status = "optional";
 			if(isset($_REQUEST['status'])) $status = trim($_REQUEST['status']);
