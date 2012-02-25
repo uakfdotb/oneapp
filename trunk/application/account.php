@@ -6,7 +6,7 @@ include("../include/session.php");
 
 if(isset($_SESSION['user_id'])) {
 	$profile = getProfile($_SESSION['user_id']);
-	$userInfo = getUserInformation($_SESSION['user_id']);
+	$userInfo = getUserInformation($_SESSION['user_id']); //array of (username, email, name)
 	
 	if(isset($_POST['old_password']) && isset($_POST['new_password']) && isset($_POST['new_password_conf']) && isset($_POST['new_email'])) {
 		$result = updateAccount($_SESSION['user_id'], $_POST['old_password'], $_POST['new_password'], $_POST['new_password_conf'], $_POST['new_email']);

@@ -15,6 +15,7 @@ users: contains the user accounts
 -----
 username: the user's username
 password: the user's password, hashed with chash() in common.php
+name: the user's name
 email: the user's email address
 register_time: the time() when the user registered his/her account
 accessed: time() when the user last logged in, or 0 if they have never logged in (set to 0 after registration)

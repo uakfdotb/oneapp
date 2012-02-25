@@ -169,8 +169,8 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 				$sectionheader = "Supplement: " . $clubInfo[0];
 		}
 		
-		$userInfo = getUserInformation($user_id); //array(username, email)
-		return generatePDFByResult($result, $targetDirectory, $sectionheader, "User ID: " . $user_id . "\\\\" . $userInfo[1]);
+		$userInfo = getUserInformation($user_id); //array(username, email, name)
+		return generatePDFByResult($result, $targetDirectory, $sectionheader, "User ID: " . $user_id . "\\\\" . $userInfo[2]);
 }
 
 function generatePDFByResult($result, $targetDirectory, $sectionheader, $extrainfo = "PDF output") {

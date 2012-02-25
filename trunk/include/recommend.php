@@ -37,7 +37,7 @@ function toggleRecommendation($user_id, $id) {
 //0: success; 1: invalid email address provided; 2: invalid name provided;
 //3: email error; 4: too many recommendations; 5: email sent already
 //6: locked out
-function requestRecommendation($user_id, $name, $email, $message) {
+function requestRecommendation($user_id, $author, $email, $message) {
 	if(!checkLock("peer")) {
 		return 6;
 	}
@@ -45,14 +45,14 @@ function requestRecommendation($user_id, $name, $email, $message) {
 	$config = $GLOBALS['config'];
 	
 	$user_id = escape($user_id);
-	$name = escape($name);
+	$author = escape($author);
 	$email = escape($email);
 	
 	if(!validEmail($email)) {
 		return 1;
 	}
 	
-	if(strlen($name) <= 3) {
+	if(strlen($author) <= 3) {
 		return 2;
 	}
 	
@@ -74,7 +74,7 @@ function requestRecommendation($user_id, $name, $email, $message) {
 	
 	//first insert into recommendations table
 	$auth = escape(uid(64));
-	mysql_query("INSERT INTO recommendations (user_id, author, email, auth, status, filename) VALUES ('$user_id', '$name', '$email', '$auth', '0', '')");
+	mysql_query("INSERT INTO recommendations (user_id, author, email, auth, status, filename) VALUES ('$user_id', '$author', '$email', '$auth', '0', '')");
 	$recommend_id = mysql_insert_id();
 	
 	//insert into recommender_answers table
@@ -85,9 +85,14 @@ function requestRecommendation($user_id, $name, $email, $message) {
 		mysql_query("INSERT INTO recommender_answers (recommend_id, var_id, val) VALUES ('$recommend_id', '$question_id', '')");
 	}
 	
+	$userinfo = getUserInformation($user_id); //array (username, email address, name)
+	
 	//send email now
 	$content = page_db("request_recommendation");
-	$content = str_replace('$NAME$', $name, $content);
+	$content = str_replace('$USERNAME$', $userinfo[0], $content);
+	$content = str_replace('$USEREMAIL$', $userinfo[1], $content);
+	$content = str_replace('$NAME$', $userinfo[2], $content);
+	$content = str_replace('$AUTHOR$', $author, $content);
 	$content = str_replace('$EMAIL$', $email, $content);
 	$content = str_replace('$MESSAGE$', page_convert($message), $content);
 	$content = str_replace('$AUTH$', $auth, $content);

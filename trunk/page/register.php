@@ -11,8 +11,20 @@ foreach($profile as $var_id => $item) {
 	writeField($var_id, $var_id, $item[0], $item[1], $item[2]);
 }
 ?>
-<tr><td><p class="name">*Username</p></td><td><input type="text" name="username" style="width:100%"></td></tr>
-<tr><td><p class="name">*Email address</p><p class="desc">Your password will be sent here</p></td><td><input type="text" name="email" style="width:100%"></td></tr>
+<tr>
+	<td><p class="name">*Username</p></td>
+	<td><input type="text" name="username" style="width:100%"></td>
+</tr>
+<tr>
+	<td><p class="name">*Full name</p>
+		<p class="desc">Enter your first and last name, and middle initial if you have one</p></td>
+	<td><input type="text" name="name" style="width:100%"></td>
+</tr>
+<tr>
+	<td><p class="name">*Email address</p>
+		<p class="desc">Your password will be sent here</p></td>
+	<td><input type="text" name="email" style="width:100%"></td>
+</tr>
 
 <? if($config['captcha_enabled']) { ?>
 <tr><td colspan="2"><img id="captcha" src="<?= $basePath ?>/securimage/securimage_show.php" alt="CAPTCHA Image" />

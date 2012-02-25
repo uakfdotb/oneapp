@@ -8,10 +8,9 @@ if(isset($_SESSION['admin_id']) && isset($_REQUEST['id'])) {
 	//todo: admins currently can get information of users that didn't apply to their club
 	$user_id = escape($_REQUEST['id']);
 	$userinfo = getUserInformation($user_id); //userinfo is array(username, email)
-	$username = $userinfo[0];
 	$profile = getProfile($user_id);
 	
-	get_page_advanced("user_detail", "admin", array('username' => $username, 'profile' => $profile));
+	get_page_advanced("user_detail", "admin", array('username' => $userinfo[0], 'email' => $userinfo[1], 'name' => $userinfo[2], 'profile' => $profile));
 } else {
 	header('Location: index.php');
 }
