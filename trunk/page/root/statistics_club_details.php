@@ -6,7 +6,7 @@
 
 <ul>
 <? foreach($stat_array[0] as $usersStarted) { ?>
-	<li><a href="user_detail.php?id=<?= $usersStarted[0] ?>"><?= $usersStarted[1] ?> (<?= $usersStarted[0] ?>)</a></li>
+	<li><a href="user_detail.php?id=<?= $usersStarted[0] ?>"><?= $usersStarted[2] ?> (<?= $usersStarted[1] ?>)</a></li>
 <? } ?>
 </ul>
 
@@ -14,6 +14,6 @@
 
 <ul>
 <? foreach($stat_array[1] as $usersCompleted) { ?>
-	<li><a href="user_detail.php?id=<?= $usersCompleted[0] ?>"><?= $usersCompleted[1] ?> (<?= $usersCompleted[0] ?>)</a></li>
+	<li><a href="user_detail.php?id=<?= $usersCompleted[0] ?>"><?= $usersCompleted[2] ?> (<?= $usersCompleted[1] ?>)</a></li>
 <? } ?>
 </ul>

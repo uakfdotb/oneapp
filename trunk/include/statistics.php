@@ -117,19 +117,19 @@ function clubStatistics() {
 	return $clubStatistics;
 }
 
-//returns array of (array of (user_id, username) started, array of (user_id, username) completed)
+//returns array of (array of (user_id, username, name) started, array of (user_id, username, name) completed)
 function clubApplicationList($club_id) {
 	$club_id = escape($club_id);
-	$result = mysql_query("SELECT applications.submitted, applications.user_id, users.username FROM applications, users WHERE applications.club_id = '$club_id' AND applications.user_id = users.id ORDER BY users.username");
+	$result = mysql_query("SELECT applications.submitted, applications.user_id, users.username, users.name FROM applications, users WHERE applications.club_id = '$club_id' AND applications.user_id = users.id ORDER BY users.username");
 	
 	$usersStarted = array();
 	$usersCompleted = array();
 	
 	while($row = mysql_fetch_row($result)) {
 		if($row[0] == '') {
-			array_push($usersStarted, array($row[1], $row[2]));
+			array_push($usersStarted, array($row[1], $row[2], $row[3]));
 		} else {
-			array_push($usersCompleted, array($row[1], $row[2]));
+			array_push($usersCompleted, array($row[1], $row[2], $row[3]));
 		}
 	}
 	
