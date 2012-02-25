@@ -1,15 +1,14 @@
 <h1>Easy Question Adder</h1>
 
 <p>Select from the following options.</p>
-<? if($type == "essay" || $type == "short" || $type == "text") { ?>
-	<p>Do not leave Question or Descrition blank. In the case you do not want anything, add a space.</p>
-	</p>
-<? } ?>
 
 <form method="POST" action="easy_question.php">
 <input type="hidden" name="type" value="<?= $type ?>" />
 
-<p>Question <br /><textarea name="name" /></textarea></p>
+<p>
+	Question<br />
+	<textarea name="name" /></textarea>
+</p>
 
 <!-- description; required field -->
 <? if($type == "select") { ?>
@@ -43,11 +42,27 @@ if($type == "essay" || $type == "short") {
 	<p>
 	<input type="text" name="length" value="<?= $length ?>" /> Maximum number of characters allowed.
 	</p>
-	<table width="60%" class="borderon"><tr align="center"><td width="30%"><p><b>Characters</b></p></td><td><p><b>Approximate Equivialant</b></p></td></tr>
-	<tr align="center"><td><p>80</p></td><td><p>1 sentance</p></td></tr>
-	<tr align="center"><td><p>450</p></td><td><p>1 paragraph</p></td></tr>
-	<tr align="center"><td><p>2500</p></td><td><p>450 words</p></td></tr>	
-	<tr align="center"><td><p>6000</p></td><td><p>1000 words</p></td></tr>
+	<table width="60%" class="borderon">
+		<tr align="center">
+			<td width="30%"><p><b>Characters</b></p></td>
+			<td><p><b>Approximate Equivialant</b></p></td>
+		</tr>
+		<tr align="center">
+			<td><p>80</p></td>
+			<td><p>1 sentance</p></td>
+		</tr>
+		<tr align="center">
+			<td><p>450</p></td>
+			<td><p>1 paragraph</p></td>
+		</tr>
+		<tr align="center">
+			<td><p>2500</p></td>
+			<td><p>450 words</p></td>
+		</tr>	
+		<tr align="center">
+			<td><p>6000</p></td>
+			<td><p>1000 words</p></td>
+		</tr>
 	</table>
 <? } ?>
 
@@ -63,7 +78,7 @@ if($type == "essay" || $type == "short") {
 <!-- size:medium,large,huge; default is medium -->
 <? if($type == "essay") { ?>
 	<p>Essay size, determines size of text area<br />
-	<input type="radio" name="size" value="medium" checked/> Medium *SUGGESTED*<br />
+	<input type="radio" name="size" value="medium" checked /> Medium<br />
 	<input type="radio" name="size" value="large" /> Large<br />
 	<input type="radio" name="size" value="huge" /> Huge
 	</p>

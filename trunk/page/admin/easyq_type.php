@@ -5,6 +5,6 @@
 <ul>
 <li><a href="easy_question.php?type=text">Plain text (this does not have any answer choices)</a></li>
 <li><a href="easy_question.php?type=select">Selection (checkbox, radio button, or dropdown)</a></li>
-<li><a href="easy_question.php?type=short">Short Respone answer (single line)</a></li>
-<li><a href="easy_question.php?type=essay">Essay Response (multiple lines)</a></li>
+<li><a href="easy_question.php?type=short">Short answer (single line)</a></li>
+<li><a href="easy_question.php?type=essay">Essay response (multiple lines)</a></li>
 </ul>
