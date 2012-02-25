@@ -358,8 +358,8 @@ function savePage($page, $text) {
 
 //0: success; 1: field length too long or too short; 2: captcha failed
 //3: email address invalid or in use; 4: database error; 5: username in use;
-//6: email error; 7: try again later; 8: disabled
-function register($username, $email, $profile, $captcha) {
+//6: email error; 7: try again later; 8: disabled; 9: name invalid
+function register($username, $name, $email, $profile, $captcha) {
 	if(!checkLock("register")) {
 		return 7;
 	}
@@ -367,6 +367,11 @@ function register($username, $email, $profile, $captcha) {
 	//verify that fields have been properly entered
 	if(strlen($username) == 0 || strlen($email) == 0) {
 		return 1;
+	}
+	
+	//verify name
+	if(strlen($name) < 4) {
+		return 9;
 	}
 	
 	//check if registration is enabled
@@ -386,6 +391,7 @@ function register($username, $email, $profile, $captcha) {
 	}
 	
 	$username = escape($username);
+	$name = escape($name);
 	$email = escape($email);
 	$gen_password = uid(12);
 	$password = escape(chash($gen_password));
@@ -428,7 +434,7 @@ function register($username, $email, $profile, $captcha) {
 	mysql_query("DELETE FROM users WHERE accessed = '0' AND register_time < '$activeTime'");
 	
 	lockAction("register");
-	$result = mysql_query("INSERT INTO users (username, password, email, register_time, accessed) VALUES ('$username', '$password', '$email', '$registerTime', '0')");
+	$result = mysql_query("INSERT INTO users (username, name, password, email, register_time, accessed) VALUES ('$username', '$name', '$password', '$email', '$registerTime', '0')");
 	
 	if($result !== FALSE) {
 		$user_id = mysql_insert_id();
@@ -441,6 +447,7 @@ function register($username, $email, $profile, $captcha) {
 		//send email
 		$content = page_db("registration");
 		$content = str_replace('$USERNAME$', $username, $content);
+		$content = str_replace('$NAME$', $name, $content);
 		$content = str_replace('$PASSWORD$', $gen_password, $content);
 		$content = str_replace('$EMAIL$', $email, $content);
 		$content = str_replace('$LOGIN_ADDRESS$', $config['site_address'] . "/login.php", $content);
@@ -563,17 +570,13 @@ function getProfile($userid) {
 	return $profile;
 }
 
-function displayProfile($userid) {
-	
-}
-
-//returns array (username, email address)
+//returns array (username, email address, name)
 function getUserInformation($user_id) {
 	$user_id = escape($user_id);
-	$result = mysql_query("SELECT username, email FROM users WHERE id='$user_id'");
+	$result = mysql_query("SELECT username, email, name FROM users WHERE id='$user_id'");
 	
 	if($row = mysql_fetch_array($result)) {
-		return array($row[0], $row[1]);
+		return array($row[0], $row[1], $row[2]);
 	} else {
 		return FALSE;
 	}

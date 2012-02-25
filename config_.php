@@ -58,13 +58,13 @@ $config['apply_side_display'] = array('clubs', 'base', 'supplement', 'peer');
 $config['apply_side_display_names'] = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations');
 
 $config['admin_page_display'] = array('index', 'index.php?action=logout&ex=');
-$config['admin_page_display_names'] = array('Admin Home', 'Logout');
+$config['admin_page_display_names'] = array('Admin Workspace', 'Logout');
 
 $config['admin_side_display'] = array('man_questions', 'view_submit', 'man_club', 'preview', 'man_notes', 'gen_pdf', 'statistics', 'easy_question');
-$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'Manage club information', 'Preview application', 'Notes settings', 'Generate PDF', 'Statistics', 'Easy Question Adder');
+$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'Manage club information', 'Preview application', 'Submission settings', 'Generate PDF', 'Statistics', 'Easy Question Adder');
 
 $config['root_page_display'] = array('index', 'index.php?action=logout&ex=');
-$config['root_page_display_names'] = array('Home', 'Logout');
+$config['root_page_display_names'] = array('Root Workspace', 'Logout');
 
 $config['root_side_display'] = array('manage', 'statistics', 'statistics_club', 'clean', 'database', 'man_config');
 $config['root_side_display_names'] = array('Manage', 'Statistics', 'Club statistics', 'Clean System', 'Database', 'Settings');

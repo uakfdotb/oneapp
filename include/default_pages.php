@@ -12,7 +12,7 @@ $pages['about'] = '[h1]About[/h1][p]This page has not been edited yet. This webs
 
 $pages['reset'] = 'Hi $USERNAME$,[br][br]A request has been received to reset your password. If you did not submit this request, please ignore this email; no further action needs to be taken. If you did submit this request, go to [url=$RESET_ADDRESS$]$RESET_ADDRESS$[/url] and follow the instructions there to reset your password.[br][br]Thanks,[br]- $site_name$';
 
-$pages['request_recommendation'] = 'A user has requested a recommendation from you for his or her application on $site_name$. The message appears below.[br][br]$MESSAGE$[br][br]To submit a recommendation, please go to [url=$SUBMIT_ADDRESS$]$SUBMIT_ADDRESS$[/url] and follow the instructions there.[br][br]Thanks,[br]- $site_name$';
+$pages['request_recommendation'] = '$NAME$ (whose username is [b]$USERNAME$[/b] and whose email address is [b]$USEREMAIL$[/b]) has requested a recommendation from you for his or her application on $site_name$. The message appears below.[br][br]$MESSAGE$[br][br]To submit a recommendation, please go to [url=$SUBMIT_ADDRESS$]$SUBMIT_ADDRESS$[/url] and follow the instructions there.[br][br]Thanks,[br]- $site_name$';
 
 $pages['forgotusername'] = 'A request has been received to send your username to you. If you did not submit this request, please ignore this email; no further action needs to be taken.[br][br]Your username: $USERNAME$[br][br]Thanks,[br]- $site_name$';
 

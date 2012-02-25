@@ -5,6 +5,7 @@
 <table width=100% cellspacing="0">
 <tr>
 	<th><p class="admin_table_header">ID</p></th>
+	<th><p class="admin_table_header">Name</p></th>
 	<th><p class="admin_table_header">Username</p></th>
 	<th><p class="admin_table_header">Email</p></th>
 	<th><p class="admin_table_header">Last active</p></th>
@@ -23,7 +24,8 @@ foreach($userList as $user_id => $user) {
 	<form method="post" action="userlist.php">
 	<input type="hidden" name="id" value="<?= $user_id ?>"><tr align="center"<?= $banding ?> style="padding-top:1"><a href="user_detail.php?id=<?= $user_id ?>">
 	<td class="top_border"><p><a href="user_detail.php?id=<?= $user_id ?>"><?= $user_id ?></a></p></td>
-	<td class="top_border"><p><a href="user_detail.php?id=<?= $user_id ?>"><?= $infoUser[0] ?></a></p></td></a>
+	<td class="top_border"><p><a href="user_detail.php?id=<?= $user_id ?>"><?= $infoUser[2] ?></a></p></td></a>
+	<td class="top_border"><p><?= $infoUser[0] ?></p></td></a>
 	<td class="top_border"><p><?= $infoUser[1] ?></p></td>
 	<td class="top_border"><p><?= timeString($user[0]) ?></p></td>
 	<td class="top_border"><input type="submit" name="action" value="reset"></td>

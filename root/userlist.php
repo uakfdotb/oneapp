@@ -21,10 +21,10 @@ if(isset($_SESSION['root'])) {
 	
 	$result = mysql_query("SELECT id, accessed FROM users");
 	
-	$users = array(); // array of (last_login_time, (username, email))
+	$users = array(); // array of (last_login_time, (username, email, name))
 	
 	while($row = mysql_fetch_array($result)) {
-		$infoUser = getUserInformation($row[0]); //array of (username, email)
+		$infoUser = getUserInformation($row[0]); //array of (username, email, name)
 		$users[$row[0]] = array($row[1], $infoUser);
 	}
 	

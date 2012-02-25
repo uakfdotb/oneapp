@@ -34,7 +34,7 @@ foreach($recList as $rec) {
 <tr><td><p class="name">*Email address:</p></td><td><input type="text" name="email" style="width:100%"></td></tr>
 <tr><td colspan="2"><p class="name">*Message:</p><textarea rows="6" cols="50" name="message" style="width:100%;resize:none">Dear [insert name here],
 
-This is [Insert Your Name]. I would like to request a peer recommendation from you. I have already communicated with you about this; the details for submitting the recommendation should appear above.</textarea></td></tr>
+This is [insert your name]. I would like to request a peer recommendation from you. I have already communicated with you about this; the details for submitting the recommendation should appear above.</textarea></td></tr>
 <tr><td colspan="2" align="right"><input type="submit" value="Request"></td></tr>
 </table>
 </form>
