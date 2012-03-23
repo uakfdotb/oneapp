@@ -1,0 +1,186 @@
+Index: include/common.php
+===================================================================
+--- include/common.php	(revision 229)
++++ include/common.php	(working copy)
+@@ -570,6 +570,20 @@
+ 	return $profile;
+ }
+ 
++//returns array of (key, value)
++function getClubProfile($club_id) {
++	$club_id = escape($club_id);
++	
++	$result = mysql_query("SELECT profile_key, profile_val FROM club_profile WHERE club_id = '$club_id'");
++	$club_profile = array();
++	
++	while($row = mysql_fetch_array($result)) {
++		$club_profile[] = array($row[0], $row[1]);
++	}
++	
++	return $club_profile;
++}
++
+ //returns array (username, email address, name)
+ function getUserInformation($user_id) {
+ 	$user_id = escape($user_id);
+Index: admin/man_profile.php
+===================================================================
+--- admin/man_profile.php	(revision 0)
++++ admin/man_profile.php	(revision 0)
+@@ -0,0 +1,46 @@
++<?php
++include("../config.php");
++include("../include/common.php");
++include("../include/db_connect.php");
++include("../include/session.php");
++
++if(isset($_SESSION['admin_id'])) {
++	$club_id = escape(getAdminClub($_SESSION['admin_id']));
++	$admin_id = escape($_SESSION['admin_id']);
++	
++	if($club_id != 0) {
++		//first, notes enabled/disabled settings
++		if(isset($_REQUEST['action'])) {
++			if($_REQUEST['action'] == "Delete" && isset($_REQUEST['name'])) {
++				$name = escape($_REQUEST['name']);
++				mysql_query("DELETE FROM club_profile WHERE club_id = '$club_id' AND profile_key = '$name'");
++			} else if($_REQUEST['action'] == "Add" && isset($_REQUEST['profile_key']) && isset($_REQUEST['profile_val'])) {
++				$profile_key = escape($_REQUEST['profile_key']);
++				$profile_val = escape($_REQUEST['profile_val']);
++				
++				//validate profile key with the array in configuration
++				$club_profile_fields = $GLOBALS['config']['club_profile_fields'];
++				
++				if(count($club_profile_fields) == 0 || in_array($profile_key, $club_profile_fields)) {
++					//make sure profile doesn't already exist; if it does exist, simply update it
++					$result = mysql_query("SELECT COUNT(*) FROM club_profile WHERE club_id = '$club_id' AND profile_key = '$profile_key'");
++					$row = mysql_fetch_array($result);
++					
++					if($row[0] == 0) {
++						mysql_query("INSERT INTO club_profile (club_id, profile_key, profile_val) VALUES ('$club_id', '$profile_key', '$profile_val')");
++					} else {
++						mysql_query("UPDATE club_profile SET profile_val = '$profile_val' WHERE club_id = '$club_id' AND profile_key = '$profile_key'");
++					}
++				}
++			}
++		}
++		
++		$club_profile = getClubProfile($club_id);
++		get_page_advanced("man_profile", "admin", array('club_profile' => $club_profile));
++	} else {
++		get_page_advanced("message", "admin", array('message' => "General application does not have a profile to manage.", 'title' => "Manage profile"));
++	}
++} else {
++	header('Location: index.php?error=' . urlencode("You are not logged in!"));
++}
++?>
+Index: config_.php
+===================================================================
+--- config_.php	(revision 230)
++++ config_.php	(working copy)
+@@ -60,8 +60,8 @@
+ $config['admin_page_display'] = array('index', 'index.php?action=logout&ex=');
+ $config['admin_page_display_names'] = array('Admin Workspace', 'Logout');
+ 
+-$config['admin_side_display'] = array('man_questions', 'view_submit', 'man_club', 'preview', 'man_notes', 'gen_pdf', 'statistics', 'easy_question');
+-$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'Manage club information', 'Preview application', 'Submission settings', 'Generate PDF', 'Statistics', 'Easy Question Adder');
++$config['admin_side_display'] = array('man_questions', 'view_submit', 'man_club', 'preview', 'man_notes', 'man_profile', 'gen_pdf', 'statistics', 'easy_question');
++$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'Manage club information', 'Preview application', 'Submission settings', 'Club profile', 'Generate PDF', 'Statistics', 'Easy Question Adder');
+ 
+ $config['root_page_display'] = array('index', 'index.php?action=logout&ex=');
+ $config['root_page_display_names'] = array('Root Workspace', 'Logout');
+@@ -92,4 +92,7 @@
+ // in order to use this, you must install Securimage 3.0 to the oneapp root directory
+ // this can be downloaded at http://www.phpcaptcha.org/download/
+ $config['captcha_enabled'] = false;
++
++//empty array allows any club profile fields to be added
++$config['club_profile_fields'] = array('Email address', 'President', 'Vice president');
+ ?>
+Index: install.sql
+===================================================================
+--- install.sql	(revision 229)
++++ install.sql	(working copy)
+@@ -14,3 +14,4 @@
+ CREATE TABLE club_notes (application_id INT, admin_id INT, box TEXT, category VARCHAR(16), rank INT, comments TEXT);
+ CREATE TABLE club_notes_categories (admin_id INT, name VARCHAR(16));
+ CREATE TABLE locks (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, ip VARCHAR(16), time INT, action VARCHAR(16), num INT);
++CREATE TABLE club_profile (club_id INT, profile_key VARCHAR(32), profile_val TEXT);
+Index: affclubs.php
+===================================================================
+--- affclubs.php	(revision 229)
++++ affclubs.php	(working copy)
+@@ -8,7 +8,8 @@
+ 
+ if(isset($_REQUEST['id'])) {
+ 	$clubInfo = clubInfo($_REQUEST['id']);
+-	get_page('affclubs_info', array('clubInfo' => $clubInfo));
++	$club_profile = getClubProfile($_REQUEST['id']);
++	get_page('affclubs_info', array('clubInfo' => $clubInfo, 'club_profile' => $club_profile));
+ } else {
+ 	$clubList = listClubs(true);
+ 	get_page('affclubs', array('clubList' => $clubList));
+Index: page/affclubs_info.php
+===================================================================
+--- page/affclubs_info.php	(revision 229)
++++ page/affclubs_info.php	(working copy)
+@@ -5,4 +5,10 @@
+ <p>Submission window: between <?= $clubInfo[2] ?> and <?= $clubInfo[3] ?><br />
+ Number of recommendations required: <?= $clubInfo[4] ?></p>
+ 
++<p>
++<? foreach($club_profile as $p) { ?>
++	<b><?= $p[0] ?></b>: <?= $p[1] ?><br />
++<? } ?>
++</p>
++
+ <p><a href="affclubs.php">Back</a> to affiliated clubs list.</p>
+Index: page/admin/man_profile.php
+===================================================================
+--- page/admin/man_profile.php	(revision 0)
++++ page/admin/man_profile.php	(revision 0)
+@@ -0,0 +1,44 @@
++<h1>Club profile</h1>
++
++<p>In addition to the required profile fields (application deadline, description), you can fill out optional profile fields below.</p>
++
++<form method="post" action="man_profile.php">
++Profile key 
++<?
++$profiles = $config['club_profile_fields'];
++
++if(count($profiles) == 0) {
++	echo '<input name="profile_key" type="text" />';
++} else {
++	echo '<select name="profile_key">';
++	
++	foreach($profiles as $pkey) {
++		echo "<option value=\"$pkey\">$pkey</option>";
++	}
++	
++	echo '</select>';
++}
++?>
++<br />Value <input type="text" name="profile_val" />
++<br /><input type="submit" name="action" value="Add" />
++</form>
++
++<table><tr><th>Profile key</th><th>Value</th><th>Delete</th></tr>
++
++<?
++foreach($club_profile as $p) {
++	echo '<tr>';
++	echo '<td>' . $p[0] . '</td>';
++	echo '<td>' . $p[1] . '</td>';
++	
++	echo '<td>';
++	echo '<form method="post" action="man_profile.php?name=' . urlencode($p[0]) . '">';
++	echo '<input type="submit" name="action" value="Delete" />';
++	echo '</form>';
++	echo '</td>';
++	
++	echo '</tr>';
++}
++?>
++
++</table>
