@@ -42,26 +42,26 @@ if($type == "essay" || $type == "short") {
 	<p>
 	<input type="text" name="length" value="<?= $length ?>" /> Maximum number of characters allowed.
 	</p>
-	<table width="60%" class="borderon">
+	<table>
 		<tr align="center">
-			<td width="30%"><p><b>Characters</b></p></td>
-			<td><p><b>Approximate Equivialant</b></p></td>
+			<td><b>Characters</b></td>
+			<td><b>Approximate Equivialant</b></td>
 		</tr>
 		<tr align="center">
-			<td><p>80</p></td>
-			<td><p>1 sentance</p></td>
+			<td>80</td>
+			<td>1 sentence</td>
 		</tr>
 		<tr align="center">
-			<td><p>450</p></td>
-			<td><p>1 paragraph</p></td>
+			<td>450</td>
+			<td>1 paragraph</td>
 		</tr>
 		<tr align="center">
-			<td><p>2500</p></td>
-			<td><p>450 words</p></td>
+			<td>2500</td>
+			<td>450 words</td>
 		</tr>	
 		<tr align="center">
-			<td><p>6000</p></td>
-			<td><p>1000 words</p></td>
+			<td>6000</td>
+			<td>1000 words</td>
 		</tr>
 	</table>
 <? } ?>

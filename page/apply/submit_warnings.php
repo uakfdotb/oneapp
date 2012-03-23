@@ -6,7 +6,7 @@
 <table>
 <?
 foreach($genCheck as $warning) {
-	echo "<tr><p>" . $warning . "</p></tr>";
+	echo "<tr>" . $warning . "</tr>";
 }
 ?>
 </table>
@@ -16,7 +16,7 @@ foreach($genCheck as $warning) {
 <ul class="errorlist">
 <?
 foreach($appCheck as $warning) {
-	echo "<li><p>" . $warning . "<p></li>";
+	echo "<li>" . $warning . "</li>";
 }
 ?>
 </ul>

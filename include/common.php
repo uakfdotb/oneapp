@@ -695,6 +695,16 @@ function checkRoot($password) {
 	}
 }
 
+//1: success; -1: invalid password
+function changeAdminPassword($admin_id, $password){
+	if(validPassword($password) != 0) {
+		return -1;
+	} else {
+		mysql_query("UPDATE admins SET password = '" . escape(chash($password)) . "' WHERE id='" . $admin_id . "'");
+		return 1;
+	}
+}
+
 //returns array of (club id, club name, club description, user's application id)
 function getUserClubsApplied($user_id) {
 	$user_id = escape($user_id);
@@ -1008,19 +1018,5 @@ function validEmail($email)
 	  }
    }
    return $isValid;
-}
-
-//1: success; -1: invalid password; -2: match not found
-function changeAdminPass($admin_id, $newpass, $confirmpass){
-	$confirmpass = escape($confirmpass);
-	$newpass = escape($newpass);
-	if($confirmpass != $newpass) {
-		return -2;
-	} else if(strlen($newpass) < 5) {
-		return -1;
-	} else {
-		mysql_query("UPDATE admins SET password = '" . escape(chash($newpass)) . "' WHERE id='" . $admin_id . "'");
-		return 1;
-	}
 }
 ?>

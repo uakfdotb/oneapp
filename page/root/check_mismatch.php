@@ -16,15 +16,22 @@ if(isset($mismatches) && $mismatches !== FALSE) {
 ?>
 
 <form method="post" action="check_mismatch.php">
-<table><tr><td><p>
-Club ID</p><td><select name="club_id">
-<?
-	foreach($clubInfo as $item) {
-		echo "<option value=\"" . $item[0] . "\" />" . $item[1] . "</option>";
-	}
-?>
-</select></td></tr>
-<tr><td><input type="submit" value="Check tables" /></td><td>
-<input type="submit" name="act" value="Check and fix errors" />
-</td></tr></table>
+<table>
+<tr>
+	<td>Club ID</td>
+	<td>
+	<select name="club_id">
+	<?
+		foreach($clubInfo as $item) {
+			echo "<option value=\"" . $item[0] . "\" />" . $item[1] . "</option>";
+		}
+	?>
+	</select>
+	</td>
+</tr>
+<tr>
+	<td><input type="submit" value="Check tables" /></td>
+	<td><input type="submit" name="act" value="Check and fix errors" /></td>
+</tr>
+</table>
 </form>

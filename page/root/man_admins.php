@@ -6,52 +6,52 @@
 
 <?
 if(isset($message) && $message != "") {
-	echo "<p class=\"message\">$message</p>";
+	echo "<p>$message</p>";
 }
 ?>
 
 <form action="man_admins.php?action=add" method="post">
-<table align="center" class="borderon" bgcolor=#F2F5F7>
+<table>
 <tr>
-	<td align="right"><p class="admin_table_entry">Admin username</p></td>
-	<td><input type="text" name="username" style="width:100%"></td>
+	<td>Admin username</td>
+	<td><input type="text" name="username"></td>
 </tr>
 <tr>
-	<td align="right"><p class="admin_table_entry">Password</p></td>
-	<td><input type="password" name="password" style="width:100%"></td>
+	<td>Password</p></td>
+	<td><input type="password" name="password"></td>
 </tr>
 <tr>
-	<td align="right"><p class="admin_table_entry">Email address</p></td>
-	<td><input type="text" name="email" style="width:100%"></td>
+	<td>Email address<</td>
+	<td><input type="text" name="email"></td>
 </tr>
 <tr>
-	<td align="right"><p class="admin_table_entry">Club ID</p></td>
+	<td>Club ID</td>
 	<td><select name="club_id">
-			<option value="0">General Application</option>
+		<option value="0">General Application</option>
 		<?
-			
 			$result = mysql_query("SELECT id, name FROM clubs ORDER BY name");
 
 			while($row = mysql_fetch_array($result))
-			  {
+			{
 				echo "<option value=\"".$row['id']."\">".$row['name']."</option>";
-			  }
-
+			}
 		?>
 	</select></td>
 </tr>
-<tr><td align="right" colspan="2"><input type="submit" value="Add admin"></td></tr>
-</table>
-</form><br><br>
-
-<table width=100%>
 <tr>
-	<th><p class="admin_table_header">Club ID</th></p>
-	<th><p class="admin_table_header">Username</p></th>
-	<th><p class="admin_table_header">Email</p></th>
-	<th><p class="admin_table_header">Change pass</p></th>
-	<th><p class="admin_table_header">Update</p></th>
-	<th><p class="admin_table_header">Delete</p></th>
+	<td colspan="2"><input type="submit" value="Add admin"></td>
+</tr>
+</table>
+</form>
+
+<table>
+<tr>
+	<th>Club ID</th>
+	<th>Username</th>
+	<th>Email</th>
+	<th>Change pass</th>
+	<th>Update</th>
+	<th>Delete</th>
 </tr>
 
 <?
@@ -60,39 +60,39 @@ foreach($adminList as $item) {
 	<form method="post" action="man_admins.php">
 	<input type="hidden" name="id" value="<?= $item[0] ?>">
 	<tr>
-		<td><select name="club_id" style="width:100%">
-						<option value="<?= $item[1] ?>">
+		<td><select name="club_id">
+			<option value="<?= $item[1] ?>">
 			<?
 				if ($item[1] == 0) {
 				   echo "General App";
 				}
 				else {
-					 $result = mysql_query("SELECT id, name FROM clubs WHERE id = '$item[1]'");
-					 $row = mysql_fetch_array($result);
-					 echo $row['name'];
+					//todo: terribly inefficient
+					$result = mysql_query("SELECT id, name FROM clubs WHERE id = '$item[1]'");
+					$row = mysql_fetch_array($result);
+					echo $row['name'];
 				}
 			?>
 			</option>
-				<?
+			
+			<?
+				$result = mysql_query("SELECT id, name FROM clubs ORDER BY name");
 
-					$result = mysql_query("SELECT id, name FROM clubs ORDER BY name");
-
-					while($row = mysql_fetch_array($result)) {
-						if ($row['id']!=$item[1]) {
-							echo "<option value=\"".$row['id']."\">".$row['name']."</option>";
-						}
+				while($row = mysql_fetch_array($result)) {
+					if ($row['id']!=$item[1]) {
+						echo "<option value=\"" . $row['id'] . "\">" . $row['name'] . "</option>";
 					}
+				}
 
-					if ($item[1] > 0) {
-					   echo "<option value=\"0\">General Application</option>";
-					}
-
-				?>
-</select>
-</td>
-		<td><input type="text" name="username" value="<?= $item[2] ?>" style="width:100%"></td>
-		<td><input type="text" name="email" value="<?= $item[3] ?>" style="width:100%"></td>
-		<td><input type="password" name="password" style="width:100%"></td>
+				if ($item[1] > 0) {
+				   echo "<option value=\"0\">General Application</option>";
+				}
+			?>
+		</select>
+		</td>
+		<td><input type="text" name="username" value="<?= $item[2] ?>"></td>
+		<td><input type="text" name="email" value="<?= $item[3] ?>"></td>
+		<td><input type="password" name="password"></td>
 		<td><input type="submit" name="action" value="update"></td>
 		<td><input type="submit" name="action" value="delete"></td>
 	</tr>

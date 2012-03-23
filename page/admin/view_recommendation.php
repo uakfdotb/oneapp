@@ -2,13 +2,13 @@
 
 <table>
 <tr>
-	<td><p>Author</p></td>
-	<td><p><?= $author ?></p></td>
+	<td>Author</td>
+	<td><?= $author ?></td>
 </tr><tr>
-	<td><p>Email</p></td>
-	<td><p><?= $email ?></p></td>
+	<td>Email</td>
+	<td><?= $email ?></td>
 </tr><tr>
-	<td><p>Download</p></td>
-	<td><p><a href="../submit/<?= $filename ?>.pdf"><?= $filename ?></a></p></td>
+	<td>Download</td>
+	<td><a href="../submit/<?= $filename ?>.pdf"><?= $filename ?></a></td>
 </tr>
 </table>

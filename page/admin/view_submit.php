@@ -33,22 +33,21 @@ if($cat_enabled) { // here, we give user a filter selection dropdown, preselecti
 }
 ?>
 
-<table width="100%"><tr>
-	<th><p class="admin_table_header">User ID</p></th>
-	<th><p class="admin_table_header">General application</p></th>
-	<th><p class="admin_table_header">Supplement</p></th>
-	<th><p class="admin_table_header">Recs</p></th>
+<table>
+<tr>
+	<th>User ID</th>
+	<th>General application</th>
+	<th>Supplement</th>
+	<th>Recs</th>
 	<?
-	if($box_enabled) echo "<th><p class=\"admin_table_header\">TheTextBox</p></th>";
-	if($cat_enabled) echo "<th><p class=\"admin_table_header\">Category</p></th>";
-	if($comment_enabled) echo "<th><p class=\"admin_table_header\">Comments</p></th>";
-	if($box_enabled || $cat_enabled) echo "<th><p class=\"admin_table_header\">Update</p></th>"; //comments are updated through separate page
+	if($box_enabled) echo "<th>The Text Box</th>";
+	if($cat_enabled) echo "<th>Category</th>";
+	if($comment_enabled) echo "<th>Comments</th>";
+	if($box_enabled || $cat_enabled) echo "<th>Update</th>"; //comments are updated through separate page
 	?>
 </tr>
 
 <?
-$counter = 1;
-
 foreach($array as $item) {
 	$appId = $item[0];
 	
@@ -70,18 +69,17 @@ foreach($array as $item) {
 		$peerString .= "<a href=\"../submit/$peerEntry.pdf\">PDF</a> (<a href=\"view_recommendation.php?peer_pdf=$peerEntry&user_id=" . $item[1] . "\">detail</a>) ";
 	}
 	
-    $band_counter = $counter % 2 + 1;
-	echo "<tr class=\"band" . $band_counter . "\">";
-	echo "<td class=\"top_border\"><p>$userId</p></td>";
-	echo "<td class=\"top_border\"><p>$generalApp</p></td>";
-	echo "<td class=\"top_border\"><p>$supplement</p></td>";
-	echo "<td class=\"top_border\"><p>$peerString</p></td>";
+	echo "<tr>";
+	echo "<td>$userId</td>";
+	echo "<td>$generalApp</td>";
+	echo "<td>$supplement</td>";
+	echo "<td>$peerString</td>";
 	
 	if($box_enabled) {
 		if(isset($toolsMap[$appId])) $boxValue = $toolsMap[$appId][0];
 		else $boxValue = "";
 		
-		echo "<td class=\"top_border\"><input type=\"text\" value=\"$boxValue\" name=\"box\" style=\"width:100%;resize:none\"/></td>";
+		echo "<td><input type=\"text\" value=\"$boxValue\" name=\"box\" /></td>";
 	}
 	
 	if($cat_enabled) {
@@ -89,7 +87,7 @@ foreach($array as $item) {
 		else $catValue = "";
 		
 		//display a list of categories, and pre-select the catValue on dropdown
-		echo "<td class=\"top_border\" width=100%><select name=\"category\">";
+		echo "<td><select name=\"category\">";
 		echo "<option name=\"\">None</option>";
 		
 		foreach($catList as $catElement) {
@@ -101,11 +99,11 @@ foreach($array as $item) {
 	}
 	
 	if($comment_enabled) {
-		echo "<td class=\"top_border\"><p><a href=\"comments.php?id=$appId\">comments</a></p></td>";
+		echo "<td><a href=\"comments.php?id=$appId\">comments</a></td>";
 	}
 	
 	if($box_enabled || $cat_enabled) { //comments are updated through separate page
-		echo '<td class=\"top_border\"><input type="submit" value="update" /></td>';
+		echo '<td><input type="submit" value="update" /></td>';
 	}
 	
 	if($box_enabled || $cat_enabled) echo "</form>";

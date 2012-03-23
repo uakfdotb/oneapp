@@ -18,9 +18,16 @@ if(isset($_SESSION['admin_id'])) {
 			
 			mysql_query("UPDATE clubs SET description='$description', view_time='$view_time', open_time='$open_time', close_time='$close_time', num_recommend='$num_recommend' WHERE id='$club_id'");
 		}
+		
 		if(isset($_REQUEST['new_password'])) {
-			$changepass = changeAdminPass($admin_id,$_REQUEST['new_password'],$_REQUEST['new_password']);
+			$change_result = changeAdminPassword($admin_id, $_REQUEST['new_password']);
+			
+			if($change_result != 1) {
+				get_page_advanced("message", "admin", array('message' => "Error: failed to change password (make sure password is valid).", 'title' => "Password change"));
+				return;
+			}
 		}
+		
 		$result = mysql_query("SELECT description, view_time, open_time, close_time, num_recommend FROM clubs WHERE id='$club_id'");
 		
 		if($row = mysql_fetch_array($result)) {
