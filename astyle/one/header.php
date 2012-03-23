@@ -48,7 +48,6 @@ window.onload=GetClock;
 	</div>
 	
 	<div id="navbar"><table width=100% background-color="red"><tr><td><a id="clockbox"><?= $timeString ?></a></td><td align="right">
-	<a href="http://www.one-app.org/OneApp_Manual.pdf">Manual</a>
 <?
 for($i = 0; $i < count($page_display); $i++) {
 	echo '<a href=' . $page_display[$i] . '.php>' . $page_display_names[$i] . '</a> ';

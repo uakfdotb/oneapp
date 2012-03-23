@@ -66,15 +66,22 @@ $config['admin_side_display_names'] = array('Manage questions', 'View submission
 $config['root_page_display'] = array('index', 'index.php?action=logout&ex=');
 $config['root_page_display_names'] = array('Root Workspace', 'Logout');
 
-$config['root_side_display'] = array('manage', 'statistics', 'statistics_club', 'clean', 'database', 'man_config');
-$config['root_side_display_names'] = array('Manage', 'Statistics', 'Club statistics', 'Clean System', 'Database', 'Settings');
+$config['root_side_display'] = array('root_cat.php?cat=Manage', 'root_cat.php?cat=Statistics', 'root_cat.php?cat=Clean+system', 'dbwipe', 'backup', 'man_config');
+$config['root_side_display_names'] = array('Manage', 'Statistics', 'Clean System', 'Database wipe', 'Backup', 'Settings');
 
-$config['root_manage_display'] = array('userlist', 'man_admins', 'man_clubs', 'man_cat', 'man_pages');
-$config['root_manage_display_names'] = array('Users', 'Admins', 'Clubs', 'Categories', 'Pages');
+$config['root_cat_display'] = array('manage' => array(), 'statistics' => array(), 'clean' => array());
 
-$config['root_clean_display'] = array('rm_peer', 'check_pdf', 'check_nohome', 'check_mismatch');
-$config['root_clean_display_names'] = array('Recommendations', 'Extra PDFs', 'Questions without a home', 'Mismatched applications');
+$config['root_cat_display']['Statistics']['desc'] = "Statistics tools allow you to gather basic information about the status of your organizations and website.";
+$config['root_cat_display']['Statistics']['links'] = array('statistics', 'statistics_club');
+$config['root_cat_display']['Statistics']['names'] = array('General statistics', 'Club statistics');
 
+$config['root_cat_display']['Manage']['desc'] = "General management features appear below, from which you may view users, add admins, organizations, general application categories, and custom pages. Please click on one of the links below to access these features.";
+$config['root_cat_display']['Manage']['links'] = array('userlist', 'man_admins', 'man_clubs', 'man_cat', 'man_pages');
+$config['root_cat_display']['Manage']['names'] = array('Users', 'Admins', 'Clubs', 'Categories', 'Pages');
+
+$config['root_cat_display']['Clean system']['desc'] = 'Tools below allow you to clear old files to conserve system resources. The <b>Full Database Cleaner</b> will delete old database entries, while the other options will maintain the database or delete unneeded files.';
+$config['root_cat_display']['Clean system']['links'] = array('full_clean', 'rm_peer', 'check_pdf', 'check_nohome', 'check_mismatch');
+$config['root_cat_display']['Clean system']['names'] = array('Full database cleaner', 'Recommendations', 'Extra PDFs', 'Questions without a home', 'Mismatched applications');
 
 $config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the current time
 $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements
