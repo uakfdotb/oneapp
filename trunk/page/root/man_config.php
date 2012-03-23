@@ -14,8 +14,9 @@ foreach($optionsMap as $key => $value) {
 	}
 ?>
 	<tr>
-	<td><p><?= $key ?></p></td>
-	<td><p><input type="<?= $inputType ?>" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>" /></p></td>
+		<td><?= $key ?></td>
+		<td><input type="<?= $inputType ?>" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>" /></td>
+	</tr>
 <?
 }
 ?>

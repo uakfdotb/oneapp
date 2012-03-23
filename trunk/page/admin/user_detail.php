@@ -2,16 +2,16 @@
 
 <table>
 <tr>
-	<td width="20%"><p><b>Name</b></p></td>
-	<td><p><?= $name ?></p></td>
+	<td><b>Name</b></td>
+	<td><?= $name ?></td>
 </tr>
 <tr>
-	<td width="20%"><p><b>Username</b></p></td>
-	<td><p><?= $username ?></p></td>
+	<td><b>Username</b></td>
+	<td><?= $username ?></td>
 </tr>
 <tr>
-	<td width="20%"><p><b>Email</b></p></td>
-	<td><p><?= $email ?></p></td>
+	<td><b>Email</b></td>
+	<td><?= $email ?></td>
 </tr>
 
 <?
