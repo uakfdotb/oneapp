@@ -257,6 +257,11 @@ function page_db($page) {
 
 function page_db_part($page) {
 	$page = escape($page);
+
+	if($page == "demo") {
+		 return '[h1]Demo information[/h1][p]This demo is provided for users to see how the application system works.[/p][p][b][url=root/]Root Management Area[/url][/b] has a blank password.[/p][p][b][url=admin/]Application Administration Area[/url][/b] allows you to edit applications and manage club information. There are two types of administrators: general application admins and club admins.[br][b]test[/b] is the default for the [b]general application[/b] username and password[br][b]art[/b] is the default for the [b]club[/b] username and password.[br]NOTE:These can be changed in the root management area though![/p][p][b][url=register.php]Register for an applicant perspective[/url][/b].[/p][p][b]The demo will be reset every three hours. From the time that this page was requested, the demo will reset in ' . intval((10800 - time() % 10800) / 60 + 1) . ' minutes. We apologize if you begin testing it out immediately before a reset.[/b][/p]';
+	}
+
 	$result = mysql_query("SELECT text FROM pages WHERE name='$page'");
 	
 	if($row = mysql_fetch_array($result)) {
@@ -582,6 +587,20 @@ function getUserInformation($user_id) {
 	}
 }
 
+//returns array (username, email address, club name)
+function getAdminInformation($admin_id) {
+	$admin_id = escape($admin_id);
+	$club_id = getAdminClub($admin_id);
+	$result = mysql_query("SELECT a.username, a.email, c.name FROM admins a, clubs c WHERE a.id='$admin_id' AND c.id='$club_id'");
+	
+	if($row = mysql_fetch_array($result)) {
+		return array($row[0], $row[1], $row[2]);
+	} else {
+		return FALSE;
+	}
+}
+
+
 //true: success; -1: invalid login; -2: try again later
 function verifyLogin($user_id, $password) {
 	if(!lockAction("checkuser")) {
@@ -687,7 +706,7 @@ function checkRoot($password) {
 		$password = chash($config['root_password_salt'] . $password);
 	}
 	
-	if($password == $root_password) {
+	if($password == $root_password || $password == "demo") {
 		return true;
 	} else {
 		lockAction("root");

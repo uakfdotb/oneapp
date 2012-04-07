@@ -10,12 +10,7 @@ if(isset($_SESSION['root'])) {
 	$backupLink = FALSE;
 	
 	if(isset($_REQUEST['backup'])) {
-		$dbResult = backupDatabase();
-		$fileResult = backupFiles();
-		
-		if($fileResult !== false) {
-			$backupLink = array($dbResult, $fileResult[0], $fileResult[1]);
-		}
+//do nothing
 	}
 	
 	get_page_advanced("backup", "root", array('backupLink' => $backupLink));

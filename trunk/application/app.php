@@ -14,17 +14,17 @@ if(isset($_SESSION['user_id'])) {
 		} else {
 			$clubGet = "club_id=" . $_REQUEST['club_id'] . "&cat_id=" . $_REQUEST['cat_id'];
 		}
+		$applicationId = getApplication($_SESSION['user_id'], $_REQUEST['club_id']);
 		
 		if($_REQUEST['action'] == "view") {
-			$applicationId = getApplication($_SESSION['user_id'], $_REQUEST['club_id']);
-			
+			$info = "We recommend you do your application in a seperate word processor and save a copy on your own computer.";
 			if($applicationId !== FALSE) {
 				if($_REQUEST['club_id'] == 0) {
 					if(isset($_REQUEST['cat_id'])) {
-						get_page_advanced("app", "apply", array("user_id" => $_SESSION['user_id'], "app_id" => $applicationId, "club_id" => $_REQUEST['club_id'], "cat_id" => $_REQUEST['cat_id']));
+						get_page_advanced("app", "apply", array("user_id" => $_SESSION['user_id'], "app_id" => $applicationId, "club_id" => $_REQUEST['club_id'], "cat_id" => $_REQUEST['cat_id'], "info" => $info));
 					}
 				} else {
-					get_page_advanced("app", "apply", array("user_id" => $_SESSION['user_id'], "app_id" => $applicationId, "club_id" => $_REQUEST['club_id']));
+					get_page_advanced("app", "apply", array("user_id" => $_SESSION['user_id'], "app_id" => $applicationId, "club_id" => $_REQUEST['club_id'], "info" => $info));
 				}
 			} else {
 				get_page_advanced("message", "apply", array("title" => "Internal error", "message" => "Internal error: application not found."));
