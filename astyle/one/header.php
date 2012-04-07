@@ -2,6 +2,7 @@
 <head>
 <link href="<?= $stylePath ?>/style.css" rel="stylesheet" type="text/css">
 
+
 <script type="text/javascript">
 tday  =new Array("Sun","Mon","Tue","Wed","Thur","Fri","Sat");
 tmonth=new Array("Jan","Feb","Mar","April","May","June","July","Aug","Sept","Oct","Nov","Dec");
@@ -42,12 +43,13 @@ window.onload=GetClock;
 		<table width=100% cellpadding="0" cellspacing="0" >
 			<tr>
 			<td><a href="../index.php"><img src="<?= $stylePath ?>/logo.jpg" alt="logo" height="60" border="0" /></a></td>
-			<td VALIGN="BOTTOM"><p class="schooltop"><?= $config['organization_name'] ?></p></td>
+			<td VALIGN="BOTTOM"><p class="schooltop"><font style="color:red;font-size:10px">DEMO RESETS: <b><?=intval((10800 - time() % 10800) / 60)+1 ?> MINUTES</b><br />ALL ACCOUNTS WILL BE DELETED<br />View <a href="http://demo.one-app.org/dbpage.php?page=demo.php">DEMO INFORMATION</a></font></br><?= $config['organization_name'] ?></p></td>
 			</tr>
 		</table>
 	</div>
 	
 	<div id="navbar"><table width=100% background-color="red"><tr><td><a id="clockbox"><?= $timeString ?></a></td><td align="right">
+		<a href="http://www.one-app.org/OneApp_Manual.pdf">Manual</a>
 <?
 for($i = 0; $i < count($page_display); $i++) {
 	echo '<a href=' . $page_display[$i] . '.php>' . $page_display_names[$i] . '</a> ';
@@ -55,6 +57,7 @@ for($i = 0; $i < count($page_display); $i++) {
 ?>
    </td></tr></table>
 	</div>
+	
 	<div id ="main">
 	<div id ="col_holder">
 		<div id="col_left">
@@ -96,6 +99,33 @@ for($i = 0; $i < count($side_display); $i++) {
 			}
 			echo "</ul>";
 		}
+	} else if($side_display[$i] == "manage" && isset($_SESSION['root'])) {
+		//display manage options for root
+		echo "<ul>";
+		$root_manage_display = $config['root_manage_display'];
+		$root_manage_display_names = $config['root_manage_display_names']; 
+		for($j = 0; $j < count($root_manage_display); $j++) {
+			echo '<li class="sidenav1"><a href=' . $root_manage_display[$j] . '.php>' . $root_manage_display_names[$j] . '</a></li>';	
+		}
+		echo "</ul>";
+	} else if($side_display[$i] == "clean" && isset($_SESSION['root'])) {
+		//display manage options for root
+		echo "<ul>";
+		$root_clean_display = $config['root_clean_display'];
+		$root_clean_display_names = $config['root_clean_display_names']; 
+		for($j = 0; $j < count($root_clean_display); $j++) {
+			echo '<li class="sidenav1"><a href=' . $root_clean_display[$j] . '.php>' . $root_clean_display_names[$j] . '</a></li>';	
+		}
+		echo "</ul>";
+	} else if($side_display[$i] == "database" && isset($_SESSION['root'])) {
+		//display manage options for root
+		echo "<ul>";
+		$root_database_display = $config['root_database_display'];
+		$root_database_display_names = $config['root_database_display_names']; 
+		for($j = 0; $j < count($root_database_display); $j++) {
+			echo '<li class="sidenav1"><a href=' . $root_database_display[$j] . '.php>' . $root_database_display_names[$j] . '</a></li>';	
+		}
+		echo "</ul>";
 	}
 }
 ?>

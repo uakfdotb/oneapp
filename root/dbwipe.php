@@ -11,8 +11,8 @@ if(isset($_SESSION['root'])) {
 	
 	if(isset($_REQUEST['wipe']) && isset($_REQUEST['password'])) {
 		if(checkRoot($_REQUEST['password'])) {
-			databaseWipe();
-			$message = "Your database has been completely wiped.";
+			//databaseWipe();
+			$message = "This feature is disabled on the demo version.";
 		} else {
 			$message = "Invalid password. You have been logged out.";
 			session_unset();

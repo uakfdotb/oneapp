@@ -11,7 +11,6 @@ if(isset($_SESSION['admin_id'])) {
 	$club_id = escape(getAdminClub($_SESSION['admin_id']));
 	include("category_manager.php");
 	
-	$message = "";
 	$isAvailableWindow = false;
 	$editInfo = 0;
 	
@@ -32,7 +31,7 @@ if(isset($_SESSION['admin_id'])) {
 				$vartype = escape($_REQUEST['vartype']);
 				
 				mysql_query("UPDATE $database SET varname='$varname', vardesc='$vardesc', vartype='$vartype' WHERE id='$qid' AND $whereString");
-				$message = "Update successful!";
+				$success = "Update successful!";
 			} else {
 				$result = mysql_query("SELECT varname, vardesc, vartype FROM $database WHERE id='$qid' AND $whereString");
 				
@@ -59,7 +58,7 @@ if(isset($_SESSION['admin_id'])) {
 					mysql_query("UPDATE $database SET orderId='$orderId' WHERE orderId='$rowOrderId' AND $whereString");
 					mysql_query("UPDATE $database SET orderId='$rowOrderId' WHERE id='$qid' AND $whereString");
 					
-					$message = "Move successful!";
+					$success = "Move successful!";
 				}
 			}
 		} else if($_REQUEST['action'] == "Add question") {
@@ -67,14 +66,15 @@ if(isset($_SESSION['admin_id'])) {
 				$result = insertQuestion($_REQUEST['varname'], $_REQUEST['vardesc'], $_REQUEST['vartype'], $club_id, $database, $whereString);
 				
 				if($result === TRUE) {
-					$message = "Addition successful!";
+					$success = "Addition successful!";
 				} else {
-					$message = "Addition failed: $result";
+					$error = "Addition failed: $result";
 				}
 			}
 		} else if($_REQUEST['action'] == "delete") {
 			$qid = escape($_REQUEST['id']);
 			mysql_query("DELETE FROM $database WHERE id='$qid'");
+			$success = "Question deleted!";
 		} else if($_REQUEST['action'] == "Add multiple questions" && isset($_REQUEST['data'])) {
 			$dataText = str_replace("\r", "", $_REQUEST['data']);
 			$dataLines = explode("\n", $dataText);
@@ -83,13 +83,23 @@ if(isset($_SESSION['admin_id'])) {
 				$result = insertQuestion($dataLines[$i], $dataLines[$i + 1], $dataLines[$i + 2], $club_id, $database, $whereString);
 				
 				if($result === TRUE) {
-					$message = "Addition successful!";
+					$success = "Addition successful!";
 				} else {
-					$message = "Addition failed: $result";
+					$error = "Addition failed: $result";
 				}
 			}
 		} else if($_REQUEST['action'] == "deleteall") {
 			deleteQuestions($database, $whereString);
+		} else if ($_REQUEST['action'] == "updatelist"){
+			echo "recieved!";
+			$array	= $_REQUEST['arrayorder'];
+			$count = 1;
+			foreach ($array as $idval) {
+				$query = "UPDATE $database SET orderID = '" . $count . "' WHERE orderId='" . $idval . "'";
+				mysql_query($query) or die('Error, insert query failed');
+				$count ++;
+			}
+			$success="Move succeed!";
 		}
 	}
 	
@@ -99,8 +109,13 @@ if(isset($_SESSION['admin_id'])) {
 	while($row = mysql_fetch_array($result)) {
 		array_push($questionList, array($row[0], $row[1], $row[2], $row[3], $row[4]));
 	}
-	
-	get_page_advanced("man_questions", "admin", array("message" => $message, "editInfo" => $editInfo, "questionList" => $questionList, "categories" => $categories, "isAvailableWindow" => $isAvailableWindow));
+	if(isset($success)){
+		get_page_advanced("man_questions", "admin", array("success" => $success, "editInfo" => $editInfo, "questionList" => $questionList, "categories" => $categories, "isAvailableWindow" => $isAvailableWindow));
+	} else if(isset($error)){
+		get_page_advanced("man_questions", "admin", array("error" => $error, "editInfo" => $editInfo, "questionList" => $questionList, "categories" => $categories, "isAvailableWindow" => $isAvailableWindow));
+	} else {
+		get_page_advanced("man_questions", "admin", array("editInfo" => $editInfo, "questionList" => $questionList, "categories" => $categories, "isAvailableWindow" => $isAvailableWindow));
+	}
 } else {
 	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }

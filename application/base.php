@@ -8,20 +8,22 @@ include("../include/apply_gen.php");
 include("../include/apply_submit.php");
 
 if(isset($_SESSION['user_id'])) {
+	$categoryList = listCategories();
 	if(isApplicationStarted($_SESSION['user_id'], 0)) {
-		$categoryList = listCategories();
 		get_page_advanced("base", "apply", array("categories" => $categoryList));
 	} else {
 		if(isset($_REQUEST['action']) && $_REQUEST['action'] == "start") {
 			$result = startApplication($_SESSION['user_id'], 0);
-			
 			if($result == 0) {
-				get_page_advanced("message", "apply", array("title" => "General application started", "message" => "You have started the general application. Please <a href=\"base.php\">click here</a> to continue.", "redirect" => "base.php"));
+				$success = "General application started!";
+				get_page_advanced("base","apply", array("success" => $success, "categories" => $categoryList));
 			} else {
-				get_page_advanced("message", "apply", array("title" => "Error", "message" => "There was an error while starting your general application. Please <a href=\"base.php\">click here</a> to continue."));
+				$error = "General application not started! There was an error while starting your general application.";
+				get_page_advanced("base","apply", array("error" => $error));
 			}
 		} else {
-			get_page_advanced("base_notstarted", "apply");
+			$warning = "You have not yet started the general application!";
+			get_page_advanced("base_notstarted", "apply", array("warning" => $warning));
 		}
 	}
 } else {

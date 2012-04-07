@@ -1,3 +1,4 @@
+@import "reset.css"
 /* ------------------------------
 HTML Redefine Tags
 ------------------------------ */
@@ -33,7 +34,7 @@ html, body {
 #navbar a:hover{color:#ABB4BA;}
 #main{width:auto; display:block; padding:2px 0;}
 #col_holder{width:100%;}
-#col_left{width:20%; float:left; background-color:#1A3E5B;}
+#col_left{width:20%; float:left; background-color:gray;}
 #col_right{width:80%; float:left;}
 #col_mid, #admin_table{width:60%; margin-left:6%; float:center;}
 div.spacer{clear:both; height:2%; display:block;}
