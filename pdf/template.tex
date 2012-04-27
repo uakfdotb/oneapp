@@ -1,13 +1,27 @@
 \documentclass{article}
 
-\usepackage{fullpage}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[margin=1in]{geometry}
+\usepackage[normalem]{ulem}
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0,4pt}
+\renewcommand{\footrulewidth}{0,4pt}
+\fancyhead[R]{$SECTIONNAME$}
+\fancyhead[L]{$EXTRAINFO$}
+\fancyfoot[R]{$ORGANIZATION$}
+\fancyfoot[L]{$TIME$}
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
 
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{1.3ex}
+\setlength{\parskip}{1ex}
 
 \newcommand*{\tickbox}{{\fboxsep 0pt\framebox[\height]{\vphantom{M}}}}
 \newcommand*{\xbox}{{\fboxsep 0pt\framebox[\height]{\vphantom{M}$\times$}}}
 
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist 
 \begin{document}
 
 $BODY$

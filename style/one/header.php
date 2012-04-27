@@ -14,7 +14,7 @@ if(isset($redirect)) {
 		<table width=100% cellpadding="0" cellspacing="0" >
 			<tr>
 			<td><a href="index.php"><img src="<?= $stylePath ?>/logo.jpg" alt="logo" height="60" border="0" /></td>
-			<td VALIGN="BOTTOM"><p class="schooltop"><font style="color:red;font-size:10px">DEMO RESETS: <b><?=intval((10800 - time() % 10800) / 60)+1 ?> MINUTES</b><br />ALL ACCOUNTS WILL BE DELETED<br />View <a href="http://demo.one-app.org/dbpage.php?page=demo.php">DEMO INFORMATION</a></font></br><?= $config['organization_name'] ?></p></td>
+			<td VALIGN="BOTTOM"><p class="schooltop"><?= $config['organization_name'] ?></p></td>
 			</tr>
 		</table>
 	</div>

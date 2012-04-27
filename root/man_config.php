@@ -14,6 +14,75 @@ if(isset($_SESSION['root'])) {
 	
 	//write configuration
 	if(isset($_REQUEST['submit'])) {
+		$options = array();
+		
+		foreach($option_list as $option_name) {
+			if(array_key_exists($option_name, $_REQUEST) && !in_array($option_name, $array_options)) {
+				if(!in_array($option_name, $array_options)) {
+					$options[$option_name] = escapePHP($_REQUEST[$option_name]);
+				} else {
+					$options[$option_name] = toPHPArray($_REQUEST[$option_name]);
+				}
+			} else {
+				$options[$option_name] = ''; //this will write previous value
+			}
+		}
+		
+		if(!isset($options['mail_password']) || $options['mail_password'] == '') {
+			$options['mail_username'] = '';
+			$options['mail_smtp_host'] = '';
+			$options['mail_smtp_port'] = '';
+		}
+		
+		if(isset($options['max_recommend']) && !is_numeric($options['max_recommend'])) {
+			$options['max_recommend'] = 10;
+		}
+		
+		if(isset($options['root_password']) && $options['root_password'] != '') {
+			//hash the password
+			$options['root_password_salt'] = uid(32);
+			$options['root_password'] = ":" . chash($options['root_password_salt'] . $options['root_password']);
+		}
+		
+		//read/write config file
+		$fin = fopen('../config.php', 'r');
+		$fout = fopen('../config.php.new', 'w');
+
+		while($line = fgets($fin)) {
+			if(string_begins_with($line, '$config[')) {
+				$begin_index = strpos($line, "'") + 1;
+				$end_index = strpos($line, "'", $begin_index);
+				$option_name = substr($line, $begin_index, $end_index - $begin_index);
+				
+				if(array_key_exists($option_name, $options) && $options[$option_name] != '') {
+					$option_value = $options[$option_name];
+					$force_no_quotes = in_array($option_name, $array_options);
+					writeOption($fout, $option_name, $option_value, $force_no_quotes);
+					
+					unset($options[$option_name]);
+				} else {
+					fwrite($fout, $line);
+				}
+			} else if(trim($line) != "?>") { //we write this after the extra options below
+				fwrite($fout, $line);
+			}
+		}
+		
+		//store any extra options at the end
+		// we still only allow options from the option list (which is good) to be set because of how $options is populated
+		foreach($options as $option_name => $option_value) {
+			if($option_value != '') {
+				$force_no_quotes = in_array($option_name, $array_options);
+				writeOption($fout, $option_name, $option_value, $force_no_quotes);
+			}
+		}
+		
+		//end the PHP section
+		fwrite($fout, "?>\n");
+		
+		fclose($fin);
+		fclose($fout);
+		rename('../config.php.new', '../config.php');
 	}
 	
 	//load configuration
