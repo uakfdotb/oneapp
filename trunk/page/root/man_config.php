@@ -2,8 +2,6 @@
 
 <p>Here, you can manage your configuration. You should not edit this page unless you know what you are doing! Also, note that this page will only work if the permissions of config.php are set such that the webserver user can write to it.</p>
 
-<p><b>This feature is disabled on the demo system (you can still view cofiguration, but you can't edit it).</b></p>
-
 <form method="post" action="man_config.php">
 <table>
 

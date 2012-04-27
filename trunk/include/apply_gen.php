@@ -20,11 +20,6 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		return $styleFunction($str);
 	}
 	
-	$basePath = basePath();
-	$style = getstyle();
-	$stylePath = $basePath . "/astyle/$style";
-	
-	
 	$mutableString = "";
 	if(!$mutable) {
 		$mutableString = " readonly=\"readonly\"";
@@ -56,11 +51,12 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			$height = 400;
 		}
 		
-		echo '<tr class="question"><td colspan="2"><p class="name">';
+		echo '<tr><td colspan="2"><p class="name">';
 		
-		if($type_array['status'] != "optional") {
-			echo '<img src="' . $stylePath . '/images/required.png" width="8px" class="required">'; 
+		if($type_array['status'] == "required") {
+			echo "*";
 		}
+		
 		echo "$name</p>";
 		
 		if($desc != '') {
@@ -74,9 +70,9 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 		}
 		
-		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString style=\"width:100%;min-height:";
+		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString style=\"width:90%;height:";
 		echo $height;
-		echo "px;resize:vertical\">" . htmlspecialchars($answer) . "</textarea>";
+		echo "px;resize:none\">" . htmlspecialchars($answer) . "</textarea>";
 		
 		if($type_array['showchars']) {
 //			echo "<p class=\"desc\">(Max Characters: $maxLength)</p>";
@@ -86,12 +82,12 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		echo '</td></tr>';
 	} else if($type_array['type'] == "short") {
 		
-		echo '<tr class="question"><td><p class="name">';
+		echo '<tr><td><p class="name">';
 		
 		if($type_array['status'] != "optional") {
-			echo '<img src="' . $stylePath . '/images/required.png" width="8px" class="required">'; 
+			echo "*";
 		}
-			
+		
 		echo "$name</p>";
 		
 		if($desc != '') {
@@ -106,20 +102,20 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" maxlength=\"$maxLength\" ";
 		}
 		
-		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" style=\"width:100%\" /> ";
+		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" style=\"width:90%\" /> ";
 		
 		if($type_array['showchars']) {
 //			echo "<p class=\"desc\">(Max Characters: $maxLength)</p>";
-			echo "<p class=\"desc\" align=\"left\">Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" style=\"width:50px;font-size:10px\" value=\"$lengthRemaining\"></p>";
+			echo "<p class=\"desc\" align=\"right\">Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" style=\"width:50px;font-size:10px\" value=\"$lengthRemaining\"></p>";
 		}
 		
 		echo '</td></tr>';
 	} else if($type_array['type'] == "select") {
 		
-		echo '<tr class="question"><td><p class="name">';
+		echo '<tr><td><p class="name">';
 		
 		if($type_array['status'] != "optional") {
-			echo '<img src="' . $stylePath . '/images/required.png" width="8px" class="required">'; 
+			echo "*";
 		}
 		
 		echo "$name</p></td><td><p>";
@@ -165,10 +161,10 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		
 		echo '</p></td></tr>';
 	} else if($type_array['type'] == "text") {
-		echo '<tr class="question"><td colspan="2"><p class="name">';
+		echo '<tr><td colspan="2"><p class="name">';
 		
 		if($type_array['status'] != "optional") {
-			echo '<img src="' . $stylePath . '/images/required.png" width="8px" class="required">'; 
+			echo "*";
 		}
 		
 		echo "$name</p>";

@@ -34,5 +34,4 @@ if(isset($mismatches) && $mismatches !== FALSE) {
 	<td><input type="submit" name="act" value="Check and fix errors" /></td>
 </tr>
 </table>
-</td></tr></table>
 </form>
