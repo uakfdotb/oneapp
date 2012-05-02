@@ -7,14 +7,14 @@ include("../include/session.php");
 if(isset($_REQUEST['action'])) {
 	if($_REQUEST['action'] == 'logout') {
 		session_unset();
-		get_page_advanced("message", "root", array('message' => "You have been logged out. Click <a href=\"index.php\">here</a> to continue.", 'title' => "Logged out"));
+		get_page_advanced("index_login", "root", array('success' => "You have been logged out!"));
 	}
 } else if(isset($_REQUEST['password'])) {
 	if(checkRoot($_REQUEST['password'])) {
 		$_SESSION['root'] = true;
-		get_page_advanced("message", "root", array('message' => "Click <a href=\"index.php\">here</a> to continue.", 'title' => "Logged in"));
+		get_page_advanced("manage", "root", array('success' => "You are now logged in!"));
 	} else {
-		get_page_advanced("message", "root", array('message' => "Password is incorrect or you have been locked out. Click <a href=\"index.php\">here</a> to continue.", 'title' => "Login failed"));
+		get_page_advanced("index_login", "root", array('error' => "Password is incorrect or you have been locked out."));
 	}
 } else if(isset($_SESSION['root'])) {
 	get_page_advanced("index", "root");

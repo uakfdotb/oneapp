@@ -26,13 +26,22 @@ if(isset($_SESSION['admin_id'])) {
 		$createResult = generatePDFByResult($result, "../pdf/", $sectionheader);
 	
 		if(!$createResult[0]) {
-			$message = "Error during PDF generation: " . $createResult[1];
+			$error = "Error during PDF generation: " . $createResult[1];
 		} else {
-			$message = "PDF saved (<a href=\"../pdf/" . $createResult[1] . ".pdf\">link</a>)";
+			$basePath = basePath();
+			$style = getStyle();
+			$stylePath = $basePath . "/astyle/$style";
+			$message = "<a href=\"../pdf/" . $createResult[1] . ".pdf\"><img src=\"" . $stylePath . "/images/application_word.png\" width=\"64\"></a>";
+			$success="PDF made!";
 		}
 	}
-	
-	get_page_advanced("gen_pdf", "admin", array('message' => $message, 'categories' => $categories));
+	if(isset($error)) {
+		get_page_advanced("gen_pdf", "admin", array('error' => $error, 'message' => $message, 'categories' => $categories));
+	} else if(isset($success)) {
+		get_page_advanced("gen_pdf", "admin", array('success' => $success, 'message' => $message, 'categories' => $categories));
+	} else {
+		get_page_advanced("gen_pdf", "admin", array('message' => $message, 'categories' => $categories));
+	}
 } else {
 	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }

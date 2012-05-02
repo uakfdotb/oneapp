@@ -16,6 +16,7 @@ if(isset($_SESSION['admin_id'])) {
 			$comment_enabled = isset($_REQUEST['comment_enabled']) ? 1 : 0;
 			
 			mysql_query("UPDATE admins SET box_enabled = '$box_enabled', cat_enabled = '$cat_enabled', comment_enabled = '$comment_enabled' WHERE id = '" . $_SESSION['admin_id'] . "'");
+			$success = "Note preferences updated successfully!";
 		}
 		
 		$result = mysql_query("SELECT box_enabled, cat_enabled, comment_enabled FROM admins WHERE id='" . $_SESSION['admin_id'] . "'");
@@ -37,8 +38,15 @@ if(isset($_SESSION['admin_id'])) {
 			
 			if($_REQUEST['action'] == "delete") {
 				mysql_query("DELETE FROM club_notes_categories WHERE admin_id = '$admin_id' AND name = '$catName'");
+				$success = "Category deleted!";
 			} else if($_REQUEST['action'] == "add") {
-				mysql_query("INSERT INTO club_notes_categories (name, admin_id) VALUES ('$catName', '$admin_id')");
+				$result = mysql_query("SELECT name FROM club_notes_categories WHERE admin_id = '$admin_id' AND name = '$catName'");
+				if($row = mysql_fetch_array($result)) {
+					$error = "Category already exists!";
+				} else {
+					mysql_query("INSERT INTO club_notes_categories (name, admin_id) VALUES ('$catName', '$admin_id')");
+					$success = "Category added!";
+				}
 			}
 		}
 		
@@ -49,7 +57,13 @@ if(isset($_SESSION['admin_id'])) {
 			array_push($categories, $row[0]);
 		}
 		
-		get_page_advanced("man_notes", "admin", array('box_enabled' => $box_enabled, 'cat_enabled' => $cat_enabled, 'comment_enabled' => $comment_enabled, 'categories' => $categories));
+		if(isset($error)) {
+			get_page_advanced("man_notes", "admin", array('box_enabled' => $box_enabled, 'cat_enabled' => $cat_enabled, 'comment_enabled' => $comment_enabled, 'categories' => $categories, 'error' => $error));
+		} else if(isset($success)) {
+			get_page_advanced("man_notes", "admin", array('box_enabled' => $box_enabled, 'cat_enabled' => $cat_enabled, 'comment_enabled' => $comment_enabled, 'categories' => $categories, 'success' => $success));
+		} else {
+			get_page_advanced("man_notes", "admin", array('box_enabled' => $box_enabled, 'cat_enabled' => $cat_enabled, 'comment_enabled' => $comment_enabled, 'categories' => $categories));
+		}
 	} else {
 		get_page_advanced("message", "admin", array('message' => "General application cannot view submissions, so note functions are not available.", 'title' => "Manage Club"));
 	}
