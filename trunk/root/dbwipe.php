@@ -7,19 +7,28 @@ include("../include/session.php");
 include("../include/chk.php");
 
 if(isset($_SESSION['root'])) {
-	$message = "";
 	
 	if(isset($_REQUEST['wipe']) && isset($_REQUEST['password'])) {
 		if(checkRoot($_REQUEST['password'])) {
 			databaseWipe();
-			$message = "Your database has been completely wiped.";
+			$success = "Your database has been completely wiped.";
 		} else {
-			$message = "Invalid password. You have been logged out.";
+			$error = "Invalid password! You have been logged out for security purposes!";
 			session_unset();
 		}
 	}
 	
-	get_page_advanced("dbwipe", "root", array('message' => $message));
+	if(isset($success)) {
+		get_page_advanced("dbwipe", "root", array('success' => $success));
+	} else if(isset($error)) {
+		get_page_advanced("dbwipe", "root", array('error' => $error));
+	} else if(isset($warning)) {
+		get_page_advanced("dbwipe", "root", array('warning' => $warning));
+	} else if(isset($info)) {
+		get_page_advanced("dbwipe", "root", array('info' => $info));
+	} else {
+		get_page_advanced("dbwipe", "root");
+	} 
 } else {
 	header('Location: index.php');
 }
