@@ -20,7 +20,7 @@ if(isset($_SESSION['admin_id']) && $_REQUEST['id']) {
 		
 		get_page_advanced("comments", "admin", array('comments' => $current_comments, 'app_id' => $app_id));
 	} else {
-		get_page_advanced("message", "admin", array('message' => "General application admin cannot store comments (no submissions).", 'title' => "Comments error"));
+		get_page_advanced("index", "admin", array('warning' => "General application admin does not have comments!"));
 	}
 } else {
 	header('Location: index.php?error=' . urlencode("You are not logged in!"));

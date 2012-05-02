@@ -582,6 +582,19 @@ function getUserInformation($user_id) {
 	}
 }
 
+//returns array (username, email address, club name)
+function getAdminInformation($admin_id) {
+	$admin_id = escape($admin_id);
+	$club_id = getAdminClub($admin_id);
+	$result = mysql_query("SELECT a.username, a.email, c.name FROM admins a, clubs c WHERE a.id='$admin_id' AND c.id='$club_id'");
+	
+	if($row = mysql_fetch_array($result)) {
+		return array($row[0], $row[1], $row[2]);
+	} else {
+		return FALSE;
+	}
+}
+
 //true: success; -1: invalid login; -2: try again later
 function verifyLogin($user_id, $password) {
 	if(!lockAction("checkuser")) {
@@ -698,6 +711,18 @@ function checkRoot($password) {
 //1: success; -1: invalid password
 function changeAdminPassword($admin_id, $password){
 	if(validPassword($password) != 0) {
+		return -1;
+	} else {
+		mysql_query("UPDATE admins SET password = '" . escape(chash($password)) . "' WHERE id='" . $admin_id . "'");
+		return 1;
+	}
+}
+
+//1: success; -1: invalid password, -2 password doesnt match
+function changeAdminPass($admin_id, $password, $verify){
+	if($password != $verify){
+		return -2;
+	} else if(validPassword($password) != 0) {
 		return -1;
 	} else {
 		mysql_query("UPDATE admins SET password = '" . escape(chash($password)) . "' WHERE id='" . $admin_id . "'");
