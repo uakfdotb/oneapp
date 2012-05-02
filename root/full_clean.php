@@ -9,9 +9,14 @@ include("../include/chk.php");
 if(isset($_SESSION['root'])) {
 	if(isset($_REQUEST['clean'])) {
 		fullClean();
-	}
+		$success = "Database cleansed to unecessary evils.";
+	} 
 	
-	get_page_advanced("full_clean", "root");
+	if(isset($success)) {
+		get_page_advanced("full_clean", "root", array('success' => $success));
+	} else {
+		get_page_advanced("full_clean", "root");
+	}
 } else {
 	header('Location: index.php');
 }
