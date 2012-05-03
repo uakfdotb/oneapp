@@ -4,7 +4,7 @@ include("../config.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
-if(isset($_SESSION['admin_id') || isset($_SESSION['id'])){
+if(isset($_SESSION['admin_id']) || isset($_SESSION['id'] ) ) {
 	session_unset();
 	$warning = "You have been logged out! You may not log in as two different account types at once!";
 	get_page_advanced("index_login", "root", array("warning" => $warning));
