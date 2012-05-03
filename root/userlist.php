@@ -9,13 +9,15 @@ if(isset($_SESSION['root'])) {
 		$action = $_REQUEST['action'];
 		$user_id = escape($_REQUEST['id']);
 		
-		if($action == 'reset') {
+		if($action == 'Reset') {
 			//clear all application data of the user
 			mysql_query("DELETE FROM answers USING applications INNER JOIN answers WHERE applications.user_id = '$user_id' AND applications.id = answers.application_id");
 			mysql_query("DELETE FROM applications WHERE user_id = '$user_id'");
-		} else if($action == 'delete!!') {
+			$success = "Application reset!";
+		} else if($action == 'Delete') {
 			//keep application data in case it's useful later
 			mysql_query("DELETE FROM users WHERE id = '$user_id'");
+			$success = "User deleted!";
 		}
 	}
 	
@@ -28,7 +30,11 @@ if(isset($_SESSION['root'])) {
 		$users[$row[0]] = array($row[1], $infoUser);
 	}
 	
-	get_page_advanced("userlist", "root", array('userList' => $users));
+	if(isset($success)){
+		get_page_advanced("userlist", "root", array('success' => $success, 'userList' => $users));
+	} else {
+		get_page_advanced("userlist", "root", array('userList' => $users));
+	}
 } else {
 	header('Location: index.php');
 }
