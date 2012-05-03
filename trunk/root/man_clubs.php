@@ -5,7 +5,6 @@ include("../include/db_connect.php");
 include("../include/session.php");
 
 if(isset($_SESSION['root'])) {
-	$message = "";
 	
 	if(isset($_REQUEST['action'])) {
 		$action = $_REQUEST['action'];
@@ -21,30 +20,36 @@ if(isset($_SESSION['root'])) {
 				$row = mysql_fetch_array($result);
 				
 				if($row[0] >= $config['limits']['clubs']) {
-					$message = "Limit on # clubs has been reached! Update limits in configuration or contact your hosting provider.";
+					$error = "Limit on # clubs has been reached! Update limits in configuration or contact your hosting provider.";
 					$limitFail = true;
 				}
 			}
 			
 			if(!$limitFail) {
 				mysql_query("INSERT INTO clubs (name, description, view_time, open_time, close_time) VALUES ('$name', '$description', '0', '0', '0')");
-				$message = "Club added successfully! Click <a href=\"man_clubs.php\">here</a> to continue.";
+				$success = "Club added successfully!";
 			}
 		} else if($action == 'delete') {
 			$club_id = escape($_REQUEST['id']);
 			mysql_query("DELETE FROM clubs WHERE id='$club_id'");
-			$message = "Club deleted successfully! Click <a href=\"man_clubs.php\">here</a> to continue.";
+			$success = "Club deleted successfully!";
 		} else if($action == 'update') {
 			$club_id = escape($_REQUEST['id']);
 			$description = escape($_REQUEST['description']);
 			
 			mysql_query("UPDATE clubs SET description='$description' WHERE id='$club_id'");
-			$message = "Club updated successfully! Click <a href=\"man_clubs.php\">here</a> to continue.";
+			$success = "Club updated successfully!";
 		}
 	}
 	
 	$result = mysql_query("SELECT id,name,description FROM clubs");
-	get_page_advanced("man_clubs", "root", array('message' => $message, 'clubsResult' => $result));
+	if(isset($error)){
+		get_page_advanced("man_clubs", "root", array('error' => $error, 'clubsResult' => $result));
+	} else if(isset($success)) {
+		get_page_advanced("man_clubs", "root", array('success' => $success, 'clubsResult' => $result));
+	} else {
+		get_page_advanced("man_clubs", "root", array('clubsResult' => $result));
+	}
 } else {
 	header('Location: index.php');
 }

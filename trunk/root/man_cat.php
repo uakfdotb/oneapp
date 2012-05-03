@@ -5,7 +5,6 @@ include("../include/db_connect.php");
 include("../include/session.php");
 
 if(isset($_SESSION['root'])) {
-	$message = "";
 	
 	if(isset($_REQUEST['action'])) {
 		$action = $_REQUEST['action'];
@@ -21,17 +20,17 @@ if(isset($_SESSION['root'])) {
 				
 				mysql_query("INSERT INTO basecat (name, orderId) VALUES ('$name', '$orderId')");
 			}
-			$message = "Category added successfully! Click <a href=\"man_cat.php\">here</a> to continue.";
-		} else if($action == 'delete') {
+			$success = "Category added successfully!";
+		} else if($action == 'delete' || $action == 'Delete') {
 			$cat_id = escape($_REQUEST['id']);
 			mysql_query("DELETE FROM basecat WHERE id='$cat_id'");
-			$message = "Category deleted successfully! Click <a href=\"man_cat.php\">here</a> to continue.";
-		} else if($action == 'update') {
+			$success = "Category deleted successfully!";
+		} else if($action == 'update' || $action == 'Update') {
 			$cat_id = escape($_REQUEST['id']);
 			$name = escape($_REQUEST['name']);
 			
 			mysql_query("UPDATE basecat SET name='$name' WHERE id='$cat_id'");
-			$message = "Category updated successfully! Click <a href=\"man_cat.php\">here</a> to continue.";
+			$success = "Category updated successfully!";
 		} else if($action == 'up' || $action == 'down') {
 			$cat_id = escape($_REQUEST['id']);
 			
@@ -57,7 +56,7 @@ if(isset($_SESSION['root'])) {
 					}
 				}
 			
-				$message = "Category updated successfully! Click <a href=\"man_cat.php\">here</a> to continue.";
+				$success = "Category moved successfully!";
 			} //else category could not be found
 		}
 	}
@@ -69,7 +68,11 @@ if(isset($_SESSION['root'])) {
 		array_push($catList, array($row[0], $row[1]));
 	}
 	
-	get_page_advanced("man_cat", "root", array('message' => $message, 'catList' => $catList));
+	if(isset($success)) {
+		get_page_advanced("man_cat", "root", array('success' => $success, 'catList' => $catList));
+	} else {
+		get_page_advanced("man_cat", "root", array('catList' => $catList));
+	}
 } else {
 	header('Location: index.php');
 }
