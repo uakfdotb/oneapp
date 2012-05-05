@@ -19,7 +19,7 @@
 	<td><input type="text" name="email"></td>
 </tr>
 <tr>
-	<td>Club ID</td>
+	<td>Club</td>
 	<td><select name="club_id">
 		<option value="0">General Application</option>
 		<?
