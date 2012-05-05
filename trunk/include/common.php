@@ -84,14 +84,16 @@ function clubTimeString($time = -1) {
 
 function one_mail($subject, $body, $to) { //returns true=ok, false=notok
 	$config = $GLOBALS['config'];
-	$from = $config['mail_username'];
+	$from = filter_email($config['mail_username']);
+	$subject = filter_name($subject);
+	$to = filter_email($to);
 	
 	if(isset($config['mail_smtp']) && $config['mail_smtp']) {
 		require_once "Mail.php";
 
 		$host = $config['mail_smtp_host'];
 		$port = $config['mail_smtp_port'];
-		$username = $from;
+		$username = $config['mail_username'];
 		$password = $config['mail_password'];
 		$headers = array ('From' => $from,
 						  'To' => $to,
@@ -1043,5 +1045,19 @@ function validEmail($email)
 	  }
    }
    return $isValid;
+}
+
+//filter email name
+function filter_name( $input ) {
+	$rules = array( "\r" => '', "\n" => '', "\t" => '', '"'  => "'", '<'  => '[', '>'  => ']' );
+	$name = trim( strtr( $input, $rules ) );
+	return $name;
+}
+
+//filter email address
+function filter_email( $input ) {
+	$rules = array( "\r" => '', "\n" => '', "\t" => '', '"'  => '', ','  => '', '<'  => '', '>'  => '' );
+	$email = strtr( $input, $rules );
+	return $email;
 }
 ?>
