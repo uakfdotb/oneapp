@@ -25,7 +25,7 @@ if(isset($message) && $message != "") {
 	<td><input type="text" name="email" style="width:100%"></td>
 </tr>
 <tr>
-	<td align="right"><p class="admin_table_entry">Club ID</p></td>
+	<td align="right"><p class="admin_table_entry">Club</p></td>
 	<td><select name="club_id">
 			<option value="0">General Application</option>
 		<?

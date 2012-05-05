@@ -21,11 +21,11 @@ if(isset($message) && $message != "") {
 	<td><input type="password" name="password"></td>
 </tr>
 <tr>
-	<td>Email address<</td>
+	<td>Email address</td>
 	<td><input type="text" name="email"></td>
 </tr>
 <tr>
-	<td>Club ID</td>
+	<td>Club</td>
 	<td><select name="club_id">
 		<option value="0">General Application</option>
 		<?
