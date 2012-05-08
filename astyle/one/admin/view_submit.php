@@ -37,7 +37,7 @@ if($cat_enabled) { // here, we give user a filter selection dropdown, preselecti
 	<th><p class="admin_table_header">User ID</p></th>
 	<th><p class="admin_table_header">General application</p></th>
 	<th><p class="admin_table_header">Supplement</p></th>
-	<th><p class="admin_table_header">Recs</p></th>
+	<th><p class="admin_table_header">Recommendations and uploads</p></th>
 	<?
 	if($box_enabled) echo "<th><p class=\"admin_table_header\">TheTextBox</p></th>";
 	if($cat_enabled) echo "<th><p class=\"admin_table_header\">Category</p></th>";
@@ -64,10 +64,15 @@ foreach($array as $item) {
 	$generalApp = '<a href="../submit/' . $item[2] . '.pdf">Download</a>';
 	$supplement = '<a href="../submit/' . $item[3] . '.pdf">Download</a>';
 	
-	$peerString = "";
+	$peerString = ""; //bad variable name; actually this will include files now
 	
 	foreach($item[4] as $peerEntry) {
-		$peerString .= "<a href=\"../submit/$peerEntry.pdf\">PDF</a> (<a href=\"view_recommendation.php?peer_pdf=$peerEntry&user_id=" . $item[1] . "\">detail</a>) ";
+		if($peerEntry[0] != "*") { //if this is not an uploaded file
+			$peerString .= "<a href=\"../submit/$peerEntry.pdf\">PDF</a> (<a href=\"view_recommendation.php?peer_pdf=$peerEntry&user_id=" . $item[1] . "\">detail</a>) ";
+		} else {
+			$fileTuple = explode(",", substr($peerEntry, 1)); //now array of file id, filename
+			$peerString .= "<a href=\"../download.php?file=" . $fileTuple[0] . "&filename=" . $fileTuple[1] . "\">" . $fileTuple[1] . "</a> ";
+		}
 	}
 	
     $band_counter = $counter % 2 + 1;
