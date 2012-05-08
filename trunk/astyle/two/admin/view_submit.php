@@ -91,7 +91,7 @@ foreach($array as $item) {
 	$generalApp = '<a href="../submit/' . $item[2] . '.pdf"><img src="'. $stylePath . '/images/application_word.png" width="32"></a>';
 	$supplement = '<a href="../submit/' . $item[3] . '.pdf"><img src="'. $stylePath . '/images/application_word.png" width="32"></a>';
 	
-	$peerString = "";
+	$peerString = ""; //bad variable name; actually this will include files now
 	foreach($item[4] as $peerEntry) {
 		$user_id = $item[1];
 		$rec_result = mysql_query("SELECT author, email FROM recommendations WHERE filename = '$peerEntry' AND user_id = '$user_id'");
@@ -99,9 +99,15 @@ foreach($array as $item) {
 		$author = $row[0];
 		$email = $row[1];
 		
+		if($peerEntry[0] != "*") { //if this is not an uploaded file
 		$peerString .= "<ul class=\"menu\"><li><a href=\"../submit/$peerEntry.pdf\"><img src=\"". $stylePath . "/images/contact.png\" width=\"32\"></a><em><p>Recommender: ". $author ."<br />Email: ". $email ."</p></em></li></ul>";
+		} else {
+			$fileTuple = explode(",", substr($peerEntry, 1)); //now array of file id, filename
+			$peerString .= "<ul class=\"menu\"><li><a href=\"../download.php?file=" . $fileTuple[0] . "&filename=" . $fileTuple[1] . "\"><img src=\"". $stylePath . "/images/contact.png\" width=\"32\"></a><em><p>Filename: " . $fileTuple[1] . "</p></em></li></ul>";
+		}
 	}
-	        $band_counter=$counter%2+1;
+	
+	$band_counter=$counter%2+1;
 	echo "<tr><td><p>$userId</p></td><td align=\"center\"><p>$generalApp</p></td><td align=\"center\"><p>$supplement</p></td><td align=\"center\"><p>$peerString</p></td>";
 	
 	if($box_enabled) {
