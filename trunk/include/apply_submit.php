@@ -59,7 +59,7 @@ function processSubmission($array) {
 			//convert value from array if it is an array
 			// at the time of this comment, this is only used for checkboxes
 			if(is_array($value)) {
-				$value = implode($config['form_array_delimiter'], $value); //
+				$value = implode($config['form_array_delimiter'], $value);
 			}
 			
 			$parts = explode("_", substr($key, 2));
@@ -87,6 +87,28 @@ function processSubmission($array) {
 	return $answers;
 }
 
+//returns $answers, array $var_id = (answer_id, answer_value) for use with saveApplication
+function processFileSubmission($array) {
+	$config = $GLOBALS['config'];
+	$answers = array();
+	
+	foreach($array as $key => $value) {
+		if(string_begins_with($key, "a_")) {
+			$parts = explode("_", substr($key, 2));
+		
+			if(count($parts) == 3) {
+				$var_id = $parts[0];
+				$answer_id = $parts[1];
+				$repeat_id = $parts[2];
+			
+				$answers[$var_id] = array($answer_id, $key);
+			}
+		}
+	}
+	
+	return $answers;
+}
+
 //TRUE: success; string: failure (error description)
 function saveApplication($user_id, $application_id, $answers) { //$answers is array of $var_id => (answer_id, answer_value)
 	$user_id = escape($user_id);
@@ -104,6 +126,8 @@ function saveApplication($user_id, $application_id, $answers) { //$answers is ar
 	} else {
 		return "internal error: club id lookup failed";
 	}
+	
+	$error = TRUE; //TRUE means no error
 	
 	foreach($answers as $var_id => $answer) {
 		$var_id = escape($var_id);
@@ -123,13 +147,44 @@ function saveApplication($user_id, $application_id, $answers) { //$answers is ar
 		}
 		
 		$typeArray = getTypeArray($type);
-		$maxLength = $typeArray['length'];
-		$answer_value = escape(substr($answer[1], 0, $maxLength));
+		
+		//deal with files
+		if($typeArray['type'] == "upload") {
+			if(isset($_FILES[$answer[1]]) && !empty($_FILES[$answer[1]]) && $_FILES[$answer[1]]['error'] == 0) {
+				$filename = basename($_FILES[$answer[1]]['name']);
+				$ext = substr($filename, strrpos($filename, '.') + 1);
+				
+				$possibleExtensions = explode(",", $typeArray['extensions']);
+				$maxFileSize = $typeArray['maxsize'];
+				
+				if((empty($possibleExtensions) || $possibleExtensions[0] == '' || in_array(strtolower($ext), $possibleExtensions)) && $_FILES[$answer[1]]["size"] < $maxFileSize) {
+					//find an unused name for the file
+					do {
+						$file_id = uid(32);
+						$newname = basePath() . "/submit/" . $file_id;
+					} while(file_exists($newname));
+					
+					//attempt to move the uploaded file to its new place
+					if(move_uploaded_file($_FILES[$answer[1]]['tmp_name'], $newname)) {
+					    $answer_value = escape("file:" . $file_id . ":" . str_replace(":", "", $filename));
+					} else {
+					    $error = "file upload failed";
+					    $answer_value = '';
+					}
+				} else {
+					$error = "file extension is not accepted or file size is too large";
+					$answer_value = '';
+				}
+			}
+		} else { //cut if not a file
+			$maxLength = $typeArray['length'];
+			$answer_value = escape(substr($answer[1], 0, $maxLength));
+		}
 		
 		mysql_query("UPDATE answers SET val='$answer_value' WHERE id='$answer_id' AND application_id='$application_id' AND var_id='$var_id'");
 	}
 	
-	return TRUE;
+	return $error;
 }
 
 //submits the application, doing all the checks and then generating PDFs and updating database along the way
@@ -193,6 +248,20 @@ function submitApplication($user_id, $application_id, $do_submit = true) {
 	//update database
 	if($do_submit) {
 		$submitName = escape($createGeneralResult[1] . ":" . $createSupplementResult[1] . $peerString);
+		
+		//handle files
+		$result = mysql_query("SELECT val FROM answers WHERE application_id = '$application_id' AND val LIKE 'file:%'");
+		while($row = mysql_fetch_array($result)) {
+			$fileParts = explode(":", $row[0], 3);
+			$submitName .= escape(":*" . $fileParts[1] . "," . $fileParts[2]); //:*file_id,filename
+		}
+		
+		$result = mysql_query("SELECT val FROM answers WHERE application_id = '$gen_app_id' AND val LIKE 'file:%'");
+		while($row = mysql_fetch_array($result)) {
+			$fileParts = explode(":", $row[0], 3);
+			$submitName .= escape(":*" . $fileParts[1] . "," . $fileParts[2]); //:*file_id,filename
+		}
+		
 		mysql_query("UPDATE applications SET submitted='$submitName' WHERE id='$application_id' AND user_id='$user_id'");
 	}
 	

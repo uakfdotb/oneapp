@@ -31,6 +31,7 @@ if(isset($_SESSION['user_id'])) {
 			}
 		} else if($_REQUEST['action'] == "submit" && isset($_REQUEST['app_id'])) {
 			$data = processSubmission($_REQUEST);
+			$data += processFileSubmission($_FILES);
 			$result = saveApplication($_SESSION['user_id'], $_REQUEST['app_id'], $data);
 			
 			if($result === TRUE) {
