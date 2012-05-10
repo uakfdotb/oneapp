@@ -4,6 +4,9 @@
 
 <form method="POST" action="index.php">
 <table class="center"><tr>
+<? if(!$user_loggedin) { ?>
+<td>Username <input type="text" name="username" /></td>
+<? } ?>
 <td>Password <input type="password" name="password"></td>
 <td><input type="submit" name="submit" value="Submit"></td>
 </tr></table>

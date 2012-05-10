@@ -6,8 +6,8 @@ include("../include/session.php");
 
 include("../include/apply_gen.php");
 
-if(isset($_SESSION['admin_id'])) {
-	$club_id = escape(getAdminClub($_SESSION['admin_id']));
+if(isset($_SESSION['admin'])) {
+	$club_id = $_SESSION['admin_club_id'];
 	include("category_manager.php");
 	
 	$result = mysql_query("SELECT varname, vardesc, vartype FROM $database WHERE $whereString ORDER BY orderId");
