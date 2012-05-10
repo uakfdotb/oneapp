@@ -9,67 +9,42 @@ if(isset($_SESSION['root'])) {
 	if(isset($_REQUEST['action'])) {
 		$action = $_REQUEST['action'];
 		
-		if($action == 'add') {
-			if($_REQUEST['username'] != "" && $_REQUEST['password'] != "") {
-				$result = mysql_query("SELECT id FROM admins WHERE username='" . $_REQUEST['username'] . "'");
-				if($row = mysql_fetch_array($result)){
-					$error = "Username already in use!";
-				} else {
-					if($_REQUEST['email'] != "") {
-						$result = mysql_query("SELECT id FROM admins WHERE email='" . $_REQUEST['email'] . "'");
-						if($row = mysql_fetch_array($result)){
-							$error = "Email already in use!";
-						} else {
-							addAdmin($_REQUEST['username'], $_REQUEST['password'], $_REQUEST['email'], $_REQUEST['club_id']);
-							$success = "Admin added successfully!";
-						}
-					} else {
-						addAdmin($_REQUEST['username'], $_REQUEST['password'], $_REQUEST['email'], $_REQUEST['club_id']);
-						$success = "Admin added successfully!";
-					}
-				}
+		if($action == 'add' && isset($_REQUEST['username']) && isset($_REQUEST['club_id'])) {
+			$user_id = getUserId($_REQUEST['username']);
+			
+			if($user_id !== FALSE) {
+				alterAdminClubs($user_id, -1, $_REQUEST['club_id']);
 			} else {
-				$error = "You need a username and password!";
+				$error = "Username not found.";
 			}
-		} else if($action == 'delete' || $action == 'Delete') {
-			$admin_id = escape($_REQUEST['id']);
-			mysql_query("DELETE FROM admins WHERE id='$admin_id'");
-			$success =  "Admin deleted successfully!";
-		} else if($action == 'update' || $action == 'Update') {
-			$result = mysql_query("SELECT id FROM admins WHERE username='" . $_REQUEST['username'] . "'");
-			if($row = mysql_fetch_array($result)){
-				$error = "Username already in use!";
-			} else {
-				if($_REQUEST['email'] != "") {
-					$result = mysql_query("SELECT id FROM admins WHERE email='" . $_REQUEST['email'] . "'");
-					if($row = mysql_fetch_array($result)){
-						$error = "Email already in use!";
-					} else {
-						updateAdmin($_REQUEST['id'], $_REQUEST['username'], $_REQUEST['password'], $_REQUEST['email'], $_REQUEST['club_id']);
-						$success =  "Admin updated successfully!";
-					}
-				} else {
-					updateAdmin($_REQUEST['id'], $_REQUEST['username'], $_REQUEST['password'], $_REQUEST['email'], $_REQUEST['club_id']);
-					$success =  "Admin updated successfully!";
-				}
-			}
+		} else if(($action == 'remove' || $action == "Remove") && isset($_REQUEST['id']) && isset($_REQUEST['club_id_orig'])) {
+			alterAdminClubs($_REQUEST['id'], $_REQUEST['club_id_orig'], -1);
+			$success =  "Admin removed successfully.";
+		} else if(($action == 'update' || $action == 'Update') && isset($_REQUEST['id']) && isset($_REQUEST['club_id_orig']) && isset($_REQUEST['club_id'])) {
+			alterAdminClubs($_REQUEST['id'], $_REQUEST['club_id_orig'], $_REQUEST['club_id']);
+			$success = "Admin updated successfully.";
 		}
 	}
 	
-	$result = mysql_query("SELECT id, club_id, username, email FROM admins ORDER BY club_id");
+	$clubsList = listClubsIdName();
+	$result = mysql_query("SELECT user_groups.user_id, user_groups.`group`, users.username FROM user_groups LEFT JOIN users ON user_groups.user_id = users.id WHERE user_groups.`group` >= '0' ORDER BY user_groups.`group`");
 	$adminList = array();
 	
 	while($row = mysql_fetch_array($result)) {
-		array_push($adminList, array($row[0], $row[1], $row[2], $row[3]));
+		array_push($adminList, array($row[0], $row[1], $row[2]));
 	}
 	
-	if(isset($error)){
-		get_page_advanced("man_admins", "root", array('error' => $error, 'adminList' => $adminList));
-	} else if(isset($success)){
-		get_page_advanced("man_admins", "root", array('success' => $success, 'adminList' => $adminList));
-	} else {
-		get_page_advanced("man_admins", "root", array('adminList' => $adminList));
+	$parameters = array();
+	$parameters['adminList'] = $adminList;
+	$parameters['clubsList'] = $clubsList;
+	
+	if(isset($error)) {
+		$parameters['error'] = $error;
+	} else if(isset($success)) {
+		$parameters['success'] = $success;
 	}
+	
+	get_page_advanced("man_admins", "root", $parameters);
 } else {
 	header('Location: index.php');
 }

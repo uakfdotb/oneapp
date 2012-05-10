@@ -7,8 +7,8 @@ include("../include/session.php");
 include("../include/apply_gen.php");
 include("../include/latex.php");
 
-if(isset($_SESSION['admin_id'])) {
-	$club_id = escape(getAdminClub($_SESSION['admin_id']));
+if(isset($_SESSION['admin'])) {
+	$club_id = $_SESSION['admin_club_id'];
 	
 	if(isset($_REQUEST['type'])) {
 		if(isset($_REQUEST['done'])) {

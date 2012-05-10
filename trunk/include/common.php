@@ -514,7 +514,7 @@ function updateAccount($user_id, $oldPassword, $newPassword, $newPasswordConfirm
 
 //user id: success; -1: invalid login; -2: try again later; -3: login disabled
 function checkLogin($username, $password) {
-	if(!lockAction("checkuser")) {
+	if(!checkLock("checkuser")) {
 		return -2;
 	}
 	
@@ -536,9 +536,11 @@ function checkLogin($username, $password) {
 			
 			return $row['id'];
 		} else {
+			lockAction("checkuser");
 			return -1;
 		}
 	} else {
+		lockAction("checkuser");
 		return -1;
 	}
 }
@@ -572,6 +574,18 @@ function getProfile($userid) {
 	return $profile;
 }
 
+//returns user_id, or FALSE on failure
+function getUserId($username) {
+	$username = escape($username);
+	$result = mysql_query("SELECT id FROM users WHERE username = '$username'");
+	
+	if($row = mysql_fetch_row($result)) {
+		return $row[0];
+	} else {
+		return FALSE;
+	}
+}
+
 //returns array (username, email address, name)
 function getUserInformation($user_id) {
 	$user_id = escape($user_id);
@@ -584,22 +598,9 @@ function getUserInformation($user_id) {
 	}
 }
 
-//returns array (username, email address, club name)
-function getAdminInformation($admin_id) {
-	$admin_id = escape($admin_id);
-	$club_id = getAdminClub($admin_id);
-	$result = mysql_query("SELECT a.username, a.email, c.name FROM admins a, clubs c WHERE a.id='$admin_id' AND c.id='$club_id'");
-	
-	if($row = mysql_fetch_array($result)) {
-		return array($row[0], $row[1], $row[2]);
-	} else {
-		return FALSE;
-	}
-}
-
 //true: success; -1: invalid login; -2: try again later
 function verifyLogin($user_id, $password) {
-	if(!lockAction("checkuser")) {
+	if(!checkLock("checkuser")) {
 		return -2;
 	}
 	
@@ -612,124 +613,129 @@ function verifyLogin($user_id, $password) {
 		if($password == $row['password']) {
 			return true;
 		} else {
+			lockAction("checkuser");
 			return -1;
 		}
 	} else {
+		lockAction("checkuser");
 		return -1;
 	}
 }
 
-function addAdmin($username, $password, $email, $club_id) {
-	$username = escape($username);
-	$password = escape(chash($password));
-	$email = escape($email);
+//true: success; -1: invalid login; -2: try again later; 1: invalid club
+function checkAdminLogin($user_id, $password, $club_id) {
+	$user_id = escape($user_id);
 	$club_id = escape($club_id);
-	
-	$result = mysql_query("INSERT INTO admins (username, password, email, club_id) VALUES ('$username', '$password', '$email', '$club_id')");
-}
 
-function updateAdmin($admin_id, $username, $password, $email, $club_id) {
-	$admin_id = escape($admin_id);
-	$setString = "";
+	//first verify login information
+	$login_result = verifyLogin($user_id, $password);
 	
-	if(strlen($username) > 0) {
-		$setString .= ", username = '" . escape($username) . "'";
-	}
-	
-	if(strlen($password) > 0) {
-		$setString .= ", password = '" . escape(chash($password)) . "'";
-	}
-	
-	if(strlen($email) > 0) {
-		$setString .= ", email = '" . escape($email) . "'";
-	}
-	
-	if(strlen($club_id) > 0) {
-		$setString .= ", club_id = '" . escape($club_id) . "'";
-	}
-	
-	if(strlen($setString) > 0) {
-		$setString = substr($setString, 2);
-		$result = mysql_query("UPDATE admins SET $setString WHERE id='$admin_id'");
-	}
-}
-
-function checkAdmin($username, $password) {
-	if(!checkLock("checkadmin")) {
-		return FALSE;
-	}
-	
-	$username = escape($username);
-	$password = escape(chash($password));
-	
-	$result = mysql_query("SELECT id, password FROM admins WHERE username='" . $username . "'");
-	
-	if($row = mysql_fetch_array($result)) {
-		if(strcmp($password, $row['password']) == 0) {
-			return $row['id'];
+	if($login_result === TRUE) {
+		//check that admin owns the club
+		$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE user_id = '$user_id' AND `group` = '$club_id' AND `group` >= '0'");
+		$row = mysql_fetch_row($result);
+		
+		if($row[0] == 0) {
+			return 1;
 		} else {
-			lockAction("checkadmin");
-			return FALSE;
+			return TRUE;
 		}
 	} else {
-		lockAction("checkadmin");
-		return FALSE;
+		return $login_result;
 	}
 }
 
-//returns admin ID, or false on failure
-function getAdminClub($admin_id) {
-	$admin_id = escape($admin_id);
-	$result = mysql_query("SELECT club_id FROM admins WHERE id='$admin_id'");
+//true: success; -1: invalid login; -2: try again later; 1: not root administrator
+function checkRootLogin($user_id, $password) {
+	$user_id = escape($user_id);
+
+	//first verify login information
+	$login_result = verifyLogin($user_id, $password);
 	
-	if($row = mysql_fetch_array($result)) {
-		return $row[0];
+	if($login_result === TRUE) {
+		//check that admin is a root administrator
+		$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE `group` = '-1' AND user_id = '$user_id'");
+		$row = mysql_fetch_row($result);
+		
+		if($row[0] == 0) {
+			return 1;
+		} else {
+			return TRUE;
+		}
 	} else {
-		return FALSE;
+		return $login_result;
 	}
 }
 
-function checkRoot($password) {
-	if(!checkLock("root")) {
-		return FALSE;
+//returns list of club_id => club_name that admin can manage, or empty list of none
+function getAdminClubs($user_id) {
+	$user_id = escape($user_id);
+	
+	//first add regular clubs
+	$result = mysql_query("SELECT `group`, clubs.name FROM user_groups LEFT JOIN clubs ON clubs.id = `group` WHERE user_id='$user_id' AND `group` > '0'");
+	
+	$clubs_array = array();
+	
+	while($row = mysql_fetch_row($result)) {
+		$clubs_array[$row[0]] = $row[1];
 	}
 	
-	$config = $GLOBALS['config'];
+	//add general application if needed
+	$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE user_id =' $user_id' AND `group` = '0'");
+	$row = mysql_fetch_row($result);
 	
-	$root_password = $config['root_password'];
-	if(substr($root_password, 0, 1) == ':') { //rest of root password is actually a hash
-		$root_password = substr($root_password, 1);
-		$password = chash($config['root_password_salt'] . $password);
+	if($row[0] > 0) {
+		$clubs_array[0] = 'General application';
 	}
 	
-	if($password == $root_password) {
-		return true;
-	} else {
-		lockAction("root");
-		return false;
-	}
+	return $clubs_array;
 }
 
-//1: success; -1: invalid password
-function changeAdminPassword($admin_id, $password){
-	if(validPassword($password) != 0) {
-		return -1;
-	} else {
-		mysql_query("UPDATE admins SET password = '" . escape(chash($password)) . "' WHERE id='" . $admin_id . "'");
-		return 1;
+//can be used to add, remove, or alter a user group association
+// if club_id = -1 or association doesn't exist, association will be added
+// if new_club_id = -1, association will be removed
+// otherwise, association will be altered
+//returns TRUE in success, FALSE on failure
+function alterAdminClubs($user_id, $club_id, $new_club_id) {
+	$user_id = escape($user_id);
+	$club_id = escape($club_id);
+	$new_club_id = escape($new_club_id);
+	
+	$old_association = FALSE;
+	
+	//verify existing association
+	if($club_id != -1) {
+		$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE user_id = '$user_id' AND `group` = '$club_id'");
+		$row = mysql_fetch_row($result);
+		
+		if($row[0] > 0) {
+			$old_association = TRUE;
+		}
 	}
-}
-
-//1: success; -1: invalid password, -2 password doesnt match
-function changeAdminPass($admin_id, $password, $verify){
-	if($password != $verify){
-		return -2;
-	} else if(validPassword($password) != 0) {
-		return -1;
-	} else {
-		mysql_query("UPDATE admins SET password = '" . escape(chash($password)) . "' WHERE id='" . $admin_id . "'");
-		return 1;
+	
+	//invalidate new_club_id if it exists already
+	// in this case, we just delete club_id association
+	if($new_club_id != -1) {
+		$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE user_id = '$user_id' AND `group` = '$new_club_id'");
+		$row = mysql_fetch_row($result);
+		
+		if($row[0] > 0) {
+			$new_club_id = -1;
+		}
 	}
+	
+	if($old_association) {
+		//update or delete existing association
+		if($new_club_id == -1) {
+			mysql_query("DELETE FROM user_groups WHERE user_id = '$user_id' AND `group` = '$club_id'");
+		} else {
+			mysql_query("UPDATE user_groups SET `group` = '$new_club_id' WHERE user_id = '$user_id' AND `group` = '$club_id'");
+		}
+	} else if($new_club_id != -1) { //only add an association if we're not trying to delete it!
+		mysql_query("INSERT INTO user_groups (user_id, `group`) VALUES ('$user_id', '$new_club_id')");
+	}
+	
+	return TRUE;
 }
 
 //returns array of (club id, club name, club description, user's application id)
@@ -769,6 +775,18 @@ function clubInfo($club_id) {
 	} else {
 		return array("Unknown", "Club could not be found");
 	}
+}
+
+//returns array of club_id => club_name
+function listClubsIdName() {
+	$result = mysql_query("SELECT id, name FROM clubs");
+	$array = array();
+	
+	while($row = mysql_fetch_row($result)) {
+		$array[$row[0]] = $row[1];
+	}
+	
+	return $array;
 }
 
 //returns boolean: true=proceed, false=lock up; the difference between this and lockAction is that this can be used for repeated tasks, like admin

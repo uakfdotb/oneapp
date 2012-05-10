@@ -11,25 +11,14 @@
 	<td><input type="text" name="username"></td>
 </tr>
 <tr>
-	<td>Password</p></td>
-	<td><input type="password" name="password"></td>
-</tr>
-<tr>
-	<td>Email address</td>
-	<td><input type="text" name="email"></td>
-</tr>
-<tr>
 	<td>Club</td>
 	<td><select name="club_id">
-		<option value="0">General Application</option>
 		<?
-			$result = mysql_query("SELECT id, name FROM clubs ORDER BY name");
-
-			while($row = mysql_fetch_array($result))
-			{
-				echo "<option value=\"".$row['id']."\">".$row['name']."</option>";
+			foreach($clubsList as $club_id => $club_name) {
+				echo "<option value=\"" . $club_id . "\">" . $club_name . "</option>";
 			}
 		?>
+		<option value="0">General Application</option>
 	</select></td>
 </tr>
 <tr>
@@ -54,10 +43,8 @@
 
 <table class="tbl_repeat">
 <tr>
-	<th>Club</th>
 	<th align="left">Username</th>
-	<th align="left">Email</th>
-	<th align="left">Change pass</th>
+	<th>Club</th>
 	<th></th>
 	<th></th>
 </tr>
@@ -67,41 +54,31 @@ foreach($adminList as $item) {
 ?>
 	<form method="post" action="man_admins.php">
 	<input type="hidden" name="id" value="<?= $item[0] ?>">
+	<input type="hidden" name="club_id_orig" value="<?= $item[1] ?>">
 	<tr>
+		<td><input class="slide" onfocus="OnFocusInput (this)" onblur="OnBlurInput (this)" type="text" name="username" value="<?= $item[2] ?>"></td>
 		<td><select name="club_id">
 			<option value="<?= $item[1] ?>">
 			<?
 				if ($item[1] == 0) {
-				   echo "General App";
-				}
-				else {
-					//todo: terribly inefficient
-					$result = mysql_query("SELECT id, name FROM clubs WHERE id = '$item[1]'");
-					$row = mysql_fetch_array($result);
-					echo $row['name'];
+				   echo "General Application";
+				} else {
+					echo $clubsList[$item[1]];
 				}
 			?>
 			</option>
-		
+			
 			<?
-				$result = mysql_query("SELECT id, name FROM clubs ORDER BY name");
+				foreach($clubsList as $club_id => $club_name) {
+					echo "<option value=\"" . $club_id . "\">" . $club_name . "</option>";
+				}
 
-				while($row = mysql_fetch_array($result)) {
-					if ($row['id']!=$item[1]) {
-						echo "<option value=\"" . $row['id'] . "\">" . $row['name'] . "</option>";
-					}
-				}
-				if ($item[1] > 0) {
-				   echo "<option value=\"0\">General Application</option>";
-				}
+				echo "<option value=\"0\">General Application</option>";
 			?>
-			</select>
-			</td>
-			<td><input class="slide" onfocus="OnFocusInput (this)" onblur="OnBlurInput (this)" type="text" name="username" value="<?= $item[2] ?>"></td>
-			<td><input class="slide" onfocus="OnFocusInput (this)" onblur="OnBlurInput (this)" type="text" name="email" value="<?= $item[3] ?>" size="10"></td>
-			<td><input class="slide" onfocus="OnFocusInput (this)" onblur="OnBlurInput (this)" type="password" name="password"></td>
-			<td><input type="submit" name="action" value="Update" class="update"></td>
-			<td><input type="submit" name="action" value="Delete" class="delete negative"></td>
+		</select>
+		</td>
+		<td><input type="submit" name="action" value="Update" class="update"></td>
+		<td><input type="submit" name="action" value="Remove" class="delete negative"></td>
 		</tr>
 		</tr>
 	</form>

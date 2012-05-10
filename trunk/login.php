@@ -8,6 +8,7 @@ if(isset($_SESSION['user_id'])) {
 	get_page("message", array("title" => "Logged In", "message" => "You are already logged in! Click <a href=\"application/\">here</a> to continue."));
 } else if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
 	$result = checkLogin($_REQUEST['username'], $_REQUEST['password']);
+	
 	if($result >= 0) {
 		$_SESSION['user_id'] = $result;
 		get_page("login", array("title" => "Logged In", "message" => "You are now logged in. Click <a href=\"application/\">here</a> to continue.", "redirect" => "application/"));

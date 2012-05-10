@@ -15,7 +15,6 @@
 <tr><td><p>Open time</p></td><td><input type="text" id="open_time" name="open_time" value="<?= date('m/d/y H:i:s', $open_time) ?>" /><img src="<?= $stylePath ?>/datetimepicker/images/cal.gif" onclick="javascript:NewCssCal('open_time', 'MMddyyyy', 'arrow', true)" style="cursor:pointer"/></td></tr>
 <tr><td><p>Close time</p></td><td><input type="text" id="close_time" name="close_time" value="<?= date('m/d/y H:i:s', $close_time) ?>" /><img src="<?= $stylePath ?>/datetimepicker/images/cal.gif" onclick="javascript:NewCssCal('close_time', 'MMddyyyy', 'arrow', true)" style="cursor:pointer"/></td></tr>
 <tr><td><p>Number of recommenations</p></td><td><input type="text" name="num_recommend" value="<?= $num_recommend ?>" /></td></tr>
-<tr><td><p>Update Password</p></td><td><input type="password" name="new_password"></td></tr>
 <tr><td colspan ="2" align="right"><input type="submit" value="Update" /></td></tr>
 </table>
 </form>

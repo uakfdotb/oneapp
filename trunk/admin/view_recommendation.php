@@ -4,7 +4,7 @@ include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
-if(isset($_SESSION['admin_id']) && isset($_REQUEST['peer_pdf']) && isset($_REQUEST['user_id'])) {
+if(isset($_SESSION['admin']) && isset($_REQUEST['peer_pdf']) && isset($_REQUEST['user_id'])) {
 	//todo: admins can see any peer recommendations if they know the user ID
 	$peer_pdf = escape($_REQUEST['peer_pdf']);
 	$user_id = escape($_REQUEST['user_id']);
