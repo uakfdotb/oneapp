@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<link href="<?= $stylePath ?>/style.css" rel="stylesheet" type="text/css">
-<link href="<?= $stylePath ?>/message.css" rel="stylesheet" type="text/css">
-<link href="<?= $stylePath ?>/button.css" rel="stylesheet" type="text/css">
-<script src="<?= $stylePath ?>/sorttable.js"></script>
-<script src="<?= $stylePath ?>/jquery.simpletip-1.3.1.js"></script>
+<link href="<?= $stylePath ?>/style/style.css" rel="stylesheet" type="text/css">
+<script src="<?= $stylePath ?>/js/sorttable.js"></script>
+<script src="<?= $stylePath ?>/js/jquery.simpletip-1.3.1.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 tday  =new Array("Sun","Mon","Tue","Wed","Thur","Fri","Sat");
 tmonth=new Array("Jan","Feb","Mar","April","May","June","July","Aug","Sept","Oct","Nov","Dec");
@@ -38,7 +38,6 @@ window.onload=GetClock;
 </script>
 
 <! Show Hide button >
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){	
     $('.example2').stop(true, true).hide().before('<a href="#" id="toggle-example2" class="button">Show/Hide Details</a>');
@@ -110,11 +109,15 @@ $(document).ready(function(){
 					<?					
 						for($i = 0; $i < count($side_display); $i++) {
 							echo '<a href=' . $side_display[$i] . '.php>';
-							if(isset($_SESSION['user_id']) && $i<2) echo '<li class="topsidenav">';
-								else echo '<li class="sidenav">';
+							
+							if($i<2) echo '<li class="topsidenav">';
+							else echo '<li class="sidenav">';
+							
 							echo  $side_display_names[$i] . '</li></a>';
 	
-							if($side_display[$i] == "supplement" && isset($_SESSION['user_id'])) {
+							if($side_display[$i] == "supplement") {
+								unset($nav_cat);
+								
 								//display all the supplements this user is working on
 								$styleClubsApplied = getUserClubsApplied($_SESSION['user_id']);
 		
@@ -128,7 +131,8 @@ $(document).ready(function(){
 									echo "</li></a>";
 								}
 								echo "</ul>";
-							} else if($side_display[$i] == "base" && isset($_SESSION['user_id'])) {
+							} else if($side_display[$i] == "base") {
+								unset($nav_cat);
 								//display the general application categories
 								include_once($basePath . "/include/apply_submit.php");
 								if(isApplicationStarted($_SESSION['user_id'], 0)) {
@@ -145,31 +149,25 @@ $(document).ready(function(){
 									}
 									echo "</ul>";
 								}
-							} else if($side_display[$i] == "manage" && isset($_SESSION['root'])) {
-								//display manage options for root
+							} else if($side_display[$i] == "root_cat.php?cat=Manage") {
+								unset($nav_cat);
+								$nav_cat = "Manage";
+								
+							} else if($side_display[$i] == "root_cat.php?cat=Clean+system") {
+								unset($nav_cat);
+								$nav_cat = "Clean system";
+								
+							} else if($side_display[$i] == "root_cat.php?cat=Statistics") {
+								unset($nav_cat);
+								$nav_cat = "Statistics";
+							}
+
+							if(isset($nav_cat)) {
 								echo "<ul>";
-								$root_manage_display = $config['root_manage_display'];
-								$root_manage_display_names = $config['root_manage_display_names']; 
-								for($j = 0; $j < count($root_manage_display); $j++) {
-									echo '<a href=' . $root_manage_display[$j] . '.php><li class="sidenav1">' . $root_manage_display_names[$j] . '</li></a>';	
-								}
-								echo "</ul>";
-							} else if($side_display[$i] == "clean" && isset($_SESSION['root'])) {
-								//display manage options for root
-								echo "<ul>";
-								$root_clean_display = $config['root_clean_display'];
-								$root_clean_display_names = $config['root_clean_display_names']; 
-								for($j = 0; $j < count($root_clean_display); $j++) {
-									echo '<a href=' . $root_clean_display[$j] . '.php><li class="sidenav1">' . $root_clean_display_names[$j] . '</li></a>';	
-								}
-								echo "</ul>";
-							} else if($side_display[$i] == "database" && isset($_SESSION['root'])) {
-								//display manage options for root
-								echo "<ul>";
-								$root_database_display = $config['root_database_display'];
-								$root_database_display_names = $config['root_database_display_names']; 
-								for($j = 0; $j < count($root_database_display); $j++) {
-									echo '<a href=' . $root_database_display[$j] . '.php><li class="sidenav1">' . $root_database_display_names[$j] . '</li></a>';	
+								$root_display = $config['root_cat_display'][$nav_cat]['links'];
+								$root_display_names = $config['root_cat_display'][$nav_cat]['names']; 
+								for($j = 0; $j < count($root_display); $j++) {
+									echo '<a href=' . $root_display[$j] . '.php><li class="sidenav1">' . $root_display_names[$j] . '</li></a>';
 								}
 								echo "</ul>";
 							}
