@@ -15,3 +15,7 @@ CREATE TABLE club_notes (application_id INT, user_id INT, box TEXT, category VAR
 CREATE TABLE club_notes_categories (club_id INT, name VARCHAR(16));
 CREATE TABLE admin_notes_settings (user_id INT, box_enabled INT, cat_enabled INT, comment_enabled INT);
 CREATE TABLE locks (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, ip VARCHAR(16), time INT, action VARCHAR(16), num INT);
+CREATE TABLE messages (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, sender_id INT, receiver_id INT, subject VARCHAR(256), body TEXT, time INT);
+CREATE TABLE message_boxes (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, box_name VARCHAR(32));
+CREATE TABLE message_boxes_contents (box_id INT, message_id INT);
+CREATE TABLE message_prefs (user_id INT PRIMARY KEY, notify_email INT, save_inbox INT, save_trash INT, save_sent INT);

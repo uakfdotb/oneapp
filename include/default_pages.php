@@ -18,4 +18,6 @@ $pages['forgotusername'] = 'A request has been received to send your username to
 
 $pages['footertext'] = 'Copyright information or other details about your website go here.';
 
+$pages['message_notifyemail'] = 'You have received a private message from $NAME$ ($USERNAME$).[br][br]The subject of the message is: $SUBJECT$[br][br]To view the message and reply, [url=$MESSAGE_URL$]click here[/url].';
+
 ?>
