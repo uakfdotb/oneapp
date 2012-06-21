@@ -326,11 +326,23 @@ function deleteBox($user_id, $box_id) {
 	}
 }
 
+//adds a new box for a user
+//returns the id of the new box
 function addBox($user_id, $box_name) {
 	$user_id = escape($user_id);
 	$box_name = escape($box_name);
 	
 	mysql_query("INSERT INTO message_boxes (user_id, box_name) VALUES ('$user_id', '$box_name')");
+	return mysql_insert_id();
+}
+
+//sets up the messaging defaults for a user
+function initMessaging($user_id) {
+	$save_inbox = addBox($user_id, 'Inbox');
+	$save_trash = addBox($user_id, 'Trash');
+	$save_sent = addBox($user_id, 'Sent');
+	
+	savePreferences($user_id, 1, $save_inbox, $save_trash, $save_sent);
 }
 
 ?>
