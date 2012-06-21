@@ -6,6 +6,7 @@ include("include/session.php");
 
 include("include/apply_gen.php");
 include("include/apply_submit.php");
+include("include/messaging.php");
 
 if(isset($_SESSION['user_id'])) {
 	get_page("message", array("title" => "Already Logged In", "message" => "You are already logged in! Click <a href=\"application/\">here</a> to continue."));

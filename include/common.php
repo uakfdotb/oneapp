@@ -446,6 +446,9 @@ function register($username, $name, $email, $profile, $captcha) {
 			mysql_query("INSERT INTO profiles (user_id, var_id, val) VALUES ('$user_id', '$var_id', '$val')");
 		}
 		
+		//initiate messaging default preferences
+		initMessaging($user_id);
+		
 		//send email
 		$content = page_db("registration");
 		$content = str_replace('$USERNAME$', $username, $content);
