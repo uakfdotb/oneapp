@@ -56,10 +56,13 @@ $(document).ready(function(){
 <div id="container">
 	<div id="topbar">
 		<table width=100%>
-			<tr>
-				<td><a href="../index.php"><img src="<?= $stylePath ?>/images/logo.jpg" alt="logo" height="60" border="0" /></a></td>
-				<td class="schooltop"><p><?= $config['organization_name'] ?></p></td>
-			</tr>
+			<tr><td><table>
+				<tr><a href="../index.php"><img src="<?= $stylePath ?>/images/logo.jpg" alt="logo" height="60" border="0" /></a></tr>
+			</table></td><td><table>
+				<tr><p class="location_heading"><a href="..
+				/application">Applicant</a> | <a href="../admin">Admin</a> | <a href="../root">Root</a></p></tr>
+				<tr><p class="schooltop"><?= $config['organization_name'] ?></p></tr>
+			</table></td><tr>
 		</table>
 	</div>
 	<div id="navbar">
@@ -82,7 +85,16 @@ $(document).ready(function(){
 		<div id="col_left">
 			<div class="side_bar">
 				<div class="userbox">
-				<? if(isset($_SESSION['user_id'])) {?>
+				<? if(isset($_SESSION['root'])) {?>
+						<p class="box_name">System Admin</p>
+						<p class="box_id"><?=$config['site_name'] ?></p>
+						<p class="box_date">$CONTACT EMAIL$</p>
+				<? } else if(isset($_SESSION['admin_id'])) {?>
+						<?$adminInfo = getAdminInformation($_SESSION['admin_id']);?>
+						<p class="box_name"><?= $adminInfo[0] ?></p>
+						<p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['admin_id']?></p>
+						<p class="box_date"><?= $adminInfo[2]?></p>
+				<? } else if(isset($_SESSION['user_id'])) {?>
 						<?$userInfo = getUserInformation($_SESSION['user_id']); $profile = getProfile($_SESSION['user_id']);?>
 						<p class="box_name"><?
 						//profile information
@@ -92,15 +104,6 @@ $(document).ready(function(){
 						?></p>
 						<p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['user_id']?></p>
 						<p class="box_date">Last Saved: $DATE$</p>
-				<? } else if(isset($_SESSION['admin_id'])) {?>
-						<?$adminInfo = getAdminInformation($_SESSION['admin_id']);?>
-						<p class="box_name"><?= $adminInfo[0] ?></p>
-						<p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['admin_id']?></p>
-						<p class="box_date"><?= $adminInfo[2]?></p>
-				<? } else if(isset($_SESSION['root'])) {?>
-						<p class="box_name">Root</p>
-						<p class="box_id"><?=$config['site_name'] ?></p>
-						<p class="box_date">$CONTACT EMAIL$</p>
 				<? } ?>
 				</div>
 				<div class="sidemenu">
@@ -108,6 +111,7 @@ $(document).ready(function(){
 						<a href="#"><li class="topsidenav">Instructions</li></a>
 					<?					
 						for($i = 0; $i < count($side_display); $i++) {
+							unset($nav_cat);
 							echo '<a href=' . $side_display[$i] . '.php>';
 							
 							if($i<2) echo '<li class="topsidenav">';
@@ -132,7 +136,6 @@ $(document).ready(function(){
 								}
 								echo "</ul>";
 							} else if($side_display[$i] == "base") {
-								unset($nav_cat);
 								//display the general application categories
 								include_once($basePath . "/include/apply_submit.php");
 								if(isApplicationStarted($_SESSION['user_id'], 0)) {
@@ -150,15 +153,12 @@ $(document).ready(function(){
 									echo "</ul>";
 								}
 							} else if($side_display[$i] == "root_cat.php?cat=Manage") {
-								unset($nav_cat);
 								$nav_cat = "Manage";
 								
 							} else if($side_display[$i] == "root_cat.php?cat=Clean+system") {
-								unset($nav_cat);
 								$nav_cat = "Clean system";
 								
 							} else if($side_display[$i] == "root_cat.php?cat=Statistics") {
-								unset($nav_cat);
 								$nav_cat = "Statistics";
 							}
 
