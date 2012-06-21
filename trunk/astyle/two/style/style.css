@@ -1,4 +1,6 @@
 @import url('./reset.css');
+@import url('./button.css');
+@import url('./message.css');
 
 input[type=text], input[type=password], textarea{ border-color:black;}
 input[type=text]:focus, input[type=password]:focus, textarea:focus { background-color: #FFC; border-color: #FC6; }
@@ -33,6 +35,7 @@ a:hover {color:#336699;text-decoration:none}
 #topbar{padding-right:10px;padding-left:10px;float:center}
 #topbar td{vertical-align:bottom}
 .schooltop{text-align:right}
+p.location_heading {text-align:right; margin-bottom:30px}
 .colorline{background-color:black;width:100%}
 
 /*Navbar contains time, and top navigation #000066*/
@@ -228,14 +231,14 @@ Admin Changes
 	width:100%;
 }
 .tbl_repeat th,.tbl_repeat td {
-	padding:5px 10px;
+	padding:2px 5px;
 }
 .tbl_repeat th {
 	background:#eee;
 	border-top: solid 1px #aaa;
 	border-bottom: solid 1px #aaa;
 }
-.tbl_repeat td {
+.tbl_repeat * td {
 	border-bottom: dashed 1px #aaa;
 }
 
@@ -244,14 +247,13 @@ Admin Changes
 
 .tbl_repeat tr.hide_border td{
 	border-bottom: none;
-	padding-top:10px;
 }
 
 .tbl_repeat tr.after_border {
 }
 
 .tbl_repeat tr.after_border td{
-	height:20px;
+	height:auto;
 }
 
 .top_border > td{
@@ -321,6 +323,3 @@ Admin Changes
 .nav-container{
 	
 }
-
-@import url('./button.css');
-@import url('./message.css');

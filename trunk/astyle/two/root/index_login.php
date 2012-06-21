@@ -1,9 +1,13 @@
 <h1>Root Administration Area</h1>
 
-<p>Please login with your root password to access the root administration area. Your root password can be reset manually in config.php.</p>
-
 <form method="POST" action="index.php">
-<table class="center"><tr>
+<table class="center">
+<? if(!$user_loggedin) { ?>
+<p>Please login with your username and password to access the root administration area.</p>
+<? } else { ?>
+<p>Please confirm your root password to continue.</p>
+<? } ?>
+<tr>
 <? if(!$user_loggedin) { ?>
 <td>Username <input type="text" name="username" /></td>
 <? } ?>
