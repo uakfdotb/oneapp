@@ -180,6 +180,22 @@ function get_page_advanced($page, $context, $args = array()) {
 	$page_display = $config[$context . '_page_display'];
 	$page_display_names = $config[$context . '_page_display_names'];
 	
+	//add links back to specific areas (apply, root, admin)
+	if($context != "apply") {
+		$page_display[] = "../application/index";
+		$page_display_names[] = "Application";
+	}
+	
+	if($context != "root" && isRoot($_SESSION['user_id'])) {
+		$page_display[] = "../root/index";
+		$page_display_names[] = "Root";
+	}
+	
+	if($context != "admin" && isAdmin($_SESSION['user_id'])) {
+		$page_display[] = "../admin/index";
+		$page_display_names[] = "Admin";
+	}
+	
 	$side_display = $config[$context . '_side_display'];
 	$side_display_names = $config[$context . '_side_display_names'];
 	
@@ -657,16 +673,43 @@ function checkRootLogin($user_id, $password) {
 	
 	if($login_result === TRUE) {
 		//check that admin is a root administrator
-		$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE `group` = '-1' AND user_id = '$user_id'");
-		$row = mysql_fetch_row($result);
+		$isRoot = isRoot($user_id);
 		
-		if($row[0] == 0) {
+		if(!$isRoot) {
 			return 1;
 		} else {
 			return TRUE;
 		}
 	} else {
 		return $login_result;
+	}
+}
+
+//true: the user is an admin
+//false: otherwise
+function isAdmin($user_id) {
+	$user_id = escape($user_id);
+	
+	$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE `group` != '-1' AND user_id = '$user_id'");
+	$row = mysql_fetch_row($result);
+	
+	if($row[0] == 0) {
+		return FALSE;
+	} else {
+		return TRUE;
+	}
+}
+
+function isRoot($user_id) {
+	$user_id = escape($user_id);
+	
+	$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE `group` = '-1' AND user_id = '$user_id'");
+	$row = mysql_fetch_row($result);
+	
+	if($row[0] == 0) {
+		return FALSE;
+	} else {
+		return TRUE;
 	}
 }
 
