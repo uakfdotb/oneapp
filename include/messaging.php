@@ -164,7 +164,7 @@ function openBox($user_id, $box_id) {
 function retrieveMessageList($user_id, $box_id) {
 	$box_id = escape($box_id);
 	
-	$result = mysql_query("SELECT messages.id, messages.sender_id, sender.username, messages.receiver_id, receiver.username, messages.subject, messages.time FROM message_boxes_contents LEFT JOIN messages ON message_boxes_contents.message_id = messages.id LEFT JOIN users AS sender ON messages.sender_id = sender.id LEFT JOIN users AS receiver ON messages.receiver_id = receiver.id WHERE message_boxes_contents.box_id = '$box_id'");
+	$result = mysql_query("SELECT messages.id, messages.sender_id, sender.username, messages.receiver_id, receiver.username, messages.subject, messages.time FROM message_boxes_contents LEFT JOIN messages ON message_boxes_contents.message_id = messages.id LEFT JOIN users AS sender ON messages.sender_id = sender.id LEFT JOIN users AS receiver ON messages.receiver_id = receiver.id WHERE message_boxes_contents.box_id = '$box_id' ORDER BY messages.id DESC");
 	$messages = array();
 	
 	while($row = mysql_fetch_row($result)) {
