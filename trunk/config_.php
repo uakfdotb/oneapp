@@ -54,8 +54,8 @@ $config['page_display_names'] = array('Home', 'About Us', 'Login', 'Register', '
 $config['apply_page_display'] = array('index', 'account', 'logout');
 $config['apply_page_display_names'] = array('My Workspace', 'Account', 'Logout');
 
-$config['apply_side_display'] = array('clubs', 'base', 'supplement', 'peer');
-$config['apply_side_display_names'] = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations');
+$config['apply_side_display'] = array('clubs', 'base', 'supplement', 'peer', 'messaging');
+$config['apply_side_display_names'] = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations', 'Messaging');
 
 $config['admin_page_display'] = array('index', 'index.php?action=logout&ex=');
 $config['admin_page_display_names'] = array('Admin Workspace', 'Logout');
