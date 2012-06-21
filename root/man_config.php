@@ -8,8 +8,8 @@ include("../include/config.php");
 
 if(isset($_SESSION['root'])) {
 	//todo: editing style option will cause session.php to change session style!
-	$option_list = array('mail_smtp', 'mail_username', 'mail_password', 'mail_smtp_host', 'mail_smtp_port', 'site_name', 'organization_name', 'site_address', 'form_array_delimiter', 'max_recommend', 'root_password', 'style', 'app_enabled', 'latex_path', 'time_dateformat', 'club_dateformat', 'page_display', 'page_display_names');
-	$hide_options = array('mail_password', 'root_password');
+	$option_list = array('mail_smtp', 'mail_username', 'mail_password', 'mail_smtp_host', 'mail_smtp_port', 'site_name', 'organization_name', 'site_address', 'form_array_delimiter', 'max_recommend', 'style', 'app_enabled', 'latex_path', 'time_dateformat', 'club_dateformat', 'page_display', 'page_display_names');
+	$hide_options = array('mail_password');
 	$array_options = array("page_display", "page_display_names");
 	
 	//write configuration
@@ -36,12 +36,6 @@ if(isset($_SESSION['root'])) {
 		
 		if(isset($options['max_recommend']) && !is_numeric($options['max_recommend'])) {
 			$options['max_recommend'] = 10;
-		}
-		
-		if(isset($options['root_password']) && $options['root_password'] != '') {
-			//hash the password
-			$options['root_password_salt'] = uid(32);
-			$options['root_password'] = ":" . chash($options['root_password_salt'] . $options['root_password']);
 		}
 		
 		//read/write config file

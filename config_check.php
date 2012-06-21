@@ -15,7 +15,7 @@ if(file_exists('config.php') && is_readable('config.php')) {
 	
 	if(isset($config)) {
 		//make sure required values are set
-		$config_keys = array('db_name', 'db_hostname', 'db_username', 'db_password', 'mail_smtp', 'mail_username', 'mail_password', 'mail_smtp_host', 'mail_smtp_port', 'site_name', 'organization_name', 'site_address', 'form_array_delimiter', 'lock_time_initial', 'lock_time_overload', 'lock_count_overload', 'lock_time_reset', 'lock_time_max', 'reset_time', 'activation_time', 'max_recommend', 'root_password', 'style', 'app_enabled', 'latex_path', 'page_display', 'page_display_names', 'apply_page_display', 'apply_page_display_names', 'apply_side_display', 'apply_side_display_names', 'root_page_display', 'root_page_display_names', 'root_side_display', 'root_side_display_names', 'admin_page_display', 'admin_page_display_names', 'admin_side_display', 'admin_side_display_names', 'time_dateformat', 'club_dateformat', 'captcha_enabled');
+		$config_keys = array('db_name', 'db_hostname', 'db_username', 'db_password', 'mail_smtp', 'mail_username', 'mail_password', 'mail_smtp_host', 'mail_smtp_port', 'site_name', 'organization_name', 'site_address', 'form_array_delimiter', 'lock_time_initial', 'lock_time_overload', 'lock_count_overload', 'lock_time_reset', 'lock_time_max', 'reset_time', 'activation_time', 'max_recommend', 'style', 'app_enabled', 'latex_path', 'page_display', 'page_display_names', 'apply_page_display', 'apply_page_display_names', 'apply_side_display', 'apply_side_display_names', 'root_page_display', 'root_page_display_names', 'root_side_display', 'root_side_display_names', 'admin_page_display', 'admin_page_display_names', 'admin_side_display', 'admin_side_display_names', 'time_dateformat', 'club_dateformat', 'captcha_enabled');
 		
 		foreach($config_keys as $config_key) {
 			if(!isset($config[$config_key])) {
@@ -64,20 +64,6 @@ if($connection === FALSE) {
 	}
 	
 	mysql_close($connection);
-}
-
-if(isset($config['root_password'])) {
-	if(isset($config['root_password']) && $config['root_password'] == '') {
-		result('Root password', 'Root password is blank', false);
-	} else if(strlen($config['root_password']) < 6) {
-		result('Root password length', 'Root password is too short', false);
-	} else if(!substr($config['root_password'], 0, 1) == ':') {
-		result('Root password hash', 'Root password is not hashed (autohash through configuration editor)', false);
-	} else if(!isset($config['root_password_salt'])) {
-		result('Root password hash', 'Root password is hashed but salt is not set', false);
-	} else {
-		result('Root password', 'Root password is secure', true);
-	}
 }
 
 if(isset($config['latex_path'])) {

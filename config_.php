@@ -37,12 +37,6 @@ $config['activation_time'] = 60*60*48;
 //maximum number of recommenders that can be added
 $config['max_recommend'] = 10;
 
-//if root password begins with a colon, it will be assumed to be a salted SHA-1 hash of the password
-// root_password_salt is the salt
-// if this is edited with the configuration editor, the salt will be randomly generated and the password will be hashed
-$config['root_password'] = '';
-$config['root_password_hash'] = '3YzxnnkZYOHRHIiP';
-
 $config['style'] = 'basic';
 $config['app_enabled'] = true;
 
