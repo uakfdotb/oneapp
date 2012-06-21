@@ -51,8 +51,6 @@ Open up config.php in your favorite editor and set at least the following fields
 	site_name: the name of the website
 	organization_name: the name of your organization (e.g., the school name)
 	site_address: URL where oneapp will be accessed later
-	
-	root_password: password to access the root administration area
 
 Good job! You're done configuring oneapp. Now, you still need to install a few packages for oneapp to work (assuming you already have a webserver, PHP, and MySQL). On Debian and similar systems:
 	sudo aptitude install texlive-latex-recommended php-pear
@@ -64,7 +62,10 @@ Alright, now copy over oneapp to your webroot:
 	cp -r oneapp /var/www/oneapp
 
 And go to [site_address] and see if everything is working properly.
-You should then be able to go to [site_address]/root to enter the root administration area, and then login with your root password that you set earlier.
+
+To set up the initail user, head to [site_address]/install.
+Now, you should be able to login at [site_address]/login.php.
+Then head to [site_address]/root to enter the root administration area.
 
 Find any bugs? Have any feature requests? Submit using our issue tracker at http://code.google.com/p/oneapp/issues/list
 Want to use our hosting? Visit http://one-app.org/ (a fee to support our hosting servers is required).
