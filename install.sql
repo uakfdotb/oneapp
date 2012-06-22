@@ -1,6 +1,6 @@
 CREATE TABLE baseapp (id INT PRIMARY KEY AUTO_INCREMENT, category INT, orderId INT, varname VARCHAR(1024), vardesc VARCHAR(1024), vartype VARCHAR(1024));
 CREATE TABLE basecat (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), orderId INT);
-CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(64), password VARCHAR(128), name VARCHAR(128), email VARCHAR(256), register_time INT, accessed INT);
+CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(64), password VARCHAR(128), salt VARCHAR(40), name VARCHAR(128), email VARCHAR(256), register_time INT, accessed INT);
 CREATE TABLE user_groups (user_id INT, `group` INT);
 CREATE TABLE reset (user_id INT PRIMARY KEY, time INT, auth VARCHAR(64));
 CREATE TABLE profiles (user_id INT, var_id INT, val VARCHAR(256));
