@@ -13,13 +13,13 @@ if(!isset($_SESSION['admin']) && (isset($_SESSION['user_id']) || isset($_REQUEST
 		//log in first
 		$loginResult = checkLogin($_REQUEST['username'], $_REQUEST['password']);
 		
-		if($result >= 0) {
+		if($loginResult >= 0) {
 			$_SESSION['user_id'] = $loginResult;
-		} else if($result == -2) {
+		} else if($loginResult == -2) {
 			$error = "Please try again later (you are locked out for too many failed attempts).";
-		} else if($result == -3) {
+		} else if($loginResult == -3) {
 			$error = "Login and registration are currently disabled.";
-		} else if($result == -1) {
+		} else if($loginResult == -1) {
 			$error = "Login information is not correct.";
 		} else {
 			$error = "Internal error!";

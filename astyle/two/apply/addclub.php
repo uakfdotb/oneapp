@@ -15,8 +15,11 @@
 		$club_name = $club[1];
 		echo "<tr class=\"club_info\"><td><a href=\"club_detail.php?id=$club_id\">" . $club_name . "</a></td><td>" . $clubStart[$club_id] . "</td><td>" . $clubClose[$club_id] . "</td><td>";
 		?>
-		<form action="addClub.php" method="POST">
-		<div class="buttons"><button name="club" value="<?=$club_id?>" class="add">Add</button></div>
+		<form action="addClub.php?mode=subscribe" method="POST">
+		<div class="buttons"><button name="club" value="<?=$club_id?>" class="add">Subscribe</button></div>
+		</form>
+		<form action="addClub.php?mode=apply" method="POST">
+		<div class="buttons"><button name="club" value="<?=$club_id?>" class="add">Apply</button></div>
 		</form>
 		
 		<?

@@ -186,12 +186,12 @@ function get_page_advanced($page, $context, $args = array()) {
 		$page_display_names[] = "Application";
 	}
 	
-	if($context != "root" && isRoot($_SESSION['user_id'])) {
+	if($context != "root" && isset($_SESSION['user_id']) && isRoot($_SESSION['user_id'])) {
 		$page_display[] = "../root/index";
 		$page_display_names[] = "Root";
 	}
 	
-	if($context != "admin" && isAdmin($_SESSION['user_id'])) {
+	if($context != "admin" && isset($_SESSION['user_id']) && isAdmin($_SESSION['user_id'])) {
 		$page_display[] = "../admin/index";
 		$page_display_names[] = "Admin";
 	}

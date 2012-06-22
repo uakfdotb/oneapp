@@ -7,7 +7,7 @@
 // 2: invalid target
 // 3: user is not an administrator
 function sendAdminGroupMessage($user_id, $club_id, $target, $subject, $body) {
-	if($target != "all" && $target != "complete" && $target != "uncomplete")
+	if($target != "all" && $target != "complete" && $target != "uncomplete" && $target != "subscribe")
 		return 2;
 	
 	$user_id = escape($user_id);
@@ -21,20 +21,28 @@ function sendAdminGroupMessage($user_id, $club_id, $target, $subject, $body) {
 		return 3;
 	}
 	
-	//now get all targets to send to
-	$query = "SELECT users.id FROM applications LEFT JOIN users ON users.id = applications.user_id WHERE applications.club_id = '$club_id'";
+	//now get all targets to send to, and send message to each target
+	if($target == "subscribe") {
+		$targets = listSubscribers($club_id);
+		
+		foreach($targets as $target_id) {
+			sendMessage($user_id, $target_id, $subject, $body);
+		}
+	} else {
+		$query = "SELECT users.id FROM applications LEFT JOIN users ON users.id = applications.user_id WHERE applications.club_id = '$club_id'";
 	
-	if($target == "complete")
-		$query .= " AND submitted != ''";
-	else if($target == "uncomplete")
-		$query .= " AND submitted = ''";
+		if($target == "complete")
+			$query .= " AND submitted != ''";
+		else if($target == "uncomplete")
+			$query .= " AND submitted = ''";
 	
-	$result = mysql_query($query);
+		$result = mysql_query($query);
 	
-	//send email to each target
+		//send email to each target
 	
-	while($row = mysql_fetch_array($result)) {
-		sendMessage($user_id, $row[0], $subject, $body);
+		while($row = mysql_fetch_array($result)) {
+			sendMessage($user_id, $row[0], $subject, $body);
+		}
 	}
 }
 

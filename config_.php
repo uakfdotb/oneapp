@@ -54,8 +54,8 @@ $config['apply_side_display_names'] = array('Clubs', 'General Application', 'Sup
 $config['admin_page_display'] = array('index', 'index.php?action=logout&ex=');
 $config['admin_page_display_names'] = array('Admin Workspace', 'Logout');
 
-$config['admin_side_display'] = array('man_questions', 'view_submit', 'man_club', 'preview', 'man_notes', 'gen_pdf', 'statistics', 'easy_question');
-$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'Manage club information', 'Preview application', 'Submission settings', 'Generate PDF', 'Statistics', 'Easy Question Adder');
+$config['admin_side_display'] = array('man_questions', 'view_submit', 'view_subscribe', 'messaging', 'man_club', 'preview', 'man_notes', 'gen_pdf', 'statistics', 'easy_question');
+$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'View subscribed users', 'Club messaging', 'Manage club information', 'Preview application', 'Submission settings', 'Generate PDF', 'Statistics', 'Easy Question Adder');
 
 $config['root_page_display'] = array('index', 'index.php?action=logout&ex=');
 $config['root_page_display_names'] = array('Root Workspace', 'Logout');

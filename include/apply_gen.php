@@ -378,16 +378,6 @@ function checkApplication($user_id, $application_id, $extended = false) {
 	}
 }
 
-//uses response of checkApplication to get a state string
-function getApplicationStateString($user_id, $application_id) {
-	$status = checkApplication($user_id, $application_id);
-	
-	if($status == 0) return "<font color=\"blue\">Started</font>";
-	else if($status == -1) return "<font color=\"green\">Submitted</font>";
-	else if($status == -3) return "<font color=\"red\">Late</font>";
-	else return "error";
-}
-
 //returns true if supplement is available, false otherwise
 // if submitWindow is false, uses the view_time and close_time
 // if submitWindow is true, uses the open_time and close_time
