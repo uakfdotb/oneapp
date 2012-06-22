@@ -116,8 +116,13 @@ function resetCheck($username, $email, $user_id, $auth) {
 
 function resetPassword($user_id, $password) {
 	$user_id = escape($user_id);
-	$password = escape(chash($password));
-	mysql_query("UPDATE users SET password='$password' WHERE id='$user_id'");
+	
+	$gen_salt = secure_random_bytes(20);
+	$db_salt = escape(bin2hex($gen_salt));
+	
+	$password = escape(chash2($password, $gen_salt));
+	
+	mysql_query("UPDATE users SET password='$password', salt = '$db_salt' WHERE id='$user_id'");
 	mysql_query("DELETE FROM reset WHERE user_id='$user_id'"); //make sure user doesn't reset again with same link
 }
 

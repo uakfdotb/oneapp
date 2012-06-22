@@ -114,6 +114,18 @@ if(isset($config['style'])) {
 	}
 }
 
+if(!in_array('sha512', hash_algos())) {
+	result('Hash algorithm', 'The default hash algorithm, sha512, does not exist!', false);
+} else {
+	result('Hash algorithm', 'The default hash algorithm, sha512, exists', true);
+}
+
+if(!function_exists('openssl_random_pseudo_bytes')) {
+	result('Secure random source', 'Preferred source, openssl_random_pseudo_bytes, does not exist', false);
+} else {
+	result('Secure random source', 'Preferred source, openssl_random_pseudo_bytes, exists', true);
+}
+
 function result($name, $desc, $status) {
 	if($status) {
 		echo '<tr bgcolor="#90EE90">';
