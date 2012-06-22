@@ -16,5 +16,6 @@ foreach($clubs as $club) {
 }
 ?>
 </select>
-<br><input type="submit" value="Add">
+<br><button type="submit" name="mode" value="subscribe">Subscribe</button>
+<button type="submit" name="mode" value="apply">Apply</button>
 </form>

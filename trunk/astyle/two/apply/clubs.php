@@ -8,7 +8,7 @@
 </div>
 
 <?
- 	if(count($clubsApplied)>0) { ?>
+ 	if(count($clubs)>0) { ?>
 	<table width=100% class="borderon">
 	<tr>
 		   <th colspan="3" class="table_header"><p>My Organizations</p></th>
@@ -17,13 +17,12 @@
 	<?
 		$i=0;
 		$j=0;
-		foreach($clubsApplied as $item){
-			$clubid = $item[0];
+		foreach($clubs as $clubid => $club){
 			if($j==0){
 				$firstclub=$clubid;
 			}
-			$club_name = $item[1];
-			$app_id = $item[3];
+			$club_name = $club[3][0];
+			$app_id = $club[2][3];
 			if($i==0) echo "<tr>";
 			echo "<td class=\"orgname\" valign=\"middle\" ><a href=\"clubs.php?id=" . $clubid ."\" ";
 			if($clubid==$club_id){ 
@@ -43,10 +42,19 @@
 </table>
 <?
 	if(isset($club_id)){
-		$item = $clubsApplied[$k];
-		$club_name = $item[1];
-		$app_id = $item[3];
-		$clubInfo = clubInfo($club_id);
+		$item = $clubs[$k];
+		$club_name = $item[3][0];
+		$app_id = $item[2][3];
+		$clubInfo = $item[3];
+		
+		$start = $club[3][2];
+		$close = $club[3][3];
+		$state = $club[1];
+		
+		$stateString = "Not applying";
+		if($state == 0) $stateString = "<font color=\"blue\">Started</font>";
+		else if($state == -1) $stateString = "<font color=\"green\">Submitted</font>";
+		else if($state == -3) $stateString = "<font color=\"red\">Late</font>";
 ?>	
 		<br />
 		<div align="center">
@@ -55,30 +63,30 @@
 			   <th colspan="2" class="table_header"><p><?= $club_name ?></p></th>
 		</tr>
 		<tr class="club_info" class="band1">
-			<td width=40%>Your Status</td><td><?= $clubStates[$club_id] ?></td>
+			<td width=40%>Your Status</td><td><?= $stateString ?></td>
 		</tr>
 		<tr class="club_info" class="band2">
 			<td>Recommendations</td><td><?= $clubInfo[4] ?></td>
 		</tr>
 		<tr class="club_info" class="band1">
-			<td>Available at</td><td><?= $clubStart[$club_id]?></td>
+			<td>Available at</td><td><?= $start?></td>
 		</tr>
 		<tr class="club_info" class="band2">
-			<td>Deadline</td><td font-weight="bold"><?= $clubClose[$club_id]?></td>
+			<td>Deadline</td><td font-weight="bold"><?= $close?></td>
 		</tr>
 		<tr class="club_info" class="band1">
 			<td colspan="2">
 				<div class="example2">
 					<table width=100%>
 					<?
-							echo "<tr><td colspan=\"2\">" . $item[2] . "</td></tr>";
+							echo "<tr><td colspan=\"2\">" . $club_name . "</td></tr>";
 					?>
 					</table>
 				</div>
 			</td>
 		</tr>
 		<tr class="club_info" class="band2">
-			<td><form action="submit.php?app_id=<?=$item[3] ?>&club_id=<?=$item[0]?>"><input type="submit" value="Submit" class="positive" 
+			<td><form action="submit.php?app_id=<?=$app_id ?>&club_id=<?=$club_id?>"><input type="submit" value="Submit" class="positive" 
 			<? if($clubStates[$club_id]!="<font color=\"blue\">Started</font>") echo "disabled=\"disabled\" ";?>
 			></form></td>
 			<td></td>

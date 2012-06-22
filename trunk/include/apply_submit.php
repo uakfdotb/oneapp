@@ -30,6 +30,11 @@ function startApplication($user_id, $club_id) {
 		return -3;
 	}
 	
+	//subscribe to the club, since we're applying to it anyway
+	if($club_id != 0) {
+		addSubscription($user_id, $club_id);
+	}
+	
 	//add to applications table first
 	mysql_query("INSERT INTO applications (user_id, club_id, submitted) VALUES ('$user_id', '$club_id', '')");
 	$application_id = mysql_insert_id();

@@ -4,9 +4,10 @@
 
 <form method="POST" action="messaging.php">
 Select recipient group
-<br /><input type="radio" name="target" value="all" checked />All applicants</input>
-<br /><input type="radio" name="target" value="complete" checked />Applicants who have submitted their applications</input>
-<br /><input type="radio" name="target" value="uncomplete" checked />Applicants who have not submitted their applications</input>
+<br /><input type="radio" name="target" value="subscribe" checked />Subscribed users</input>
+<br /><input type="radio" name="target" value="all" />All applicants</input>
+<br /><input type="radio" name="target" value="complete" />Applicants who have submitted their applications</input>
+<br /><input type="radio" name="target" value="uncomplete" />Applicants who have not submitted their applications</input>
 <br />Subject: <input type="text" name="subject" />
 <br />Enter your plain-text message below:
 <br /><textarea name="body" rows="10" cols="40"></textarea>
