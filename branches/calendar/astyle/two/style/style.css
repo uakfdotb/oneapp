@@ -1,0 +1,325 @@
+@import url('./reset.css');
+@import url('./button.css');
+@import url('./message.css');
+
+input[type=text], input[type=password], textarea{ border-color:black;}
+input[type=text]:focus, input[type=password]:focus, textarea:focus { background-color: #FFC; border-color: #FC6; }
+input[readonly], input[readonly]:focus { background: none; border:none;}
+td p{
+	padding-left:10px;
+}
+/* ------------------------------
+PAGE STRUCTURE
+------------------------------ */
+html, body {height: 100%}
+html, body {background-color:#B5B1B1;font-family: Arial; font-size:13px}
+h1{
+	font-size:20px;
+}
+h2{
+	font-size:14px;
+}
+p{
+	font-size:13px;
+}
+.center{
+	margin-right:auto;
+	margin-left:auto;
+}
+a{font-weight:bold;color:black;text-decoration:none}
+a:hover {color:#336699;text-decoration:none}
+/* #container has an absolute width (780 pixel) */
+#container{	width:800px; height:auto; margin-left:auto; margin-right:auto; background-color:white; overflow:none}
+
+/*Topbar contains logo and School name*/
+#topbar{padding-right:10px;padding-left:10px;float:center}
+#topbar td{vertical-align:bottom}
+.schooltop{text-align:right}
+p.location_heading {text-align:right; margin-bottom:30px}
+.colorline{background-color:black;width:100%}
+
+/*Navbar contains time, and top navigation #000066*/
+#navbar{background-color:#24476B;padding-right:10px;padding-left:10px;padding-top:4px;padding-bottom:3px;font-size:13px}
+
+#navbar * a{
+	color:white;
+	padding-left:20px;
+}
+#navbar * a:hover{
+	color:#BAB3B3;
+}
+#clockbox{
+	font-weight:bold;
+	color:white;
+	font-size:12px;
+}
+
+/*main has col_left (side navigation menu) and col_right(main page) #D1CDCD*/
+#main{}
+#col_holder{width:100%;float:left;background-color:white;margin-bottom:10px;height:100%}
+#col_left{
+	width:20%;
+	float:left; 
+	background-color:#D1CDCD;
+	min-height: 100% !important;
+	height: 100%;
+}
+
+#col_right{margin-left:10px;margin-right:auto;width:70%;float:left;height:100%}
+
+.side_bar{
+    position: relative;
+	min-height: 100% !important;
+	height: 100%;
+	margin: 0 auto;
+    vertical-align:bottom;
+}
+
+/*Footer has no subsets*/
+#footer{margin:0 0 0 0;width:100%;float:center;text-align:center;background-color:#E6E6E6}/*#E6E6E6*/
+.footerbar{clear:both; height:1px; display:block;background-color:#666666}
+#footer p{
+	font-size:12px;
+	color:#666666;
+}
+
+.borderon{border:solid 1px #1A3E5B}
+
+#spacer{clear:both; height:5px; display:block}
+/*--------------------------
+Page Definitions
+--------------------------*/
+.userbox{
+	padding-top:15px;
+	padding-left:10px;
+	padding-bottom:35px;
+	min-height:40px;
+	font-size:12px;
+}
+.topsidenav{
+	border-top:1px solid black;
+	border-right:1px solid black;
+	border-left:1px solid black;
+	padding-left:10px;
+	background-color:#336699;
+	font-size:12px;
+}
+.sidenav{
+	border-top:1px solid black;
+	border-right:1px solid black;
+	border-left:1px solid black;
+	padding-left:10px;
+	background-color:#666666;
+	font-size:12px;
+}
+.sidenav1{
+	border-top:1px solid black;
+	border-right:1px solid black;
+	border-left:1px solid black;
+	padding-left:20px;
+	background-color:#BAB3B3;
+	font-size:12px;
+}
+.endsidenav{
+	border-top:1px solid black;
+	min-height:50px;
+}
+
+.sidemenu ul li{
+	padding-top:2px;
+	padding-bottom:2px;
+}
+a:hover .topsidenav, a:hover .sidenav, a:hover .sidenav1{
+	background-color:#000066;
+	color:white;
+}
+.box_name{
+	font-size:12px;
+	font-weight:bold;
+}
+.box_id, .box_date{
+	font-size:12px;
+}
+.message{
+	padding-top:10px;
+	min-height:80px;
+}
+
+#box{
+	
+}
+
+#box p {
+	margin-top:15px;
+	margin-bottom:15px;
+}
+
+#box * table tr td p {
+	margin-top:10px;
+	margin-bottom:0px;
+}
+/*************PAGE MODIFICATIONS*****************
+************************************************/
+.table_header{
+	background-color:#336699;
+	color:white;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:10px;
+	text-align:left;
+}
+
+.orgname{
+	border:solid 1px #1A3E5B;
+	width:33%; 
+	text-align:center;
+}
+.orgname a {
+	display:block;
+	width:100%;
+	height:100%;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.orgname a:hover, .orgname a.current{
+	background-color:#000066;
+	color:white;
+}
+
+.club_info td{
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-left:10px;
+}
+
+.center{
+	margin: 0 auto;
+}
+
+.band2{
+	background-color:gray;
+}
+.required{
+	vertical-align:text-top;
+}
+p.name{
+	font-weight:bold;
+	margin:0;
+}
+p.desc{
+    font-size:11px;
+    font-style:italic;
+    margin:0;
+}
+tr.question > td
+{
+	padding-top: 10px;
+}
+.profile{
+	border-top:1px solid black;
+}
+
+/*****************************
+Admin Changes
+*****************************/
+.log_in tr td{
+	margin-top:10px;
+}
+
+/*test repeat*/
+.tbl_repeat {
+	width:100%;
+}
+.tbl_repeat th,.tbl_repeat td {
+	padding:2px 5px;
+}
+.tbl_repeat th {
+	background:#eee;
+	border-top: solid 1px #aaa;
+	border-bottom: solid 1px #aaa;
+}
+.tbl_repeat * td {
+	border-bottom: dashed 1px #aaa;
+}
+
+.tbl_repeat tr.hide_border {
+}
+
+.tbl_repeat tr.hide_border td{
+	border-bottom: none;
+}
+
+.tbl_repeat tr.after_border {
+}
+
+.tbl_repeat tr.after_border td{
+	height:auto;
+}
+
+.top_border > td{
+	border-top: solid 1px #aaa;
+}
+
+
+.tooltip{ position: absolute; top: 0; left: 0; z-index: 3; display: none; } 
+
+.hidden { display:none }
+.parent:hover .hidden { display:block; cursor:pointer}
+
+.nav-container{
+	width:100%;
+}
+.nav-container tr td {
+	width:50%;
+}
+
+.nav-button{
+	font-size:0.8em;
+	width:230px;
+	margin:3px auto;
+	cursor:pointer;
+	height:60px;
+	padding:10px 20px;
+	border-top:1px solid #24476B;
+	border-bottom:1px solid #24476B;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	background:white;
+}
+
+.nav-button:hover{
+	background:#e5f1fa;
+	border:none;	
+}
+
+.nav-button h2{
+	margin-left:45px;
+	color:#24476B
+}
+
+.nav-button ul{ 
+	margin:5px 0px 0px 50px;
+	font-size:10px;
+	padding-left:15px;
+}
+
+.nav-button ul li{
+	list-style-type:square;
+	margin-right:50px;
+}
+
+.nav-button img{
+	float:left;
+	margin:10px 0px;
+	margin-right:10px;
+}
+
+.alternate{
+	background:#f8f8f8;
+	border-top:1px solid #24476B;
+	border-bottom:1px solid #24476B
+}
+
+.nav-container{
+	
+}

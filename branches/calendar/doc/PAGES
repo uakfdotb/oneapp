@@ -1,0 +1,37 @@
+======
+= Home
+======
+
+affclubs.php: displays a list of affiliated clubs and their information
+	$clubList: array of clubs, each club is represented as an array(club ID, club name, club description)
+	Should link to affclubs_info.php, which takes in id=<club id>
+affclubs_info.php: displays detailed information about a club
+	$clubInfo: array(club name, club description, open time, close time, number of recommendations needed)
+dbpage.php: retrieves a page from the database and displays it
+	$dbpage: the name of the requested page
+forgotusername.php: the form used to access the forgot username function (no variables)
+	Should submit to forgotusername.php, with email=<inputted email address>
+index.php: the home page (no variables)
+login.php: the form used to login to the application sysetm (no variables)
+	$message: an error or info message; may be blank or not set, in which case no message should be displayed
+	Should submit to login.php, username=<username>&password=<password>
+message.php: displays a simple message
+	$title: the title of the message
+	$message: the body of the message
+recommend.php: displays the recommendation form with an optional message using writeRecommendation(rec_id, user_id, authentication code)
+	$message: an error or info message; may be blank or not set, in which case no message should be displayed
+	$id: the id of the recommendation
+	$user_id: the id of the user who requested the recommendation
+	$auth: the authentication code for the recommendation
+register.php: the form that allows users to register an account
+	$profile: array of variable id => array(variable name, variable description, variable type)
+		writeField(variable id, variable id, variable name, variable description, variable type) can be called to display the profile
+	Should submit to register.php, with (profile_settings)&username=<username>&email=<email address>
+reset_form.php: the form to reset a user's password
+	Should submit to reset.php with username=<username>&email=<email>
+reset_password.php: continuation of previous, where user enters password to reset to after verifying email address
+	$username: the username of the account
+	$user_id: the id of the account
+	$email: the user's email address
+	$auth: the authentication code
+	Should submit to reset.php, with username=$username&user_id=$user_id&email=$email&auth=$auth&password=<password>&password_confirm=<password>

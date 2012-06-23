@@ -1,0 +1,208 @@
+/* ------------------------------
+HTML Redefine Tags
+------------------------------ */
+body{font-family:courier; font-size:12px; margin:20px; padding:0;}
+
+input, form, textarea
+h1, h2, h3, h4, h5, h6{margin:0; padding:0;}
+h4{font-size:28px; text-align:center; margin-top:1%px; margin-right:40px; margin-left:40px; border-bottom:solid 2px #DEDEDE; border-top:solid 2px #DEDEDE; }
+
+h1{font-size:18px;}
+h2{font-size:14px; color:white;}
+h3{font-size:13px; border-bottom:solid 1px #DEDEDE; padding:4px 0; margin-bottom:10px;}
+p {font-size:11px;text-decoration:none;color:#999999;}
+a:hover{text-decoration:none;color:#ABB4BA;}
+a {text-decoration:none; color:#1A3E5B;}
+h5 a:hover{color:#1A3E5B;}
+
+/* ------------------------------
+PAGE STRUCTURE
+------------------------------ */
+/*reset*/
+html, body {
+	background-color:#ABB4BA;    
+	font-family: Verdana;
+}
+
+/* #container has an absolute width (780 pixel) */
+
+#container{width:780px; margin:0 auto; background-color:white; }/*#F2F5F7*/
+#topbar{width:auto; display:block; height:60px;}
+#navbar{width:auto; display:block; height:38px; background-color:#1A3E5B; text-align:right;}
+#navbar a{heigth:38px; line-height:38px; padding:0 10px; font-variant: small-caps; display:inline; color:white; text-decoration:none; font-size:14;font-weight:bold;}
+#navbar a:hover{color:#ABB4BA;}
+#main{width:auto; display:block; padding:2px 0;}
+#col_holder{width:100%;}
+#col_left{width:20%; float:left; background-color:#1A3E5B;}
+#col_right{width:80%; float:left;}
+#col_mid, #admin_table{width:60%; margin-left:6%; float:center;}
+div.spacer{clear:both; height:2%; display:block;}
+
+#footer{width:90%; display:block; margin-left:5%; margin-top:1%; padding-bottom:1%; font-size:11px; text-align:center; color:#666666; border-top:solid 1px #DEDEDE;}
+
+/* ------------------------------
+CUSTOM CLASSES
+------------------------------ */
+
+/* Add here your custom classes ... */
+
+#imgmain{
+	text-align:center;
+	margin-top:20px;
+	}
+
+#schoolname{
+	text-align:center;
+	}
+#logbox{
+	text-align:center;
+	width:88%;
+	margin-left:6%;
+	padding-left:3%;
+	height:25%;
+	margin-top:2%;
+}
+
+#box{
+	width:88%;
+	margin-left:6%;
+}
+
+.center, #admin_login{
+	text-align:center;
+	}
+
+.test{
+	font-size:11px;
+	font-weight:none; 
+	color:black; 
+	margin:0px; 
+	text-decoration:none;
+	text-align:center;
+}
+
+.test a{color:#1A3E5B;}
+.test a:hover{text-decoration:none;color:#999999;}
+
+.borderon, div#admin_table{
+	border:solid 1px #1A3E5B;
+	}
+	
+.borderonlow{
+	border:solid 1px #1A3E5B;
+	position:relative;
+	top:10px;
+	}
+
+.schooltop{
+	font-size:14px;
+	text-align:right;
+	}
+
+#column_left{width:40%; margin-left:8%; float:left;}
+#column_right{width:40%; margin-right:8%; float:right;}
+
+.sidenav{
+	list-style: none;
+	margin-top:12px;
+        font-size:14px;
+        font-variant:small-caps;
+        font-weight:bold;
+}
+
+.sidenav a{
+    color:white;
+}
+
+.sidenav a:hover{
+    color:#ABB4BA;
+}
+
+.sidenav1{
+	list-style:none;
+	margin-top:6px;
+        font-size:10px;
+        font-weight:italic;
+	font-varient:small-caps;
+}
+
+.sidenav1 a{
+        color:white;
+}
+
+.sidenav1 a:hover{
+    color:#ABB4BA;
+}
+
+
+#spacebox {
+    height:2%;
+}
+
+.admin_table_header{
+    color:#1A3E5B;
+    font-weight:bold;
+}
+
+tr#admin_login{
+	background-color:#1A3E5B;
+}
+
+tr#admin_login{
+	text-align:center;
+}
+
+tr#admin_login_error{
+	background-color:#F2F5F7;
+}
+
+tr.bgon{
+    background-color:#F2F5F7;
+    }
+
+tr.bgoff{
+
+    }
+
+.name{
+    font-weight:bold;
+    margin:0;
+}
+
+.desc{
+    font-size:11px;
+    font-style:italic;
+    margin:0;
+}
+
+.band1{
+	background-color:#F2F5F7;
+}
+
+.band2{
+	background-color:white;
+}
+
+.bandwarning{
+	background-color:#EBC5CA;
+}
+
+tr.band1{
+        bgcolor:#F2F5F7;
+}
+
+tr.band2{
+        bgcolor:white;
+}
+
+.top_border{
+    border-top:1px solid #ABB4BA;
+}
+
+textarea.band1{
+    border:1px solid #ABB4BA;
+}
+
+ul.errorlist {
+   list-style-type:square;
+}
