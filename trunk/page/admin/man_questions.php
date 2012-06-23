@@ -2,7 +2,7 @@
 
 <p>Here, you can customize your application. You can either add one question at a time, or multiple questions. With multiple questions, the name goes on the first line, then the description, then the type on the third line.</p>
 
-<p>If you are not sure what to do here, you should use the <a href="easy_question.php">Easy Question Adder</a> to generate the name, description, and type (then, copy and paste the output to the form on the right).</p>
+<p>If you are not sure what to do here, you should use the <a href="easy_question.php?<?= $t_get ?>">Easy Question Adder</a> to generate the name, description, and type (then, copy and paste the output to the form on the right).</p>
 
 <?
 page_advanced_include("category_manager", "admin", array("categories" => $categories));
@@ -20,6 +20,7 @@ if(isset($message) && $message != "") {
 if(isset($editInfo) && $editInfo !== 0) {
 ?>
 	<form method="post" action="man_questions.php?action=edit">
+	<?= $t_hidden ?>
 	<input type="hidden" name="id" value="<?= $editInfo[0] ?>">
 	<table>
 	<tr>
@@ -44,6 +45,7 @@ if(isset($editInfo) && $editInfo !== 0) {
 	//because we have these in two columns now, we display one form for both and decide which is being submitted based on button
 ?>
 	<form method="post" action="man_questions.php">
+	<?= $t_hidden ?>
 	<table>
 	<tr>
 	<td>
@@ -80,7 +82,7 @@ if(isset($editInfo) && $editInfo !== 0) {
 }
 ?>
 
-<p><a href="man_questions.php?action=deleteall">Delete All Questions!</a></p>
+<p><a href="man_questions.php?action=deleteall&<?= $t_hidden ?>">Delete All Questions!</a></p>
 
 <table>
 <tr>
@@ -95,6 +97,7 @@ if(isset($editInfo) && $editInfo !== 0) {
 
 <? foreach($questionList as $question) { ?>
 	<form method="post" action="man_questions.php">
+	<?= $t_hidden ?>
 	<input type="hidden" name="id" value="<?= $question[0] ?>">
 	<input type="hidden" name="orderId" value="<?= $question[1] ?>">
 	

@@ -50,7 +50,7 @@ window.onload=GetClock;
 	<div id="navbar"><table width=100% background-color="red"><tr><td><a id="clockbox"><?= $timeString ?></a></td><td align="right">
 <?
 for($i = 0; $i < count($page_display); $i++) {
-	echo '<a href=' . $page_display[$i] . '.php>' . $page_display_names[$i] . '</a> ';
+	echo '<a href="' . $page_display[$i] . '">' . $page_display_names[$i] . '</a> ';
 }
 ?>
    </td></tr></table>
@@ -63,9 +63,9 @@ for($i = 0; $i < count($page_display); $i++) {
 
 <?
 for($i = 0; $i < count($side_display); $i++) {
-	echo '<li class="sidenav"><a href=' . $side_display[$i] . '.php>' . $side_display_names[$i] . '</a></li>';
+	echo '<li class="sidenav"><a href="' . $side_display[$i] . '">' . $side_display_names[$i] . '</a></li>';
 	
-	if($side_display[$i] == "supplement" && isset($_SESSION['user_id'])) {
+	if(substr($side_display[$i], 0, 10) == "supplement" && isset($_SESSION['user_id'])) {
 		//display all the supplements this user is working on
 		$styleClubsApplied = getUserClubsApplied($_SESSION['user_id']);
 		
@@ -79,7 +79,7 @@ for($i = 0; $i < count($side_display); $i++) {
 			echo "</a></li>";
 		}
 		echo "</ul>";
-	} else if($side_display[$i] == "base" && isset($_SESSION['user_id'])) {
+	} else if(substr($side_display[$i], 0, 4) == "base" && isset($_SESSION['user_id'])) {
 		//display the general application categories
 		include_once($basePath . "/include/apply_submit.php");
 		if(isApplicationStarted($_SESSION['user_id'], 0)) {

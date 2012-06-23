@@ -2,10 +2,11 @@
 
 <p>Use the form below to log in to the club administration area.</p>
 
+<form method="POST" action="index.php">
 <table>
 	<tr>
-		<form method="POST" action="index.php">
 		<table>
+		<?= $t_hidden ?>
 			<? if(!$user_loggedin) { ?>
 			<tr>
 				<td>Username:</td>
@@ -28,7 +29,6 @@
 				<td colspan="2"><input type="submit" value="Submit" align="center"/></td>
 			</tr>
 		</table>
-		</form>
 	</tr>
 
 	<?
@@ -39,3 +39,4 @@
 	}
 	?>
 </table>
+</form>

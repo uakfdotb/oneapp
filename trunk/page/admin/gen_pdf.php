@@ -13,5 +13,6 @@ if(isset($message) && $message != "") {
 ?>
 
 <form method="post" action="gen_pdf.php">
+<?= $t_hidden ?>
 <input type="submit" name="gen" value="Generate">
 </form>

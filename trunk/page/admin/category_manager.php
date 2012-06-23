@@ -4,6 +4,7 @@
 if($_SESSION['category'] != -2) {
 ?>
 	<form method="get" action="<?= $_SERVER['REQUEST_URI'] ?>">
+	<?= $t_hidden ?>
 	<select name="category">
 
 	<?

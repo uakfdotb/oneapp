@@ -3,6 +3,7 @@
 <p>This page allows you to send a message to your organization. Replies to these messages will be directed to your email address (see club settings), so make sure that that is set first.</p>
 
 <form method="POST" action="messaging.php">
+<?= $t_hidden ?>
 Select recipient group
 <br /><input type="radio" name="target" value="subscribe" checked />Subscribed users</input>
 <br /><input type="radio" name="target" value="all" />All applicants</input>
