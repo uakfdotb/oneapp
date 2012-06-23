@@ -86,6 +86,14 @@ $config['limits'] = array('clubs' => -1, 'users' => -1); //limit of -1 is unlimi
 $config['csrf_referer'] = true;
 $config['csrf_token'] = false;
 
+//if not blank, the fields below will be used for RSA encryption (modulus in hexadecimal)
+// this ensures that passwords cannot be recovered even if an eavesdropper has full access to the server-client dialog
+// to generate a key, see http://www-cs-students.stanford.edu/~tjw/jsbn/
+$config['rsa_modulus'] = '';
+$config['rsa_exponent'] = '10001';
+$config['rsa_key'] = '';
+$config['rsa_passphrase'] = '';
+
 //whether to enable the captcha system
 // in order to use this, you must install Securimage 3.0 to the oneapp root directory
 // this can be downloaded at http://www.phpcaptcha.org/download/

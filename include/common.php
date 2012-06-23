@@ -155,6 +155,13 @@ function get_page($page, $args = array()) {
 	$style_page_include = "$stylePath/page/$page.php";
 	$page_include = $basePath . "/page/$page.php";
 	
+	//update page display to include .php
+	for($i = 0; $i < count($page_display); $i++) {
+		if(strpos($page_display[$i], '.') === FALSE) {
+			$page_display[$i] .= '.php';
+		}
+	}
+	
 	if(file_exists("$stylePath/header.php")) {
 		include("$stylePath/header.php");
 	}
@@ -234,6 +241,23 @@ function get_page_advanced($page, $context, $args = array()) {
 			}
 			
 			$side_display[$i] .= $t_get;
+		}
+	}
+	
+	for($i = 0; $i < count($page_display); $i++) {
+		if(strpos($page_display[$i], '.') === FALSE) {
+			$page_display[$i] .= '.php';
+		}
+		
+		//also include token if needed
+		if($t != '') {
+			if(strpos($page_display[$i], '?') === FALSE) {
+				$page_display[$i] .= "?";
+			} else {
+				$page_display[$i] .= "&";
+			}
+			
+			$page_display[$i] .= $t_get;
 		}
 	}
 	
@@ -534,6 +558,11 @@ function updateAccount($user_id, $oldPassword, $newPassword, $newPasswordConfirm
 	if($result === TRUE) {
 		$set_string = "";
 		
+		//decrypt the password if needed
+		require_once(includePath() . "/crypto.php");
+		$newPassword = decryptPassword($newPasswordConfirm);
+		$newPassword = decryptPassword($newPasswordConfirm);
+		
 		if(strlen($newPassword) > 0 || strlen($newPasswordConfirm) > 0) {
 			if(strlen($newPassword) >= 6) { //enforce minimum password length of six
 				if($newPassword == $newPasswordConfirm) {
@@ -583,6 +612,10 @@ function checkLogin($username, $password) {
 	if(!$config['app_enabled']) {
 		return -3;
 	}
+	
+	//decrypt the password if needed
+	require_once(includePath() . "/crypto.php");
+	$password = decryptPassword($password);
 	
 	$username = escape($username);
 	$result = mysql_query("SELECT id, password, salt FROM users WHERE username='" . $username . "'");
@@ -664,6 +697,11 @@ function verifyLogin($user_id, $password) {
 	}
 	
 	$user_id = escape($user_id);
+	
+	//decrypt the password if needed
+	require_once(includePath() . "/crypto.php");
+	$password = decryptPassword($password);
+	
 	$result = mysql_query("SELECT password, salt FROM users WHERE id='" . $user_id . "'");
 	
 	if($row = mysql_fetch_array($result)) {
