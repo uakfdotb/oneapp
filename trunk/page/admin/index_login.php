@@ -1,8 +1,14 @@
+<script src="<?= $basePath ?>/style/jsbn/jsbn.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/prng4.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/rng.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/rsa.js"></script>
+<script src="<?= $basePath ?>/style/password.js.php"></script>
+
 <h1>Administrator Page</h1>
 
 <p>Use the form below to log in to the club administration area.</p>
 
-<form method="POST" action="index.php">
+<form name="pcrypt" onsubmit="pcrypt()" method="POST" action="index.php">
 <table>
 	<tr>
 		<table>

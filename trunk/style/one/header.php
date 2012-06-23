@@ -22,7 +22,7 @@ if(isset($redirect)) {
 <div id="navbar">
 <?
 for($i = 0; $i < count($page_display); $i++) {
-	echo '<a href=' . $page_display[$i] . '.php>' . $page_display_names[$i] . '</a>';
+	echo '<a href="' . $page_display[$i] . '">' . $page_display_names[$i] . '</a>';
 }
 ?>
 </div>

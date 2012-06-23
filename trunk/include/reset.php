@@ -120,6 +120,10 @@ function resetPassword($user_id, $password) {
 	$gen_salt = secure_random_bytes(20);
 	$db_salt = escape(bin2hex($gen_salt));
 	
+	//decrypt the password if needed
+	require_once(includePath() . "/crypto.php");
+	$password = decryptPassword($password);
+	
 	$password = escape(chash2($password, $gen_salt));
 	
 	mysql_query("UPDATE users SET password='$password', salt = '$db_salt' WHERE id='$user_id'");
