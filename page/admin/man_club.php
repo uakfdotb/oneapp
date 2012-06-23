@@ -4,6 +4,7 @@
 
 <h3>Club settings</h3>
 <form method="post" action="man_club.php">
+<?= $t_hidden ?>
 <table>
 <tr>
 	<td colspan="2">Description</td>

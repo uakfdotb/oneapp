@@ -1,12 +1,13 @@
 <h1>View submissions</h1>
 
-<p>A list of submissions appears below. Certain features allow you to better organize your submissions if you are evaluating them online, and can be enabled <a href="man_notes.php">here</a>. Otherwise, simply print the general application, supplement, and any peer recommendations for the users.</p>
+<p>A list of submissions appears below. Certain features allow you to better organize your submissions if you are evaluating them online, and can be enabled <a href="man_notes.php?<?= $t_get ?>">here</a>. Otherwise, simply print the general application, supplement, and any peer recommendations for the users.</p>
 
 <?
 //box filter manager
 if($box_enabled) { //just show a field with the filter text written by default
 ?>
 	<form method="POST" action="view_submit.php">
+	<?= $t_hidden ?>
 	Textbox filter: <input type="text" name="boxFilter" value="<?= $boxFilter ?>">
 	<input type="submit" value="Filter">
 	</form>
@@ -17,6 +18,7 @@ if($box_enabled) { //just show a field with the filter text written by default
 if($cat_enabled) { // here, we give user a filter selection dropdown, preselecting the current filter if any
 ?>
 	<form method="POST" action="view_submit.php">
+	<?= $t_hidden ?>
 	Category filter: <select name="catFilter">
 	<option value="">No filtering</option>
 	
@@ -57,9 +59,9 @@ foreach($array as $item) {
 	if($cat_enabled && $catFilter != "" && (!isset($toolsMap[$appId]) || $toolsMap[$appId][1] != $catFilter)) continue;
 	
 	//form needed in case the update categories or box
-	if($box_enabled || $cat_enabled) echo "<form method=\"post\" action=view_submit.php?id=$appId>";
+	if($box_enabled || $cat_enabled) echo "<form method=\"post\" action=view_submit.php?id=$appId>$t_hidden";
 	
-	$userId = '<a href="user_detail.php?id=' . $item[1] . '">' . $item[1] . '</a>';
+	$userId = '<a href="user_detail.php?id=' . $item[1] . '&' . $t_get . '">' . $item[1] . '</a>';
 	$generalApp = '<a href="../submit/' . $item[2] . '.pdf">Download</a>';
 	$supplement = '<a href="../submit/' . $item[3] . '.pdf">Download</a>';
 	
@@ -67,7 +69,7 @@ foreach($array as $item) {
 	
 	foreach($item[4] as $peerEntry) {
 		if($peerEntry[0] != "*") { //if this is not an uploaded file
-			$peerString .= "<a href=\"../submit/$peerEntry.pdf\">PDF</a> (<a href=\"view_recommendation.php?peer_pdf=$peerEntry&user_id=" . $item[1] . "\">detail</a>) ";
+			$peerString .= "<a href=\"../submit/$peerEntry.pdf\">PDF</a> (<a href=\"view_recommendation.php?peer_pdf=$peerEntry&user_id=" . $item[1] . "&$t_get\">detail</a>) ";
 		} else {
 			$fileTuple = explode(",", substr($peerEntry, 1)); //now array of file id, filename
 			$peerString .= "<a href=\"../download.php?file=" . $fileTuple[0] . "&filename=" . $fileTuple[1] . "\">" . $fileTuple[1] . "</a> ";
@@ -104,7 +106,7 @@ foreach($array as $item) {
 	}
 	
 	if($comment_enabled) {
-		echo "<td><a href=\"comments.php?id=$appId\">comments</a></td>";
+		echo "<td><a href=\"comments.php?id=$appId&$t_get\">comments</a></td>";
 	}
 	
 	if($box_enabled || $cat_enabled) { //comments are updated through separate page

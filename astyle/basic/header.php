@@ -5,7 +5,7 @@
 <ul>
 <?
 for($i = 0; $i < count($page_display); $i++) {
-	echo '<li><a href=' . $page_display[$i] . '.php>' . $page_display_names[$i] . '</a></li>';
+	echo '<li><a href="' . $page_display[$i] . '">' . $page_display_names[$i] . '</a></li>';
 }
 ?>
 </ul>
@@ -13,7 +13,7 @@ for($i = 0; $i < count($page_display); $i++) {
 <ul>
 <?
 for($i = 0; $i < count($side_display); $i++) {
-	echo '<li><a href=' . $side_display[$i] . '.php>' . $side_display_names[$i] . '</a></li>';
+	echo '<li><a href="' . $side_display[$i] . '">' . $side_display_names[$i] . '</a></li>';
 }
 ?>
 </ul>

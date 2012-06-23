@@ -186,22 +186,56 @@ function get_page_advanced($page, $context, $args = array()) {
 	
 	//add links back to specific areas (apply, root, admin)
 	if($context != "apply") {
-		$page_display[] = "../application/index";
+		$page_display[] = "../application/";
 		$page_display_names[] = "Application";
 	}
 	
 	if($context != "root" && isset($_SESSION['user_id']) && isRoot($_SESSION['user_id'])) {
-		$page_display[] = "../root/index";
+		$page_display[] = "../root/";
 		$page_display_names[] = "Root";
 	}
 	
 	if($context != "admin" && isset($_SESSION['user_id']) && isAdmin($_SESSION['user_id'])) {
-		$page_display[] = "../admin/index";
+		$page_display[] = "../admin/";
 		$page_display_names[] = "Admin";
+	}
+	
+	//for admin and root areas, add anti-CSRF strings if needed
+	$t = '';
+	$t_hidden = '';
+	$t_get = 't=disabled';
+	
+	if($context == "admin" || $context == "root") {
+		if($config['csrf_token']) {
+			$key = "ais";
+			if($context == "root") $key = "ris";
+			
+			$t = $_SESSION['t'];
+			$t_hidden = "<input type=\"hidden\" name=\"$key\" value=\"$t\" />";
+			$t_get = "$key=$t";
+		}
 	}
 	
 	$side_display = $config[$context . '_side_display'];
 	$side_display_names = $config[$context . '_side_display_names'];
+	
+	//update page and side display to include .php
+	for($i = 0; $i < count($side_display); $i++) {
+		if(strpos($side_display[$i], '.') === FALSE) {
+			$side_display[$i] .= '.php';
+		}
+		
+		//also include token if needed
+		if($t != '') {
+			if(strpos($side_display[$i], '?') === FALSE) {
+				$side_display[$i] .= "?";
+			} else {
+				$side_display[$i] .= "&";
+			}
+			
+			$side_display[$i] .= $t_get;
+		}
+	}
 	
 	$basePath = basePath();
 	

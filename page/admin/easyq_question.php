@@ -3,6 +3,7 @@
 <p>Select from the following options.</p>
 
 <form method="POST" action="easy_question.php">
+<?= $t_hidden ?>
 <input type="hidden" name="type" value="<?= $type ?>" />
 
 <p>

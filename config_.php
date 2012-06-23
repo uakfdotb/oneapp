@@ -82,6 +82,10 @@ $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadline
 
 $config['limits'] = array('clubs' => -1, 'users' => -1); //limit of -1 is unlimited
 
+//enabling both of the options below is recommended to prevent cross-site request forgeries
+$config['csrf_referer'] = true;
+$config['csrf_token'] = false;
+
 //whether to enable the captcha system
 // in order to use this, you must install Securimage 3.0 to the oneapp root directory
 // this can be downloaded at http://www.phpcaptcha.org/download/

@@ -111,15 +111,15 @@ $(document).ready(function(){
 						<a href="#"><li class="topsidenav">Instructions</li></a>
 					<?					
 						for($i = 0; $i < count($side_display); $i++) {
+							echo '<a href="' . $side_display[$i] . '">';
 							unset($nav_cat);
-							echo '<a href=' . $side_display[$i] . '.php>';
 							
 							if($i<2) echo '<li class="topsidenav">';
 							else echo '<li class="sidenav">';
 							
 							echo  $side_display_names[$i] . '</li></a>';
 	
-							if($side_display[$i] == "supplement") {
+							if(substr($side_display[$i], 0, 10) == "supplement") {
 								unset($nav_cat);
 								
 								//display all the supplements this user is working on
@@ -135,7 +135,7 @@ $(document).ready(function(){
 									echo "</li></a>";
 								}
 								echo "</ul>";
-							} else if($side_display[$i] == "base") {
+							} else if($substr(side_display[$i], 0, 4) == "base") {
 								//display the general application categories
 								include_once($basePath . "/include/apply_submit.php");
 								if(isApplicationStarted($_SESSION['user_id'], 0)) {
@@ -152,14 +152,8 @@ $(document).ready(function(){
 									}
 									echo "</ul>";
 								}
-							} else if($side_display[$i] == "root_cat.php?cat=Manage") {
-								$nav_cat = "Manage";
-								
-							} else if($side_display[$i] == "root_cat.php?cat=Clean+system") {
-								$nav_cat = "Clean system";
-								
-							} else if($side_display[$i] == "root_cat.php?cat=Statistics") {
-								$nav_cat = "Statistics";
+							} else if(substr($side_display[$i], 0, 17) == "root_cat.php?cat=") {
+								$nav_cat = substr($side_display[$i], 17);
 							}
 
 							if(isset($nav_cat)) {
