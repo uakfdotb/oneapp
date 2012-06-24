@@ -295,6 +295,22 @@ function page_advanced_include($target, $context, $args = array()) {
 		$context = "apply"; //this should never happen
 	}
 	
+	//for admin and root areas, add anti-CSRF strings if needed
+	$t = '';
+	$t_hidden = '';
+	$t_get = 't=disabled';
+	
+	if($context == "admin" || $context == "root") {
+		if($config['csrf_token']) {
+			$key = "ais";
+			if($context == "root") $key = "ris";
+			
+			$t = $_SESSION['t'];
+			$t_hidden = "<input type=\"hidden\" name=\"$key\" value=\"$t\" />";
+			$t_get = "$key=$t";
+		}
+	}
+	
 	$basePath = basePath();
 	
 	$style = getStyle();
