@@ -78,6 +78,7 @@ if(isset($_SESSION['admin'])) {
 		//list normal clubs, and general application
 		$parameters['clubs'] = listClubsIdName();
 		$parameters['clubs'][0] = 'General application';
+		$parameters['clubs'][-2] = 'Custom fields';
 	}
 	
 	get_page_advanced("index_login", "admin", $parameters);

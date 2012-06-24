@@ -157,14 +157,15 @@ function customDisplay($instance_id, $target_page, $mutable = true, $submit_text
 	
 	$result = mysql_query("SELECT custom_response.id, custom.id, custom.varname, custom.vardesc, custom.vartype, custom_response.val FROM custom_response LEFT JOIN custom ON custom.id = custom_response.var_id WHERE instance_id = '$instance_id' ORDER BY custom.orderId");
 	
-	echo '<SCRIPT LANGUAGE="JavaScript" SRC="style/limit.js"></SCRIPT>';
-	echo "<form method=\"POST\" action=\"$target_page\"><table width=400px>";
+	echo '<SCRIPT LANGUAGE="JavaScript" SRC="../style/limit.js"></SCRIPT>';
+	echo "<form enctype=\"multipart/form-data\" method=\"POST\" action=\"$target_page\"><table><tr><td width\"60%\"></td><td></td></tr>";
+	echo '<tr><td colspan="2" align="right"><input type="submit" value="' . $submit_text . '" style="width:100px"></td></tr><tr style="background-color:#ABB4BA"><td colspan="2" style="height:1px"></td></tr><tr><td colspan="2" style="height:10px"></td></tr>';
 	
 	while($row = mysql_fetch_row($result)) {
 		writeField($row[1], $row[0], $row[2], $row[3], $row[4], $row[5], $mutable);
 	}
 	
-	echo '<tr><tr colspan="2" align="center"><input type="submit" value="' . $submit_text . '"></tr></td>';
+	echo '<tr><td colspan="2" style="height:10px"></td><tr style="background-color:#ABB4BA"><td colspan="2" style="height:1px"></td></tr></tr><tr><td colspan="2" align="right"><input type="submit" value="' . $submit_text . '" style="width:100px"></td></tr>';
 	echo "</table></form>";
 }
 
@@ -265,7 +266,7 @@ function customSubmit($instance_id, $sectionheader = "Custom", $extrainfo = "Cus
 	}
 	
 	//create the PDF
-	$result = mysql_query("SELECT custom.varname, custom.vardesc, custom.vartype, custom_response.val FROM custom_response LEFT JOIN custom ON custom_response.var_id = custom.id WHERE custom_response.instance_id = '$instance_id' AND ORDER BY custom.orderId");
+	$result = mysql_query("SELECT custom.varname, custom.vardesc, custom.vartype, custom_response.val FROM custom_response LEFT JOIN custom ON custom_response.var_id = custom.id WHERE custom_response.instance_id = '$instance_id' ORDER BY custom.orderId");
 	
 	$createResult = generatePDFByResult($result, "submit/", $sectionheader, $extrainfo);
 	
