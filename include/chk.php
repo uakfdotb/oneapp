@@ -147,7 +147,7 @@ function fullClean() {
 	
 	//delete answers
 	mysql_query("DELETE FROM answers WHERE (SELECT COUNT(id) FROM applications WHERE id = answers.application_id) < 1");
-	mysql_query("DELETE FROM recommender_answers WHERE (SELECT COUNT(id) FROM recommendations WHERE id = recommender_answers.recommend_id) < 1");
+	mysql_query("DELETE FROM custom_response WHERE (SELECT COUNT(id) FROM custom_instance WHERE id = custom_response.instance_id) < 1");
 	
 	mysql_query("DELETE FROM reset");
 	mysql_query("DELETE FROM locks");
@@ -165,7 +165,6 @@ function databaseWipe() {
 	mysql_query("DELETE FROM applications");
 	mysql_query("DELETE FROM answers");
 	mysql_query("DELETE FROM recommendations");
-	mysql_query("DELETE FROM recommender_answers");
 	mysql_query("DELETE FROM pages");
 	mysql_query("DELETE FROM club_notes");
 	mysql_query("DELETE FROM club_notes_categories");
