@@ -8,7 +8,7 @@ if(isset($_SESSION['admin'])) {
 	$club_id = $_SESSION['admin_club_id'];
 	$user_id = $_SESSION['user_id'];
 	
-	if($club_id != 0) {
+	if($club_id > 0) {
 		//first, notes enabled/disabled settings
 		if(isset($_REQUEST['notesupdate'])) {
 			$box_enabled = isset($_REQUEST['box_enabled']) ? 1 : 0;

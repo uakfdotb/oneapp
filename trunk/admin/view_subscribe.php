@@ -10,7 +10,7 @@ if(isset($_SESSION['admin'])) {
 	$club_id = $_SESSION['admin_club_id'];
 	$user_id = $_SESSION['user_id'];
 	
-	if($club_id != 0) {
+	if($club_id > 0) {
 		$subscribers = listSubscriberInfo($club_id); //array of user_id => userInformation array (username, email, name)
 		get_page_advanced("view_subscribe", "admin", array('subscribers' => $subscribers));
 	} else {
