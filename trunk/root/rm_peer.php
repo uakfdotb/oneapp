@@ -5,6 +5,7 @@ include("../include/db_connect.php");
 include("../include/session.php");
 
 include("../include/recommend.php");
+include("../include/custom.php");
 
 if(isset($_SESSION['root'])) {
 	$recommendationResult = FALSE;
@@ -16,8 +17,14 @@ if(isset($_SESSION['root'])) {
 		if(isset($_REQUEST['remove_id'])) {
 			$recommend_id = escape($_REQUEST['remove_id']);
 			
-			mysql_query("DELETE FROM recommender_answers WHERE recommend_id = '$recommend_id'");
-			mysql_query("DELETE FROM recommendations WHERE id = '$recommend_id'");
+			//get instance id
+			$result = mysql_query("SELECT instance_id from recommendations WHERE id = '$recommend_id'");
+			
+			if($row = mysql_fetch_row($result)) {
+				$instance_id = $row[0];
+				mysql_query("DELETE FROM recommendations WHERE id = '$recommend_id'");
+				customDestroy($instance_id);
+			}
 		}
 		
 		$recommendationResult = mysql_query("SELECT * FROM recommendations WHERE user_id = '$user_id'");

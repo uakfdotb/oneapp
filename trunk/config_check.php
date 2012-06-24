@@ -15,7 +15,7 @@ if(file_exists('config.php') && is_readable('config.php')) {
 	
 	if(isset($config)) {
 		//make sure required values are set
-		$config_keys = array('db_name', 'db_hostname', 'db_username', 'db_password', 'mail_smtp', 'mail_username', 'mail_password', 'mail_smtp_host', 'mail_smtp_port', 'site_name', 'organization_name', 'site_address', 'form_array_delimiter', 'lock_time_initial', 'lock_time_overload', 'lock_count_overload', 'lock_time_reset', 'lock_time_max', 'reset_time', 'activation_time', 'max_recommend', 'style', 'app_enabled', 'latex_path', 'page_display', 'page_display_names', 'apply_page_display', 'apply_page_display_names', 'apply_side_display', 'apply_side_display_names', 'root_page_display', 'root_page_display_names', 'root_side_display', 'root_side_display_names', 'admin_page_display', 'admin_page_display_names', 'admin_side_display', 'admin_side_display_names', 'time_dateformat', 'club_dateformat', 'captcha_enabled');
+		$config_keys = array('db_name', 'db_hostname', 'db_username', 'db_password', 'mail_smtp', 'mail_username', 'mail_password', 'mail_smtp_host', 'mail_smtp_port', 'site_name', 'organization_name', 'site_address', 'form_array_delimiter', 'lock_time_initial', 'lock_time_overload', 'lock_count_overload', 'lock_time_reset', 'lock_time_max', 'reset_time', 'activation_time', 'max_recommend', 'style', 'app_enabled', 'latex_path', 'page_display', 'page_display_names', 'apply_page_display', 'apply_page_display_names', 'apply_side_display', 'apply_side_display_names', 'root_page_display', 'root_page_display_names', 'root_side_display', 'root_side_display_names', 'admin_page_display', 'admin_page_display_names', 'admin_side_display', 'admin_side_display_names', 'time_dateformat', 'club_dateformat', 'limits', 'csrf_referer', 'csrf_token', 'rsa_modulus', 'rsa_exponent', 'rsa_key', 'rsa_passphrase', 'captcha_enabled');
 		
 		foreach($config_keys as $config_key) {
 			if(!isset($config[$config_key])) {
@@ -124,6 +124,20 @@ if(!function_exists('openssl_random_pseudo_bytes')) {
 	result('Secure random source', 'Preferred source, openssl_random_pseudo_bytes, does not exist', false);
 } else {
 	result('Secure random source', 'Preferred source, openssl_random_pseudo_bytes, exists', true);
+}
+
+if($config['csrf_referer'] || $config['csrf_token']) {
+	result('CSRF prevention', 'At least one CSRF prevention technique is enabled', true);
+} else {
+	result('CSRF prevention', 'Both CSRF prevention techniques are disabled', false);
+}
+
+if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
+	result('Encryption', 'HTTPS is enabled', true);
+} else if($config['rsa_modulus'] != '' && $config['rsa_exponent'] != '' && $config['rsa_key'] != '') {
+	result('Encryption', 'JavaScript-based RSA encryption is enabled for passwords', true);
+} else {
+	result('Encryption', 'HTTPS and RSA encryption are both disabled; passwords will be sent in plaintext', false);
 }
 
 function result($name, $desc, $status) {

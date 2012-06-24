@@ -4,39 +4,94 @@ include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
+include("../include/custom.php");
+
 if(isset($_SESSION['root'])) {
-	
+	//make sure default custom categories exist
+	customGetCategory("recommend", true);
+
 	if(isset($_REQUEST['action'])) {
 		$action = $_REQUEST['action'];
 		
-		if($action == 'add' && isset($_REQUEST['username']) && isset($_REQUEST['club_id'])) {
+		if($action == 'add' && isset($_REQUEST['username']) && isset($_REQUEST['group_id'])) {
 			$user_id = getUserId($_REQUEST['username']);
 			
 			if($user_id !== FALSE) {
-				alterAdminClubs($user_id, -1, $_REQUEST['club_id']);
+				if(substr($_REQUEST['group_id'], 0, 1) == 'g') {
+					alterAdminGroups($user_id, false, substr($_REQUEST['group_id'], 1));
+				} else if(substr($_REQUEST['group_id'], 0, 1) == 'c') {
+					customAlterAdmin($user_id, false, substr($_REQUEST['group_id'], 1));
+				}
 			} else {
 				$error = "Username not found.";
 			}
-		} else if(($action == 'remove' || $action == "Remove") && isset($_REQUEST['id']) && isset($_REQUEST['club_id_orig'])) {
-			alterAdminClubs($_REQUEST['id'], $_REQUEST['club_id_orig'], -1);
+		} else if(($action == 'remove' || $action == "Remove") && isset($_REQUEST['id']) && isset($_REQUEST['group_id_orig'])) {
+			if(substr($_REQUEST['group_id_orig'], 0, 1) == 'g') {
+				alterAdminGroups($_REQUEST['id'], substr($_REQUEST['group_id_orig'], 1), false);
+			} else if(substr($_REQUEST['group_id_orig'], 0, 1) == 'c') {
+				customAlterAdmin($_REQUEST['id'], substr($_REQUEST['group_id_orig'], 1), false);
+			}
+			
 			$success =  "Admin removed successfully.";
-		} else if(($action == 'update' || $action == 'Update') && isset($_REQUEST['id']) && isset($_REQUEST['club_id_orig']) && isset($_REQUEST['club_id'])) {
-			alterAdminClubs($_REQUEST['id'], $_REQUEST['club_id_orig'], $_REQUEST['club_id']);
+		} else if(($action == 'update' || $action == 'Update') && isset($_REQUEST['id']) && isset($_REQUEST['group_id_orig']) && isset($_REQUEST['group_id'])) {
+			if(substr($_REQUEST['group_id'], 0, 1) == 'g') {
+				alterAdminGroups($_REQUEST['id'], substr($_REQUEST['group_id_orig'], 1), substr($_REQUEST['group_id'], 1));
+			} else if(substr($_REQUEST['group_id'], 0, 1) == 'c') {
+				customAlterAdmin($_REQUEST['id'], substr($_REQUEST['group_id_orig'], 1), substr($_REQUEST['group_id'], 1));
+			}
+			
 			$success = "Admin updated successfully.";
 		}
 	}
 	
+	//get list of possible groups
+	//there are three types we have to consider:
+	// 1. clubs, in user_groups
+	// 2. special groups, in user_groups
+	// 3. custom field groups, in user_custom
+	//we label the first two with g and the third with c
 	$clubsList = listClubsIdName();
-	$result = mysql_query("SELECT user_groups.user_id, user_groups.`group`, users.username FROM user_groups LEFT JOIN users ON user_groups.user_id = users.id WHERE user_groups.`group` >= '0' ORDER BY user_groups.`group`");
+	$catList = customCategories();
+	
+	$groupList = array();
+	
+	$groupList["g0"] = "General application";
+	$groupList["g-1"] = "Root admin";
+	//don't include custom field group, because we're including the actual custom categories
+	
+	foreach($clubsList as $club_id => $club_name) {
+		$groupList["g" . $club_id] = $club_name;
+	}
+	
+	foreach($catList as $cat_id => $cat_name) {
+		$groupList["c" . $cat_id] = $cat_name;
+	}
+	
+	//now create the list of admins, using same notation as above
 	$adminList = array();
+	$result = mysql_query("SELECT user_groups.user_id, user_groups.`group`, users.username FROM user_groups LEFT JOIN users ON user_groups.user_id = users.id WHERE user_groups.`group` != '-2' ORDER BY user_groups.`group`");
 	
 	while($row = mysql_fetch_array($result)) {
-		array_push($adminList, array($row[0], $row[1], $row[2]));
+		//try to find group name
+		$groupId = 'g' . $row[1];
+		$groupName = "unknown, id=" . $groupId;
+		
+		if(isset($groupList[$groupId])) {
+			$groupName = $groupList[$groupId];
+		}
+		
+		$adminList[] = array($row[0], $row[2], $groupId, $groupName);
+	}
+	
+	$customAdmins = customAdmins(); //array of (user id, user name, category id, category name)
+	
+	foreach($customAdmins as $admin) {
+		$adminList[] = array($admin[0], $admin[1], 'c' . $admin[2], $admin[3]);
 	}
 	
 	$parameters = array();
 	$parameters['adminList'] = $adminList;
-	$parameters['clubsList'] = $clubsList;
+	$parameters['groupList'] = $groupList;
 	
 	if(isset($error)) {
 		$parameters['error'] = $error;

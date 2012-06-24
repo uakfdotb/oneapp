@@ -89,6 +89,7 @@ $config['csrf_token'] = false;
 //if not blank, the fields below will be used for RSA encryption (modulus in hexadecimal)
 // this ensures that passwords cannot be recovered even if an eavesdropper has full access to the server-client dialog
 // to generate a key, see http://www-cs-students.stanford.edu/~tjw/jsbn/
+// note: if you are using SSL, do NOT enable this - it'll waste resources on both client and server side
 $config['rsa_modulus'] = '';
 $config['rsa_exponent'] = '10001';
 $config['rsa_key'] = '';

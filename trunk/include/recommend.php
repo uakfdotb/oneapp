@@ -72,18 +72,13 @@ function requestRecommendation($user_id, $author, $email, $message) {
 	
 	lockAction("peer");
 	
-	//first insert into recommendations table
+	//first create an instance
+	$instance_id = customCreate(customGetCategory('recommend', true), $user_id);
+	
+	//insert into recommendations table
 	$auth = escape(uid(64));
-	mysql_query("INSERT INTO recommendations (user_id, author, email, auth, status, filename) VALUES ('$user_id', '$author', '$email', '$auth', '0', '')");
+	mysql_query("INSERT INTO recommendations (user_id, instance_id, author, email, auth, status, filename) VALUES ('$user_id', '$instance_id', '$author', '$email', '$auth', '0', '')");
 	$recommend_id = mysql_insert_id();
-	
-	//insert into recommender_answers table
-	$result = mysql_query("SELECT id FROM baseapp WHERE category = '-1'"); //-1 denotes peer recommendation category
-	
-	while($row = mysql_fetch_array($result)) {
-		$question_id = escape($row['id']);
-		mysql_query("INSERT INTO recommender_answers (recommend_id, var_id, val) VALUES ('$recommend_id', '$question_id', '')");
-	}
 	
 	$userinfo = getUserInformation($user_id); //array (username, email address, name)
 	
@@ -126,75 +121,58 @@ function authenticateRecommendation($recommend_id, $user_id, $auth) {
 }
 
 function writeRecommendation($recommend_id, $user_id, $auth) {
+	//determine whether recommendation should be mutable, and get instance id at the same time
 	$mutable = true;
-	$result = mysql_query("SELECT status FROM recommendations WHERE id = '$recommend_id'");
+	$result = mysql_query("SELECT status, instance_id FROM recommendations WHERE id = '$recommend_id'");
+	$instance_id = 0;
+	
 	if($row = mysql_fetch_array($result)) {
 		if($row[0] != 0) {
 			$mutable = false;
 		}
+		
+		$instance_id = $row[1];
 	} else {
 		return -2;
 	}
 	
-	$result = mysql_query("SELECT recommender_answers.id, baseapp.id, baseapp.varname, baseapp.vardesc, baseapp.vartype, recommender_answers.val FROM recommender_answers, baseapp WHERE recommender_answers.recommend_id = '$recommend_id' AND baseapp.id = recommender_answers.var_id AND baseapp.category = '-1' ORDER BY baseapp.orderId");
-	
-	echo '<SCRIPT LANGUAGE="JavaScript" SRC="style/limit.js"></SCRIPT>';
-	echo "<form method=\"POST\" action=\"recommend.php?id=$recommend_id&user_id=$user_id&auth=$auth&submit=submit\"><table width=400px";
-	
-	while($row = mysql_fetch_row($result)) {
-		writeField($row[1], $row[0], $row[2], $row[3], $row[4], $row[5], $mutable);
-	}
-	
-	echo '<tr><tr colspan="2" align="center"><input type="submit" value="I\'m done. Submit."></tr></td>';
-	echo "</table></form>";
+	//use custom to display the fields
+	customDisplay($instance_id, "recommend.php?id=$recommend_id&user_id=$user_id&auth=$auth&submit=submit", $mutable, 'I\'m done. Submit.');
 }
 
 //0: success; -1: already submitted; -2: internal error; -3: incomplete
 function submitRecommendation($recommend_id, $recommendation) {
 	$recommend_id = escape($recommend_id);
 	
-	//make sure not already submitted; also get recommender name
-	$result = mysql_query("SELECT status, author FROM recommendations WHERE id = '$recommend_id'");
+	//make sure not already submitted; also get recommender name and instance id
+	$result = mysql_query("SELECT status, author, instance_id FROM recommendations WHERE id = '$recommend_id'");
 	
 	if($row = mysql_fetch_array($result)) {
 		if($row[0] != 0) {
 			return -1;
 		} else {
 			$recommender_name = $row[1];
+			$inscance_id = $row[2];
 		}
 	} else {
 		return -2;
 	}
 	
-	foreach($recommendation as $var_id => $answer) {
-		$var_id = escape($var_id);
-		$answer_id = escape($answer[0]);
-		$answer_value = escape(substr($answer[1], 0, 16384));
-		
-		mysql_query("UPDATE recommender_answers SET val='$answer_value' WHERE id='$answer_id' AND recommend_id='$recommend_id' AND var_id='$var_id'");
-	}
+	$error = customSave($instance_id, $recommendation);
 	
-	//make sure all fields have been filled completely
-	$result = mysql_query("SELECT baseapp.varname, baseapp.vartype FROM recommender_answers, baseapp WHERE recommender_answers.recommend_id='$recommend_id' AND recommender_answers.var_id = baseapp.id AND recommender_answers.val = ''");
-	
-	while($row = mysql_fetch_array($result)) {
-		$typeArray = getTypeArray($row[1]);
-		
-		if($typeArray['status'] == "required") {
-			return -3;
-		}
-	}
-	
-	//create the PDF
-	$result = mysql_query("SELECT baseapp.varname, baseapp.vardesc, baseapp.vartype, recommender_answers.val FROM recommender_answers, baseapp WHERE recommender_answers.recommend_id = '$recommend_id' AND baseapp.id = recommender_answers.var_id ORDER BY baseapp.orderId");
-	
-	$createResult = generatePDFByResult($result, "submit/", "Recommendation letter", $recommender_name);
-	
-	if(!$createResult[0]) { //if error during PDF generation
+	if($error !== TRUE) {
 		return -2;
 	}
 	
-	$filename = $createResult[1];
+	//create the PDF
+	$filename = customSubmit($instance_id, "Recommendation letter", $recommender_name);
+	
+	if($filename === -1) { //if error during PDF generation
+		return -2;
+	} else if($filename === -2) { //if incomplete
+		return -3;
+	}
+	
 	mysql_query("UPDATE recommendations SET status='1', filename='$filename' WHERE id = '$recommend_id'");
 	return 0;
 }

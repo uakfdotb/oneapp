@@ -727,7 +727,8 @@ function checkAdminLogin($user_id, $password, $club_id) {
 	
 	if($login_result === TRUE) {
 		//check that admin owns the club
-		$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE user_id = '$user_id' AND `group` = '$club_id' AND `group` >= '0'");
+		//make sure to exclude root (gorup=-1)
+		$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE user_id = '$user_id' AND `group` = '$club_id' AND `group` != '-1'");
 		$row = mysql_fetch_row($result);
 		
 		if($row[0] == 0) {
@@ -789,8 +790,8 @@ function isRoot($user_id) {
 	}
 }
 
-//returns list of club_id => club_name that admin can manage, or empty list of none
-function getAdminClubs($user_id) {
+//returns list of group_id => group_name that admin can manage via admin area, or empty list of none
+function getAdminGroups($user_id) {
 	$user_id = escape($user_id);
 	
 	//first add regular clubs
@@ -810,23 +811,37 @@ function getAdminClubs($user_id) {
 		$clubs_array[0] = 'General application';
 	}
 	
+	//add custom if needed
+	$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE user_id =' $user_id' AND `group` = '-2'");
+	$row = mysql_fetch_row($result);
+	
+	if($row[0] > 0) {
+		$clubs_array[-2] = 'Custom fields';
+	}
+	
 	return $clubs_array;
 }
 
 //can be used to add, remove, or alter a user group association
-// if club_id = -1 or association doesn't exist, association will be added
-// if new_club_id = -1, association will be removed
+// if club_id = false or association doesn't exist, association will be added
+// if new_club_id = false, association will be removed
 // otherwise, association will be altered
 //returns TRUE in success, FALSE on failure
-function alterAdminClubs($user_id, $club_id, $new_club_id) {
+function alterAdminGroups($user_id, $club_id, $new_club_id) {
 	$user_id = escape($user_id);
-	$club_id = escape($club_id);
-	$new_club_id = escape($new_club_id);
+	
+	if($club_id !== FALSE) {
+		$club_id = escape($club_id);
+	}
+	
+	if($new_club_id !== FALSE) {
+		$new_club_id = escape($new_club_id);
+	}
 	
 	$old_association = FALSE;
 	
 	//verify existing association
-	if($club_id != -1) {
+	if($club_id !== false) {
 		$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE user_id = '$user_id' AND `group` = '$club_id'");
 		$row = mysql_fetch_row($result);
 		
@@ -837,23 +852,23 @@ function alterAdminClubs($user_id, $club_id, $new_club_id) {
 	
 	//invalidate new_club_id if it exists already
 	// in this case, we just delete club_id association
-	if($new_club_id != -1) {
+	if($new_club_id !== false) {
 		$result = mysql_query("SELECT COUNT(*) FROM user_groups WHERE user_id = '$user_id' AND `group` = '$new_club_id'");
 		$row = mysql_fetch_row($result);
 		
 		if($row[0] > 0) {
-			$new_club_id = -1;
+			$new_club_id = false;
 		}
 	}
 	
 	if($old_association) {
 		//update or delete existing association
-		if($new_club_id == -1) {
+		if($new_club_id === false) {
 			mysql_query("DELETE FROM user_groups WHERE user_id = '$user_id' AND `group` = '$club_id'");
 		} else {
 			mysql_query("UPDATE user_groups SET `group` = '$new_club_id' WHERE user_id = '$user_id' AND `group` = '$club_id'");
 		}
-	} else if($new_club_id != -1) { //only add an association if we're not trying to delete it!
+	} else if($new_club_id !== false) { //only add an association if we're not trying to delete it!
 		mysql_query("INSERT INTO user_groups (user_id, `group`) VALUES ('$user_id', '$new_club_id')");
 	}
 	
