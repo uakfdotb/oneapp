@@ -152,7 +152,7 @@ function submitRecommendation($recommend_id, $recommendation) {
 			return -1;
 		} else {
 			$recommender_name = $row[1];
-			$inscance_id = $row[2];
+			$instance_id = $row[2];
 		}
 	} else {
 		return -2;

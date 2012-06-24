@@ -8,6 +8,7 @@ include("include/recommend.php");
 include("include/apply_gen.php");
 include("include/apply_submit.php");
 include("include/latex.php");
+include("include/custom.php");
 
 if(isset($_SESSION['user_id'])) {
 	get_page("message", array("title" => "Logged In", "message" => "You are already logged in (you must logout before you can submit a recommendation)! Click <a href=\"application/\">here</a> to continue."));
