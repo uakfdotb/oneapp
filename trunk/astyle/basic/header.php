@@ -19,3 +19,21 @@ for($i = 0; $i < count($side_display); $i++) {
 </ul>
 
 <p>The time is <?= $timeString ?></p>
+
+<?
+if(isset($warning)) {
+	echo "<p>" . $warning . "</p>";
+}
+if(isset($error)) {
+	echo "<p>" . $error . "</p>";
+}
+if(isset($info)) {
+	echo "<p>" . $info . "</p>";
+}
+if(isset($success)) {
+	echo "<p>" . $success . "</p>";
+}
+if(isset($validation)) {
+	echo "<p>" . $validation . "</p>";
+}
+?>
