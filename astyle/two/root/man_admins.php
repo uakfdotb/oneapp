@@ -12,10 +12,10 @@
 </tr>
 <tr>
 	<td>Club</td>
-	<td><select name="club_id">
+	<td><select name="group_id">
 		<?
-			foreach($clubsList as $club_id => $club_name) {
-				echo "<option value=\"" . $club_id . "\">" . $club_name . "</option>";
+			foreach($groupList as $group_id => $group_name) {
+				echo "<option value=\"" . $group_id . "\">" . $group_name . "</option>";
 			}
 		?>
 		<option value="0">General Application</option>
@@ -44,7 +44,7 @@
 <table class="tbl_repeat">
 <tr>
 	<th align="left">Username</th>
-	<th>Club</th>
+	<th>Group</th>
 	<th></th>
 	<th></th>
 </tr>
@@ -54,26 +54,17 @@ foreach($adminList as $item) {
 ?>
 	<form method="post" action="man_admins.php">
 	<input type="hidden" name="id" value="<?= $item[0] ?>">
-	<input type="hidden" name="club_id_orig" value="<?= $item[1] ?>">
+	<input type="hidden" name="group_id_orig" value="<?= $item[2] ?>">
 	<tr>
-		<td><input class="slide" onfocus="OnFocusInput (this)" onblur="OnBlurInput (this)" type="text" name="username" value="<?= $item[2] ?>"></td>
-		<td><select name="club_id">
-			<option value="<?= $item[1] ?>">
+		<td><input class="slide" onfocus="OnFocusInput (this)" onblur="OnBlurInput (this)" type="text" name="username" value="<?= $item[1] ?>"></td>
+		<td><select name="group_id">
+			<option value="<?= $item[2] ?>"><?= $item[3] ?></option>
 			<?
-				if ($item[1] == 0) {
-				   echo "General Application";
-				} else {
-					echo $clubsList[$item[1]];
+				foreach($groupList as $group_id => $group_name) {
+					if(substr($group_id, 0, 1) == substr($item[2], 0, 1) && $group_id != $item[2]) {
+						echo "<option value=\"" . $group_id . "\">" . $group_name . "</option>";
+					}
 				}
-			?>
-			</option>
-			
-			<?
-				foreach($clubsList as $club_id => $club_name) {
-					echo "<option value=\"" . $club_id . "\">" . $club_name . "</option>";
-				}
-
-				echo "<option value=\"0\">General Application</option>";
 			?>
 		</select>
 		</td>
