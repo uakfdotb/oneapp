@@ -1,6 +1,13 @@
+<script src="<?= $basePath ?>/style/jsbn/jsbn.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/prng4.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/rng.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/rsa.js"></script>
+<script src="<?= $basePath ?>/style/bin2hex.js"></script>
+<script src="<?= $basePath ?>/style/password.js.php"></script>
+
 <h1>Root Administration Area</h1>
 
-<form method="POST" action="index.php">
+<form name="pcrypt" onsubmit="pcryptf()" method="POST" action="index.php">
 <table class="center">
 <? if(!$user_loggedin) { ?>
 <p>Please login with your username and password to access the root administration area.</p>

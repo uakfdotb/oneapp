@@ -53,8 +53,6 @@ function pcryptf() {
 		}
 	}
 	
-	alert("<?= $crypt_key ?>");
-	
 	return true;
 }
 
