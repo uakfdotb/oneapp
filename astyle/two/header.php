@@ -153,7 +153,7 @@ $(document).ready(function(){
 									echo "</ul>";
 								}
 							} else if(substr($side_display[$i], 0, 17) == "root_cat.php?cat=") {
-								$nav_cat = substr($side_display[$i], 17);
+								$nav_cat = urldecode(substr($side_display[$i], 17));
 							}
 
 							if(isset($nav_cat)) {
