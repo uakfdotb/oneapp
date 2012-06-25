@@ -119,7 +119,7 @@ $(document).ready(function(){
 							
 							echo  $side_display_names[$i] . '</li></a>';
 	
-							if(substr($side_display[$i], 0, 10) == "supplement") {
+							if(substr($side_display[$i], 0, 10) == "supplement" && isset($_SESSION['user_id'])) {
 								unset($nav_cat);
 								
 								//display all the supplements this user is working on
@@ -135,7 +135,7 @@ $(document).ready(function(){
 									echo "</li></a>";
 								}
 								echo "</ul>";
-							} else if($substr(side_display[$i], 0, 4) == "base") {
+							} else if(substr($side_display[$i], 0, 4) == "base" && isset($_SESSION['user_id'])) {
 								//display the general application categories
 								include_once($basePath . "/include/apply_submit.php");
 								if(isApplicationStarted($_SESSION['user_id'], 0)) {
