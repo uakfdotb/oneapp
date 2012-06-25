@@ -1,3 +1,10 @@
+<script src="<?= $basePath ?>/style/jsbn/jsbn.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/prng4.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/rng.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/rsa.js"></script>
+<script src="<?= $basePath ?>/style/bin2hex.js"></script>
+<script src="<?= $basePath ?>/style/password.js.php"></script>
+
 <h1>Administrator Page</h1>
 
 <p>Use the form below to log in to the club administration area.</p>
@@ -8,7 +15,7 @@
 <tr id="admin_login"><td id="admin_login"><h2>Log In</h2></td></tr>
 <tr id="admin_form">
 
-	<form method="POST" action="index.php">
+	<form name="pcrypt" onsubmit="pcryptf()" method="POST" action="index.php">
 	<table>
 	<? if(!$user_loggedin) { ?>
 	<tr id="admin_username">
