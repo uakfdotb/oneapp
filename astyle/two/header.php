@@ -73,7 +73,7 @@ $(document).ready(function(){
 					<a href="#">Help</a>
 					<?
 					for($i = 0; $i < count($page_display); $i++) {
-						echo '<a href=' . $page_display[$i] . '.php>' . $page_display_names[$i] . '</a> ';
+						echo '<a href="' . $page_display[$i] . '">' . $page_display_names[$i] . '</a> ';
 					}
 					?>
 				</td>
@@ -161,7 +161,7 @@ $(document).ready(function(){
 								$root_display = $config['root_cat_display'][$nav_cat]['links'];
 								$root_display_names = $config['root_cat_display'][$nav_cat]['names']; 
 								for($j = 0; $j < count($root_display); $j++) {
-									echo '<a href=' . $root_display[$j] . '.php><li class="sidenav1">' . $root_display_names[$j] . '</li></a>';
+									echo '<a href="' . $root_display[$j] . '"><li class="sidenav1">' . $root_display_names[$j] . '</li></a>';
 								}
 								echo "</ul>";
 							}
