@@ -12,6 +12,8 @@ function decryptPassword($input) {
 			$res = openssl_pkey_get_private($config['rsa_key'], $config['rsa_passphrase']);
 			openssl_private_decrypt(hex2bin($input), $plaintext, $res);
 			
+			$plaintext = utf8_encode($plaintext);
+			
 			//loop through current session login keys and try all of them that haven't expired
 			foreach($_SESSION['crypt_key'] as $arrayKey => $key_array) { //key_array is array(time key was generated, hexadecimal key)
 				if(time() - $key_array[0] > 5 * 60) {
@@ -19,14 +21,13 @@ function decryptPassword($input) {
 					//shouldn't take that long to login anyway!
 					unset($_SESSION['crypt_key'][$arrayKey]);
 				} else {
-					$crypt_key = hex2bin($key_array[1]);
+					$crypt_key = $key_array[1];
 					
 					//first part of plaintext should be equal to crypt key
 					if(substr($plaintext, 0, strlen($crypt_key)) == $crypt_key) {
 						return substr($plaintext, strlen($crypt_key));
 					}
 					
-					//if not, continue iterating
 				}
 			}
 			
