@@ -576,8 +576,8 @@ function updateAccount($user_id, $oldPassword, $newPassword, $newPasswordConfirm
 		
 		//decrypt the password if needed
 		require_once(includePath() . "/crypto.php");
-		$newPassword = decryptPassword($newPasswordConfirm);
-		$newPassword = decryptPassword($newPasswordConfirm);
+		$newPassword = decryptPassword($newPassword);
+		$newPasswordConfirm = decryptPassword($newPasswordConfirm);
 		
 		if(strlen($newPassword) > 0 || strlen($newPasswordConfirm) > 0) {
 			if(strlen($newPassword) >= 6) { //enforce minimum password length of six
