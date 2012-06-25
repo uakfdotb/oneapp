@@ -63,6 +63,9 @@ function customAdminCategories($user_id) {
 // otherwise, association will be altered
 //returns TRUE in success, FALSE on failure
 function customAlterAdmin($user_id, $cat_id, $new_cat_id) {
+	//return if we have nothing to do
+	if($cat_id === $new_cat_id) return true;
+	
 	$user_id = escape($user_id);
 	
 	if($cat_id !== FALSE) {

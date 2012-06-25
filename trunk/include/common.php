@@ -844,6 +844,9 @@ function getAdminGroups($user_id) {
 // otherwise, association will be altered
 //returns TRUE in success, FALSE on failure
 function alterAdminGroups($user_id, $club_id, $new_club_id) {
+	//return if we have nothing to do
+	if($club_id === $new_club_id) return true;
+	
 	$user_id = escape($user_id);
 	
 	if($club_id !== FALSE) {
