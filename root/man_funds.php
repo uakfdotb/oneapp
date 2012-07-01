@@ -4,6 +4,8 @@ include("../include/common.php");
 include("../include/db_connect.php");
 include("../include/session.php");
 
+include("../include/purchase.php");
+
 if(isset($_SESSION['root'])) {
 	if(isset($_REQUEST['action'])) {
 		$action = $_REQUEST['action'];
@@ -67,8 +69,8 @@ if(isset($_SESSION['root'])) {
 		array_push($purchaseList, array($row[0], $row[1]));
 	}
 
-	$result = mysql_query("SELECT club_id, submit_time, status, amount FROM purchase_order WHERE status>0");
-	$result_two = mysql_query("SELECT club_id, submit_time, status_time, amount FROM purchase_order WHERE status=0 OR status=-1");
+	$result = mysql_query("SELECT club_id, submit_time, status, amount FROM purchase_order WHERE status>0 ORDER BY status");
+	$result_two = mysql_query("SELECT club_id, submit_time, status_time, amount, status FROM purchase_order WHERE status=0 OR status=-1");
 	
 	if(isset($success)) {
 		get_page_advanced("man_funds", "root", array('success' => $success, 'pending' => $result, 'completed' => $result_two, 'purchaseList' => $purchaseList));

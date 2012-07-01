@@ -29,16 +29,14 @@
 	<th>Finalized Time</th>
 	<th>Status</th>
 	<th>Amount</th>
-	<th>Details</th>
 </tr>
 <? while($row = mysql_fetch_array($completed)) { ?>
 	<tr>
 		<td><? $club_detail = clubInfo($row['club_id']); echo $club_detail[0]; ?></td>
-		<td><?= $row['submit_time']?></td>
-		<td><?= $row['status_time']?></td>
-		<td><?= $row['status']?></td>
+		<td><?= date('m/d/y H:i:s', $row['submit_time']) ?></td>
+		<td><? if($row['status'] == -1) echo date('m/d/y H:i:s', $row['status_time']); ?></td>
+		<td><?= getPurchaseStatusString($row['status'])?></td>
 		<td><?= $row['amount']?></td>
-		<td>Details</td>
 	</tr>
 <? } ?>
 </table>

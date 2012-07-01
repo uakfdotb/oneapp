@@ -1,5 +1,4 @@
 <?php
-
 //returns an array of (id, submit_time, status_time, status, amount) elements for a certain club
 function listPurchases($club_id) {
 	$club_id = escape($club_id);
@@ -13,19 +12,19 @@ function listPurchases($club_id) {
 	return $purchase_array;
 }
 
-//0: success; 1: internal error
+//0: success; -1: internal error
 function createPurchase($club_id) {
 	
 	//first create an instance
 	$instance_id = customCreate(customGetCategory('purchase', true), $club_id);
-	
+	$curr_time = time();
 	//insert into purchase table
-	mysql_query("INSERT INTO purchase_order (club_id, instance_id, status, filename) VALUES ('$user_id', '$instance_id', '0', '')");
+	mysql_query("INSERT INTO purchase_order (club_id, instance_id, status, filename, submit_time) VALUES ('$club_id', '$instance_id', '0', '', '$curr_time' )");
 	$purchase_id = mysql_insert_id();
 	if($purchase_id) {
 		return $purchase_id;
 	} else {
-		return 1;
+		return -1;
 	}
 }
 
@@ -33,7 +32,7 @@ function createPurchase($club_id) {
 
 function writePurchase($purchase_id, $club_id) {
 	$mutable = true;
-	$result = mysql_query("SELECT status FROM purchase_order, instance_id WHERE id = '$purchase_id'");
+	$result = mysql_query("SELECT status, instance_id FROM purchase_order WHERE id = '$purchase_id'");
 	if($row = mysql_fetch_array($result)) {
 		if($row[0] != 0) {
 			$mutable = false;
