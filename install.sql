@@ -1,3 +1,8 @@
+CREATE TABLE IF NOT EXISTS purchase_order (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, club_id INT, submit_time INT, status_time INT, status INT, amount INT, filename VARCHAR(32));
+CREATE TABLE IF NOT EXISTS purchase_confirm (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), orderId INT);
+CREATE TABLE IF NOT EXISTS 
+purchase_answers (id INT PRIMARY KEY AUTO_INCREMENT, recommend_id INT, var_id INT, val TEXT);
+
 CREATE TABLE IF NOT EXISTS baseapp (id INT PRIMARY KEY AUTO_INCREMENT, category INT, orderId INT, varname VARCHAR(1024), vardesc VARCHAR(1024), vartype VARCHAR(1024));
 CREATE TABLE IF NOT EXISTS basecat (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), orderId INT);
 

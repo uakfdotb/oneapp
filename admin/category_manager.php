@@ -21,6 +21,7 @@ if($club_id == 0) { //general application
 	//allow user to select category
 	$result = mysql_query("SELECT id, name FROM basecat ORDER BY orderId");
 	$categories[0] = "Profile";
+	$categories[-2] = "Purchase Orders";
 	
 	while($row = mysql_fetch_array($result)) {
 		$categories[$row['id']] = $row['name'];
@@ -43,7 +44,7 @@ if($club_id == 0) { //general application
 		$categories[$row['id']] = $row['name'];
 	}
 } else {
-	$_SESSION['category'] = -2;
+	$_SESSION['category'] = -3;
 }
 
 ?>
