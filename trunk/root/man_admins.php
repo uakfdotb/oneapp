@@ -89,9 +89,16 @@ if(isset($_SESSION['root'])) {
 		$adminList[] = array($admin[0], $admin[1], 'c' . $admin[2], $admin[3]);
 	}
 	
+	$result = mysql_query("SELECT username, name FROM users");
+	
+	while($row = mysql_fetch_array($result)) {
+		$userList[] = array($row[0], $row[1]);
+	}
+	
 	$parameters = array();
 	$parameters['adminList'] = $adminList;
 	$parameters['groupList'] = $groupList;
+	$parameters['userList'] = $userList;
 	
 	if(isset($error)) {
 		$parameters['error'] = $error;

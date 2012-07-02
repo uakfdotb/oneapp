@@ -13,13 +13,14 @@ function listPurchases($club_id) {
 }
 
 //0: success; -1: internal error
-function createPurchase($club_id) {
-	
+function createPurchase($club_id, $purchase_description, $amount) {
+	$purchase_description = escape($purchase_description);
+	$amount = escape($amount);
 	//first create an instance
 	$instance_id = customCreate(customGetCategory('purchase', true), $club_id);
 	$curr_time = time();
 	//insert into purchase table
-	mysql_query("INSERT INTO purchase_order (club_id, instance_id, status, filename, submit_time) VALUES ('$club_id', '$instance_id', '0', '', '$curr_time' )");
+	mysql_query("INSERT INTO purchase_order (club_id, instance_id, status, filename, submit_time, description, amount) VALUES ('$club_id', '$instance_id', '0', '', '$curr_time', '$purchase_description', '$amount' )");
 	$purchase_id = mysql_insert_id();
 	if($purchase_id) {
 		return $purchase_id;
@@ -104,11 +105,21 @@ function submitPurchase($purchase_id, $purchase) {
 }
 
 function getPurchaseStatusString($status) {
-	if($status == 0) return "incomplete";
-	else if($status == -2 ) return "rejected";
-	else if($status == -1 ) return "accepted";
-	else {
-		$result = mysql_query("SELECT name FROM purchase_confirm WHERE order_id = '$status'");
+	if($status == 0) {
+		return "incomplete";
+	} else if($status == -1 ) {
+		return "accepted";
+	} else if($status <= -2 ) {
+		$val = abs($status)/10;
+		$result = mysql_query("SELECT name FROM purchase_confirm WHERE orderID = '$val'");
+		if($row = mysql_fetch_array($result)) {
+			$return_string = "rejected  by " . $row[0];
+			return $return_string;
+		} else {
+			return "rejected";
+		}
+	} else {
+		$result = mysql_query("SELECT name FROM purchase_confirm WHERE orderID = '$status'");
 		if($row = mysql_fetch_array($result)) {
 			return $row[0];
 		} else {

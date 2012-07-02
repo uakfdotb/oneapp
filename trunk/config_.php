@@ -54,8 +54,8 @@ $config['apply_side_display_names'] = array('Clubs', 'General Application', 'Sup
 $config['admin_page_display'] = array('index', 'index.php?action=logout');
 $config['admin_page_display_names'] = array('Admin Workspace', 'Logout');
 
-$config['admin_side_display'] = array('man_questions', 'view_submit', 'view_subscribe', 'messaging', 'man_club', 'preview', 'man_notes', 'gen_pdf', 'statistics', 'easy_question');
-$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'View subscribed users', 'Club messaging', 'Manage club information', 'Preview application', 'Submission settings', 'Generate PDF', 'Statistics', 'Easy Question Adder');
+$config['admin_side_display'] = array('man_questions', 'view_submit', 'view_subscribe', 'messaging', 'man_club', 'preview', 'man_notes', 'gen_pdf', 'statistics', 'easy_question','purchase');
+$config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'View subscribed users', 'Club messaging', 'Manage club information', 'Preview application', 'Submission settings', 'Generate PDF', 'Statistics', 'Easy Question Adder', 'Purchase History');
 
 $config['root_page_display'] = array('index', 'index.php?action=logout');
 $config['root_page_display_names'] = array('Root Workspace', 'Logout');
@@ -70,8 +70,8 @@ $config['root_cat_display']['Statistics']['links'] = array('statistics', 'statis
 $config['root_cat_display']['Statistics']['names'] = array('General statistics', 'Club statistics');
 
 $config['root_cat_display']['Manage']['desc'] = "General management features appear below, from which you may view users, add admins, organizations, general application categories, and custom pages. Please click on one of the links below to access these features.";
-$config['root_cat_display']['Manage']['links'] = array('userlist', 'man_admins', 'man_clubs', 'man_cat', 'man_pages');
-$config['root_cat_display']['Manage']['names'] = array('Users', 'Admins', 'Clubs', 'Categories', 'Pages');
+$config['root_cat_display']['Manage']['links'] = array('userlist', 'man_admins', 'man_clubs', 'man_cat', 'man_pages', 'man_funds');
+$config['root_cat_display']['Manage']['names'] = array('Users', 'Admins', 'Clubs', 'Categories', 'Pages', 'Funds');
 
 $config['root_cat_display']['Clean system']['desc'] = 'Tools below allow you to clear old files to conserve system resources. The <b>Full Database Cleaner</b> will delete old database entries, while the other options will maintain the database or delete unneeded files.';
 $config['root_cat_display']['Clean system']['links'] = array('full_clean', 'rm_peer', 'check_pdf', 'check_nohome', 'check_mismatch');

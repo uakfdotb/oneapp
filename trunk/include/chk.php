@@ -41,6 +41,16 @@ function checkExtraPDFs($doDelete = false, $onlyOld = false) {
 		}
 	}
 	
+	$result = mysql_query("SELECT filename FROM purchase_order WHERE filename != ''");
+	while($row = mysql_fetch_array($result)) {
+		$submitFile = $row[0];
+		$index = array_search($submitFile . ".pdf", $fileList);
+		
+		if($index !== FALSE) {
+			unset($fileList[$index]);
+		}
+	}
+	
 	$pdfArray = array();
 	foreach($fileList as $file) {
 		$path = $submitPath . "/" . $file;

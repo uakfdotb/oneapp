@@ -75,6 +75,7 @@ group: the group identifier
 	0 is for the general application
 	-1 is for root administration
 	-2 means the user has at least one entry in user_custom
+	-3 means the user has purchase access
 
 club_notes: stores values for the notes features
 ----------

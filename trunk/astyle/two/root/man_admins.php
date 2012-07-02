@@ -8,7 +8,12 @@
 <table style="margin:10px auto">
 <tr>
 	<td style="padding-right:10px">Admin username</td>
-	<td><input type="text" name="username"></td>
+	<td><input type="text" name="username" list="datalist1"></td>
+	<datalist id="datalist1">
+	<? foreach($userList as $user) {
+				echo "<option value=\"" . $user[0] . "\">";
+	} ?>
+	</datalist>
 </tr>
 <tr>
 	<td>Club</td>

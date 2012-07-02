@@ -19,9 +19,6 @@ if(isset($_SESSION['user_id'])) {
 	$prefs = 0;
 	$boxes = 0;
 	
-	$error = "";
-	$success = "";
-	
 	if(isset($_REQUEST['action'])) {
 		if($_REQUEST['action'] == "prefs") {
 			if(isset($_REQUEST['save_inbox']) && isset($_REQUEST['save_trash']) && isset($_REQUEST['save_sent'])) {
@@ -118,7 +115,13 @@ if(isset($_SESSION['user_id'])) {
 		$boxes = retrieveBoxList($_SESSION['user_id']);
 	}
 	
-	get_page_advanced("messaging", "apply", array('view' => $view, 'box_id' => $box_id, 'message_id' => $message_id, 'contents' => $contents, 'prefs' => $prefs, 'boxes' => $boxes, 'error' => $error, 'success' => $success));
+	if(isset($error)) {
+		get_page_advanced("messaging", "apply", array('view' => $view, 'box_id' => $box_id, 'message_id' => $message_id, 'contents' => $contents, 'prefs' => $prefs, 'boxes' => $boxes, 'error' => $error));
+	} else if(isset($success)) {
+		get_page_advanced("messaging", "apply", array('view' => $view, 'box_id' => $box_id, 'message_id' => $message_id, 'contents' => $contents, 'prefs' => $prefs, 'boxes' => $boxes, 'success' => $success));
+	} else {
+		get_page_advanced("messaging", "apply", array('view' => $view, 'box_id' => $box_id, 'message_id' => $message_id, 'contents' => $contents, 'prefs' => $prefs, 'boxes' => $boxes));
+	}
 } else {
 	get_page_advanced("message", "apply", array("title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
 }

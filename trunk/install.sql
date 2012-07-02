@@ -1,7 +1,6 @@
-CREATE TABLE IF NOT EXISTS purchase_order (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, instance_id INT, club_id INT, submit_time INT, status_time INT, status INT, amount INT, filename VARCHAR(32), description TEXT);
+CREATE TABLE IF NOT EXISTS purchase_order (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, instance_id INT, club_id INT, submit_time INT, status_time INT NOT NULL, status INT NOT NULL, amount FLOAT(2), filename VARCHAR(32), description TEXT);
 CREATE TABLE IF NOT EXISTS purchase_confirm (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), orderId INT);
-CREATE TABLE IF NOT EXISTS 
-purchase_answers (id INT PRIMARY KEY AUTO_INCREMENT, purchase_id INT, var_id INT, val TEXT);
+CREATE TABLE IF NOT EXISTS purchase_answers (id INT PRIMARY KEY AUTO_INCREMENT, purchase_id INT, var_id INT, val TEXT);
 
 CREATE TABLE IF NOT EXISTS baseapp (id INT PRIMARY KEY AUTO_INCREMENT, category INT, orderId INT, varname VARCHAR(1024), vardesc VARCHAR(1024), vartype VARCHAR(1024));
 CREATE TABLE IF NOT EXISTS basecat (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), orderId INT);
@@ -16,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, username VA
 CREATE TABLE IF NOT EXISTS profiles (user_id INT, var_id INT, val VARCHAR(256));
 CREATE TABLE IF NOT EXISTS reset (user_id INT PRIMARY KEY, time INT, auth VARCHAR(64));
 
-CREATE TABLE IF NOT EXISTS clubs (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), description TEXT, view_time INT, open_time INT, close_time INT, num_recommend INT, money INT);
+CREATE TABLE IF NOT EXISTS clubs (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), description TEXT, view_time INT, open_time INT, close_time INT, num_recommend INT, money FLOAT(2) NOT NULL);
 CREATE TABLE IF NOT EXISTS user_groups (user_id INT, `group` INT);
 
 CREATE TABLE IF NOT EXISTS club_notes (application_id INT, user_id INT, box TEXT, category VARCHAR(16), rank INT, comments TEXT);

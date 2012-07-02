@@ -222,7 +222,7 @@ function generatePDFByResult($result, $targetDirectory, $sectionheader, $extrain
 		
 		if(!file_exists($targetDirectory . $outFile . "/" . $outFile . ".pdf")) { //failed; PDF not created
 				//delete temp directory
-				delete_directory($targetDirectory . $outFile); //no trailing slash on outFile
+				//delete_directory($targetDirectory . $outFile); //no trailing slash on outFile
 				return array(FALSE, "generation failure");
 		}
 		
