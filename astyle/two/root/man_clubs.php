@@ -6,6 +6,7 @@
 <table style="margin:0 auto" bgcolor=#F2F5F7>
 <tr><td><p>Club name</p></td><td><p><input type="text" name="name" style="width:100%"></p></td></tr>
 <tr><td><p>Description</p></td><td><p><textarea name="description" style="width:100%;resize:vertical"></textarea></p></td></tr>
+<tr><td><p>Balance</p></td><td><p><input type="text" name="money" style="width:100%"></p></td></tr>
 <tr><td colspan="2" align="right"><input type="submit" value="Add club" class="add"></td></tr>
 </table>
 </form>
@@ -29,6 +30,7 @@ while($row = mysql_fetch_array($clubsResult)) {
 	<input type="hidden" name="id" value="<?= $row['id'] ?>">
 	<tr class="band<?=$band_class?>"><td width=20%><p style="font-weight:bold">Club ID:</p></td><td><p><?= $row['id'] ?></p></td></tr>
 	<tr class="band<?=$band_class?>"><td><p style="font-weight:bold">Club Name:</p></td><td><p><?= $row['name'] ?></p></td></tr>
+	<tr class="band<?=$band_class?>"><td><p style="font-weight:bold">Club Balance:</p></td><td><p><?= $row['money'] ?></p></td></tr>
 	<tr class="band<?=$band_class?>" align="center"><td colspan="2"><p style="font-weight:bold" align="left">Description:</p><textarea name="description" style="width:95%;height:100;resize:none" class="band<?=$band_class?>"><?= $row['description'] ?></textarea></td></tr>
 	<tr class="band<?=$band_class?>"><td></td><td align="right"><input type="submit" name="action" value="update"><input type="submit" name="action" value="delete"><br></td></tr>
 	</form>

@@ -270,8 +270,8 @@ function customSubmit($instance_id, $sectionheader = "Custom", $extrainfo = "Cus
 	
 	//create the PDF
 	$result = mysql_query("SELECT custom.varname, custom.vardesc, custom.vartype, custom_response.val FROM custom_response LEFT JOIN custom ON custom_response.var_id = custom.id WHERE custom_response.instance_id = '$instance_id' ORDER BY custom.orderId");
-	
-	$createResult = generatePDFByResult($result, "submit/", $sectionheader, $extrainfo);
+
+	$createResult = generatePDFByResult($result, "../submit/", $sectionheader, $extrainfo);
 	
 	if(!$createResult[0]) { //if error during PDF generation
 		return -1;

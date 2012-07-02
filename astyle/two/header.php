@@ -70,7 +70,6 @@ $(document).ready(function(){
 			<tr>
 				<td><p id="clockbox"><?= $timeString ?></p></td>
 				<td align="right">
-					<a href="#">Help</a>
 					<?
 					for($i = 0; $i < count($page_display); $i++) {
 						echo '<a href="' . $page_display[$i] . '">' . $page_display_names[$i] . '</a> ';
@@ -88,7 +87,6 @@ $(document).ready(function(){
 				<? if(isset($_SESSION['root'])) {?>
 						<p class="box_name">System Admin</p>
 						<p class="box_id"><?=$config['site_name'] ?></p>
-						<p class="box_date">$CONTACT EMAIL$</p>
 				<? } else if(isset($_SESSION['admin_id'])) {?>
 						<?$adminInfo = getAdminInformation($_SESSION['admin_id']);?>
 						<p class="box_name"><?= $adminInfo[0] ?></p>
@@ -103,7 +101,6 @@ $(document).ready(function(){
 						}
 						?></p>
 						<p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['user_id']?></p>
-						<p class="box_date">Last Saved: $DATE$</p>
 				<? } ?>
 				</div>
 				<div class="sidemenu">
