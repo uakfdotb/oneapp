@@ -108,7 +108,7 @@ $(document).ready(function(){
 						<a href="#"><li class="topsidenav">Instructions</li></a>
 					<?					
 						for($i = 0; $i < count($side_display); $i++) {
-							echo '<a href="' . $side_display[$i] . '">';
+							echo '<a href="' . $side_display[$i] . '.php">';
 							unset($nav_cat);
 							
 							if($i<2) echo '<li class="topsidenav">';

@@ -108,9 +108,15 @@ if(isset($_SESSION['root'])) {
 	while($row = mysql_fetch_array($result)) {
 		$userList[] = array($row[0]);
 	}
-
-	$result = mysql_query("SELECT id, club_id, submit_time, status, amount,filename FROM purchase_order WHERE status>0 ORDER BY status");
-	$result_two = mysql_query("SELECT club_id, submit_time, status_time, amount, status FROM purchase_order WHERE status<=0");
+	$result = mysql_query("SELECT orderID FROM purchase_confirm WHERE id=$user_id");
+	if($val = mysql_fetch_array($result)) {
+		$status_desired = $val[0];
+	} else {
+		$status_desired = 1;
+		$warning = "You have not added any users to the purchase order list";
+	}
+	$result = mysql_query("SELECT id, club_id, submit_time, status, amount, filename FROM purchase_order WHERE status=$status_desired ORDER BY status");
+	$result_two = mysql_query("SELECT club_id, submit_time, status_time, amount, status FROM purchase_order WHERE status!=$status_desired");
 	
 	if(isset($success)) {
 		get_page_advanced("man_funds", "root", array('success' => $success, 'pending' => $result, 'completed' => $result_two, 'purchaseList' => $purchaseList, 'userList' => $userList));
