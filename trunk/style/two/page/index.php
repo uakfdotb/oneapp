@@ -54,8 +54,6 @@ var slideshow=new TINY.fader.fade('slideshow',{
 	<h4><?= $config['organization_name'] ?></h4>
 </div>
 
-<div class="spacer"></div>
-
 	<div id="col_mid" class="borderon" align="center">
 		<div class="center">
 			<table cellpadding="0" cellspacing="0" width=100%>
