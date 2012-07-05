@@ -1,7 +1,3 @@
-CREATE TABLE IF NOT EXISTS purchase_order (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, instance_id INT, club_id INT, submit_time INT, status_time INT NOT NULL, status INT NOT NULL, amount FLOAT(2), filename VARCHAR(32), description TEXT);
-CREATE TABLE IF NOT EXISTS purchase_confirm (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), orderId INT);
-CREATE TABLE IF NOT EXISTS purchase_answers (id INT PRIMARY KEY AUTO_INCREMENT, purchase_id INT, var_id INT, val TEXT);
-
 CREATE TABLE IF NOT EXISTS baseapp (id INT PRIMARY KEY AUTO_INCREMENT, category INT, orderId INT, varname VARCHAR(1024), vardesc VARCHAR(1024), vartype VARCHAR(1024));
 CREATE TABLE IF NOT EXISTS basecat (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), orderId INT);
 
@@ -31,6 +27,10 @@ CREATE TABLE IF NOT EXISTS messages (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 CREATE TABLE IF NOT EXISTS message_boxes (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, box_name VARCHAR(32));
 CREATE TABLE IF NOT EXISTS message_boxes_contents (box_id INT, message_id INT);
 CREATE TABLE IF NOT EXISTS message_prefs (user_id INT PRIMARY KEY, notify_email INT, save_inbox INT, save_trash INT, save_sent INT);
+
+CREATE TABLE IF NOT EXISTS purchase_order (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, instance_id INT, club_id INT, submit_time INT, status_time INT NOT NULL, status INT NOT NULL, amount FLOAT(2), filename VARCHAR(32), description TEXT);
+CREATE TABLE IF NOT EXISTS purchase_confirm (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), orderId INT);
+CREATE TABLE IF NOT EXISTS purchase_answers (id INT PRIMARY KEY AUTO_INCREMENT, purchase_id INT, var_id INT, val TEXT);
 
 CREATE TABLE IF NOT EXISTS subscriptions (user_id INT, club_id INT);
 
