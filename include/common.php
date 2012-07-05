@@ -492,7 +492,7 @@ function register($username, $name, $email, $profile, $captcha) {
 	$gen_salt = secure_random_bytes(20);
 	$db_salt = escape(bin2hex($gen_salt));
 	$gen_password = uid(12);
-	$password = escape(chash2($gen_password, $db_salt));
+	$password = escape(chash2($gen_password, $gen_salt));
 	
 	//validate email address (after MySQL escaping...)
 	if(!validEmail($email)) {
