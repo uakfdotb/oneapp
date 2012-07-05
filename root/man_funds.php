@@ -14,7 +14,7 @@ if(isset($_SESSION['root'])) {
 			$name = escape($_REQUEST['name']);
 			$userId = getUserId($name);
 			if($userId !== FALSE) {	
-				$result = mysql_query("SELECT users.username FROM users, user_groups, purchase_confirm WHERE user_groups.user_id=$userId AND user_groups.group=-1 AND purchase_confirm.id NOT IN ($userId)");
+				$result = mysql_query("SELECT users.username FROM users, user_groups, purchase_confirm WHERE user_groups.user_id='$userId' AND user_groups.group=-1 AND purchase_confirm.id != '$userId'");
 				if($row = mysql_fetch_array($result) ) {
 					//increment from highest orderId
 					$result = mysql_query("SELECT MAX(orderId) FROM purchase_confirm");
@@ -78,7 +78,7 @@ if(isset($_SESSION['root'])) {
 		} else {
 			$max_list = 1;
 		}
-		$local_purchase_id = abs($_REQUEST['status_change']);
+		$local_purchase_id = abs(escape($_REQUEST['status_change']));
 		$result = mysql_query("SELECT status,club_id,amount FROM purchase_order WHERE id='$local_purchase_id'");
 		$row = mysql_fetch_array($result);
 		$curr_time = time();
@@ -108,7 +108,7 @@ if(isset($_SESSION['root'])) {
 	while($row = mysql_fetch_array($result)) {
 		$userList[] = array($row[0]);
 	}
-	$result = mysql_query("SELECT orderID FROM purchase_confirm WHERE id=$user_id");
+	$result = mysql_query("SELECT orderID FROM purchase_confirm WHERE id='" . $_SESSION['user_id'] . "'");
 	if($val = mysql_fetch_array($result)) {
 		$status_desired = $val[0];
 	} else {
