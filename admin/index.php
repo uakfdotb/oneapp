@@ -71,13 +71,14 @@ if(isset($_SESSION['admin'])) {
 } else {
 	if(isset($_SESSION['user_id'])) {
 		$parameters['user_loggedin'] = true;
-		$parameters['clubs'] = getAdminClubs($_SESSION['user_id']);
+		$parameters['clubs'] = getAdminGroups($_SESSION['user_id']);
 	} else {
 		$parameters['user_loggedin'] = false;
 		
 		//list normal clubs, and general application
 		$parameters['clubs'] = listClubsIdName();
 		$parameters['clubs'][0] = 'General application';
+		$parameters['clubs'][-2] = 'Custom fields';
 	}
 	
 	get_page_advanced("index_login", "admin", $parameters);

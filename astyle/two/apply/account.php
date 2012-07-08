@@ -1,3 +1,10 @@
+<script src="<?= $basePath ?>/style/jsbn/jsbn.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/prng4.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/rng.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/rsa.js"></script>
+<script src="<?= $basePath ?>/style/bin2hex.js"></script>
+<script src="<?= $basePath ?>/style/password.js.php"></script>
+
 <h1>Account</h1>
 
 <?
@@ -6,7 +13,7 @@ if(isset($message)) {
 }
 ?>
 
-<form action="account.php" method="POST">
+<form name="pcrypt" onsubmit="pcryptf()" action="account.php" method="POST">
 <table widh=100%>
 <tr>
 	<td width=50%><p class="name">Username</p></td>

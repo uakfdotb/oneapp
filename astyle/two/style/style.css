@@ -12,7 +12,7 @@ td p{
 PAGE STRUCTURE
 ------------------------------ */
 html, body {height: 100%}
-html, body {background-color:#B5B1B1;font-family: Arial; font-size:13px}
+html, body {background-color:#B5B1B1; font-family: Arial; font-size:13px}
 h1{
 	font-size:20px;
 }
