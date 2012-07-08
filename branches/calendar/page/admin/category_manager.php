@@ -1,7 +1,7 @@
 <!-- This is an included category manager, not an actual page. This page should only display the update category form. -->
 
 <?
-if($_SESSION['category'] != -2) {
+if($_SESSION['category'] != -3) {
 ?>
 	<form method="get" action="<?= $_SERVER['REQUEST_URI'] ?>">
 	<?= $t_hidden ?>

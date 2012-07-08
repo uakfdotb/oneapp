@@ -8,7 +8,7 @@ if(isset($_SESSION['admin'])) {
 	$club_id = $_SESSION['admin_club_id'];
 	$user_id = $_SESSION['user_id'];
 	
-	if($club_id != 0) {
+	if($club_id > 0) {
 		if(isset($_REQUEST['description']) && isset($_REQUEST['view_time']) && isset($_REQUEST['open_time']) && isset($_REQUEST['close_time'])) {
 			$description = escape($_REQUEST['description']);
 			$view_time = strtotime($_REQUEST['view_time']);

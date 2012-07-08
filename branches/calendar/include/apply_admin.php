@@ -19,8 +19,8 @@ function insertQuestion($varname, $vardesc, $vartype, $club_id, $database, $wher
 	$vartype = str_replace(";", "; ", $vartype);
 	$vartype = str_replace("|", "| ", $vartype);
 	
-	if($database != "supplements" && $database != "baseapp") {
-		return "internal error: invalid database";
+	if($database != "supplements" && $database != "baseapp" && $database != "custom") {
+		return "internal error: invalid database $database";
 	}
 	
 	$varname = escape($varname);
@@ -35,8 +35,8 @@ function insertQuestion($varname, $vardesc, $vartype, $club_id, $database, $wher
 		if(is_null($row[0])) $orderId = 1;
 		else $orderId = escape($row[0] + 1);
 	
-		if($club_id == 0) {
-			mysql_query("INSERT INTO baseapp (orderId, varname, vardesc, vartype, category) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '" . $_SESSION['category'] . "')");
+		if($database != "supplements") {
+			mysql_query("INSERT INTO $database (orderId, varname, vardesc, vartype, category) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '" . $_SESSION['category'] . "')");
 		} else {
 			mysql_query("INSERT INTO supplements (orderId, varname, vardesc, vartype, club_id) VALUES ('$orderId', '$varname', '$vardesc', '$vartype', '$club_id')");
 		}

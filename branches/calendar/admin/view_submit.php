@@ -10,7 +10,7 @@ if(isset($_SESSION['admin'])) {
 	$club_id = $_SESSION['admin_club_id'];
 	$user_id = $_SESSION['user_id'];
 	
-	if($club_id != 0) {
+	if($club_id > 0) {
 		//check if this admin is using textboxes and categories
 		$result = mysql_query("SELECT box_enabled, cat_enabled, comment_enabled FROM admin_notes_settings WHERE user_id='$user_id'");
 		$row = mysql_fetch_array($result);

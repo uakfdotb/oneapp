@@ -12,6 +12,7 @@ if(isset($_SESSION['root'])) {
 		if($action == 'add_club') {
 			$name = escape($_REQUEST['name']);
 			$description = escape($_REQUEST['description']);
+			$money = escape($_REQUEST['money']);
 			
 			//verify that limit has not been reached
 			$limitFail = false;
@@ -26,7 +27,7 @@ if(isset($_SESSION['root'])) {
 			}
 			
 			if(!$limitFail) {
-				mysql_query("INSERT INTO clubs (name, description, view_time, open_time, close_time) VALUES ('$name', '$description', '0', '0', '0')");
+				mysql_query("INSERT INTO clubs (name, description, view_time, open_time, close_time, money) VALUES ('$name', '$description', '0', '0', '0', '$money')");
 				$success = "Club added successfully!";
 			}
 		} else if($action == 'delete') {
@@ -42,7 +43,7 @@ if(isset($_SESSION['root'])) {
 		}
 	}
 	
-	$result = mysql_query("SELECT id,name,description FROM clubs");
+	$result = mysql_query("SELECT id,name,description,money FROM clubs");
 	if(isset($error)){
 		get_page_advanced("man_clubs", "root", array('error' => $error, 'clubsResult' => $result));
 	} else if(isset($success)) {

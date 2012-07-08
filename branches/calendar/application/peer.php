@@ -5,6 +5,7 @@ include("../include/db_connect.php");
 include("../include/session.php");
 
 include("../include/recommend.php");
+include("../include/custom.php");
 
 if(isset($_SESSION['user_id'])) {
 	$message = "";

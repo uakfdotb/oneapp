@@ -70,10 +70,9 @@ $(document).ready(function(){
 			<tr>
 				<td><p id="clockbox"><?= $timeString ?></p></td>
 				<td align="right">
-					<a href="#">Help</a>
 					<?
 					for($i = 0; $i < count($page_display); $i++) {
-						echo '<a href=' . $page_display[$i] . '.php>' . $page_display_names[$i] . '</a> ';
+						echo '<a href="' . $page_display[$i] . '">' . $page_display_names[$i] . '</a> ';
 					}
 					?>
 				</td>
@@ -88,7 +87,6 @@ $(document).ready(function(){
 				<? if(isset($_SESSION['root'])) {?>
 						<p class="box_name">System Admin</p>
 						<p class="box_id"><?=$config['site_name'] ?></p>
-						<p class="box_date">$CONTACT EMAIL$</p>
 				<? } else if(isset($_SESSION['admin_id'])) {?>
 						<?$adminInfo = getAdminInformation($_SESSION['admin_id']);?>
 						<p class="box_name"><?= $adminInfo[0] ?></p>
@@ -103,7 +101,6 @@ $(document).ready(function(){
 						}
 						?></p>
 						<p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['user_id']?></p>
-						<p class="box_date">Last Saved: $DATE$</p>
 				<? } ?>
 				</div>
 				<div class="sidemenu">
@@ -111,7 +108,7 @@ $(document).ready(function(){
 						<a href="#"><li class="topsidenav">Instructions</li></a>
 					<?					
 						for($i = 0; $i < count($side_display); $i++) {
-							echo '<a href="' . $side_display[$i] . '">';
+							echo '<a href="' . $side_display[$i] . '.php">';
 							unset($nav_cat);
 							
 							if($i<2) echo '<li class="topsidenav">';
@@ -119,7 +116,7 @@ $(document).ready(function(){
 							
 							echo  $side_display_names[$i] . '</li></a>';
 	
-							if(substr($side_display[$i], 0, 10) == "supplement") {
+							if(substr($side_display[$i], 0, 10) == "supplement" && isset($_SESSION['user_id'])) {
 								unset($nav_cat);
 								
 								//display all the supplements this user is working on
@@ -135,7 +132,7 @@ $(document).ready(function(){
 									echo "</li></a>";
 								}
 								echo "</ul>";
-							} else if($substr(side_display[$i], 0, 4) == "base") {
+							} else if(substr($side_display[$i], 0, 4) == "base" && isset($_SESSION['user_id'])) {
 								//display the general application categories
 								include_once($basePath . "/include/apply_submit.php");
 								if(isApplicationStarted($_SESSION['user_id'], 0)) {
@@ -153,7 +150,7 @@ $(document).ready(function(){
 									echo "</ul>";
 								}
 							} else if(substr($side_display[$i], 0, 17) == "root_cat.php?cat=") {
-								$nav_cat = substr($side_display[$i], 17);
+								$nav_cat = urldecode(substr($side_display[$i], 17));
 							}
 
 							if(isset($nav_cat)) {
@@ -161,7 +158,7 @@ $(document).ready(function(){
 								$root_display = $config['root_cat_display'][$nav_cat]['links'];
 								$root_display_names = $config['root_cat_display'][$nav_cat]['names']; 
 								for($j = 0; $j < count($root_display); $j++) {
-									echo '<a href=' . $root_display[$j] . '.php><li class="sidenav1">' . $root_display_names[$j] . '</li></a>';
+									echo '<a href="' . $root_display[$j] . '"><li class="sidenav1">' . $root_display_names[$j] . '</li></a>';
 								}
 								echo "</ul>";
 							}

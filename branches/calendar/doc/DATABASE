@@ -11,26 +11,52 @@ basecat: contains a list of categories in the general application
 name: the name of the category
 orderId: means what order the categories will be displayed in admin lists as well as on user list
 
+custom: contains attributes for custom instances
+------
+category: the custom_cat.id that this attribute is for
+orderId: see baseapp.orderId
+varname: see baseapp.varname
+vardesc: see baseapp.vardesc
+vartype: see baseapp.vartype
+
+custom_instance: contains information on a custom instance
+---------------
+category: the custom_cat.id that this instance is of
+user_id: the users.id that this belongs to
+status: different custom categories can store different things here, default is empty string
+
+custom_response: stores responses in a custom instance to a category
+---------------
+instance_id: the custom_instance.id that this response belongs to
+var_id: the custom.id that this response answers
+val: the response text
+
+user_custom: identifies which user accounts can modify which custom categories
+-----------
+user_id: the users.id administrator
+category: the custom_cat.id category
+
 users: contains the user accounts
 -----
 username: the user's username
-password: the user's password, hashed with chash() in common.php
+password: the user's password, hashed with chash2() in common.php
+salt: the 20-byte salt with which the password is hashed
 name: the user's name
 email: the user's email address
 register_time: the time() when the user registered his/her account
 accessed: time() when the user last logged in, or 0 if they have never logged in (set to 0 after registration)
-
-reset: contains list of reset requests
------
-user_id: the user who wants to reset his or her password
-time: PHP time() when the reset requets was submitted
-auth: 64-character authentication code needed to reset password; sent to the user's email
 
 profiles: profile fields of users
 --------
 user_id: the user that this profile field belongs to
 var_id: the id in baseapp that this profile field covers
 val: the value of this profile field
+
+reset: contains list of reset requests
+-----
+user_id: the user who wants to reset his or her password
+time: PHP time() when the reset requets was submitted
+auth: 64-character authentication code needed to reset password; sent to the user's email
 
 clubs: contains a list of clubs added
 -----
@@ -41,15 +67,43 @@ open_time: PHP time() when the supplement can be submitted
 close_time: PHP time() when the supplement can no longer be submitted
 num_recommend: the number of peer recommendations required for this club
 
-admins: contains the admin accounts
-------
-club_id: the club that this admin is in charge of, or 0 if in charge of the general application
-username: the admin's username
-password: the admin's password, hashed with chash() in common.php
-email: the admin's email address
-box_enabled: whether text boxes are enabled on the application submissions list
-cat_enabled: whether categories are enabled
-comment_enabled: whether comments are enabled
+user_groups: identifies which user accounts can administrate which clubs or special groups
+-----------
+user_id: the users.id administrator
+group: the group identifier
+	if >= 1, then this is clubs.id
+	0 is for the general application
+	-1 is for root administration
+	-2 means the user has at least one entry in user_custom
+	-3 means the user has purchase access
+
+club_notes: stores values for the notes features
+----------
+application_id: id in applications table that these notes are for
+user_id: user id that this entry belongs to
+box: textbox value
+category: category value; note that users can tamper with submission or delete categories, so this may not be in club_notes_categories
+rank: at the time of this documentation, ranks have not been implemented yet
+comments: comments of less than 10,000 characters stored for this user
+
+club_notes_categories: stores the possible categories for the notes_categories feature
+---------------------
+club_id: the club id that this category has been added for
+name: the text to display and also used to identify this category
+
+admin_notes_settings: controls which notes features are enabled on the view submissions page
+---------------------
+user_id: the user id of the administrator
+box_enabled: boolean (0=false, 1=true), whether box feature is enabled
+cat_enabled: whether categories feature is enabled
+comment_enabled: whether comments feature is enabled
+
+applications: list of applications; each user has one for general application and one for each club being applied to
+------------
+user_id: the user that this application belongs to
+club_id: the club being applied to, or 0 for general application
+submitted: empty string ('') if not submitted, or colon-delimited array of PDF filenames if this application has been submitted
+	first two in the array are the general application and supplement, in that order; remainder is recommendations
 
 supplements: contains the supplement fields for the clubs
 -----------
@@ -58,13 +112,6 @@ orderId: the order that this field is displayed (lowest orderId displayed first)
 varname: the name of the question or field
 vardesc: the body of the question or field
 vartype: see baseapp.vartype
-
-applications: list of applications; each user has one for general application and one for each club being applied to
-------------
-user_id: the user that this application belongs to
-club_id: the club being applied to, or 0 for general application
-submitted: empty string ('') if not submitted, or colon-delimited array of PDF filenames if this application has been submitted
-	first two in the array are the general application and supplement, in that order; remainder is recommendations
 
 answers: contains list of user responses
 -------
@@ -75,36 +122,48 @@ val: the user's response to the question
 recommendations: contains peer recommendations for applications
 ---------------
 user_id: the user that this recommendation is written for
+instance_id: the custom instance created for this recommendation
 author: the name of the author of this recommendation
 email: the email address of the author of this recommendation
 auth: 64-character authentication code needed to submit this recommendation
 status: 0 if not submitted, 1 if submitted (and enabled), 2 if disabled but submitted
 filename: the name of the PDF generated for this recommendation, if submitted
 
-recommender_answers: contains answers from recommenders
--------------------
-recommend_id: the id in the recommendations table that this answer is a part of
-var_id: the id in baseapp that this row answers
-val: the recommender's response to the question
+messages: private messages; one copy will be created for each recipient
+--------
+sender_id: the users.id who sent the message
+receiver_id: the users.id who the message was sent to
+subject: the message subject
+body: the message body
+time: the time() at which the message was sent
+
+message_boxes: message boxes, which contain messages (users must go through boxes to read their messages)
+-------------
+user_id: the users.id who owns this box
+box_name: the name of this box
+
+message_boxes_contents: messages contained by a box
+----------------------
+box_id: the message_boxes.id that contains this message
+message_id: the messages.id message
+
+message_prefs: messaging preferences
+-------------
+user_id: the users.id user with these preferences
+notify_email: boolean (0=false, 1=true), whether user should be notified by email when a message is received
+save_inbox: message_boxes.id where new messages should be kept (if 0, user cannot receive messages)
+save_trash: message_boxes.id where deleted messages should be transferred, or 0 for no trash
+save_sent: message_boxes.id where sent messages should be kept, or 0 for no sent box
+
+subscriptions: map structure, identifying clubs that a user has subscribed to
+-------------
+user_id: the users.id user
+club_id: the clubs.id club
 
 pages: contains database pages
 -----
 name: the name of the page, used to identify it from the PHP code
 text: the body of the page
-
-club_notes: stores values for the notes features
-----------
-application_id: id in applications table that these notes are for
-admin_id: admin id that this entry belongs to
-box: textbox value
-category: category value; note that users can tamper with submission or delete categories, so this may not be in club_notes_categories
-rank: at the time of this documentation, ranks have not been implemented yet
-comments: comments of less than 10,000 characters stored for this user
-
-club_notes_categories: stores the possible categories for the notes_categories feature
----------------------
-admin_id: the admin id that this category has been added for
-name: the text to display and also used to identify this category
 
 locks: contains information to prevent flooding the oneapp system
 -----
