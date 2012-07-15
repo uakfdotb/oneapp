@@ -32,8 +32,9 @@ CREATE TABLE IF NOT EXISTS purchase_order (id INT NOT NULL PRIMARY KEY AUTO_INCR
 CREATE TABLE IF NOT EXISTS purchase_confirm (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(32), orderId INT);
 CREATE TABLE IF NOT EXISTS purchase_answers (id INT PRIMARY KEY AUTO_INCREMENT, purchase_id INT, var_id INT, val TEXT);
 
-CREATE TABLE IF NOT EXISTS oca_events (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, instance_id INT, name VARCHAR(32), time_start INT, time_end INT);
-
+CREATE TABLE IF NOT EXISTS oca_events (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id INT, club_id INT, instance_id INT, name VARCHAR(32), description VARCHAR(512), time_start INT, time_end INT, status INT);
+CREATE TABLE IF NOT EXISTS oca_reservable (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(64), description VARCHAR(256));
+CREATE TABLE IF NOT EXISTS oca_reservations (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, event_id INT, reservable_id INT, reason VARCHAR(512), time_start INT, time_end INT);
 
 CREATE TABLE IF NOT EXISTS subscriptions (user_id INT, club_id INT);
 
