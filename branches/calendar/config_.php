@@ -99,4 +99,7 @@ $config['rsa_passphrase'] = '';
 // in order to use this, you must install Securimage 3.0 to the oneapp root directory
 // this can be downloaded at http://www.phpcaptcha.org/download/
 $config['captcha_enabled'] = false;
+
+//calendar settings
+$config['oca_clubaccess'] = true;
 ?>
