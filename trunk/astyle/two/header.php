@@ -84,23 +84,21 @@ $(document).ready(function(){
 		<div id="col_left">
 			<div class="side_bar">
 				<div class="userbox">
-				<? if(isset($_SESSION['root'])) {?>
-						<p class="box_name">System Admin</p>
-						<p class="box_id"><?=$config['site_name'] ?></p>
-				<? } else if(isset($_SESSION['admin_id'])) {?>
-						<?$adminInfo = getAdminInformation($_SESSION['admin_id']);?>
-						<p class="box_name"><?= $adminInfo[0] ?></p>
-						<p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['admin_id']?></p>
-						<p class="box_date"><?= $adminInfo[2]?></p>
-				<? } else if(isset($_SESSION['user_id'])) {?>
-						<?$userInfo = getUserInformation($_SESSION['user_id']); $profile = getProfile($_SESSION['user_id']);?>
-						<p class="box_name"><?
-						//profile information
-						foreach($profile as $item) {
-							echo $item[1];
-						}
-						?></p>
+				<? if($context == "root") {?>
+                                                <?$adminInfo = getUserInformation($_SESSION['user_id']); ?>
+                                                <p class="box_name"><?= $adminInfo[2]?></p>
+                                                <p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['user_id']?></p>
+                                                <p class="box_date">Site Root</p>
+				<? } else if($context == "admin") {?>
+						<?$adminInfo = getUserInformation($_SESSION['user_id']); ?>
+						<p class="box_name"><?= $adminInfo[2]?></p>
 						<p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['user_id']?></p>
+						<p class="box_date">Club Administrator</p>
+				<? } else if($context == "apply") {?>
+						<?$userInfo = getUserInformation($_SESSION['user_id']); ?>
+						<p class="box_name"><?= $userInfo[2]?></p>
+						<p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['user_id']?></p>
+						<p class="box_date"></p>
 				<? } ?>
 				</div>
 				<div class="sidemenu">
@@ -108,7 +106,7 @@ $(document).ready(function(){
 						<a href="#"><li class="topsidenav">Instructions</li></a>
 					<?					
 						for($i = 0; $i < count($side_display); $i++) {
-							echo '<a href="' . $side_display[$i] . '.php">';
+							echo '<a href="' . $side_display[$i] . '">';
 							unset($nav_cat);
 							
 							if($i<2) echo '<li class="topsidenav">';
@@ -158,7 +156,7 @@ $(document).ready(function(){
 								$root_display = $config['root_cat_display'][$nav_cat]['links'];
 								$root_display_names = $config['root_cat_display'][$nav_cat]['names']; 
 								for($j = 0; $j < count($root_display); $j++) {
-									echo '<a href="' . $root_display[$j] . '"><li class="sidenav1">' . $root_display_names[$j] . '</li></a>';
+									echo '<a href="' . $root_display[$j] . '.php"><li class="sidenav1">' . $root_display_names[$j] . '</li></a>';
 								}
 								echo "</ul>";
 							}

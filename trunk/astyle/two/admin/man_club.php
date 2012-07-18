@@ -22,11 +22,9 @@
 </tr><tr>
 	<td><p class="name">Confirm new password</p></td>
 	<td><p><input type="password" name="new_password_conf"></p></td>
-</tr><tr>
-	<td><p class="name">Email</p></td>
-	<td><p><input type="text" name="new_email" value="<?= $email ?>"></p></td>
 </tr>
 </table>
+<br />
 <div class="profile">
 	<div class="example2">
 		<table width=100%><tr>
@@ -35,7 +33,6 @@
 		<tr><td width=50%><p class="name">Open time</p></td><td><p class="desc"><input type="text" id="open_time" name="open_time" value="<?= date('m/d/y H:i:s', $open_time) ?>" /><img src="<?= $stylePath ?>/datetimepicker/images/cal.gif" onclick="javascript:NewCssCal('open_time', 'MMddyyyy', 'arrow', true)" style="cursor:pointer"/></p></td></tr>
 		<tr><td><p class="name">Close time</p></td><td><p><input type="text" id="close_time" name="close_time" value="<?= date('m/d/y H:i:s', $close_time) ?>" /><img src="<?= $stylePath ?>/datetimepicker/images/cal.gif" onclick="javascript:NewCssCal('close_time', 'MMddyyyy', 'arrow', true)" style="cursor:pointer"/></p></td></tr>
 		<tr><td><p class="name">Number of recommenations</p></td><td><p><input type="text" name="num_recommend" value="<?= $num_recommend ?>" /></p></td></tr>
-		<tr><td><p class="name">User View</p></td><td><p class="desc"><input type="radio" name="user_type" value="User ID" checked/>User ID<br /><input type="radio" name="user_type" value="Name" />Name</p></td></tr>
 		</table>
 	</div>
 </div>
