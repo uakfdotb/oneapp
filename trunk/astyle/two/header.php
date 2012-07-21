@@ -5,53 +5,66 @@
 <link href="<?= $stylePath ?>/style/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css">
 <script src="<?= $stylePath ?>/js/sorttable.js"></script>
 <script src="<?= $stylePath ?>/js/extra.js"></script>
-<script src="<?= $stylePath ?>/js/jquery.simpletip-1.3.1.js"></script>
-<script src="<?= $stylePath ?>/js/jquery-1.7.2.min.js"></script>
-<script src="<?= $stylePath ?>/js/jquery-ui-1.8.21.custom.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
-
+<script type="text/javascript" src="<?= $stylePath ?>/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="<?= $stylePath ?>/js/jquery-ui-1.8.21.custom.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	// Accordion
+	$("#accordion").accordion({ header: "h3" });
+
+	// Tabs
+	$('#tabs').tabs();
+
+	// Dialog
+	$('#dialog').dialog({
+		autoOpen: false,
+		width: 600,
+		buttons: {
+			"Ok": function() {
+				$(this).dialog("close");
+			},
+			"Cancel": function() {
+				$(this).dialog("close");
+			}
+		}
+	});
+
+	// Dialog Link
+	$('#dialog_link').click(function(){
+		$('#dialog').dialog('open');
+		return false;
+	});
+
+	// Datepicker
+	$('#datepicker').datepicker({
+		inline: true
+	});
+
+	// Slider
+	$('#slider').slider({
+		range: true,
+		values: [17, 67]
+	});
+
+	// Progressbar
+	$("#progressbar").progressbar({
+		value: 20
+	});
+
+	//hover states on the static widgets
+	$('#dialog_link, ul#icons li').hover(
+		function() { $(this).addClass('ui-state-hover'); },
+		function() { $(this).removeClass('ui-state-hover'); }
+	);
+
+});
+
 tday  =new Array("Sun","Mon","Tue","Wed","Thur","Fri","Sat");
 tmonth=new Array("Jan","Feb","Mar","April","May","June","July","Aug","Sept","Oct","Nov","Dec");
-
-function GetClock(){
-d = new Date();
-nday   = d.getDay();
-nmonth = d.getMonth();
-ndate  = d.getDate();
-nyear = d.getYear();
-nhour  = d.getHours();
-nmin   = d.getMinutes();
-nsec   = d.getSeconds();
-
-if(nyear<1000) nyear=nyear+1900;
-
-     if(nhour ==  0) {ap = " AM";nhour = 12;} 
-else if(nhour <= 11) {ap = " AM";} 
-else if(nhour == 12) {ap = " PM";} 
-else if(nhour >= 13) {ap = " PM";nhour -= 12;}
-
-if(nmin <= 9) {nmin = "0" +nmin;}
-if(nsec <= 9) {nsec = "0" +nsec;}
-
-
-document.getElementById('clockbox').innerHTML=""+tday[nday]+", "+tmonth[nmonth]+" "+ndate+", "+nyear+" "+nhour+":"+nmin+":"+nsec+ap+"";
-setTimeout("GetClock()", 1000);
-}
 window.onload=GetClock;
 </script>
 
-<! Show Hide button >
-<script type="text/javascript">
-$(document).ready(function(){	
-    $('.example2').stop(true, true).hide().before('<a href="#" id="toggle-example2" class="button">Show/Hide Details</a>');
-	$('a#toggle-example2').click(function() {
-		$('.example2').stop(true, true).slideToggle(1000);
-		return false;
-	});
-});
-</script>
-<! End show hide >
 
 <title><?=$config['site_name'] ?></title>
 </head>

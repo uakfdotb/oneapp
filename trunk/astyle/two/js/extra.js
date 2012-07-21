@@ -1,5 +1,5 @@
 function OnFocusInput (input) {
-    input.style.width="120px";
+    input.style.width="150px";
     input.style.backgroundColor="white";
 }
 
@@ -7,53 +7,36 @@ function OnBlurInput (input) {
     input.style.width="75px";
     input.style.backgroundColor="#DCDCDC";
 }
-$(function(){
 
-	// Accordion
-	$("#accordion").accordion({ header: "h3" });
-
-	// Tabs
-	$('#tabs').tabs();
-
-	// Dialog
-	$('#dialog').dialog({
-		autoOpen: false,
-		width: 600,
-		buttons: {
-			"Ok": function() {
-				$(this).dialog("close");
-			},
-			"Cancel": function() {
-				$(this).dialog("close");
-			}
-		}
-	});
-
-	// Dialog Link
-	$('#dialog_link').click(function(){
-		$('#dialog').dialog('open');
+$(document).ready(function(){	
+    $('.example2').stop(true, true).hide().before('<a href="#" id="toggle-example2" class="button">Show/Hide Details</a>');
+	$('a#toggle-example2').click(function() {
+		$('.example2').stop(true, true).slideToggle(1000);
 		return false;
 	});
-
-	// Datepicker
-	$('#datepicker').datepicker({
-		inline: true
-	});
-
-	// Slider
-	$('#slider').slider({
-		range: true,
-		values: [17, 67]
-	});
-
-	// Progressbar
-	$("#progressbar").progressbar({
-		value: 20
-	});
-
-	//hover states on the static widgets
-	$('#dialog_link, ul#icons li').hover(
-		function() { $(this).addClass('ui-state-hover'); },
-		function() { $(this).removeClass('ui-state-hover'); }
-	);
 });
+
+function GetClock(){
+d = new Date();
+nday   = d.getDay();
+nmonth = d.getMonth();
+ndate  = d.getDate();
+nyear = d.getYear();
+nhour  = d.getHours();
+nmin   = d.getMinutes();
+nsec   = d.getSeconds();
+
+if(nyear<1000) nyear=nyear+1900;
+
+     if(nhour ==  0) {ap = " AM";nhour = 12;} 
+else if(nhour <= 11) {ap = " AM";} 
+else if(nhour == 12) {ap = " PM";} 
+else if(nhour >= 13) {ap = " PM";nhour -= 12;}
+
+if(nmin <= 9) {nmin = "0" +nmin;}
+if(nsec <= 9) {nsec = "0" +nsec;}
+
+
+document.getElementById('clockbox').innerHTML=""+tday[nday]+", "+tmonth[nmonth]+" "+ndate+", "+nyear+" "+nhour+":"+nmin+":"+nsec+ap+"";
+setTimeout("GetClock()", 1000);
+}
