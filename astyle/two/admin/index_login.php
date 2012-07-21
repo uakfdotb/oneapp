@@ -13,24 +13,24 @@
 	<form name="pcrypt" onsubmit="pcryptf()" method="POST" action="index.php">
 	<? if(!$user_loggedin) { ?>
 	<tr>
-		<td width=20%><p class="name">Username</p></td>
-		<td align="right"><input type="text" name="username"/></td>
+		<td width=20%><p class="bold">Username</p></td>
+		<td align="right"><input type="text" name="username" style="width:80%"/></td>
 	</tr>
 	<? } ?>
 	<tr>
-		<td><p class="name">Password</p></td>
-		<td align="right"><input type="password" name="password"/></td>
+		<td><p class="bold">Password</p></td>
+		<td align="right"><input type="password" name="password" style="width:80%"/></td>
 	</tr>
 	<tr>
-		<td><p class="name">Club:</p></td>
-		<td align="right"><select name="club">
+		<td><p class="bold">Club</p></td>
+		<td align="right"><select name="club" style="width:81%">
 		<? foreach($clubs as $club_id => $club_name) { ?>
 			<option value="<?= $club_id ?>"><?= $club_name ?></option>
 		<? } ?>
 		</select></td>
 	</tr>
 	<tr class="club_info">
-		<td colspan="2" align="right"><input type="submit" value="Log In" class="positive"/></td>
+		<td colspan="2" align="right"><input type="submit" value="Log In" class="login positive"/></td>
 	</tr>
 	</form>
 </table>

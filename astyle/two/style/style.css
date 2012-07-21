@@ -2,9 +2,10 @@
 @import url('./button.css');
 @import url('./message.css');
 
-input[type=text], input[type=password], textarea{ border-color:black;}
+input[type=text], input[type=password], textarea{ border-color:black; autocomplete:off }
 input[type=text]:focus, input[type=password]:focus, textarea:focus { background-color: #FFC; border-color: #FC6; }
 input[readonly], input[readonly]:focus { background: none; border:none;}
+
 td p{
 	padding-left:10px;
 }
@@ -18,13 +19,24 @@ h1{
 }
 h2{
 	font-size:14px;
+	margin: 5px 5px;
 }
 p{
 	font-size:13px;
 }
+p.bold {
+	font-weight:bold;
+}
+
 .center{
 	margin-right:auto;
 	margin-left:auto;
+}
+.right{
+	float:right;
+}
+.left{
+	float:left;
 }
 a{font-weight:bold;color:black;text-decoration:none}
 a:hover {color:#336699;text-decoration:none}
@@ -150,14 +162,10 @@ a:hover .topsidenav, a:hover .sidenav, a:hover .sidenav1{
 }
 
 #box p {
-	margin-top:15px;
-	margin-bottom:15px;
+	margin-top:5px;
+	margin-bottom:5px;
 }
 
-#box * table tr td p {
-	margin-top:10px;
-	margin-bottom:0px;
-}
 /*************PAGE MODIFICATIONS*****************
 ************************************************/
 .table_header{
@@ -230,8 +238,12 @@ Admin Changes
 .tbl_repeat {
 	width:100%;
 }
-.tbl_repeat th,.tbl_repeat td {
-	padding:2px 5px;
+.tbl_repeat th {
+	padding: 4px 5px;
+}
+
+.tbl_repeat td {
+	padding:3px 5px;
 }
 .tbl_repeat th {
 	background:#eee;

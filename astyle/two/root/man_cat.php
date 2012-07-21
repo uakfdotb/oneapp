@@ -9,12 +9,12 @@ if(isset($message) && $message != '') {
 ?>
 
 <form action="man_cat.php?action=add" method="post">
-<table>
+<table width=60% class="center">
 <tr>
-	<td colspan="2"><p class="name">Category name</p></td>
+	<td width=30%><p class="name">Category Title</p></td>
+	<td><input type="text" name="name" class="right"></td>
 </tr><tr>
-	<td><input type="text" name="name"></td>
-	<td><input type="submit" value="Add category" class="add"></td>
+	<td colspan="2"><input type="submit" value="Add category" class="add right"></td>
 </tr>
 </table>
 </form>

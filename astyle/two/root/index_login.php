@@ -8,17 +8,18 @@
 <h1>Root Administration Area</h1>
 
 <form name="pcrypt" onsubmit="pcryptf()" method="POST" action="index.php">
-<table class="center">
 <? if(!$user_loggedin) { ?>
 <p>Please login with your username and password to access the root administration area.</p>
 <? } else { ?>
 <p>Please confirm your root password to continue.</p>
 <? } ?>
+<br />
+<table class="log_in" width=60%>
 <tr>
 <? if(!$user_loggedin) { ?>
-<td>Username <input type="text" name="username" /></td>
+<td width=20%><p class="bold">Username</p></td><td align="right"><input type="text" name="username" style="width:80%"/></td></tr><tr>
 <? } ?>
-<td>Password <input type="password" name="password"></td>
-<td><input type="submit" name="submit" value="Submit"></td>
+<td><p class="bold">Password</p></td><td align="right"><input type="password" name="password" style="width:80%"/></td></tr>
+<tr><td colspan="3" align="right"><input type="submit" name="submit" value="Submit"></td>
 </tr></table>
 </form>

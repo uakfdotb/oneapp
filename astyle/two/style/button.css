@@ -4,11 +4,15 @@
     border:1px solid #c2e1ef !important;
 }
 
+input, select {
+	margin:none;
+}
+
 /* BUTTONS */.buttons a, button, input[type=submit], select{
     display:block;
     float:center;
-    margin-top:5px;
-    margin-bottom:5px;
+    /*margin-top:5px;*/
+    /*margin-bottom:5px;*/
     background-color:#f5f5f5;
     border:1px solid #dedede;
     border-top:1px solid #eee;
@@ -76,35 +80,39 @@ button img, .buttons a img, input[type=submit] img{
 }
 
 button.add, input[type=submit].add{
-	background-image:url('./images/add.png');
+	background-image:url('../images/add.png');
     padding-left:20px;
 }
 button.delete, input[type=submit].delete{
-	background-image:url('./images/delete.png');
+	background-image:url('../images/delete.png');
     padding-left:20px;
 }
 button.reset, input[type=submit].reset{
-	background-image:url('./images/reset.png');
+	background-image:url('../images/reset.png');
     padding-left:20px;
 }
 button.comment, input[type=submit].comment{
-	background-image:url('./images/comment.png');
+	background-image:url('../images/comment.png');
     padding-left:18px;
     min-height:20px;
 }
 button.update, input[type=submit].update{
-	background-image:url('./images/update.png');
+	background-image:url('../images/update.png');
+    padding-left:20px;
+}
+button.login, input[type=submit].login{
+	background-image:url('../images/login.png');
     padding-left:20px;
 }
 button.download, input[type=submit].download{
-	background-image:url('./images/download.png');
+	background-image:url('../images/download.png');
     padding-left:29px;
     min-height:29px;
     background-color:white;
     border:none;
 }
 button.rec, input[type=submit].rec{
-	background-image:url('./images/contact.png');
+	background-image:url('../images/contact.png');
     padding-left:29px;
     min-height:29px;
     background-color:white;
@@ -135,7 +143,7 @@ button.rec, input[type=submit].rec{
 }
 
 .slide{
-    width : 50px;
+    width : 75px;
     background-color:#DCDCDC;
     -webkit-transition: all 0.3s linear;
     -moz-transition: all 0.3s linear;
