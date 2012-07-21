@@ -170,7 +170,7 @@ function getEvents($time_start, $time_end, $filter_clubs = array()) {
 	$time_start = escape($time_start);
 	$time_end = escape($time_end);
 	
-	$query = "SELECT id, name, description, time_start, time_end FROM oca_events WHERE time_start >= '$time_start' AND time_start <= '$time_end'";
+	$query = "SELECT id, name, description, time_start, time_end FROM oca_events WHERE time_start >= '$time_start' AND time_start <= '$time_end' ORDER BY time_start";
 	
 	if(count($filter_clubs) > 0) {
 		$query .= " AND (club_id = '" . escape($filter_clubs[0]) . "'";
