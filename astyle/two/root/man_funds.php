@@ -59,10 +59,10 @@
 </div>
 <div id="tabs-3">
 	<form action="man_funds.php?action=add" method="post">
-	<table>
+	<table width="60%" class="center">
 	<tr>
-		<td><p class="name">Root Name</p></td>
-		<td><input type="text" name="name" list="datalist1" autocomplete="off" /></td>
+		<td width=35%><p class="name">Root Name</p></td>
+		<td><input type="text" name="name" list="datalist1" autocomplete="off" class="right" style="width:85%"/></td>
 		<datalist id="datalist1">
 		<? foreach($userList as $user) {
 					echo "<option value=\"" . $user[0] . "\">";
@@ -73,11 +73,10 @@
 	</tr>
 	</table>
 	</form>
-
+<br />
 	<table class="tbl_repeat">
 	<tr>
 		<th align="left">Order</th>
-		<th></th>
 		<th></th>
 		<th></th>
 		<th></th>
@@ -88,12 +87,13 @@
 	?>
 		<form method="post" action="man_funds.php">
 		<input type="hidden" name="id" value="<?= $item[0] ?>">
-		<tr align="center"><td><input type="text" name="name" value="<?= $item[1] ?>" style="width:100%"></td>
-		<td><input type="submit" name="action" value="Update" class="update" /></td>
-		<td><input type="submit" name="action" value="Delete" class="delete negative" /></td>
-		<td><input type="submit" name="action" value="up" class="up" /></td>
-		<td><input type="submit" name="action" value="down" class="down" /></td>
-		</tr></form>
+		<tr align="center">
+			<td><p class="name"><?= $item[1] ?></p></td>
+			<td><input type="submit" name="action" value="Delete" class="delete negative" /></td>
+			<td><input type="submit" name="action" value="up" class="up" /></td>
+			<td><input type="submit" name="action" value="down" class="down" /></td>
+		</tr>
+		</form>
 	<?
 	}
 	?>
