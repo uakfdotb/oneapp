@@ -165,7 +165,7 @@ function adminGetEvents($user_id, $club_id) {
 	return $events;
 }
 
-//returns array str(day:year) => (event id, name, description, start, end)
+//returns array day_time_int => array (event id, name, description, start, end)
 function getEvents($time_start, $time_end, $filter_clubs = array()) {
 	$time_start = escape($time_start);
 	$time_end = escape($time_end);
@@ -186,14 +186,19 @@ function getEvents($time_start, $time_end, $filter_clubs = array()) {
 	$events = array();
 	
 	while($row = mysql_fetch_array($result)) {
-		$day_string = date("z:Y", $row['time_start']);
-		$events[$day_string] = array($row['id'], $row['name'], $row['description'], $row['time_start'], $row['time_end']);
+		$day = getDayTime($row['time_start']);
+		
+		if(!isset($events[$day])) {
+			$events[$day] = array();
+		}
+		
+		$events[$day][] = array($row['id'], $row['name'], $row['description'], $row['time_start'], $row['time_end']);
 	}
 	
 	return $events;
 }
 
-//returns array str(day:year:reservable_id) => (reservation id, name, reason, start, end, reservable id, reservable name)
+//returns array str(day_time_int:reservable_id) => (reservation id, name, reason, start, end, reservable id, reservable name)
 function getReservations($time_start, $time_end, $filter_clubs = array()) {
 	$time_start = escape($time_start);
 	$time_end = escape($time_end);
@@ -214,7 +219,7 @@ function getReservations($time_start, $time_end, $filter_clubs = array()) {
 	$events = array();
 	
 	while($row = mysql_fetch_array($result)) {
-		$day_string = date("z:Y", $row[3]) . ":" . $row[5];
+		$day_string = getDayTime($row['time_start']) . ":" . $row[5];
 		$events[$day_string] = array($row[0], $row[1], $row[2], $row[3], $row[4], $row[5]);
 	}
 	

@@ -12,11 +12,11 @@
 </tr>
 <tr>
 	<td>Start time</td>
-	<td><?= $info[5] ?></td>
+	<td><?= timeString($info[5]) ?></td>
 </tr>
 <tr>
 	<td>End time</td>
-	<td><?= $info[6] ?></td>
+	<td><?= timeString($info[6]) ?></td>
 </tr>
 </table>
 <input type="submit" value="Edit" />
