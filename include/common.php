@@ -86,6 +86,14 @@ function clubTimeString($time = -1) {
 	return date($config['club_dateformat'], $time);
 }
 
+function getDayTime($timeBase = -1, $offset = 0) {
+	if($timeBase == -1) {
+		$timeBase = time();
+	}
+	
+	return strtotime(date('Y-m-d', $timeBase) . " +$offset day");
+}
+
 function one_mail($subject, $body, $to) { //returns true=ok, false=notok
 	$config = $GLOBALS['config'];
 	$from = filter_email($config['mail_username']);
