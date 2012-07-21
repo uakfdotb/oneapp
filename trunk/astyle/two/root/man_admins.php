@@ -5,10 +5,10 @@
 <p>Note that if you delete and then re-add an administrator, the only information that will be deleted is the information on this page plus notes features (the textbox, categories, and comments shown on the <b>View Submissions</b> page in the application administration section.</p>
 
 <form action="man_admins.php?action=add" method="post">
-<table style="margin:10px auto">
+<table style="margin:10px auto" width=60%>
 <tr>
-	<td style="padding-right:10px">Admin username</td>
-	<td><input type="text" name="username" list="datalist1"></td>
+	<td width=35%><p class="name">Administrator</p></td>
+	<td><input type="text" name="username" list="datalist1" autocomplete="off" style="width:85%" class="right"/></td>
 	<datalist id="datalist1">
 	<? foreach($userList as $user) {
 				echo "<option value=\"" . $user[0] . "\">";
@@ -16,8 +16,8 @@
 	</datalist>
 </tr>
 <tr>
-	<td>Club</td>
-	<td><select name="group_id">
+	<td width=35%><p class="name">Club</p></td>
+	<td><select name="group_id" style="width:87%" class="right"/>
 		<?
 			foreach($groupList as $group_id => $group_name) {
 				echo "<option value=\"" . $group_id . "\">" . $group_name . "</option>";
@@ -27,31 +27,17 @@
 	</select></td>
 </tr>
 <tr>
-	<td colspan="2" align="center"><input type="submit" value="Add admin" class="add"></td>
+	<td colspan="2" align="right"><input type="submit" value="Add admin" class="add"></td>
 </tr>
 </table>
 </form>
 
-
-<script type="text/javascript">
-    function OnFocusInput (input) {
-        input.style.width="120px";
-        input.style.backgroundColor="white";
-    }
-
-    function OnBlurInput (input) {
-        input.style.width="50px";
-        input.style.backgroundColor="#DCDCDC";
-    }
-</script>
-
-
 <table class="tbl_repeat">
 <tr>
 	<th align="left">Username</th>
-	<th>Group</th>
-	<th></th>
-	<th></th>
+	<th align="left">Group</th>
+	<th width=10%></th>
+	<th width=10%></th>
 </tr>
 
 <?
@@ -62,7 +48,7 @@ foreach($adminList as $item) {
 	<input type="hidden" name="group_id_orig" value="<?= $item[2] ?>">
 	<tr>
 		<td><input class="slide" onfocus="OnFocusInput (this)" onblur="OnBlurInput (this)" type="text" name="username" value="<?= $item[1] ?>"></td>
-		<td><select name="group_id">
+		<td><select name="group_id" style="width:100%">
 			<option value="<?= $item[2] ?>"><?= $item[3] ?></option>
 			<?
 				foreach($groupList as $group_id => $group_name) {
@@ -73,8 +59,8 @@ foreach($adminList as $item) {
 			?>
 		</select>
 		</td>
-		<td><input type="submit" name="action" value="Update" class="update"></td>
-		<td><input type="submit" name="action" value="Remove" class="delete negative"></td>
+		<td><input type="submit" name="action" value="Update" class="update right"></td>
+		<td><input type="submit" name="action" value="Remove" class="delete negative right"></td>
 		</tr>
 		</tr>
 	</form>

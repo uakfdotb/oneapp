@@ -191,7 +191,7 @@ function get_page_advanced($page, $context, $args = array()) {
 	$page_display = $config[$context . '_page_display'];
 	$page_display_names = $config[$context . '_page_display_names'];
 	
-	//add links back to specific areas (apply, root, admin)
+	/*//add links back to specific areas (apply, root, admin)
 	if($context != "apply") {
 		$page_display[] = "../application/";
 		$page_display_names[] = "Application";
@@ -205,7 +205,7 @@ function get_page_advanced($page, $context, $args = array()) {
 	if($context != "admin" && isset($_SESSION['user_id']) && isAdmin($_SESSION['user_id'])) {
 		$page_display[] = "../admin/";
 		$page_display_names[] = "Admin";
-	}
+	}*/
 	
 	//for admin and root areas, add anti-CSRF strings if needed
 	$t = '';

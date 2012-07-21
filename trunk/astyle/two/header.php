@@ -2,8 +2,12 @@
 <html>
 <head>
 <link href="<?= $stylePath ?>/style/style.css" rel="stylesheet" type="text/css">
+<link href="<?= $stylePath ?>/style/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css">
 <script src="<?= $stylePath ?>/js/sorttable.js"></script>
+<script src="<?= $stylePath ?>/js/extra.js"></script>
 <script src="<?= $stylePath ?>/js/jquery.simpletip-1.3.1.js"></script>
+<script src="<?= $stylePath ?>/js/jquery-1.7.2.min.js"></script>
+<script src="<?= $stylePath ?>/js/jquery-ui-1.8.21.custom.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -59,8 +63,13 @@ $(document).ready(function(){
 			<tr><td><table>
 				<tr><a href="../index.php"><img src="<?= $stylePath ?>/images/logo.jpg" alt="logo" height="60" border="0" /></a></tr>
 			</table></td><td><table>
-				<tr><p class="location_heading"><a href="..
-				/application">Applicant</a> | <a href="../admin">Admin</a> | <a href="../root">Root</a></p></tr>
+				<tr><p class="location_heading">
+				
+				<? if($context!="apply") echo'<a href="../application">Applicant</a>'; else echo "Applicant"; ?>  | 
+				<? if($context!="admin") echo'<a href="../admin">Administrator</a>'; else echo "Administrator"; ?>  | 
+				<? if($context!="root") echo'<a href="../root">Root</a>'; else echo "Root"; ?> 
+				</p></tr>
+				
 				<tr><p class="schooltop"><?= $config['organization_name'] ?></p></tr>
 			</table></td><tr>
 		</table>
@@ -84,17 +93,17 @@ $(document).ready(function(){
 		<div id="col_left">
 			<div class="side_bar">
 				<div class="userbox">
-				<? if($context == "root") {?>
+				<? if($context == "root" && isset($_SESSION['user_id'])) {?>
                                                 <?$adminInfo = getUserInformation($_SESSION['user_id']); ?>
                                                 <p class="box_name"><?= $adminInfo[2]?></p>
                                                 <p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['user_id']?></p>
                                                 <p class="box_date">Site Root</p>
-				<? } else if($context == "admin") {?>
+				<? } else if($context == "admin" && isset($_SESSION['user_id'])) {?>
 						<?$adminInfo = getUserInformation($_SESSION['user_id']); ?>
 						<p class="box_name"><?= $adminInfo[2]?></p>
 						<p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['user_id']?></p>
 						<p class="box_date">Club Administrator</p>
-				<? } else if($context == "apply") {?>
+				<? } else if($context == "apply" && isset($_SESSION['user_id'])) {?>
 						<?$userInfo = getUserInformation($_SESSION['user_id']); ?>
 						<p class="box_name"><?= $userInfo[2]?></p>
 						<p class="box_id"><?=$config['site_name'] ?> ID: <?= $_SESSION['user_id']?></p>
@@ -109,7 +118,7 @@ $(document).ready(function(){
 							echo '<a href="' . $side_display[$i] . '">';
 							unset($nav_cat);
 							
-							if($i<2) echo '<li class="topsidenav">';
+							if($i<2 & $context="apply") echo '<li class="topsidenav">';
 							else echo '<li class="sidenav">';
 							
 							echo  $side_display_names[$i] . '</li></a>';
