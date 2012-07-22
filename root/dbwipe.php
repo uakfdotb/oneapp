@@ -9,7 +9,7 @@ include("../include/chk.php");
 if(isset($_SESSION['root'])) {
 	
 	if(isset($_REQUEST['wipe']) && isset($_REQUEST['password'])) {
-		if(checkRoot($_REQUEST['password'])) {
+		if(checkLogin($_SESSION['user_id'], $_REQUEST['password'])) {
 			databaseWipe();
 			$success = "Your database has been completely wiped.";
 		} else {

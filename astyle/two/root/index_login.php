@@ -20,6 +20,6 @@
 <td width=20%><p class="bold">Username</p></td><td align="right"><input type="text" name="username" style="width:80%"/></td></tr><tr>
 <? } ?>
 <td><p class="bold">Password</p></td><td align="right"><input type="password" name="password" style="width:80%"/></td></tr>
-<tr><td colspan="3" align="right"><input type="submit" name="submit" value="Submit"></td>
+<tr><td colspan="3"><input type="submit" name="submit" value="Log in" class="login right"></td>
 </tr></table>
 </form>

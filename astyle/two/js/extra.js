@@ -8,14 +8,6 @@ function OnBlurInput (input) {
     input.style.backgroundColor="#DCDCDC";
 }
 
-$(document).ready(function(){	
-    $('.example2').stop(true, true).hide().before('<a href="#" id="toggle-example2" class="button">Show/Hide Details</a>');
-	$('a#toggle-example2').click(function() {
-		$('.example2').stop(true, true).slideToggle(1000);
-		return false;
-	});
-});
-
 function GetClock(){
 d = new Date();
 nday   = d.getDay();
