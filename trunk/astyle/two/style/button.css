@@ -80,39 +80,56 @@ button img, .buttons a img, input[type=submit] img{
 }
 
 button.add, input[type=submit].add{
-	background-image:url('../images/add.png');
+	background-image:url('../images/icon/add.png');
     padding-left:20px;
 }
 button.delete, input[type=submit].delete{
-	background-image:url('../images/delete.png');
+	background-image:url('../images/icon/delete.png');
     padding-left:20px;
 }
 button.reset, input[type=submit].reset{
-	background-image:url('../images/reset.png');
+	background-image:url('../images/icon/reset.png');
     padding-left:20px;
 }
 button.comment, input[type=submit].comment{
-	background-image:url('../images/comment.png');
+	background-image:url('../images/icon/comment.png');
     padding-left:18px;
     min-height:20px;
 }
 button.update, input[type=submit].update{
-	background-image:url('../images/update.png');
+	background-image:url('../images/icon/update.png');
     padding-left:20px;
 }
 button.login, input[type=submit].login{
-	background-image:url('../images/login.png');
+	background-image:url('../images/icon/login.png');
     padding-left:20px;
 }
+button.backup, input[type=submit].backup{
+	background-image:url('../images/icon/backup.png');
+    padding-left:20px;
+}
+button.database_delete, input[type=submit].database_delete{
+	background-image:url('../images/icon/database_delete.png');
+    padding-left:20px;
+}
+button.clean, input[type=submit].clean{
+	background-image:url('../images/icon/clean.png');
+    padding-left:20px;
+}
+button.submit, input[type=submit].submit{
+	background-image:url('../images/icon/submit.png');
+    padding-left:20px;
+}
+
 button.download, input[type=submit].download{
-	background-image:url('../images/download.png');
+	/*background-image:url('../images/download.png');*/
     padding-left:29px;
     min-height:29px;
     background-color:white;
     border:none;
 }
 button.rec, input[type=submit].rec{
-	background-image:url('../images/contact.png');
+	/*background-image:url('../images/contact.png');*/
     padding-left:29px;
     min-height:29px;
     background-color:white;
@@ -130,7 +147,7 @@ button.rec, input[type=submit].rec{
 	text-align: center;
 }
 .menu li em {
-	background: url(./images/hover.png) no-repeat;
+	background: url(../images/hover.png) no-repeat;
 	position: absolute;
 	width:200px;
 	height:76px;

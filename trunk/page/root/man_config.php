@@ -15,7 +15,20 @@ foreach($optionsMap as $key => $value) {
 ?>
 	<tr>
 		<td><?= $key ?></td>
-		<td><input type="<?= $inputType ?>" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>" /></td>
+		<td>
+		
+			<? if(array_key_exists("options", $tabs[$key])) { ?>
+				<select name="<?=$key?>" style="width:204px">
+					<? foreach($tabs[$key]["options"] as $option) {
+						echo "<option value=\"$option\" ";
+						if($value == $option) echo "selected";
+						echo ">$option</option>";
+					} ?>
+				</select>
+			<? } else { ?>
+				<input type="<?= $inputType ?>" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>" style="width:200px" />
+			<? } ?>
+		</td>
 	</tr>
 <?
 }

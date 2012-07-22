@@ -1,6 +1,7 @@
 @import url('./reset.css');
 @import url('./button.css');
 @import url('./message.css');
+@import url('./file_images.css');
 
 input[type=text], input[type=password], textarea{ border-color:black; autocomplete:off }
 input[type=text]:focus, input[type=password]:focus, textarea:focus { background-color: #FFC; border-color: #FC6; }
@@ -278,14 +279,21 @@ Admin Changes
 .hidden { display:none }
 .parent:hover .hidden { display:block; cursor:pointer}
 
-.nav-container{
+/****Buttons for menus****/
+.nav-container {
 	width:100%;
 }
 .nav-container tr td {
 	width:50%;
 }
 
-.nav-button{
+.alternate{
+	background:#f8f8f8 !important;
+	border-top:1px solid #24476B;
+	border-bottom:1px solid #24476B;
+}
+
+.nav-button {
 	font-size:0.8em;
 	width:230px;
 	margin:3px auto;
@@ -299,8 +307,8 @@ Admin Changes
 	background:white;
 }
 
-.nav-button:hover{
-	background:#e5f1fa;
+.nav-button:hover {
+	background:#e5f1fa !important;
 	border:none;	
 }
 
@@ -326,12 +334,32 @@ Admin Changes
 	margin-right:10px;
 }
 
-.alternate{
-	background:#f8f8f8;
-	border-top:1px solid #24476B;
-	border-bottom:1px solid #24476B
-}
-
-.nav-container{
+.nav-button-vertical {
+	font-size:0.8em;
+	min-width:60px;
+	margin:3px auto;
+	cursor:pointer;
+	min-height:60px;
+	padding:5px;
+	border-right:1px solid #24476B;
+	border-left:1px solid #24476B;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	background:white;
 	
 }
+.nav-button-vertical img {
+}
+.nav-button-vertical:hover {
+	background:#e5f1fa !important;
+	border:none;	
+}
+.nav-button-vertical h2{
+	font-size:11px;
+	text-align:center;
+	color:#24476B
+}
+.nav-button-vertical-container td {
+	padding:5px
+}
+/*****Buttons for menu end******/

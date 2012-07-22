@@ -5,5 +5,5 @@
 <p>This should not result in any data loss.</p>
 
 <form method="post" action="full_clean.php">
-<input type="submit" name="clean" value="Full clean" />
+<input type="submit" name="clean" value="Full clean" class="clean"/>
 </form>

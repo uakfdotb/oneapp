@@ -9,6 +9,14 @@
 <script type="text/javascript" src="<?= $stylePath ?>/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="<?= $stylePath ?>/js/jquery-ui-1.8.21.custom.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function(){	
+    $('.example2').stop(true, true).hide().before('<a href="#" id="toggle-example2" class="button">Show/Hide Details</a>');
+	$('a#toggle-example2').click(function() {
+		$('.example2').stop(true, true).slideToggle(1000);
+		return false;
+	});
+});
+
 $(function(){
 	// Accordion
 	$("#accordion").accordion({ header: "h3" });

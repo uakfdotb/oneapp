@@ -7,8 +7,29 @@ include("../include/session.php");
 include("../include/config.php");
 
 if(isset($_SESSION['root'])) {
+	$styles_availible = $config['style_availible'];
 	//todo: editing style option will cause session.php to change session style!
 	$option_list = array('mail_smtp', 'mail_username', 'mail_password', 'mail_smtp_host', 'mail_smtp_port', 'site_name', 'organization_name', 'site_address', 'form_array_delimiter', 'max_recommend', 'style', 'app_enabled', 'latex_path', 'time_dateformat', 'club_dateformat', 'page_display', 'page_display_names');
+	$option_tabs = array( 
+		"mail_smtp" => array("Mail", "Mail SMTP", "options" => array("true", "false")), 
+		"mail_username" => array("Mail", "Username"), 
+		"mail_smtp_host" => array("Mail", "SMTP Host"), 
+		"mail_smtp_port" => array("Mail", "SMTP Port"), 
+		"mail_password" => array("Mail", "Password"), 
+		"site_name" => array("Basic", "Site Name"), 
+		"organization_name" => array("Basic", "Organization Name"), 
+		"site_address" => array("Basic", "Site Address"), 
+		"form_array_delimiter" => array("Advanced", "Form_Array_Delimiter"), 
+		"max_recommend" => array("Basic", "Max Recommend"), 
+		"style" => array("Basic", "Site Style", "options" => $styles_availible), 
+		"app_enabled" => array("Basic", "Application Enabled", "options" => array("true","false")), 
+		"latex_path" => array("Advanced", "LATEX path"), 
+		"time_dateformat" => array("Basic", "Time & Date Format"), 
+		"club_dateformat" => array("Basic", "Club Date Format"), 
+		"page_display" => array("Advanced", "Pages Displayed"), 
+		"page_display_names" => array("Advanced", "Page Names"));
+	$display_tabs = array("Basic", "Mail", "Advanced");
+		
 	$hide_options = array('mail_password');
 	$array_options = array("page_display", "page_display_names");
 	
@@ -105,13 +126,14 @@ if(isset($_SESSION['root'])) {
 	}
 	
 	//now let the user edit other options not in config
+	$counter =0;
 	foreach($option_list as $option_name) {
 		if(!array_key_exists($option_name, $options)) {
 			$options[$option_name] = FALSE; //value of false denotes hidden type, show as password box
 		}
 	}
 
-	get_page_advanced("man_config", "root", array('optionsMap' => $options));
+	get_page_advanced("man_config", "root", array('optionsMap' => $options, 'tabs' => $option_tabs, 'tab_list' => $display_tabs ));
 } else {
 	header('Location: index.php');
 }
