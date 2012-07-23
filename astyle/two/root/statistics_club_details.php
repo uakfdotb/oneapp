@@ -1,4 +1,4 @@
-<h1>Club Statistics: <?= $club_name ?></h1>
+<h1><a href="root_cat.php?cat=Statistics">Statistics</a> > <a href="statistics_club.php">Club</a> > <?= $club_name ?></h1>
 
 <p>Below are users who have applied to this club. <b>Users started</b> lists users who have started but not completed their application.</p>
 

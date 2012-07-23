@@ -66,17 +66,25 @@ $config['root_side_display_names'] = array('Manage', 'Statistics', 'Clean System
 
 $config['root_cat_display'] = array('manage' => array(), 'statistics' => array(), 'clean' => array());
 
+$config['root_cat_display']['Database']['desc'] = "Database tool will allow you to clean, delete, and backup the data.";
+$config['root_cat_display']['Database']['links'] = array('full_clean', 'dbwipe', 'backup');
+$config['root_cat_display']['Database']['names'] = array('Clean System', 'Database Wipe', 'Backup');
+$config['root_cat_display']['Database']['link_desc'] = array('<li>Delete Unnecessary Files</li>', '', '<li>Save Files</li><li>Store Copies</li><li>Download Save States</li>');
+
 $config['root_cat_display']['Statistics']['desc'] = "Statistics tools allow you to gather basic information about the status of your organizations and website.";
 $config['root_cat_display']['Statistics']['links'] = array('statistics', 'statistics_club');
 $config['root_cat_display']['Statistics']['names'] = array('General statistics', 'Club statistics');
+$config['root_cat_display']['Statistics']['link_desc'] = array('<li>User Count</li><li>Club Count</li><li>Submission Statistics</li>', '<li>Submissions per Club</li><li>Total Applicant Count</li><li>Percent Complete</li>');
 
-$config['root_cat_display']['Manage']['desc'] = "General management features appear below, from which you may view users, add admins, organizations, general application categories, and custom pages. Please click on one of the links below to access these features.";
-$config['root_cat_display']['Manage']['links'] = array('userlist', 'man_admins', 'man_clubs', 'man_cat', 'man_pages', 'man_funds');
-$config['root_cat_display']['Manage']['names'] = array('Users', 'Admins', 'Clubs', 'Categories', 'Pages', 'Funds');
+$config['root_cat_display']['Manage']['desc'] = "General management features appear below, from which you may <b>view users</b>, <b>add admins</b>, <b>organizations</b>, and <b>general application categories</b>. Please click on one of the links below to access these features.";
+$config['root_cat_display']['Manage']['links'] = array('userlist', 'man_admins', 'man_clubs', 'man_cat', 'man_funds');
+$config['root_cat_display']['Manage']['names'] = array('Users', 'Admins', 'Clubs', 'Categories', 'Funds');
+$config['root_cat_display']['Manage']['link_desc'] = array('<li>Reset Applications</li><li>Remove Users</li><li>User Information</li>', '<li>Add Administrators</li><li>Remove Administrators</li><li>Club Assignment</li>', '<li>Add Clubs</li><li>Remove Clubs</li><li>Edit Club Information</li>', '<li>Include Categories</li><li>Alter Tags</li>', '<li>Approve Pruchase Requests</li><li>View Purchase History</li><li>Organize Spending</li>');
 
 $config['root_cat_display']['Clean system']['desc'] = 'Tools below allow you to clear old files to conserve system resources. The <b>Full Database Cleaner</b> will delete old database entries, while the other options will maintain the database or delete unneeded files.';
 $config['root_cat_display']['Clean system']['links'] = array('full_clean', 'rm_peer', 'check_pdf', 'check_nohome', 'check_mismatch');
 $config['root_cat_display']['Clean system']['names'] = array('Full database cleaner', 'Recommendations', 'Extra PDFs', 'Questions without a home', 'Mismatched applications');
+$config['root_cat_display']['Clean system']['link_desc'] = array('', '', '', '', '');
 
 $config['time_dateformat'] = 'D, d M Y H:i:s'; //format used to display the current time
 $config['club_dateformat'] = 'D, d M Y H:i:s'; //format used to display deadlines and opening times for club supplements

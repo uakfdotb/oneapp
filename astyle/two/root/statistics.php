@@ -1,4 +1,4 @@
-<h1>Statistics</h1>
+<h1><a href="root_cat.php?cat=Statistics">Statistics</a> > General</h1>
 
 <p>This page shows general statistics for your website. Most of the fields should be self-explanatory and are simple counts.</p>
 

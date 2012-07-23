@@ -1,20 +1,7 @@
-<h1>User List</h1>
+<h1><a href="root_cat.php?cat=Manage">Manage</a> > User List</h1>
 
 <p>Here, all registered users are listed. Note that this includes users who have registered but not logged in yet (highlighted). <b>Reset apps</b> will delete all applications and responses of the user from the database, including on the general application. <b>Delete user</b> will delete the user completely (but will not delete applications and responses).</p>
 
-<script type="text/javascript">
-
-$(document).ready(function() {
-  $('td.checking').hide(); 
-  $('tr.after_border').hover(function() {  
-    $(this).addClass("selected").find('td.checking').show();
-  }, function() {  
-    $(this).removeClass("selected").find('td.checking').hide();
- });
-}):
-
-
-</script>
 
 <table class="tbl_repeat">
 <tr>

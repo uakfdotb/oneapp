@@ -1,7 +1,7 @@
 <h1>Application preview</h1>
 
 <?
-page_advanced_include("category_manager", $context, array("categories" => $categories));
+page_advanced_include("category_manager", "admin", array("categories" => $categories));
 ?>
 
 <table>

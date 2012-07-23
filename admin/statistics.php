@@ -8,7 +8,7 @@ include("../include/apply_gen.php");
 include("../include/statistics.php");
 
 if(isset($_SESSION['admin'])) {
-	$club_id = $_SESSION['club_id'];
+	$club_id = $_SESSION['admin_club_id'];
 	
 	$adminStat = adminStatistics($club_id);
 	$responseStat = responseStatistics($club_id, true, 8);

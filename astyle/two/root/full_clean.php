@@ -1,6 +1,13 @@
-<h1>Full database clean</h1>
+<h1><a href="root_cat.php?cat=Database">Database</a> > Full Clean</h1>
 
-<p>This deletes any database entries that do not belong anywhere. Examples include applications whose user or club has been deleted, admins whose club has been deleted, recommendations whose user has been deleted, and club notes whose club has been deleted.</p>
+<p>This deletes any database entries that do not belong anywhere. Examples include:
+<ul class="bullet">
+<li><b>Applications</b> whose user or club has been deleted</li>
+<li><b>Admins</b> whose club has been deleted</li>
+<li><b>Recommendations</b> whose user has been deleted</li>
+<li><b>Club</b> notes whose club has been deleted</li>
+</ul>
+</p>
 
 <p>This should not result in any data loss.</p>
 

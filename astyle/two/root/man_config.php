@@ -1,6 +1,6 @@
 <h1>Configuration Editor</h1>
 
-<p>Here, you can manage your configuration. You should not edit this page unless you know what you are doing! Also, note that this page will only work if the permissions of config.php are set such that the webserver user can write to it.</p>
+<p>Here, you can manage your configuration. You should not edit this page unless you know what you are doing!</p>
 
 <form method="post" action="man_config.php">
 <div id="tabs">
@@ -9,7 +9,7 @@
 foreach($tab_list as $tab) {
 	echo "<li><a href=\"#$tab\">$tab</a></li>";
 }
-	echo "</ul>";
+	echo "</ul><div><p class=\"name\" align=\"center\">Be very careful when editing the content on this page!</p></div>";
 foreach($optionsMap as $key => $value) {
 	$inputType = "text";
 	if($value === FALSE) { //this denotes a hidden value
@@ -25,7 +25,7 @@ foreach($optionsMap as $key => $value) {
 		<div width=70% class="right">
 			<? if(array_key_exists("options", $tabs[$key])) {
 				echo "<select name=\"$key";
-				echo "_control\" style=\"width:204px\" ";
+				echo "_control\"";
 				echo ">";
 				foreach($tabs[$key]["options"] as $option) {
 						echo "<option value=\"$option\" ";
@@ -34,7 +34,7 @@ foreach($optionsMap as $key => $value) {
 					} ?>
 				</select>
 			<? } else { ?>
-				<input type="<?= $inputType ?>" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>" style="width:200px" />
+				<input type="<?= $inputType ?>" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>" />
 			<? } ?>
 		</div>
 	</div>

@@ -26,6 +26,8 @@ input, select {
     padding:2px;
     background-repeat: no-repeat;
     background-position: 5px center;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
 }
 button, input[type=submit]{
     overflow:visible;
@@ -118,6 +120,18 @@ button.clean, input[type=submit].clean{
 }
 button.submit, input[type=submit].submit{
 	background-image:url('../images/icon/submit.png');
+    padding-left:20px;
+}
+button.accept, input[type=submit].accept{
+	background-image:url('../images/icon/accept.png');
+    padding-left:20px;
+}
+button.reject, input[type=submit].reject{
+	background-image:url('../images/icon/reject.png');
+    padding-left:20px;
+}
+button.app_edit, input[type=submit].app_edit{
+	background-image:url('../images/icon/app_edit.png');
     padding-left:20px;
 }
 
