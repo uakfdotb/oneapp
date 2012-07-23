@@ -569,6 +569,10 @@ function register($username, $name, $email, $profile, $captcha) {
 //1: new password too short; 10: invalid new email address; 11: passwords do not match
 function updateAccount($user_id, $oldPassword, $newPassword, $newPasswordConfirm, $newEmail) {
 	$user_id = escape($user_id);
+	$oldPassword = escape($oldPassword);
+	$newPassword = escape($newPassword);
+	$newPasswordConfirm = escape($newPasswordConfirm);
+	$newEmail = escape($newEmail);
 	$result = verifyLogin($_SESSION['user_id'], $_POST['old_password']);
 	
 	if($result === TRUE) {
@@ -1359,6 +1363,15 @@ substr(PHP_OS, 0, 3) !== 'WIN'))
       @fclose($handle);
    
    return substr($str, 0, $len);
+}
+
+//displays money in a nice format
+function display_money($money) {
+	if($money<0) {
+		return '<font style="font-weight:bold;color:red">$(' . number_format($money*-1,2) . ')</font>';
+	} else {
+		return '<font style="font-weight:bold;color:green">$' . number_format($money,2) . '</font>';
+	}
 }
 
 ?>

@@ -28,6 +28,24 @@ function createPurchase($club_id, $purchase_description, $amount) {
 		return -1;
 	}
 }
+//0: success; -1: internal error
+function createDeposit($club_id, $purchase_description, $amount) {
+	$purchase_description = escape($purchase_description);
+	$amount = escape($amount);
+	//first create an instance
+	$instance_id = customCreate(customGetCategory('purchase', true), $club_id);
+	$curr_time = time();
+	//insert into purchase table
+	mysql_query("INSERT INTO purchase_order (club_id, instance_id, status, filename, submit_time, description, amount) VALUES ('$club_id', '$instance_id', '100', '', '$curr_time', '$purchase_description', '$amount' )");
+	$purchase_id = mysql_insert_id();
+	mysql_query("UPDATE purchase_order SET id=id*-1 WHERE id=$purchase_id");
+	mysql_query("UPDATE clubs SET money=money+$amount where id=$club_id") or die(mysql_error());
+	if($purchase_id) {
+		return $purchase_id;
+	} else {
+		return -1;
+	}
+}
 
 
 
@@ -106,24 +124,26 @@ function submitPurchase($purchase_id, $purchase) {
 
 function getPurchaseStatusString($status) {
 	if($status == 0) {
-		return "incomplete";
+		return "Incomplete";
+	} else if($status == 100) {
+		return "Deposit";
 	} else if($status == -1 ) {
-		return "accepted";
+		return "Approved";
 	} else if($status <= -2 ) {
 		$val = abs($status)/10;
 		$result = mysql_query("SELECT name FROM purchase_confirm WHERE orderID = '$val'");
 		if($row = mysql_fetch_array($result)) {
-			$return_string = "rejected  by " . $row[0];
+			$return_string = "Rejected  by " . $row[0];
 			return $return_string;
 		} else {
-			return "rejected";
+			return "Rejected";
 		}
 	} else {
 		$result = mysql_query("SELECT name FROM purchase_confirm WHERE orderID = '$status'");
 		if($row = mysql_fetch_array($result)) {
 			return $row[0];
 		} else {
-			return "Error";
+			return "Error $status";
 		}
 	}
 }

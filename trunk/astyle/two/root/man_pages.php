@@ -1,4 +1,4 @@
-<h1>Page manager</h1>
+<h1><a href="root_cat.php?cat=Manage">Manage</a> > Pages</h1>
 
 <p>Here, you can add, remove, and edit database pages. Database pages are designed to be edited easily, and use a BBCode-like syntax. Add one of the default pages below and then press edit for an example of the syntax.</p>
 

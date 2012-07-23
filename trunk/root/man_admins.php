@@ -15,12 +15,19 @@ if(isset($_SESSION['root'])) {
 		
 		if($action == 'add' && isset($_REQUEST['username']) && isset($_REQUEST['group_id'])) {
 			$user_id = getUserId($_REQUEST['username']);
-			
 			if($user_id !== FALSE) {
 				if(substr($_REQUEST['group_id'], 0, 1) == 'g') {
-					alterAdminGroups($user_id, false, substr($_REQUEST['group_id'], 1));
+					if(alterAdminGroups($user_id, false, substr($_REQUEST['group_id'], 1))) {
+						$success = "Admin added successfully!";
+					} else {
+						$error = "Admin not added! This admin may already be associated with that group!";
+					}
 				} else if(substr($_REQUEST['group_id'], 0, 1) == 'c') {
-					customAlterAdmin($user_id, false, substr($_REQUEST['group_id'], 1));
+					if(customAlterAdmin($user_id, false, substr($_REQUEST['group_id'], 1))) {
+						$success = "Admin added successfully!";
+					} else {
+						$error = "Admin not added! This admin may already be associated with that group!";
+					}
 				}
 			} else {
 				$error = "Username not found.";

@@ -14,16 +14,16 @@
 	<? if(!$user_loggedin) { ?>
 	<tr>
 		<td width=20%><p class="bold">Username</p></td>
-		<td align="right"><input type="text" name="username" style="width:80%"/></td>
+		<td align="right"><input type="text" name="username" /></td>
 	</tr>
 	<? } ?>
 	<tr>
 		<td><p class="bold">Password</p></td>
-		<td align="right"><input type="password" name="password" style="width:80%"/></td>
+		<td align="right"><input type="password" name="password" /></td>
 	</tr>
 	<tr>
 		<td><p class="bold">Club</p></td>
-		<td align="right"><select name="club" style="width:81%">
+		<td align="right"><select name="club" />
 		<? foreach($clubs as $club_id => $club_name) { ?>
 			<option value="<?= $club_id ?>"><?= $club_name ?></option>
 		<? } ?>

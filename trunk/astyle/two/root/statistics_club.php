@@ -1,4 +1,4 @@
-<h1>Club Statistics</h1>
+<h1><a href="root_cat.php?cat=Statistics">Statistics</a> > Club</h1>
 
 <p>Below are the number of users who submitted an application and who applied for each club. If you select details, then you will be able to see specific users who applied to the club.</p>
 

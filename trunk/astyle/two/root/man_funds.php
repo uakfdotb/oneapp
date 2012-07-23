@@ -1,4 +1,6 @@
-<h1>Funding manager</h1>
+<h1><a href="root_cat.php?cat=Manage">Manage</a> > Funds</h1>
+
+<p>Through the Funding Manager tab, we provide resources to request additional funding and either approve or deny such propositions. Within the <b>Pending</b> option, you can view clubs withdrawing or depositing funds. <b>Complete</b> shows your approval history, and <b>Necessary Approval List</b> allows the root user to design the order in which the files would be approved or rejected by admin.</p>
 <div id="tabs">
 	<ul>
 		<li><a href="#tabs-1">Pending</a></li>
@@ -8,8 +10,7 @@
 <div id="tabs-1">
 <? if(mysql_num_rows($pending) == 0) {
 	echo "<p>No purchase orders pending!</p>";
-} else { 
-	echo count($pending);?>
+} else { ?>
 	<form action="man_funds.php">
 	<table class="tbl_repeat">
 	<tr>
@@ -17,20 +18,18 @@
 		<th>Submit Time</th>
 		<th>Current Status</th>
 		<th>Amount</th>
-		<th></th>
-		<th></th>
+		<th>Form</th>
 		<th></th>
 	</tr>
 
 	<? while($row = mysql_fetch_array($pending)) { ?>
 		<tr>
-			<td><? $club_detail = clubInfo($row['club_id']); echo $club_detail[0]; ?></td>
-			<td><?= date('m/d/y H:i', $row['submit_time'])?></td>
-			<td>Awaiting: <?= getPurchaseStatusString($row['status'])?></td>
-			<td><?= $row['amount']?></td>
-			<td><a href="../submit/<?= $row['filename']?>.pdf">Download</a></td>
-			<td><button name="status_change" value="<?=$row['id']?>">Approve</button></td>
-			<td><button name="status_change" value="<?=-1*$row['id']?>">Reject</button></td>
+			<td valign="bottom"><? $club_detail = clubInfo($row['club_id']); echo $club_detail[0]; ?></td>
+			<td valign="bottom"><?= date('m/d/Y', $row['submit_time'])?></td>
+			<td valign="bottom">Awaiting: <?= getPurchaseStatusString($row['status'])?></td>
+			<td valign="bottom"><?= display_money($row['amount'])?></td>
+			<td><a href="../submit/<?= $row['filename']?>.pdf"><div class="nav-button-vertical small"><div class="pdf_small"></div></div></a></td>
+			<td valign="bottom"><button name="status_change" value="<?=$row['id']?>" class="accept positive" style="width:100%" />Approve</button><button name="status_change" value="<?=-1*$row['id']?>" class="reject negative" style="width:100%" />Reject</button></td>
 		</tr>
 	<? } ?>
 	</table>
@@ -52,7 +51,7 @@
 			<td><?= date('m/d/y H:i', $row['submit_time']) ?></td>
 			<td><? if($row['status'] <= -1) echo date('m/d/y H:i:s', $row['status_time']); ?></td>
 			<td><?= getPurchaseStatusString($row['status'])?></td>
-			<td><?= $row['amount']?></td>
+			<td><?= display_money($row['amount'])?></td>
 		</tr>
 	<? } ?>
 	</table>
@@ -74,7 +73,7 @@
 	</table>
 	</form>
 <br />
-	<table class="tbl_repeat">
+	<table class="tbl_repeat center" style="width:70%" >
 	<tr>
 		<th align="left">Order</th>
 		<th></th>

@@ -2,12 +2,11 @@
 
 <p>A list of users subscribed to your club appears below. These users will receive notifications when you <a href="messaging.php?<?= $t_get ?>">message</a> all subscribers. Users that apply to your club will be automatically subscribed, but may unsubscribe without removing the application.</p>
 
-<table class="tbl_repeat">
+<table class="tbl_repeat sortable">
 <tr>
-	<th>User ID</th>
-	<th>Username</th>
-	<th>Name</th>
-	<th>Email</th>
+	<th align="left">Username</th>
+	<th align="left">Name</th>
+	<th align="left">Email</th>
 </tr>
 
 <?
@@ -19,7 +18,6 @@ foreach($subscribers as $user_id => $subscriber) {
 	
 	
 	echo "<tr>";
-	echo "<td>$displayId</td>";
 	echo "<td>$displayUser</td>";
 	echo "<td>$displayName</td>";
 	echo "<td>$displayEmail</td>";

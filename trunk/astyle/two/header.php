@@ -8,12 +8,25 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="<?= $stylePath ?>/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="<?= $stylePath ?>/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script type="text/javascript" src="<?= $stylePath ?>/js/timepicker.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){	
     $('.example2').stop(true, true).hide().before('<a href="#" id="toggle-example2" class="button">Show/Hide Details</a>');
 	$('a#toggle-example2').click(function() {
 		$('.example2').stop(true, true).slideToggle(1000);
 		return false;
+	});
+});
+
+var fade_out = function() {
+  $("#message").fadeOut().empty();
+}
+
+setTimeout(fade_out, 15000);
+
+$(function(){
+	$('.example-container > pre').each(function(i){
+		eval($(this).text());
 	});
 });
 
@@ -134,6 +147,7 @@ window.onload=GetClock;
 				<div class="sidemenu">
 					<ul>
 						<a href="#"><li class="topsidenav">Instructions</li></a>
+						<a href="index.php"><li class="topsidenav">My Workspace</li></a>
 					<?					
 						for($i = 0; $i < count($side_display); $i++) {
 							echo '<a href="' . $side_display[$i] . '">';
@@ -198,22 +212,22 @@ window.onload=GetClock;
 			</div>
 		</div>
 		<div id="col_right">
-			<div class="message">
+			<div class="message" id="message_appear">
 			<?
 			if(isset($warning)) {
-				echo "<div class=\"warning\">" . $warning . "</div>";
+				echo "<div id=\"message\" class=\"warning\"><p>" . $warning . "</p></div>";
 			}
 			if(isset($error)) {
-				echo "<div class=\"error\">" . $error . "</div>";
+				echo "<div id=\"message\" class=\"error\"><p>" . $error . "</p></div>";
 			}
 			if(isset($info)) {
-				echo "<div class=\"info\">" . $info . "</div>";
+				echo "<div id=\"message\" class=\"info\"><p>" . $info . "</p></div>";
 			}
 			if(isset($success)) {
-				echo "<div class=\"success\">" . $success . "</div>";
+				echo "<div id=\"message\" class=\"success\"><p>" . $success . "</p></div>";
 			}
 			if(isset($validation)) {
-				echo "<div class=\"validation\">" . $validation . "</div>";
+				echo "<div id=\"message\" class=\"validation\"><p>" . $validation . "</p></div>";
 			}
 			?>
 			</div>

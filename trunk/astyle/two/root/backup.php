@@ -1,4 +1,4 @@
-<h1>Backup</h1>
+<h1><a href="root_cat.php?cat=Database">Database</a> > Backup</h1>
 
 <? if($backupLink !== FALSE) { ?>
 <p>Your data has been backed up and is available for download at the following links:</p>
