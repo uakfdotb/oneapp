@@ -5,7 +5,7 @@ sort($keys);
 
 foreach($keys as $key) {
 	$time = date('F j, Y', $key);
-	echo "<h1>" . $time . "</h1>";
+	echo "<h3>" . $time . "</h3>";
 	echo "<ul>";
 	
 	foreach($events[$key] as $event) {
