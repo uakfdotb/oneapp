@@ -13,7 +13,14 @@ function editPage($event_id) {
 	$info = getEventInformation($event_id);
 	$reservations = listReservations($event_id);
 	$reservables = getReservables();
-	get_page_advanced("calendar_edit", "admin", array('event_id' => $event_id, 'info' => $info, 'reservations' => $reservations, 'reservables' => $reservables));
+	
+	$parameters = array('event_id' => $event_id, 'info' => $info, 'reservations' => $reservations, 'reservables' => $reservables);
+	
+	if(isset($GLOBALS['error'])) {
+		$parameters['error'] = $GLOBALS['error'];
+	}
+	
+	get_page_advanced("calendar_edit", "admin", $parameters);
 }
 
 if(isset($_SESSION['admin'])) {
@@ -57,7 +64,11 @@ if(isset($_SESSION['admin'])) {
 			}
 		} else if($_REQUEST['action'] == "reserve" && isset($_REQUEST['id']) && isset($_REQUEST['reservable_id']) && isset($_REQUEST['reason'])) {
 			if(openEvent($_REQUEST['id'], $user_id, $club_id)) {
-				addReservation($_REQUEST['id'], $_REQUEST['reservable_id'], $_REQUEST['reason']);
+				$result = addReservation($_REQUEST['id'], $_REQUEST['reservable_id'], $_REQUEST['reason']);
+				
+				if($result === 1) {
+					$error = "The requested reservation has a conflict.";
+				}
 				
 				//display updated edit page
 				editPage($_REQUEST['id']);

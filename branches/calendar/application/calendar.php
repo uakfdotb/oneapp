@@ -20,18 +20,22 @@ if(isset($_SESSION['user_id'])) {
 	}
 	
 	if(isset($_REQUEST['time_start'])) {
-		$timeStart = getDayTime(int($_REQUEST['time_start']));
-		$timeEnd = getDayTime(int($_REQUEST['time_start']), 7);
+		$timeStart = getDayTime(intval($_REQUEST['time_start']));
+		$timeEnd = getDayTime(intval($_REQUEST['time_start']), 7);
 	}
 	
 	if(isset($_REQUEST['duration'])) {
-		$timeEnd = getDayTime($timeStart, int($_REQUEST['duration']));
+		$timeEnd = getDayTime($timeStart, intval($_REQUEST['duration']));
+	}
+	
+	if(isset($_REQUEST['time_end'])) {
+		$timeEnd = getDayTime(intval($_REQUEST['time_end']));
 	}
 	
 	$clubs = listSubscriptions($_SESSION['user_id']);
 	$events = getEvents($timeStart, $timeEnd, $clubs);
 	
-	get_page_advanced("calendar", "apply", array('mode' => $mode, 'events' => $events));
+	get_page_advanced("calendar", "apply", array('mode' => $mode, 'events' => $events, 'timeStart' => $timeStart, 'timeEnd' => $timeEnd));
 } else {
 	get_page_advanced("message", "apply", array("title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
 }
