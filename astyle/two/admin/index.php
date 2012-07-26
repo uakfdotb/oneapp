@@ -11,21 +11,20 @@
 					</ul>
 				</div></a>
 			</td><td>
-				<a href="view_submit.php"><div class="nav-button">
-					<img src="<?=$stylePath?>/images/admin/submit.png" width="56" style="margin-left:-10px">
-					<h2>View Submissions</h2>
+				<a href="easy_question.php"><div class="nav-button">
+					<img src="<?=$stylePath?>/images/admin/plus.png" width="56" style="margin-left:-10px">
+					<h2>Easy Question Adder</h2>
 					<ul>
-						<li>Organize Users</li>
-						<li>Set Comments</li>
+						<li>Add Questions</li>
 					</ul>
 				</div></a>
 			</td></tr><tr><td>
-				<a href="man_club.php"><div class="nav-button">
-					<img src="<?=$stylePath?>/images/admin/config.png" width="56" style="margin-left:-10px">
-					<h2>Manage Club</h2>
+				<a href="man_notes.php"><div class="nav-button">
+					<img src="<?=$stylePath?>/images/admin/notes.png" width="56" style="margin-left:-10px">
+					<h2>Note Settings</h2>
 					<ul>
-						<li>Club Description</li>
-						<li>Open / Close Dates</li>
+						<li>Set account prefrences</li>
+						<li>Modify Categories</li>
 					</ul>
 				</div></a>
 			</td><td>
@@ -37,21 +36,7 @@
 					</ul>
 				</div></a>
 			</td></tr><tr><td>
-				<a href="man_notes.php"><div class="nav-button alternate">
-					<img src="<?=$stylePath?>/images/admin/notes.png" width="56" style="margin-left:-10px">
-					<h2>Note Settings</h2>
-					<ul>
-						<li>Set account prefrences</li>
-						<li>Modify Categories</li>
-					</ul>
-				</div></a>
-			</td><td>
-				<a href="gen_pdf.php"><div class="nav-button">
-					<img src="<?=$stylePath?>/images/admin/pdf.png" width="56" style="margin-left:-10px">
-					<h2>Generate PDF</h2>
-				</div></a>
-			</td></tr><tr><td>
-				<a href="statistics.php"><div class="nav-button">
+				<a href="statistics.php"><div class="nav-button alternate">
 					<img src="<?=$stylePath?>/images/admin/stats.png" width="56" style="margin-left:-10px">
 					<h2>Statistics</h2>
 					<ul>
@@ -59,15 +44,16 @@
 					</ul>
 				</div></a>
 			</td><td>
-				<a href="easy_question.php"><div class="nav-button alternate">
-					<img src="<?=$stylePath?>/images/admin/plus.png" width="56" style="margin-left:-10px">
-					<h2>Easy Question Adder</h2>
+				<a href="view_submit.php"><div class="nav-button">
+					<img src="<?=$stylePath?>/images/admin/submit.png" width="56" style="margin-left:-10px">
+					<h2>View Submissions</h2>
 					<ul>
-						<li>Add Questions</li>
+						<li>Organize Users</li>
+						<li>Set Comments</li>
 					</ul>
 				</div></a>
 			</td></tr><tr><td>
-				<a href="purchase.php"><div class="nav-button alternate">
+				<a href="purchase.php"><div class="nav-button">
 					<img src="<?=$stylePath?>/images/admin/money.png" width="56" style="margin-left:-10px">
 					<h2>Puchase History</h2>
 					<ul>
@@ -76,7 +62,7 @@
 					</ul>
 				</div></a>
 			</td><td>
-				<a href="messaging.php"><div class="nav-button">
+				<a href="messaging.php"><div class="nav-button alternate">
 					<img src="<?=$stylePath?>/images/admin/mail.png" width="56" style="margin-left:-10px">
 					<h2>Messaging</h2>
 					<ul>
