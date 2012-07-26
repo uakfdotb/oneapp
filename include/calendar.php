@@ -199,7 +199,7 @@ function getEvents($time_start, $time_end, $filter_clubs = array()) {
 	return $events;
 }
 
-//returns array str(day_time_int:reservable_id) => (reservation id, name, reason, start, end, reservable id, reservable name)
+//returns array day_time_int => (reservation id, name, reason, start, end, reservable id, reservable name)
 function getReservations($time_start, $time_end, $filter_clubs = array()) {
 	$time_start = escape($time_start);
 	$time_end = escape($time_end);
@@ -216,12 +216,18 @@ function getReservations($time_start, $time_end, $filter_clubs = array()) {
 		$query .= ")";
 	}
 	
+	$query .= " ORDER BY time_start";
 	$result = mysql_query($query);
 	$events = array();
 	
 	while($row = mysql_fetch_array($result)) {
-		$day_string = getDayTime($row['time_start']) . ":" . $row[5];
-		$events[$day_string] = array($row[0], $row[1], $row[2], $row[3], $row[4], $row[5]);
+		$day = getDayTime($row['time_start']);
+		
+		if(!isset($events[$day])) {
+			$events[$day] = array();
+		}
+		
+		$events[$day][] = array($row[0], $row[1], $row[2], $row[3], $row[4], $row[5]);
 	}
 	
 	return $events;
