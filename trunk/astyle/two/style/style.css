@@ -77,16 +77,15 @@ p.location_heading {text-align:right; margin-bottom:30px}
 
 /*main has col_left (side navigation menu) and col_right(main page) #D1CDCD*/
 #main{}
-#col_holder{width:100%;float:left;background-color:white;margin-bottom:10px;height:100%}
+#col_holder{width:800px;float:left;background-color:white;height:100%; background:#D1CDCD;}
 #col_left{
-	width:20%;
+	width:140px;
 	float:left; 
-	background-color:#D1CDCD;
 	min-height: 100% !important;
 	height: 100%;
 }
 
-#col_right{margin-left:10px;margin-right:auto;width:70%;float:left;height:100%}
+#col_right{padding-left:10px;padding-right:100px;padding-bottom:10px; width:550px;float:left;min-height:500px; height:auto; background:white}
 
 .side_bar{
     position: relative;

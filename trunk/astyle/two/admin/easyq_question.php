@@ -1,4 +1,4 @@
-<h1>Easy Question Adder: 
+<h1>Easy Question Adder > 
 
 <? if($type=="short") {
 	echo "Short Answer";
@@ -19,7 +19,7 @@
 <form method="POST" action="easy_question.php">
 <input type="hidden" name="type" value="<?= $type ?>" />
 <table width=100%>
-<tr><td width=40%><p class="name"><img src="<?= $stylePath?>/images/required.png" width="8px" class="required">Question</p>
+<tr><td width=40%><p class="name required">Question</p>
 <? if($type == "type") { ?>
 	<p class="desc">The user will not see this</p>
 <? } ?>
@@ -28,10 +28,10 @@
 
 <!-- description; required field -->
 <? if($type == "select") { ?>
-	<tr><td><p class="name"><img src="<?= $stylePath?>/images/required.png" width="8px" class="required">Description</p><p class="desc">Write response choices below, with each on a separate line. Do not use semicolons in the choices.</p></td><td>
+	<tr><td><p class="name required">Description</p><p class="desc">Write response choices below, with each on a separate line. Do not use semicolons in the choices.</p></td><td>
 	<textarea name="description" style="width:100%;resize:vertical;min-height:50px"></textarea></td></tr>
 <? } else { ?>
-	<tr><td><p class="name"><img src="<?= $stylePath?>/images/required.png" width="8px" class="required">Description</p></td>
+	<tr><td><p class="name required">Description</p></td>
 	<td><textarea name="description" style="width:100%;resize:vertical;min-height:50px"></textarea></td></tr>
 <? } ?>
 
