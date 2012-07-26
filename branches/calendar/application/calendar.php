@@ -15,7 +15,7 @@ if(isset($_SESSION['user_id'])) {
 	$timeStart = getDayTime();
 	$timeEnd = getDayTime(time(), 7);
 	
-	if(isset($_REQUEST['mode']) && ($_REQUEST['mode'] == "list" || $_REQUEST['mode'] == "month")) {
+	if(isset($_REQUEST['mode']) && ($_REQUEST['mode'] == "list" || $_REQUEST['mode'] == "month" || $_REQUEST['mode'] == "reserve")) {
 		$mode = $_REQUEST['mode'];
 	}
 	
@@ -33,9 +33,17 @@ if(isset($_SESSION['user_id'])) {
 	}
 	
 	$clubs = listSubscriptions($_SESSION['user_id']);
-	$events = getEvents($timeStart, $timeEnd, $clubs);
+	$parameters = array('mode' => $mode, 'timeStart' => $timeStart, 'timeEnd' => $timeEnd);
 	
-	get_page_advanced("calendar", "apply", array('mode' => $mode, 'events' => $events, 'timeStart' => $timeStart, 'timeEnd' => $timeEnd));
+	if($mode == "reserve") {
+		$parameters['events'] = getReservations($timeStart, $timeEnd);
+		$parameters['reservables'] = getReservables();
+	} else {
+		$parameters['events'] = getEvents($timeStart, $timeEnd, $clubs);
+		$parameters['reservables'] = 0;
+	}
+	
+	get_page_advanced("calendar", "apply", $parameters);
 } else {
 	get_page_advanced("message", "apply", array("title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
 }
