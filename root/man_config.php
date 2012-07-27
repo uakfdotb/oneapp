@@ -7,7 +7,7 @@ include("../include/session.php");
 include("../include/config.php");
 
 if(isset($_SESSION['root'])) {
-	$styles_availible = $config['style_availible'];
+	$styles_availaible = $config['style_available'];
 	//todo: editing style option will cause session.php to change session style!
 	$option_list = array('mail_smtp', 'mail_username', 'mail_password', 'mail_smtp_host', 'mail_smtp_port', 'site_name', 'organization_name', 'site_address', 'form_array_delimiter', 'max_recommend', 'style', 'app_enabled', 'latex_path', 'time_dateformat', 'club_dateformat', 'page_display', 'page_display_names');
 	$option_tabs = array( 
@@ -21,7 +21,7 @@ if(isset($_SESSION['root'])) {
 		"site_address" => array("Basic", "Site Address"), 
 		"form_array_delimiter" => array("Advanced", "Form_Array_Delimiter"), 
 		"max_recommend" => array("Basic", "Max Recommend"), 
-		"style" => array("Basic", "Site Style", "options" => $styles_availible), 
+		"style" => array("Basic", "Site Style", "options" => $styles_available), 
 		"app_enabled" => array("Basic", "Application Enabled", "options" => array("true","false")), 
 		"latex_path" => array("Advanced", "LATEX path"), 
 		"time_dateformat" => array("Basic", "Time & Date Format"), 
