@@ -4,5 +4,5 @@ include("config.php");
 include("include/db_connect.php");
 include("include/session.php");
 
-get_page('index', array());
+get_page('index', array('home' => 'true'));
 ?>
