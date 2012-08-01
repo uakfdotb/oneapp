@@ -10,6 +10,22 @@ function isApplicationStarted($user_id, $club_id) {
 		return FALSE;
 	}
 }
+//0: success; -1: not started; -2: club doesn't exist;
+function deleteApplication($user_id, $club_id) {
+	$user_id = escape($user_id);
+	$club_id = escape($club_id);
+	if(!isApplicationStarted($user_id, $club_id)) {
+		//application not started
+		return -1;
+	}
+	//if it's a club, verify existence
+	if($club_id != 0 && !clubExists($club_id)) {
+		return -2;
+	}
+	mysql_query("DELETE FROM answers USING applications INNER JOIN answers WHERE applications.user_id = '$user_id' AND applications.id = answers.application_id AND applications.club_id = '$club_id'");
+	mysql_query("DELETE FROM applications WHERE applications.user_id = '$user_id' AND applications.club_id = '$club_id'");
+	return 0;
+}
 
 //0: success; -1: already started; -2: club doesn't exist; -3: not available at this time
 function startApplication($user_id, $club_id) {

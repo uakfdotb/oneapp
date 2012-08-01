@@ -1,4 +1,4 @@
-<h1>Affiliated Clubs</h1>
+<h2 class="separate">Affiliated Clubs</h2>
 
 <p>This page lists all of the clubs using our application system. For more details (including application deadlines), click on the club name to go to the club details page. To apply to a club, enter the application system and select the club from the dropdown list.</p>
 

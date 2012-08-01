@@ -13,6 +13,7 @@ function listRecommendations($user_id) {
 	return $recommend_array;
 }
 
+//returns false if not submitted, else returns newState
 function toggleRecommendation($user_id, $id) {
 	$id = escape($id);
 	$user_id = escape($user_id);
@@ -32,6 +33,7 @@ function toggleRecommendation($user_id, $id) {
 	}
 	
 	mysql_query("UPDATE recommendations SET status='$newState' WHERE id='$id'");
+	return $newState;
 }
 
 //0: success; 1: invalid email address provided; 2: invalid name provided;

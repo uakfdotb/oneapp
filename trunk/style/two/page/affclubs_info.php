@@ -1,4 +1,4 @@
-<h1>Affiliated Clubs: <?= $clubInfo[0] ?></h1>
+<h2 class="separate">Affiliated Clubs: <?= $clubInfo[0] ?></h2>
 
 <p><?= htmlentities($clubInfo[1]) ?></p>
 

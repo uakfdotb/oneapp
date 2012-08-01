@@ -1,0 +1,36 @@
+<script src="<?= $basePath ?>/style/jsbn/jsbn.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/prng4.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/rng.js"></script>
+<script src="<?= $basePath ?>/style/jsbn/rsa.js"></script>
+<script src="<?= $basePath ?>/style/bin2hex.js"></script>
+<script src="<?= $basePath ?>/style/password.js.php"></script>
+
+<h1>Administrator Page</h1>
+
+<p>Log in with the administrator username and password. If you do not have an adminstrative username, please ask your root manager to add you. If you have forgotten your username and/or password, contact your root administrator to reset your password.</p>
+<br />
+<table width=60% class="log_in">
+	<form name="pcrypt" onsubmit="pcryptf()" method="POST" action="index.php">
+	<? if(!$user_loggedin) { ?>
+	<tr>
+		<td width=20%><p class="bold">Username</p></td>
+		<td align="right"><input type="text" name="username" /></td>
+	</tr>
+	<? } ?>
+	<tr>
+		<td><p class="bold">Password</p></td>
+		<td align="right"><input type="password" name="password" /></td>
+	</tr>
+	<tr>
+		<td><p class="bold">Club</p></td>
+		<td align="right"><select name="club" />
+		<? foreach($clubs as $club_id => $club_name) { ?>
+			<option value="<?= $club_id ?>"><?= $club_name ?></option>
+		<? } ?>
+		</select></td>
+	</tr>
+	<tr class="club_info">
+		<td colspan="2" align="right"><input type="submit" value="Log In" class="login positive"/></td>
+	</tr>
+	</form>
+</table>

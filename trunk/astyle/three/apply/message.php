@@ -1,2 +1,2 @@
-<h1><?= $title ?></h1>
+<h2 class="separate"><?= $title ?></h2>
 <p><?= $message ?></p>

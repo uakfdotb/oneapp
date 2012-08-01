@@ -1,88 +1,43 @@
-<div id="imgmain">
-<script type="text/javascript" src="<?=$stylePath?>/tinyfader.js"></script>
-<div id="wrapper">
-     <div>
-	<div id="slideshow">
-		<div id="slides">
-			<div id="content">
-			    <img src="<?=$stylePath?>/logo.jpg" width=100%>
-			</div>
-<?
-$imgcounter=0;
-//retrieve other slides from files.txt
-$style_fh = fopen($stylePath . "/file.txt", 'r');
-
-while (($style_buffer = fgets($style_fh)) !== false) {
-	$style_buffer = trim($style_buffer);
-	echo '<div id="content" style="display:none">';
-	echo "<img src=\"$style_buffer\"/>";
-	echo '</div>';
-	$imgcounter=$imgcounter+1;
-}
-?>
-		</div>
-	</div>
-    </div>
-    <div id="pagination" class="pagination">
-        <div onclick="slideshow.pos(0)"></div>
-<?
-$counter=1;
-while($counter<=$imgcounter){
-	echo '<div onclick="slideshow.pos($counter)"></div>';
-	$counter=$counter+1;
-}
-?>
-    </div>
-</div>
-
-<script type="text/javascript">
-var slideshow=new TINY.fader.fade('slideshow',{
-    id:'slides',
-    auto:3,
-    resume:true,
-    navid:'pagination',
-    activeclass:'current',
-    visible:true,
-    position:0
-});
-
-</script>
-</div>
-
-
-<div id="schoolname">
-	<h4><?= $config['organization_name'] ?></h4>
-</div>
-
-	<div id="col_mid" class="borderon" align="center">
-		<div class="center">
-			<table cellpadding="0" cellspacing="0" width=100%>
-			<tr bgcolor=#1A3E5B><td class="center"><h2>Log In</h2></td></tr>
-			<tr bgcolor=#F2F5F7><td>
-			<form action="login.php" method="POST">
-			<table width=100%>
-			<tr>
-			<td><p align="right">Username:</p></td>
-			<td><input type="text" name="username" style="width:100%" /></td>
-			</tr>
-			<tr>
-			<td cellspacing="0" cellmargin="0"><p align="right">Password:</p></td>
-			<td><input type="password" name="password" style="width:100%" /></td>
-			</tr>
-			<tr>
-			<td colspan="2" align="right"><input type="submit" value="Log In" align="center"/></td>
-			</tr>
-			</table>
-			</form>
-
-			</td>
-			</tr>
-			<tr bgcolor=#DEDEDE><td>
-			<p class="test">Not Registered? <a href="register.php">Click Here</a></p>
-			<p class="test">Forgot Password? <a href="reset.php">Click Here</a></p>
-			<p class="test">Forgot Username? <a href="forgotusername.php">Click Here</a></p>
-			</td>
-			</tr>
-			</table>
-		</div>
-	</div>
+             
+                <div class="cols marginBottom30 clearFix">
+                    
+                    <div class="col1-3">
+                        <h2 class="separate">Our Project</h2>
+                        <div class="content withIcon icon1"><p>OneApp, created in Winter 2011, provides a novel approach to the executive-selection process for school-related organizations.</p></div>
+                    </div>
+                    
+                    <div class="col1-3">
+                        <h2 class="separate">Our Service</h2>
+                        <div class="content withIcon icon2"><p>We provide user confidentially regarding applications and strive to instill an application system emphasizing club merit and previous leadership roles.</p></div>
+                    </div>
+                    
+                    <div class="col1-3">
+                        <h2 class="separate">School Updates</h2>
+                        <div class="content withIcon icon3"><p>Want to display a general message for all applicants to read before logging into the site? Add any messages or news here for public display.</p></div>
+                    </div>
+                    
+                </div>                                
+                
+                <hr> 
+                
+                <h2 class="separate">Meet the Team</h2>
+                
+                <div class="marginBottom30 clearFix">
+                    
+                    <div class="col1-4">
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus.</p>
+                        <a href="about.php" class="more" title="View details">View details</a>
+                    </div>
+                    
+                    <div class="col3-4">
+                        <p class="gallery clearFix">
+                            <a class="photo" href="./" rel="gallery"><img src="http://placehold.it/212x142" alt="Empty"></a>
+                            <a class="photo" href="./" rel="gallery"><img src="http://placehold.it/212x142" alt="Empty"></a>
+                            <a class="photo" href="./" rel="gallery"><img src="http://placehold.it/212x142" alt="Empty"></a>
+                        </p>
+                    </div>
+                    
+                </div>
+                
+                <hr> 
+  

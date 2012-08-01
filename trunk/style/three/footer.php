@@ -38,7 +38,7 @@
                     </div>
                     
                     <div class="col1-4">
-                        <h3>Stay udpated</h3>
+                        <h3>Stay updated</h3>
                         
                         <form action="" method="post">
                             <fieldset>

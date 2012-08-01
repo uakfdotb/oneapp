@@ -5,7 +5,7 @@
 <script src="<?= $basePath ?>/style/bin2hex.js"></script>
 <script src="<?= $basePath ?>/style/password.js.php"></script>
 
-<h1>Login</h1>
+<h2 class="separate">Login</h2>
 <?
 if(isset($message) && $message != "") {
 	echo "<p class=\"message\">$message</p>";
@@ -25,7 +25,7 @@ if(isset($message) && $message != "") {
 	<td><input type="password" name="password"/></td>
 </tr>
 <tr>
-	<td colspan="2" align="right"><input type="submit" value="Login" align="center"/></td>
+	<td colspan="2" align="right"><input type="submit" value="Login" align="center" class="submit"/></td>
 </tr>
 </table>
 </form>
