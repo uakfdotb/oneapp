@@ -191,7 +191,7 @@ function get_page_advanced($page, $context, $args = array()) {
 	$page_display = $config[$context . '_page_display'];
 	$page_display_names = $config[$context . '_page_display_names'];
 	
-	/*//add links back to specific areas (apply, root, admin)
+	//add links back to specific areas (apply, root, admin)
 	if($context != "apply") {
 		$page_display[] = "../application/";
 		$page_display_names[] = "Application";
@@ -205,7 +205,14 @@ function get_page_advanced($page, $context, $args = array()) {
 	if($context != "admin" && isset($_SESSION['user_id']) && isAdmin($_SESSION['user_id'])) {
 		$page_display[] = "../admin/";
 		$page_display_names[] = "Admin";
-	}*/
+	}
+	if($context == "apply") {
+		$page_display[] = "logout";
+	} else {
+		$page_display[] = "index.php?action=logout";
+	}
+	
+	$page_display_names[] = "Logout";
 	
 	//for admin and root areas, add anti-CSRF strings if needed
 	$t = '';
@@ -934,6 +941,17 @@ function clubInfo($club_id) {
 		return array($row[0], $row[1], clubTimeString($row[2]), clubTimeString($row[3]), $row[4], $row[5]);
 	} else {
 		return array("Unknown", "Club could not be found");
+	}
+}
+
+//returns when club ends
+function clubdue($club_id) {
+	$club_id = escape($club_id);
+	$result = mysql_query("SELECT close_time FROM clubs WHERE id='$club_id'");	
+	if($row = mysql_fetch_array($result)) {
+		return $row[0];
+	} else {
+		return array("Club could not be found");
 	}
 }
 

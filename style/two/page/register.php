@@ -5,7 +5,7 @@
 <script src="<?= $basePath ?>/style/bin2hex.js"></script>
 <script src="<?= $basePath ?>/style/password.js.php"></script>
 
-<h1>Registration</h1>
+<h2 class="separate">Registration</h2>
 
 <p>Enter the information below to register a new account. If you have already registered an account, you can <a href="login.php">login</a>. Please do not register multiple accounts under the same name: if you forgot your password, you can <a href="reset.php">reset it</a>.</p><br><br>
 

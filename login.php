@@ -5,7 +5,7 @@ include("include/db_connect.php");
 include("include/session.php");
 
 if(isset($_SESSION['user_id'])) {
-	get_page("message", array("title" => "Logged In", "message" => "You are already logged in! Click <a href=\"application/\">here</a> to continue."));
+	get_page("message", array("title" => "Logged In", "message" => "You are already logged in! Click <a href=\"application/\">here</a> to continue.", "redirect" => "application/"));
 } else if(isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
 	$result = checkLogin($_REQUEST['username'], $_REQUEST['password']);
 	

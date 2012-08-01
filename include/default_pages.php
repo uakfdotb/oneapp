@@ -8,7 +8,7 @@ $pages['contact'] = '[h1]Contact us[/h1][p]This page has not been edited yet. As
 
 $pages['a_index'] = '[h1]Application system[/h1][p]Welcome to the application system. Select the general application to begin working on the general application. Select clubs to apply to clubs and work on club supplements or to submit your club applications.[/p]';
 
-$pages['about'] = '[h1]About[/h1][p]This page has not been edited yet. This website uses the oneapp system, available at [url=http://code.google.com/p/oneapp/]http://code.google.com/p/oneapp/[/url]. oneapp is free software and is released under the GNU GPL v3. If you find any issues, please report them on the issue tracker at that URL.';
+$pages['about'] = '[p]This is the place where you can add your schools information and history. Feel free to edit this with anything![/p]';
 
 $pages['reset'] = 'Hi $USERNAME$,[br][br]A request has been received to reset your password. If you did not submit this request, please ignore this email; no further action needs to be taken. If you did submit this request, go to [url=$RESET_ADDRESS$]$RESET_ADDRESS$[/url] and follow the instructions there to reset your password.[br][br]Thanks,[br]- $site_name$';
 

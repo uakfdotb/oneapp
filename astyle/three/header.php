@@ -2,25 +2,36 @@
 <html lang="cs">
     <head>
         <meta charset="utf-8">
-        <title><?= $config['site_name'] ?></title>
+        <title><?= $config['site_name'] ?> | A OneApp Product</title>
+        <?
+if(isset($redirect)) {
+	echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=' . $redirect . '">';	
+}
+?>
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <meta name="author" content="David Kohout & Tomáš Lach - www.tomaslach.cz">
+        <meta name="author" content="Favyen Bastani & Vaibhav Gupta">
         <link rel="shortcut icon" href="<?= $stylePath ?>/favicon.ico">
         <link rel="apple-touch-icon" href="<?= $stylePath ?>/apple-touch-icon.png">
         <link rel="stylesheet" href="<?= $stylePath ?>/css/main.css?v=1.0" media="screen,projection">
-        <link rel="stylesheet" href="<?= $stylePath ?>/css/jquery-ui-1.8.22.custom.css" media="screen,projection">
-        <script src="<?= $stylePath ?>/js/jquery.mousewheel-3.0.4.pack.js"></script>
-        <script src="<?= $stylePath ?>/js/jquery.fancybox-1.3.4.pack.js"></script>
-        <script src="<?= $stylePath ?>/js/custom.js"></script>
-        <script src="<?= $stylePath ?>/js/jquery-1.7.2.min.js"></script>
-        <script src="<?= $stylePath ?>/js/jquery-ui-1.8.22.custom.min.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/jquery.mousewheel-3.0.4.pack.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/jquery.fancybox-1.3.4.pack.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/custom.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/confirm.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/sorttable.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/jquery-ui-1.8.22.custom.min.js"></script>
+		<script type="text/javascript" src="<?= $stylePath ?>/js/jquery.countdown.js"></script>
+		<script type="text/javascript" src="<?= $stylePath ?>/js/extra.js"></script>
         <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 		<script type="text/javascript">
 			$(function(){
-
+				//Hide messages on click
+				enableClickableAlerts();
+				enableHoverMovement();
+				
 				// Accordion
 				$("#accordion").accordion({ header: "h3" });
 
@@ -74,12 +85,12 @@
         
     </head>
     <body>            
-        
+		<? include("$stylePath/messages.php"); ?>
         <header>
             <div class="wrap">
                 <div id="header">   
 
-                    <a id="logo" href="<?= $config['site_address'] ?>" title="OneApp">OneApp<span></span></a>
+                    <a id="logo" href="http://<?= $config['site_address'] ?>" title="OneApp">OneApp</a>
                     
                     <hr> 
                     

@@ -5,7 +5,11 @@
         <title><?= $config['site_name'] ?></title>
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <meta name="author" content="David Kohout & Tomáš Lach - www.tomaslach.cz">
+<?
+if(isset($redirect)) {
+	echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=' . $redirect . '">';	
+}
+?>
         <link rel="shortcut icon" href="<?= $stylePath ?>/favicon.ico">
         <link rel="apple-touch-icon" href="<?= $stylePath ?>/apple-touch-icon.png">
         <link rel="stylesheet" href="<?= $stylePath ?>/css/main.css?v=1.0" media="screen,projection">

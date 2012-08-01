@@ -1,4 +1,4 @@
-<h1>Peer recommendation submission</h1>
+<h2 class="separate">Peer recommendation submission</h2>
 
 <?
 if(isset($message) && $message != "") {
