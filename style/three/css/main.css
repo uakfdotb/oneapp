@@ -9,7 +9,14 @@
 @import url(reset.css);
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700,900,400italic,700italic,900italic);
 @import url(jquery.fancybox-1.3.4.css);
-
+@import url(button.css);
+@import url(jquery.countdown.css);
+@import url(table.css);
+@import url(jquery-ui-1.8.22.custom.css);
+@import url(message.css);
+@import url(form.css);
+@import url(uniform.css);
+@import url(default_uniform.css);
 /*******************************************************************************************************************
 *  BASE                                                                                                            
 *******************************************************************************************************************/
@@ -101,14 +108,14 @@ OTHER STYLES
 .mask {position: absolute;top: 0;left: 0;width: 100%;height: 100%;}
 
 /*Button*/
-a.button {display: block;float: left;background: url('../img/button-left.png') no-repeat;height: 42px;text-decoration: none;}
-a.button span {cursor: pointer;position: relative;left: 20px;padding: 0 30px 0 10px;display: block;float: left;background: url('../img/button-right.png') no-repeat 100% 0;height: 42px;line-height: 43px;overflow: hidden;font-size: 1.0em;font-weight: bold;color: #02204f;text-shadow: 1px 1px 1px #33bfe6;text-decoration: none;font-variant:small-caps} /* shadow and text color */
-a.button:hover span {color: #000}
+a.button_style {display: block;float: left;background: url('../img/button-left.png') no-repeat;height: 42px;text-decoration: none;}
+a.button_style span {cursor: pointer;position: relative;left: 20px;padding: 0 30px 0 10px;display: block;float: left;background: url('../img/button-right.png') no-repeat 100% 0;height: 42px;line-height: 43px;overflow: hidden;font-size: 1.0em;font-weight: bold;color: #02204f;text-shadow: 1px 1px 1px #33bfe6;text-decoration: none;font-variant:small-caps} /* shadow and text color */
+a.button_style:hover span {color: #000}
 
 /*Forms*/
-input.submit {width: 108px;height: 31px;background: url('../img/submit-subscribe.png') no-repeat;border: 0;font-size: 1.0em;font-weight: bold;color: #02204f;text-shadow: 1px 1px 1px #33bfe6;font-family: Arial;cursor: pointer;font-variant:small-caps}
-input.submit:hover {color: #000}
-input.text {background: #232323;border: 1px solid #454547;padding: 10px 5px;border-radius: 4px;width: 210px;color: #e0e0e0;font-style: italic;margin-bottom: 10px}
+input.submit_style {width: 108px;height: 31px;background: url('../img/submit-subscribe.png') no-repeat;border: 0;font-size: 1.0em;font-weight: bold;color: #02204f;text-shadow: 1px 1px 1px #33bfe6;font-family: Arial;cursor: pointer;font-variant:small-caps}
+input.submit_style:hover {color: #000;background: url('../img/submit-subscribe.png') no-repeat;border:0}
+input.text_style {background: #232323;border: 1px solid #454547;padding: 10px 5px;border-radius: 4px;width: 210px;color: #e0e0e0;font-style: italic;margin-bottom: 10px}
 
 .gallery .photo {margin-left: 20px}
 .gallery .photo:first-child {margin-left: 0}
@@ -129,4 +136,12 @@ a.photo:hover img {border-color: #d1d1d1}
 .marginBottom30 {margin-bottom: 30px}
 .date {font-size: 11px;display: block;margin-bottom: 10px }
 
-
+/********************************************************************************************************************  
+CUSTOM
+*******************************************************************************************************************/
+.right {
+	float:right;
+}
+.left {
+	float:left;
+}

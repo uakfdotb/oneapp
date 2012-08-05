@@ -339,7 +339,10 @@ function deleteBox($user_id, $box_id) {
 function addBox($user_id, $box_name) {
 	$user_id = escape($user_id);
 	$box_name = escape($box_name);
-	
+	$result = mysql_query("SELECT box_name FROM message_boxes WHERE user_id='$user_id' AND box_name='$box_name'");
+	if(mysql_num_rows($result) > 0 ) {
+		return false;
+	}
 	mysql_query("INSERT INTO message_boxes (user_id, box_name) VALUES ('$user_id', '$box_name')");
 	return mysql_insert_id();
 }

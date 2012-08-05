@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title><?= $config['site_name'] ?> | A OneApp Product</title>
-        <?
+<?
 if(isset($redirect)) {
 	echo '<META HTTP-EQUIV="Refresh" CONTENT="0;URL=' . $redirect . '">';	
 }
@@ -14,15 +14,15 @@ if(isset($redirect)) {
         <link rel="shortcut icon" href="<?= $stylePath ?>/favicon.ico">
         <link rel="apple-touch-icon" href="<?= $stylePath ?>/apple-touch-icon.png">
         <link rel="stylesheet" href="<?= $stylePath ?>/css/main.css?v=1.0" media="screen,projection">
-        <script type="text/javascript" src="<?= $stylePath ?>/js/jquery.mousewheel-3.0.4.pack.js"></script>
-        <script type="text/javascript" src="<?= $stylePath ?>/js/jquery.fancybox-1.3.4.pack.js"></script>
-        <script type="text/javascript" src="<?= $stylePath ?>/js/custom.js"></script>
-        <script type="text/javascript" src="<?= $stylePath ?>/js/confirm.js"></script>
-        <script type="text/javascript" src="<?= $stylePath ?>/js/sorttable.js"></script>
         <script type="text/javascript" src="<?= $stylePath ?>/js/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="<?= $stylePath ?>/js/jquery-ui-1.8.22.custom.min.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/jquery.mousewheel-3.0.4.pack.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/jquery.fancybox-1.3.4.pack.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/confirm.js"></script>
+        <script type="text/javascript" src="<?= $stylePath ?>/js/sorttable.js"></script>
 		<script type="text/javascript" src="<?= $stylePath ?>/js/jquery.countdown.js"></script>
 		<script type="text/javascript" src="<?= $stylePath ?>/js/extra.js"></script>
+		<script type="text/javascript" src="<?= $stylePath ?>/js/jquery.easy-confirm-dialog.js"></script>
         <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -31,13 +31,15 @@ if(isset($redirect)) {
 				//Hide messages on click
 				enableClickableAlerts();
 				enableHoverMovement();
+				highlightDiv();
+				openclosetabs();
 				
 				// Accordion
 				$("#accordion").accordion({ header: "h3" });
 
 				// Tabs
 				$('#tabs').tabs();
-
+						
 				// Dialog
 				$('#dialog').dialog({
 					autoOpen: false,
@@ -147,7 +149,7 @@ if(isset($redirect)) {
 									foreach($styleCategoryList as $styleItem) {
 										$style_cat_id = $styleItem[0];
 										$style_cat_name = $styleItem[1];
-										echo "<li class=\"sidenav1\"><a href=\"app.php?club_id=$style_cat_id&action=view\">$style_cat_name</a></li>";
+										echo "<li class=\"sidenav1\"><a href=\"app.php?club_id=0&cat_id=$style_cat_id&action=view\">$style_cat_name</a></li>";
 									}
 									echo "</ul>";
 								}

@@ -6,26 +6,21 @@
 <script src="<?= $basePath ?>/style/password.js.php"></script>
 
 <h2 class="separate">Login</h2>
-<?
-if(isset($message) && $message != "") {
-	echo "<p class=\"message\">$message</p>";
-}
-?>
 
-<p>Login here if you have activated your account. If you do not have an account, <a href="register.php">register one</a> first. If you forgot your password, you can <a href="reset.php">reset it</a>.</p>
-
-<form name="pcrypt" onsubmit="pcryptf()" action="login.php" method="post">
-<table width=30%>
-<tr>
-	<td><p align="right">Username:</p></td>
-	<td><input type="text" name="username"/></td>
-</tr>
-<tr>
-	<td><p align="right">Password:</p></td>
-	<td><input type="password" name="password"/></td>
-</tr>
-<tr>
-	<td colspan="2" align="right"><input type="submit" value="Login" align="center" class="submit"/></td>
-</tr>
-</table>
+<form name="pcrypt" onsubmit="pcryptf()" action="login.php" method="post" class="uniForm">
+	<fieldset>
+	<h3>Login here if you have activated your account. If you do not have an account, <a href="register.php">register</a> now!</h3>
+    <div class="ctrlHolder">
+		<label><em>*</em>Username</label>
+		<input type="text" name="username" />
+	</div>      
+    <div class="ctrlHolder">
+		<label><em>*</em>Password</label>
+		<input type="password" name="password" />
+		<p class="formHint"><a href="reset.php">Forgot Password?</a></p>
+	</div>
+    <div class="buttonHolder">
+		<input type="submit" value="Login" align="center" class="login primaryAction"/>
+	</div>
+</fieldset>
 </form>

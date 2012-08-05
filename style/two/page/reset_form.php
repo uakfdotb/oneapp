@@ -5,12 +5,21 @@
 <script src="<?= $basePath ?>/style/bin2hex.js"></script>
 <script src="<?= $basePath ?>/style/password.js.php"></script>
 
-<h1>Password reset</h1>
+<h2 class="separate">Password reset</h2>
 
-<p>Enter your username and email address below to reset your password. If you already submitted a reset request, then check your email for a link to follow. If you still experience problems logging in to the application system, <a href="contact.php">contact us</a>.</p>
-
-<form name="pcrypt" onsubmit="pcryptf()" action="reset.php" method="POST">
-Username: <input type="text" name="username">
-<br>Email address: <input type="text" name="email">
-<br><input type="submit" value="Reset password">
+<form name="pcrypt" onsubmit="pcryptf()" action="reset.php" method="POST" class="uniForm">
+<fieldset>    
+<h3>Enter your username and email address below to reset your password. If you already submitted a reset request, then check your email for a link to follow. If you still experience problems logging in to the application system, <a href="contact.php">contact us</a>.</h3>
+<div class="ctrlHolder">
+	<label><em>*</em>Username</label>
+	<input type="text" name="username">
+</div>
+<div class="ctrlHolder">
+	<label><em>*</em>Email address</label>
+	<input type="text" name="email">
+</div>	
+    <div class="buttonHolder">
+		<input type="submit" value="Reset password" class="primaryAction reset">
+	</div>
+</fieldset>
 </form>

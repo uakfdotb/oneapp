@@ -1,0 +1,25 @@
+.message {
+	height:400px;
+}
+
+.message p {
+	margin-bottom:0px;
+}
+
+.message p label {
+	font-weight:bold;
+}
+
+.message p span {
+	float:right;
+}
+
+.message p.subject {
+	font-size:14px;
+	font-weight:bold;
+}
+
+.message p.content {
+	max-height:300px;
+	overflow:auto;
+}
