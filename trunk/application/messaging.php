@@ -41,7 +41,7 @@ if(isset($_SESSION['user_id'])) {
 			}
 		} else if($_REQUEST['action'] == "send") {
 			if(isset($_REQUEST['to']) && isset($_REQUEST['subject']) && isset($_REQUEST['body'])) {
-				$inform["warn"] == "";
+				$inform['warn'] = "";
 				$to = explode(",", $_REQUEST['to']);
 				$subject = $_REQUEST['subject'];
 				$body = $_REQUEST['body'];

@@ -21,5 +21,13 @@
 
 .message p.content {
 	max-height:300px;
-	overflow:auto;
+	overflow-y:auto;
+	white-space:normal;
+	line-height:10px;
+	font-size:10px;
+}
+
+table.message_box tr td {
+	overflow:hidden;
+	white-space:nowrap;
 }
