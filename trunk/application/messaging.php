@@ -7,17 +7,8 @@ include("../include/session.php");
 include("../include/messaging.php");
 
 if(isset($_SESSION['user_id'])) {
-	if(isset($_REQUEST['view'])) {
-		$view = $_REQUEST['view'];
-	} else {
-		$view = "none";
-	}
 	
-	$box_id = -1;
-	$message_id = -1;
-	$contents = "";
-	$prefs = 0;
-	$boxes = 0;
+	$inform = array();
 	
 	if(isset($_REQUEST['action'])) {
 		if($_REQUEST['action'] == "prefs") {
@@ -28,24 +19,29 @@ if(isset($_SESSION['user_id'])) {
 				$save_sent = $_REQUEST['save_sent'];
 				
 				savePreferences($_SESSION['user_id'], $notify_email, $save_inbox, $save_trash, $save_sent);
-				$success = "Your preferences have been saved.";
+				$inform['success'] = "Your preferences have been saved.";
 			}
 			
-			$view = "prefs";
-		} else if($_REQUEST['action'] == "deletebox") {
-			$box_id = $_REQUEST['box_id'];
-			deleteBox($_SESSION['user_id'], $box_id);
+		} else if($_REQUEST['action'] == "button") {
+			if(isset($_REQUEST['box_id'])) {
+				$box_id = $_REQUEST['box_id'];
+				deleteBox($_SESSION['user_id'], $box_id);
 			
-			$success = "Box deleted successfully.";
-			$view = "prefs";
-		} else if($_REQUEST['action'] == "addbox") {
-			$box_name = $_REQUEST['name'];
-			addBox($_SESSION['user_id'], $box_name);
-			
-			$success = "Box added successfully.";
-			$view = "prefs";
+				$inform['success'] = "Box deleted successfully.";
+			} else if($_REQUEST['name']!="") {
+				$box_name = $_REQUEST['name'];
+				$res = addBox($_SESSION['user_id'], $box_name);
+				if($res !== false) {
+					$inform['success'] = "New box $box_name added successfully.";
+				} else {
+					$inform['error'] = "Invalid box name $box_name! Already in Use!";
+				}
+			} else {
+					$inform['warn'] = "Please enter a valid box name!";
+			}
 		} else if($_REQUEST['action'] == "send") {
 			if(isset($_REQUEST['to']) && isset($_REQUEST['subject']) && isset($_REQUEST['body'])) {
+				$inform["warn"] == "";
 				$to = explode(",", $_REQUEST['to']);
 				$subject = $_REQUEST['subject'];
 				$body = $_REQUEST['body'];
@@ -56,7 +52,7 @@ if(isset($_SESSION['user_id'])) {
 					$uid = getUserId(trim($to_i));
 					
 					if($uid === FALSE) {
-						$error = "Could not find user with username: " . $to_i;
+						$inform['warn'] = "Could not find user with username: " . $to_i;
 						$view = "compose";
 					} else {
 						array_push($to_uids, $uid);
@@ -67,61 +63,38 @@ if(isset($_SESSION['user_id'])) {
 					sendMessage($_SESSION['user_id'], $to_i, $subject, $body);
 				}
 				
-				if($error == "") {
-					$success = "Message sent successfully.";
+				if($inform['warn'] == "") {
+					unset($inform['warn']);
+					$inform['success'] = "Message sent successfully.";
 				}
 			}
 		}
 	}
 	
-	if($view != "compose" && $view != "box" && $view != "prefs" && $view != "message") {
-		$view = "none";
-	} else if($view == "box") {
-		if(isset($_REQUEST['box_id'])) {
-			$box_id = $_REQUEST['box_id'];
-		} else {
-			$box_id = getDefaultBox($_SESSION['user_id']);
+	//for preferences and Boxes
+	$prefs = retrievePreferences($_SESSION['user_id']);
+
+	//for boxes
+	$boxes = retrieveBoxList($_SESSION['user_id']);
+	$message_boxes = array();
+	foreach($boxes as $box) {
+		$box_id = $box[0];
+		$box_name = $box[1];
+		$messages = retrieveMessageList($_SESSION['user_id'], $box_id);
+		$message_boxes[$box_id] = $messages;
+		foreach($messages as $mess) {
+			$message_data[$mess[0]] = retrieveMessage($_SESSION['user_id'], $box_id, $mess[0]);
 		}
-		
-		if(openBox($_SESSION['user_id'], $box_id)) {
-			$contents = retrieveMessageList($_SESSION['user_id'], $box_id);
-			$boxes = retrieveBoxList($_SESSION['user_id']);
-		} else {
-			$view = "none";
-		}
-	} else if($view == "message") {
-		if(isset($_REQUEST['box_id']) && isset($_REQUEST['message_id'])) {
-			$box_id = $_REQUEST['box_id'];
-			$message_id = $_REQUEST['message_id'];
-			
-			if(openBox($_SESSION['user_id'], $box_id)) {
-				$contents = retrieveMessage($_SESSION['user_id'], $box_id, $message_id);
-				
-				if($contents === FALSE) {
-					$view = "none";
-				}
-			} else {
-				$view = "none";
-			}
-		} else {
-			$view = "none";
-		}
-	} else if($view == "compose") {
-		if(isset($_REQUEST['target'])) {
-			$contents = $_REQUEST['target'];
-		}
-	} else if($view == "prefs") {
-		$prefs = retrievePreferences($_SESSION['user_id']);
-		$boxes = retrieveBoxList($_SESSION['user_id']);
 	}
 	
-	if(isset($error)) {
-		get_page_advanced("messaging", "apply", array('view' => $view, 'box_id' => $box_id, 'message_id' => $message_id, 'contents' => $contents, 'prefs' => $prefs, 'boxes' => $boxes, 'error' => $error));
-	} else if(isset($success)) {
-		get_page_advanced("messaging", "apply", array('view' => $view, 'box_id' => $box_id, 'message_id' => $message_id, 'contents' => $contents, 'prefs' => $prefs, 'boxes' => $boxes, 'success' => $success));
-	} else {
-		get_page_advanced("messaging", "apply", array('view' => $view, 'box_id' => $box_id, 'message_id' => $message_id, 'contents' => $contents, 'prefs' => $prefs, 'boxes' => $boxes));
+	//for compose
+	$reciever = "";
+	if(isset($_REQUEST['target'])) {
+		$reciever = $_REQUEST['target'];
 	}
+	
+	get_page_advanced("messaging", "apply", array('boxes' => $boxes, 'messages' => $message_boxes, 'message_details' => $message_data, 'reciever' => $reciever, 'prefs' => $prefs,  "inform" => $inform));
+	
 } else {
 	get_page_advanced("message", "apply", array("title" => "Not Logged In", "message" => "You cannot access the application because you are not logged in. Please <a href=\"../login.php\">login first</a>."));
 }

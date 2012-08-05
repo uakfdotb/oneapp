@@ -1,0 +1,26 @@
+table.styled {
+	border-spacing:0;
+}
+
+table.styled * td p {
+	margin-bottom:0px;
+}
+
+table.styled tr {
+
+}
+
+table.styled tr td {
+	border-bottom: dashed 1px #aaa;
+	padding-top:10px;
+	padding-bottom:5px;
+	padding-left:10px;
+}
+
+table.styled tr th {
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:10px;
+	background:#6D7B8D;
+	color:white;
+}

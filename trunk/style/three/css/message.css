@@ -1,0 +1,84 @@
+/* Friendly CSS Error Messages
+   Original idea by http://www.richardoneill.com.au/tags/web_design
+   Improved by IdleWorx @ http://blog.idleworx.com
+   http://blog.idleworx.com/2010/11/friendly-css-error-messages-for-java.html
+*/
+.messages{
+	position:absolute;
+	margin-left:400px;
+	top:80px;
+	font-size:10px;
+ 	font-weight:bold;
+ 	z-index:2;
+}
+
+.messages * {
+	cursor:pointer;
+}
+
+.msg.location1{
+	margin-left:-80px;
+}
+.msg.location2{
+	margin-left:-40px;
+}
+.msg.location3{
+	margin-left:0px;
+}
+.msg.location4{
+	margin-left:40px;
+}
+
+
+.msg{
+	overflow:auto;
+	position:absolute;
+	text-align: left;
+	padding: 5px 5px 5px 45px;
+	width:500px;
+	border-radius:15px;
+	-moz-border-radius: 15px;
+	-moz-box-shadow:   	2px 2px 3px 3px #888888;
+	-webkit-box-shadow: 2px 2px 3px 3px #888888;
+	box-shadow: 		2px 2px 3px 3px #888888;
+}
+ 
+.msgOK{
+	color:#69A150;
+	background: #E7FFD6 url('../images/icon/msg_ok.png') center no-repeat;
+	border-top: 2px solid #8CD76B;
+	border-bottom: 2px solid #8CD76B;
+	border:2px solid #8CD76B;
+	background-position: 10px 50%;
+	z-index:6;
+}
+ 
+.msgInfo{
+	background: #E7F3FF url('../images/icon/msg_info.png') center no-repeat;
+	border-top: 2px solid #7BA6D6;
+	border-bottom: 2px solid #7BA6D6;
+	border:2px solid #7BA6D6;
+	color:#5C7CA0;
+	background-position: 10px 50%;
+	z-index:3;
+}
+ 
+.msgWarn {
+	color:#BF9E1B;
+	background: #fff6bf url('../images/icon/msg_warning.png') center no-repeat;
+	border-top: 2px solid #ffd324;
+	border-bottom: 2px solid #ffd324;
+	border:2px solid #ffd324;
+	background-position: 10px 50%;
+	z-index:4;
+}
+ 
+.msgError {
+	color:#AD5E5C;
+	background: #FFE7E7 url('../images/icon/msg_error.png') center no-repeat;
+	border-top: 2px solid #E77D7B;
+	border-bottom: 2px solid #E77D7B;
+	border:2px solid #E77D7B;
+	background-position: 10px 50%;
+	z-index:5;
+}

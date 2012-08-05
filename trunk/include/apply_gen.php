@@ -2,13 +2,16 @@
 
 function writeApplicationHeader($club_id, $application_id, $category_id) {
 	echo '<SCRIPT LANGUAGE="JavaScript" SRC="../style/limit.js"></SCRIPT>';
-	echo "<form enctype=\"multipart/form-data\" method=\"POST\" action=\"app.php?club_id=$club_id&app_id=$application_id&cat_id=$category_id&action=submit\"><table><tr><td width\"60%\"></td><td></td></tr>";
-	echo '<tr><td colspan="2" align="right"><input type="submit" value="Save" style="width:100px"></td></tr><tr style="background-color:#ABB4BA"><td colspan="2" style="height:1px"></td></tr><tr><td colspan="2" style="height:10px"></td></tr>';
+	echo "<form enctype=\"multipart/form-data\" method=\"POST\" action=\"app.php\" class=\"uniForm fullwidth\" /><fieldset>";
+	echo "<input type=\"hidden\" name=\"club_id\" value=\"$club_id\">";
+	echo "<input type=\"hidden\" name=\"app_id\" value=\"$application_id\">";
+	echo "<input type=\"hidden\" name=\"cat_id\" value=\"$category_id\">";
+	echo '<div class="buttonHolder"><button type="submit" name="action" value="submit" class="save primaryAction">Save</button></div>';
 }
 
 function writeApplicationFooter() {
-	echo '<tr><td colspan="2" style="height:10px"></td><tr style="background-color:#ABB4BA"><td colspan="2" style="height:1px"></td></tr></tr><tr><td colspan="2" align="right"><input type="submit" value="Save" style="width:100px"></td></tr>';
-	echo "</table></form>";
+	echo '<div class="buttonHolder"><input type="submit" value="Save" class="save primaryAction"></div>';
+	echo "</fieldset></form>";
 }
 
 //writes a field
@@ -22,7 +25,7 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 	
 	$mutableString = "";
 	if(!$mutable) {
-		$mutableString = " readonly=\"readonly\"";
+		$mutableString = "readonly=\"readonly\"";
 	}
 	
 	//trim the string fields
@@ -36,64 +39,47 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 	$maxLength = $type_array['length'];
 	$lengthRemaining = $maxLength - strlen($answer);
 	
+	echo '<div class="ctrlHolder">';
+	
 	if($type_array['type'] == "essay") {
-		$rows = 5;
-		$cols = 40;
-		$height = 100;
-		
+			$height = "";
 		if($type_array['size'] == "large") {
-			$rows = 15;
-			$cols = 75;
-			$height = 200;
+			$height = "height:200px";
 		} else if($type_array['size'] == "huge") {
-			$rows = 22;
-			$cols = 120;
-			$height = 400;
+			$height = "height:400px";
 		}
 		
-		echo '<tr><td colspan="2"><p class="name">';
+		echo '<label for="">';
 		
-		if($type_array['status'] == "required") {
-			echo "*";
+		if($type_array['status'] != "optional") {
+			echo "<em>*</em>";
 		}
 		
-		echo "$name</p>";
-		
-		if($desc != '') {
-			echo "<p class=\"desc\">$desc</p>";
-		}
-		
-		echo "</td></tr><tr><td colspan=\"2\"><textarea ";
+		echo "$name</label>";
+				
+		echo "<textarea ";
 		
 		if($type_array['showchars']) {
 			echo "onKeyDown=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" ";
 		}
 		
-		echo "name=\"$fieldName\" rows=\"$rows\" cols=\"$cols\"$mutableString style=\"width:90%;height:";
-		echo $height;
-		echo "px;resize:none\">" . htmlspecialchars($answer) . "</textarea>";
+		echo "name=\"$fieldName\" $mutableString style=\"resize:vertical;$height\" />" . htmlspecialchars($answer) . "</textarea>";
 		
+		echo "<p class=\"formHint\">$desc";
 		if($type_array['showchars']) {
-			echo "<p class=\"desc\">Characters Remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" style=\"width:50px;font-size:10px\" value=\"$lengthRemaining\"></p>";
+			echo "<br />Characters Remaining: <input type=\"text\" name=\"countdown$fieldName\" style=\"background-color:none;border:solid 1px #FFFFFF;font-size:10px;max-width:50px;color:#71777D\" value=\"$lengthRemaining\" readonly=\"readonly\" class=\"changeBackground\" />";
 		}
-		
-		echo '</td></tr>';
+		echo "</p>";
 	} else if($type_array['type'] == "short") {
 		
-		echo '<tr><td><p class="name">';
+		echo '<label for="">';
 		
 		if($type_array['status'] != "optional") {
-			echo "*";
+			echo "<em>*</em>";
 		}
 		
-		echo "$name</p>";
-		
-		if($desc != '') {
-			echo "<p class=\"desc\">$desc</p>";
-		}
-		
-		echo "</td><td>";
+		echo "$name</label>";
 		
 		echo "<input ";
 		if($type_array['showchars']) {
@@ -101,22 +87,22 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			echo "onKeyUp=\"limitText(this.form.$fieldName, this.form.countdown$fieldName, $maxLength);\" maxlength=\"$maxLength\" ";
 		}
 		
-		echo "type=\"text\" name=\"$fieldName\"$mutableString value=\"" . htmlspecialchars($answer) . "\" style=\"width:90%\" /> ";
+		echo "type=\"text\" name=\"$fieldName\" $mutableString value=\"" . htmlspecialchars($answer) . "\" /> ";
 		
+		echo "<p class=\"formHint\">$desc";
 		if($type_array['showchars']) {
-			echo "<p class=\"desc\" align=\"right\">Characters remaining: <input readonly type=\"text\" name=\"countdown$fieldName\" style=\"width:50px;font-size:10px\" value=\"$lengthRemaining\"></p>";
+			echo "<br />Characters remaining: <input type=\"text\" name=\"countdown$fieldName\" style=\"background-color:none;border:solid 1px #FFFFFF;font-size:10px;max-width:50px;color:#71777D\" value=\"$lengthRemaining\" readonly=\"readonly\" class=\"changeBackground\" />";
 		}
-		
-		echo '</td></tr>';
+		echo "</p>";
 	} else if($type_array['type'] == "select") {
 		
-		echo '<tr><td><p class="name">';
+		echo '<p class="label">';
 		
 		if($type_array['status'] != "optional") {
-			echo "*";
+			echo "<em>*</em>";
 		}
 		
-		echo "$name</p></td><td><p>";
+		echo "$name</p>";
 		
 		$choices = explode(";", $desc);
 		
@@ -124,8 +110,10 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 		if($type_array['method'] == "multiple") {
 			$tname = "checkbox";
 			$fieldName .= "[]"; //for multiple selection, PHP needs to know with an [] at the end of field name
+			echo "<ul>";
 		} else if($type_array['method'] == "single") {
 			$tname = "radio";
+			echo "<ul>";
 		} else if($type_array['method'] == "dropdown") {
 			$tname = false;
 			echo "<select name=\"$fieldName\"$mutableString>";
@@ -149,29 +137,27 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			if($tname == false) {
 				echo "<option$selectedString value=\"$choice\">$choice</option>";
 			} else {
-				echo "<br><input$selectedString type=\"$tname\" name=\"$fieldName\"$mutableString value=\"$choice\" /> $choice";
+				echo "<li><label for=\"\"><input$selectedString type=\"$tname\" name=\"$fieldName\"$mutableString value=\"$choice\" /> $choice</label></li>";
 			}
 		}
 		
 		if($tname == false) { //select
 			echo "</select>";
+		} else {
+			echo "</ul>";
 		}
 		
-		echo '</p></td></tr>';
+		//need to add some sort of hint factor for selects (change hint so that it is a type variable)
+		
 	} else if($type_array['type'] == "text") {
-		echo '<tr><td colspan="2"><p class="name">';
+		echo '<label for="">';
 		
 		if($type_array['status'] != "optional") {
-			echo "*";
+			echo "<em>*</em>";
 		}
 		
-		echo "$name</p>";
+		echo "$name</label>$desc";
 		
-		if($desc != '') {
-			echo "<p class=\"desc\">$desc</p>";
-		}
-		
-		echo "</td></tr>";
 		
 	} else if($type_array['type'] == "repeat") {
 		$num = $type_array['num'];
@@ -199,22 +185,19 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			writeField($id, $answer_id, $thisName, $thisDesc, $thisType, $answer_array[$i], $mutable, $i);
 		}
 	} else if($type_array['type'] == "code") {
-		echo '<tr><td colspan="2">' . page_convert($desc) . '</td></tr>';
+		echo page_convert($desc);
 	} else if($type_array['type'] == "upload") {
-		echo '<tr><td><p class="name">';
+		echo '<label for="">';
 		
 		if($type_array['status'] != "optional") {
-			echo "*";
+			echo "<em>*</em>";
 		}
 		
-		echo "$name</p>";
+		echo "$name</label>";
+
+		echo "<input type=\"file\" name=\"$fieldName\" $mutableString />";
 		
-		if($desc != '') {
-			echo "<p class=\"desc\">$desc</p>";
-		}
-		
-		echo "</td><td>";
-		echo "<input type=\"file\" name=\"$fieldName\"$mutableString style=\"width:90%\" /> (currently uploaded: ";
+		echo "<p class=\"formHint\">$desc<br />Currently Uploaded: ";
 		
 		if($answer != "") {
 			$answer_parts = explode(":", $answer, 3);
@@ -222,14 +205,14 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			$file_id = $answer_parts[1];
 			$file_name = $answer_parts[2];
 			
-			echo "<a href=\"../download.php?file=$file_id&filename=$file_name\">$file_name</a>";
+			echo "<a href=\"../download.php?file=$file_id&filename=$file_name\">View Here</a>";
 		} else {
 			echo "none";
 		}
 		
-		echo ')</td></tr>';
+		echo '</p>';
 	}
-	echo "<tr><td colspan=\"2\" style=\"height:10pxpx\"></td></tr>";
+	echo "</div>";
 }
 
 function getRepeatThisValue($array, $i, $n) {

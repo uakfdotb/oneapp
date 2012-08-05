@@ -1,3 +1,4 @@
+					</div> <!-- wrap stuff -->
 				</div> <!-- / #content -->
         </div> <!-- / #container -->        
         
@@ -13,7 +14,9 @@
                     <div class="col1-4">
                         <a href="index.php" id="footerLogo">OneApp</a>
                         
-                        <p class="light">&copy; 2011 OneApp, All Rights Reserved.</p>
+                        <p class="light">&copy; 2011 OneApp, All Rights Reserved.<br />
+                        <a href="#">About</a> | <a href="#">TOC</a> | <a href="#">Private Policy</a> | <a href="#">AUP</a>
+                        </p>
                     </div>
                     
                     <div class="col1-4">
@@ -42,8 +45,8 @@
                         
                         <form action="" method="post">
                             <fieldset>
-                                <input type="text" class="text" value="Your e-mail" />
-                                <input type="submit" class="submit" value="Subscribe" />
+                                <input type="text" class="text_style" value="Your e-mail" />
+                                <input type="submit" class="submit_style" value="Subscribe" />
                             </fieldset>
                         </form>                                      
                     </div>

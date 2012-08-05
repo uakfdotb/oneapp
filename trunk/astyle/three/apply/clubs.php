@@ -1,4 +1,5 @@
 <h2 class="separate">Clubs</h2>
+
 <p>Applications are available between the open time and start time.</p>
 
 <div width=100% align="center">
@@ -6,8 +7,39 @@
 <button value="Add club application" class="add">Add club application</button>
 </form>
 <br />
+
+<script>
+	// a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
+	$( "#dialog:ui-dialog" ).dialog( "destroy" );
+	
+	$(function() {
+		$( "#dialog-confirm" ).dialog({
+			autoOpen: false,
+			resizable: false,
+			height:140,
+			modal: true,
+			buttons: {
+				"Continue": function() {
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+	});
+	function confimer() {
+		$( "#dialog-confirm" ).dialog( "open" );
+		return false;
+	}
+</script>
+
+
+<div id="dialog-confirm" title="Delete Applicatoin?">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>All information regarding this application will be permanently deleted and cannot be recovered. Are you sure?</p>
 </div>
 
+</div>
 <? if(count($clubs)>0) { ?>
 		<div id="accordion">
 		<? foreach($clubs as $clubid => $club) {
@@ -29,7 +61,7 @@
 			<?
 			$applyString = '<button name="app" value="off" class="reject">No</button>';
 			if($state === 0) {
-				$applyString = '<button name="app" value="on" class="accept">Yes</button>';	
+				$applyString = '<button name="app" value="on" class="accept" onclick="confimer()">Yes</button>';	
 				$due_date = clubdue($club_id);
 				$now = getdate();
 			?>

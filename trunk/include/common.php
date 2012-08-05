@@ -693,6 +693,17 @@ function getProfile($userid) {
 	return $profile;
 }
 
+//returns false if category does not exist
+function getCategory($catId) {
+	$catId = escape($catId);
+	$result = mysql_query("SELECT name FROM basecat WHERE id = '$catId'");
+	if($row = mysql_fetch_row($result)) {
+		return $row[0];
+	} else {
+		return FALSE;
+	}
+}
+
 //returns user_id, or FALSE on failure
 function getUserId($username) {
 	$username = escape($username);
