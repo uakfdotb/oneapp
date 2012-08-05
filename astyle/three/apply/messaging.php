@@ -13,35 +13,35 @@ function displayBoxSelector($boxes, $default_box = -1, $select_name = "box_id") 
 var $tab_title_input = $( "#tab_title"),
 	$tab_content_input = $( "#tab_content" );
 var tab_counter = 0;
+var message_data = new Array(<?= count($message_details) ?>);
+var message_data_checker = new Array(<?= count($message_details) ?>);
+for (var i = 0; i < <?= count($message_details) ?>; i++) {
+	message_data[i] = new Array(7);
+}
+
+<? $counter = 0;
+foreach($message_details as $mess_id => $mess_data) {
+	$sender_id = $mess_data[0];
+	$sender_name = $mess_data[1];
+	$sender_user = $mess_data[2];
+	$reciever_id = $mess_data[3];
+	$reciever_name = $mess_data[4];
+	$reciever_user = $mess_data[5];
+	$title = $mess_data[6];
+	$content = $mess_data[7];
+	$timestamp = $mess_data[8];
+	echo "message_data_checker[$counter]=$mess_id;\n";
+	echo "message_data[$counter][0]=\"$sender_name\";\n";
+	echo "message_data[$counter][1]=\"$reciever_name\";\n";
+	echo "message_data[$counter][2]=\"" . timeString($timestamp) . "\";\n";
+	echo "message_data[$counter][3]=\"" . html_entity_decode($title) . "\";\n";
+	echo "message_data[$counter][4]=\"" . html_entity_decode($content). "\";\n";
+	echo "message_data[$counter][5]=\"$sender_user\";\n";
+	echo "message_data[$counter][6]=\"$reciever_user\";\n";
+	$counter++;
+} ?>
 
 function showmessage(message_id) {
-	var message_data = new Array(<?= count($message_details) ?>);
-	var message_data_checker = new Array(<?= count($message_details) ?>);
-	for (var i = 0; i < <?= count($message_details) ?>; i++) {
-    	message_data[i] = new Array(7);
-  	}
-
-	<? $counter = 0;
-	foreach($message_details as $mess_id => $mess_data) {
-		$sender_id = $mess_data[0];
-		$sender_name = $mess_data[1];
-		$sender_user = $mess_data[2];
-		$reciever_id = $mess_data[3];
-		$reciever_name = $mess_data[4];
-		$reciever_user = $mess_data[5];
-		$title = $mess_data[6];
-		$content = $mess_data[7];
-		$timestamp = $mess_data[8];
-		echo "message_data_checker[$counter]=$mess_id;\n";
-		echo "message_data[$counter][0]=\"$sender_name\";\n";
-		echo "message_data[$counter][1]=\"$reciever_name\";\n";
-		echo "message_data[$counter][2]=\"" . timeString($timestamp) . "\";\n";
-		echo "message_data[$counter][3]=\"" . htmlspecialchars_decode($title) . "\";\n";
-		echo "message_data[$counter][4]=\"" . htmlspecialchars_decode($content). "\";\n";
-		echo "message_data[$counter][5]=\"$sender_user\";\n";
-		echo "message_data[$counter][6]=\"$reciever_user\";\n";
-		$counter++;
-	} ?>
 	var message_loc = jQuery.inArray(message_id, message_data_checker);
 	// tabs init with a custom tab template and an "add" callback filling in the content
 	var $tabs = $( "#tabs").tabs({
@@ -53,7 +53,8 @@ function showmessage(message_id) {
 			var tab_subject = message_data[message_loc][3];
 			var tab_content = message_data[message_loc][4];
 			var sender = message_data[message_loc][5];
-			$( ui.panel ).append( "<div class=\"message\"><p class=\"subject\">" + tab_subject + "</p><p class=\"date\"><label>From: </label><a href=\"#\" onclick=\"writemessage('" + sender + "')\">" + tab_sender + " (" + sender + ")</a></p><p class=\"date\"><label>To: </label>" + tab_reciever + "</p><p class=\"date separate\"><label>Time: </label>" + tab_time + "</p><p class=\"content\">" + tab_content + "</p></div>" );
+			var reciever = message_data[message_loc][6];
+			$( ui.panel ).append( "<div class=\"message\"><p class=\"subject\">" + tab_subject + "</p><p class=\"date\"><label>From: </label><a href=\"#\" onclick=\"writemessage('" + sender + "')\">" + tab_sender + " (" + sender + ")</a><span><a onclick=\"writeresponse(" + message_id + ", 'RE:')\">Reply</a> | <a onclick=\"writeresponse(" + message_id + ", 'FWD:')\">Forward</a></span></p><p class=\"date\"><label>To: </label><a href=\"#\" onclick=\"writemessage('" + reciever + "')\">" + tab_reciever + " (" + reciever + ")</a></p><p class=\"date separate\"><label>Time: </label>" + tab_time + "</p><p class=\"content\">" + tab_content + "</p></div>" );
 		}
 	});
 	var tab_title = message_data[message_loc][3];
@@ -69,8 +70,30 @@ function showmessage(message_id) {
 function writemessage(username) {
 	$('input[name=to]').val(username);
 	$( "#tabs").tabs( 'select' , 3 );
-	alert();
 }
+
+function writeresponse(message_id, reply_type) {
+	var message_loc = jQuery.inArray(message_id, message_data_checker);
+	var tab_sender = message_data[message_loc][0];
+	var tab_reciever = message_data[message_loc][1];
+	var tab_time = message_data[message_loc][2];
+	var tab_subject = message_data[message_loc][3];
+	var tab_content = message_data[message_loc][4];
+	var sender = message_data[message_loc][5];
+	var reciever = message_data[message_loc][6];
+	tab_content = tab_content.replace(/<br>/ig,'\n   |   ');
+	tab_content = tab_content.replace(/&lt;/ig,'<');
+	tab_content = tab_content.replace(/&gt;/ig,'>');
+	tab_content = tab_content.replace(/&quot;/ig,'"');
+	tab_content = tab_content.replace(/&amp;/ig,'&');
+	if(reply_type == "RE:") {
+		$('input[name=to]').val(sender);
+	}
+	$('input[name=subject]').val(reply_type + " " + tab_subject);
+	$('[name=body]').val('\n\nIn response to\n.....................................................................\nFrom: ' + tab_sender + " (" + sender + ")\nTo: " + tab_reciever + " (" + reciever + ")\nTime: " + tab_time + "\nSubject: " + tab_subject + "\n.....................................................................\n" + tab_content + "\n");
+	$( "#tabs").tabs( 'select' , 3 );
+}
+
 
 </script>
 <h2 class="separate">Messaging</h2>
@@ -115,21 +138,44 @@ function writemessage(username) {
 	}
 	?>
 	<div id="<?= $box_name ?>">
-		<table class="styled" width=100%>
+		<table class="styled message_box" width=100%>
 		<tr>
-			<th>From</th>
-			<th>To</th>
-			<th>Subject</th>
-			<th>Date</th>
+			<? if($box_name != "sent") { ?>
+				<th align="left" width=20%>From</th>
+			<? } else { ?>
+				<th align="left">To</th>
+			<? } ?>
+			<th align="left" style="max-width:400px">Subject</th>
+			<th align="left" width=20%>Date</th>
 		</tr>
 	
 	<? if(count($messages[$box_id]) != 0 ) {
 		foreach($messages[$box_id] as $message) { //message is array(message id, sender id, sender username, receiver id, receiver username, subject, time int) ?>
 		<tr>
-		<td><a href="#" onclick="writemessage('<?= $message[2] ?>')"><?= $message[2] ?></a></td>
-		<td><a href="#" onclick="writemessage('<?= $message[4] ?>')"><?= $message[4] ?></a></td>
-		<td><a href="#" onclick="showmessage(<?= $message[0] ?>)"><?= $message[5] ?></a></td>
-		<td><?= timeString($message[6]) ?></td>
+			<? if($box_name != "sent") { 
+				$user_data = getUserInformation($message[1]);
+				$name = $user_data[2];
+				if(strlen($name) > 20) {
+					$name = substr($name, 0, 18) . "...";
+				}
+				?>
+				<td><a href="#" onclick="writemessage('<?= $message[2] ?>')"><?= $name ?></a></td>
+			<? } else { 
+				$user_data = getUserInformation($message[1]);
+				$name = $user_data[2];
+				if(strlen($name) > 20) {
+					$name = substr($name, 0, 18) . "...";
+				}
+				?>
+				<td><a href="#" onclick="writemessage('<?= $message[4] ?>')"><?= $name ?></a></td>
+			<? } 
+				$mess_title = $message[5];
+				if(strlen($mess_title) > 50) {
+					$mess_title = substr($mess_title, 0, 55) . "...";
+				}
+			?>
+				<td><a href="#" onclick="showmessage(<?= $message[0] ?>)"><?= $mess_title ?></a></td>
+				<td><?= timeString($message[6]) ?></td>
 		</tr>
 	<? }
 	} else { ?>
