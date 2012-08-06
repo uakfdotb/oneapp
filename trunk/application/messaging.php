@@ -68,6 +68,40 @@ if(isset($_SESSION['user_id'])) {
 					$inform['success'] = "Message sent successfully.";
 				}
 			}
+		} else if($_REQUEST['action'] == "delete") {
+			if (isset($_POST['index'])) {
+				if(count($_POST['index'])) {
+					foreach ($_POST['index'] AS $id) {
+						boxDeleteMessage($_SESSION['user_id'], $_POST['box_id'], $id);
+					}
+					if(count($_POST['index']) > 1) {
+					$inform["success"] = "Deleted <b>" . count($_POST['index']) . "</b> messages!";
+					} else {
+					$inform["success"] = "Deleted <b>" . count($_POST['index']) . "</b> message!";
+					}
+				} else {
+					$inform['warn'] = "Select messages you would like to delete!";
+				}
+			}  else {
+				$inform['warn'] = "Select messages you would like to delete!";
+			}  
+		} else if($_REQUEST['action']) {
+			if (isset($_POST['index'])) {
+				if(count($_POST['index'])) {
+					foreach ($_POST['index'] AS $id) {
+						boxMoveMessage($_SESSION['user_id'], $id,  $_POST['box_id'], $_POST['action']);
+					}
+					if(count($_POST['index']) > 1) {
+					$inform["success"] = "Moved <b>" . count($_POST['index']) . "</b> messages!";
+					} else {
+					$inform["success"] = "Moved <b>" . count($_POST['index']) . "</b> message!";
+					}
+				} else {
+					$inform['warn'] = "Select messages you would like to move!";
+				}
+			}  else {
+				$inform['warn'] = "Select messages you would like to move!";
+			}  
 		}
 	}
 	

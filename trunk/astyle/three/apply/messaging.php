@@ -125,7 +125,8 @@ function writeresponse(message_id, reply_type) {
 		<li><a href="#compose">Compose</a></li>
 <!--	<li><a href="#prefs">Preferences</a></li> -->
 	</ul> 
-<? foreach($boxes as $box) {
+<? for($j = 0; $j < count($boxes); $j++) {
+	$box = $boxes[$j];
 	$box_id = $box[0];
 	if($box_id == $prefs[1]) {
 		$box_name = "inbox";
@@ -138,8 +139,32 @@ function writeresponse(message_id, reply_type) {
 	}
 	?>
 	<div id="<?= $box_name ?>">
+		<form action="messaging.php" method="post">
+		<input type="hidden" name="box_id" value="<?= $box_id ?>">
+		<button class="right delete" name="action" value="delete">Delete</button>
+		<select class="right" onchange="this.form.submit()" name="action">
+				<option>Move Messages</option>
+			<? for($i = 0; $i < count($boxes); $i++) { 
+				$box_list = $boxes[$i];
+			?>
+				<option value="<?= $box_list[0] ?>"/> <?
+					if($box_list[0] == $prefs[1]) {
+						echo "Inbox";
+					} else if($box_list[0] == $prefs[2]) {
+						echo "Trash";
+					} else if($box_list[0] == $prefs[3]) {
+						echo "Sent";
+					} else {
+						echo $box_list[1];
+					}
+				?>
+				</option>
+			<? } ?>
+		</select>
+		<br />
 		<table class="styled message_box" width=100%>
 		<tr>
+				<th width=20px></th>
 			<? if($box_name != "sent") { ?>
 				<th align="left" width=20%>From</th>
 			<? } else { ?>
@@ -151,31 +176,29 @@ function writeresponse(message_id, reply_type) {
 	
 	<? if(count($messages[$box_id]) != 0 ) {
 		foreach($messages[$box_id] as $message) { //message is array(message id, sender id, sender username, receiver id, receiver username, subject, time int) ?>
-		<tr>
+		<tr class="message_info" >
+				<td><input type="checkbox" name="index[]" value="<?= $message[0] ?>" /></td>
 			<? if($box_name != "sent") { 
 				$user_data = getUserInformation($message[1]);
 				$name = $user_data[2];
 				if(strlen($name) > 20) {
 					$name = substr($name, 0, 18) . "...";
 				}
-				?>
-				<td><a href="#" onclick="writemessage('<?= $message[2] ?>')"><?= $name ?></a></td>
-			<? } else { 
+			} else { 
 				$user_data = getUserInformation($message[1]);
 				$name = $user_data[2];
 				if(strlen($name) > 20) {
 					$name = substr($name, 0, 18) . "...";
 				}
-				?>
-				<td><a href="#" onclick="writemessage('<?= $message[4] ?>')"><?= $name ?></a></td>
-			<? } 
+			} 
 				$mess_title = $message[5];
 				if(strlen($mess_title) > 50) {
 					$mess_title = substr($mess_title, 0, 55) . "...";
 				}
 			?>
-				<td><a href="#" onclick="showmessage(<?= $message[0] ?>)"><?= $mess_title ?></a></td>
-				<td><?= timeString($message[6]) ?></td>
+				<td onclick="showmessage(<?= $message[0] ?>)" style="cursor:pointer"><?= $name ?></td>
+				<td onclick="showmessage(<?= $message[0] ?>)" style="cursor:pointer"><?= $mess_title ?></td>
+				<td onclick="showmessage(<?= $message[0] ?>)" style="padding-right:5px;cursor:pointer"><?= timeString($message[6]) ?></td>
 		</tr>
 	<? }
 	} else { ?>
@@ -183,6 +206,7 @@ function writeresponse(message_id, reply_type) {
 	<? } ?>
 	
 	</table>
+	</form>
 	</div>
 <? } ?>
 <div id="compose">

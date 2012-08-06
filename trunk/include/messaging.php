@@ -276,13 +276,12 @@ function boxDeleteMessage($user_id, $box_id, $message_id) {
 	
 	if($row = mysql_fetch_array($result)) {
 		$trash_folder = $row[0];
-		
 		if($trash_folder != 0 && $trash_folder != $box_id) {
 			boxMoveMessage($user_id, $message_id, $box_id, $trash_folder);
 		}
 	}
 	
-	//delete the message link to the box
+	//delete the message link to the box, 
 	mysql_query("DELETE FROM message_boxes_contents WHERE box_id = '$box_id' AND message_id = '$message_id'");
 }
 
@@ -296,7 +295,7 @@ function boxMoveMessage($user_id, $message_id, $box_old_id, $box_id) {
 	mysql_query("DELETE FROM message_boxes_contents WHERE box_id = '$box_old_id' AND message_id = '$message_id'");
 	
 	//add a new box message link
-	mysql_query("INSERT INTO message_boxes_contents (box_id, message_id) VALUES ('$box_id', '$message_id'");
+	mysql_query("INSERT INTO message_boxes_contents (box_id, message_id) VALUES ('$box_id', '$message_id')");
 }
 
 //gets the user's default box
