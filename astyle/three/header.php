@@ -33,6 +33,13 @@ if(isset($redirect)) {
 				enableHoverMovement();
 				highlightDiv();
 				openclosetabs();
+				function highlightMessage() { 
+					$("input[type=checkbox]").change(function() {
+						var c = this.checked ? '#FFFCDF' : 'inherit';
+				  		$(this).parent().parent().css("background-color",c);
+					});
+				}
+				highlightMessage();
 				
 				// Accordion
 				$("#accordion").accordion({ header: "h3" });

@@ -139,3 +139,6 @@ CUSTOM
 .left {
 	float:left;
 }
+.color_selected {
+	background-color:#FFFCDF;
+}

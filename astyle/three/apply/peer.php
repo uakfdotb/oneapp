@@ -40,18 +40,29 @@
 </div>
 <div id="tabs-2">
 
-<form action="peer.php" method="POST">
-<table width=80%>
-<tr><td>Name:</td><td><input type="text" name="name" style="width:100%"></td></tr>
-<tr><td>Email address:</td><td><input type="text" name="email" style="width:100%"></td></tr>
-<tr><td colspan="2">Message:<textarea rows="6" cols="50" name="message" style="width:100%;resize:vertical;min-height:100px">Dear [insert name here],
+<form action="peer.php" method="POST" class="uniForm fullwidth">
+<fieldset>
+<div class="ctrlHolder">
+<label>Name</label>
+<input type="text" name="name">
+</div>
+<div class="ctrlHolder">
+<label>Email address</label>
+<input type="text" name="email">
+</div>
+<div class="ctrlHolder">
+<label>Message</label>
+<textarea rows="6" cols="50" name="message">Dear [insert name here],
 
 This is <?= $name ?>. I would like to request a peer recommendation from you. I have already communicated with you about this; the details for submitting the recommendation should appear above.
 
-Thank you!</textarea></td></tr>
-<tr><td colspan="2"><div class="msg msgWarn" title="Click to hide">This message will send exactly as is written here!</div></td></tr>
-<tr><td colspan="2" align="right"><input type="submit" value="Request"></td></tr>
-</table>
+Thank you!</textarea>
+<p class="formHint">This message will send exactly as is written here!</p>
+</div>
+<div class="buttonHolder">
+<input type="submit" value="Request" class="request primaryAction">
+</div>
+</fieldset>
 </form>
 </div>
 </div>
