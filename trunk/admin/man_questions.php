@@ -20,6 +20,10 @@ if(isset($_SESSION['admin'])) {
 		$isAvailableWindow = isAvailableWindow($club_id);
 	}
 	
+	if($isAvailableWindow) {
+		$inform['warn'] = "Your club is currently in the available window, and users may have already added the club to their applications list! Changes will not automatically be reflected in the user application! They will have to re-add your club's application.";
+	}
+	
 	if(isset($_REQUEST['action'])) {
 		if($_REQUEST['action'] == "edit" && isset($_REQUEST['id'])) {
 			$qid = escape($_REQUEST['id']);
@@ -100,7 +104,7 @@ if(isset($_SESSION['admin'])) {
 		array_push($questionList, array($row[0], $row[1], $row[2], $row[3], $row[4]));
 	}
 	
-	get_page_advanced("man_questions", "admin", array("message" => $message, "editInfo" => $editInfo, "questionList" => $questionList, "categories" => $categories, "isAvailableWindow" => $isAvailableWindow));
+	get_page_advanced("man_questions", "admin", array("message" => $message, "editInfo" => $editInfo, "questionList" => $questionList, "categories" => $categories, "inform" => $inform));
 } else {
 	header('Location: index.php?error=' . urlencode("You are not logged in!"));
 }

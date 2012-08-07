@@ -12,7 +12,6 @@ input, select {
 /* BUTTONS */
 a.button, button, input[type=submit], select{
     display:block;
-    min-width: 75px;
     float:center;
     /*margin-top:5px;*/
     /*margin-bottom:5px;*/
@@ -41,7 +40,7 @@ button, input[type=submit]{
 a.button:hover {
     text-decoration:none;
 }
-button[type], input[type=submit]{
+a.button, button[type], input[type=submit]{
     line-height:17px; /* Safari */
 }
 *:first-child+html button[type], *:first-child+html input[type=submit]{
@@ -92,64 +91,63 @@ a.button.negative:active{
 
 a.button.add, button.add, input[type=submit].add{
 	background-image:url('../images/icon/add.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.delete, button.delete, input[type=submit].delete{
 	background-image:url('../images/icon/delete.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.reset, button.reset, input[type=submit].reset{
 	background-image:url('../images/icon/reset.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.comment, button.comment, input[type=submit].comment{
 	background-image:url('../images/icon/comment.png');
     padding-left:18px;
-    min-height:20px;
 }
 a.button.update, button.update, input[type=submit].update{
 	background-image:url('../images/icon/update.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.login, button.login, input[type=submit].login{
 	background-image:url('../images/icon/login.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.backup, button.backup, input[type=submit].backup{
 	background-image:url('../images/icon/backup.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.database_delete, button.database_delete, input[type=submit].database_delete{
 	background-image:url('../images/icon/database_delete.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.clean, button.clean, input[type=submit].clean{
 	background-image:url('../images/icon/clean.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.submit, button.submit, input[type=submit].submit{
 	background-image:url('../images/icon/submit.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.accept, button.accept, input[type=submit].accept{
 	background-image:url('../images/icon/accept.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.reject, button.reject, input[type=submit].reject{
 	background-image:url('../images/icon/reject.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.app_add, button.app_add, input[type=submit].app_add{
 	background-image:url('../images/icon/app_add.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.app_edit, button.app_edit, input[type=submit].app_edit{
 	background-image:url('../images/icon/app_edit.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 a.button.email_add, button.email_add, input[type=submit].email_add{
 	background-image:url('../images/icon/email_add.png');
-    padding-left:20px;
+    padding-left:25px;
 }
 
 a.button.download, button.download, input[type=submit].download{

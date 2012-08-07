@@ -10,13 +10,15 @@ if(count($questionList) == 0 ) {
 } else { ?>
 <p>The below questions represent the content that will be viewable to the applicant.</p><br />
 <tr><td width=80%>
+<form class="uniForm fullwidth"><fieldset>
 <?
-	echo "<table>";
 	foreach($questionList as $questionInfo) {
+		echo '<div class="ctrlHolder">';
 		writeField(0, 0, $questionInfo[0], $questionInfo[1], $questionInfo[2]);
+		echo '</div>';
 	}
-	echo "</table>";
 ?>
+</fieldset></form>
 </td><td width=20%>
 <?
 	if(isset($message) && $message != "") {

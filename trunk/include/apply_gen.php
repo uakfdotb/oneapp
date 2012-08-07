@@ -39,8 +39,6 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 	$maxLength = $type_array['length'];
 	$lengthRemaining = $maxLength - strlen($answer);
 	
-	echo '<div class="ctrlHolder">';
-	
 	if($type_array['type'] == "essay") {
 			$height = "";
 		if($type_array['size'] == "large") {
@@ -207,12 +205,11 @@ function writeField($id, $answer_id, $name, $desc, $type, $answer = "", $mutable
 			
 			echo "<a href=\"../download.php?file=$file_id&filename=$file_name\">View Here</a>";
 		} else {
-			echo "none";
+			echo "None";
 		}
 		
 		echo '</p>';
 	}
-	echo "</div>";
 }
 
 function getRepeatThisValue($array, $i, $n) {
@@ -317,8 +314,12 @@ function writeApplication($user_id, $application_id, $category_id = 0) {
 	
 	writeApplicationHeader($club_id, $application_id, $category_id);
 	
+	//We write the div here so that the actual question can add more content inside when using writeField
+	
 	while($row = mysql_fetch_row($result)) {
+		echo '<div class="ctrlHolder">';
 		writeField($row[1], $row[0], $row[2], $row[3], $row[4], $row[5], $mutable);
+		echo '</div>';
 	}
 	
 	writeApplicationFooter();

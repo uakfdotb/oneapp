@@ -5,32 +5,33 @@
 <script src="<?= $basePath ?>/style/bin2hex.js"></script>
 <script src="<?= $basePath ?>/style/password.js.php"></script>
 
-<h1>Administrator Page</h1>
-
-<p>Log in with the administrator username and password. If you do not have an adminstrative username, please ask your root manager to add you. If you have forgotten your username and/or password, contact your root administrator to reset your password.</p>
-<br />
-<table width=60% class="log_in">
-	<form name="pcrypt" onsubmit="pcryptf()" method="POST" action="index.php">
+<h2 class="separate">Administrator Page</h2>
+	<form name="pcrypt" onsubmit="pcryptf()" method="POST" action="index.php" class="uniForm">
+	<fieldset>
 	<? if(!$user_loggedin) { ?>
-	<tr>
-		<td width=20%><p class="bold">Username</p></td>
-		<td align="right"><input type="text" name="username" /></td>
-	</tr>
+	<h3>Log in with the administrator username and password. If you have forgotten your username and/or password, contact your root administrator to reset your password.</h3>
+	<div class="ctrlHolder">
+	<label>Username</label>
+		<input type="text" name="username" />
+	</div>
+	<? } else { ?>
+	<h3>Log in with the administrator password. If you have forgotten your password, contact your root administrator.</h3>
 	<? } ?>
-	<tr>
-		<td><p class="bold">Password</p></td>
-		<td align="right"><input type="password" name="password" /></td>
-	</tr>
-	<tr>
-		<td><p class="bold">Club</p></td>
-		<td align="right"><select name="club" />
+	<div class="ctrlHolder">
+	<label>Password</label>
+		<input type="password" name="password" />
+	</div>
+	<div class="ctrlHolder">
+	<label>Club</label>
+		<select name="club" />
 		<? foreach($clubs as $club_id => $club_name) { ?>
 			<option value="<?= $club_id ?>"><?= $club_name ?></option>
 		<? } ?>
-		</select></td>
-	</tr>
-	<tr class="club_info">
-		<td colspan="2" align="right"><input type="submit" value="Log In" class="login positive"/></td>
-	</tr>
+		</select>
+	</div>
+	<div class="buttonHolder">
+		<input type="submit" value="Log In" class="login positive primaryAction"/>
+	</div>
+	</fieldset>
 	</form>
 </table>
