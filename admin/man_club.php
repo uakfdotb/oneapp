@@ -45,19 +45,17 @@ if(isset($_SESSION['admin'])) {
 		}
 		
 		$result = mysql_query("SELECT name, description, view_time, open_time, close_time, num_recommend FROM clubs WHERE id='$club_id'");
-	
-		if($row = mysql_fetch_array($result)) {
-			$parameters = array('club_name' => $row['name'], 'description' => $row['description'], 'view_time' => $row['view_time'], 'open_time' => $row['open_time'], 'close_time' => $row['close_time'], 'num_recommend' => $row['num_recommend'], 'username' => $userInfo[0], 'email' => $userInfo[1], 'name' => $userInfo[2]);
-			
 			if(isset($error)) {
-				$parameters['error'] = $error;
+				$inform['error'] = $error;
 			} else if( isset($success) ){
-				$parameters['success'] = $success;
+				$inform['success'] = $success;
 			} else if( isset($info) ){
-				$parameters['info'] = $info;
+				$inform['info'] = $info;
 			} else if( isset($warning) ){
-				$parameters['warning'] = $warning;
+				$inform['warning'] = $warning;
 			}
+		if($row = mysql_fetch_array($result)) {
+			$parameters = array('club_name' => $row['name'], 'description' => $row['description'], 'view_time' => $row['view_time'], 'open_time' => $row['open_time'], 'close_time' => $row['close_time'], 'num_recommend' => $row['num_recommend'], 'username' => $userInfo[0], 'email' => $userInfo[1], 'name' => $userInfo[2], 'inform' => $inform);
 			
 			get_page_advanced("man_club", "admin", $parameters);
 		} else {

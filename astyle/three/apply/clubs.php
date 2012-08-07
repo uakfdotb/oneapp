@@ -86,7 +86,7 @@
 		?>
 			<div>
 				<h3><a href="#"><?= $club_name ?></a></h3>
-				<div>
+				<div style="overflow:visible">
 					<form method="post">
 						<input name="club_id" type="hidden" value="<?= $club_id ?>" />
 					<table width=100%>

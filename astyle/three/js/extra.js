@@ -84,19 +84,29 @@ function highlightDiv() {
 				$('.ctrlHolder > input[type=file]').addClass("switchcolor"); 				
 				$('.ctrlHolder > textarea').addClass("switchcolor");  				
 				$('.ctrlHolder > select').addClass("switchcolor"); 
-				$('.ctrlHolder > input[type=checkbox]').addClass("switchcolor"); 
+				$('.ctrlHolder > input[type=checkbox]').addClass("switchcolor_top"); 
 				$('.ctrlHolder > radio').addClass("switchcolor"); 
 				$('.changeBackground').addClass("need_switchcolor");
     $('.switchcolor').focus(function() {  
         var par = $(this).parent();
         par.css("background-color","#FFFCDF");
         par.find('.need_switchcolor').css("background-color","#FFFCDF");
-    });  
+    });
     $('.switchcolor').blur(function() {  
         var par = $(this).parent();
         par.css("background-color","white");
         par.find('.need_switchcolor').css("background-color","white");
-    }); 
+    });     
+    $('.switchcolor_top').focus(function() {  
+        var par = $(this).parent().parent();
+        par.css("background-color","#FFFCDF");
+        par.find('.need_switchcolor').css("background-color","#FFFCDF");
+    });
+    $('.switchcolor_top').blur(function() {  
+        var par = $(this).parent().parent();
+        par.css("background-color","white");
+        par.find('.need_switchcolor').css("background-color","white");
+    });   
 }
 
 
