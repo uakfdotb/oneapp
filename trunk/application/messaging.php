@@ -111,6 +111,7 @@ if(isset($_SESSION['user_id'])) {
 	//for boxes
 	$boxes = retrieveBoxList($_SESSION['user_id']);
 	$message_boxes = array();
+	$message_data = array();
 	foreach($boxes as $box) {
 		$box_id = $box[0];
 		$box_name = $box[1];
