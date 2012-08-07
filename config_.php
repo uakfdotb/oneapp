@@ -43,26 +43,27 @@ $config['app_enabled'] = true;
 
 $config['latex_path'] = "/usr/bin/pdflatex";
 
-$config['page_display'] = array('index', 'dbpage.php?page=about', 'login', 'register', 'dbpage.php?page=contact');
-$config['page_display_names'] = array('Home', 'About Us', 'Login', 'Register', 'Contact Us');
 
-$config['apply_page_display'] = array('index', 'account', 'logout');
-$config['apply_page_display_names'] = array('My Workspace', 'Account', 'Logout');
+$config['page_display'] = array('index', 'affclubs.php', 'login');
+$config['page_display_names'] = array('Home', 'Affiliated Clubs', 'Login | Register');
+
+$config['apply_page_display'] = array('index', 'account');
+$config['apply_page_display_names'] = array('My Workspace', 'Account');
 
 $config['apply_side_display'] = array('clubs', 'base', 'supplement', 'peer', 'messaging');
 $config['apply_side_display_names'] = array('Clubs', 'General Application', 'Supplements', 'Peer recommendations', 'Messaging');
 
-$config['admin_page_display'] = array('index', 'index.php?action=logout');
-$config['admin_page_display_names'] = array('Admin Workspace', 'Logout');
+$config['admin_page_display'] = array('index');
+$config['admin_page_display_names'] = array('Admin Workspace');
 
 $config['admin_side_display'] = array('man_questions', 'view_submit', 'view_subscribe', 'messaging', 'man_club', 'preview', 'man_notes', 'gen_pdf', 'statistics', 'easy_question','purchase');
 $config['admin_side_display_names'] = array('Manage questions', 'View submissions', 'View subscribed users', 'Club messaging', 'Manage club information', 'Preview application', 'Submission settings', 'Generate PDF', 'Statistics', 'Easy Question Adder', 'Purchase History');
 
-$config['root_page_display'] = array('index', 'index.php?action=logout');
-$config['root_page_display_names'] = array('Root Workspace', 'Logout');
+$config['root_page_display'] = array('index');
+$config['root_page_display_names'] = array('Root Workspace');
 
-$config['root_side_display'] = array('root_cat.php?cat=Manage', 'root_cat.php?cat=Statistics', 'root_cat.php?cat=Clean+system', 'dbwipe', 'backup', 'man_config');
-$config['root_side_display_names'] = array('Manage', 'Statistics', 'Clean System', 'Database wipe', 'Backup', 'Settings');
+$config['root_side_display'] = array('root_cat.php?cat=Manage', 'root_cat.php?cat=Statistics', 'root_cat.php?cat=Database', 'man_config');
+$config['root_side_display_names'] = array('Manage', 'Statistics', 'Database', 'Settings');
 
 $config['root_cat_display'] = array('manage' => array(), 'statistics' => array(), 'clean' => array());
 
