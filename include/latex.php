@@ -170,7 +170,7 @@ function createApplicationPDF($user_id, $application_id, $targetDirectory) {
 		}
 		
 		$userInfo = getUserInformation($user_id); //array(username, email, name)
-		return generatePDFByResult($result, $targetDirectory, $sectionheader, "User ID: " . $user_id . "\\\\" . $userInfo[2]);
+		return generatePDFByResult($result, $targetDirectory, latexSpecialChars($sectionheader), "User ID: " . latexSpecialChars($user_id) . "\\\\" . latexSpecialChars($userInfo[2]));
 }
 
 function generatePDFByResult($result, $targetDirectory, $sectionheader, $extrainfo = "PDF output") {
