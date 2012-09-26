@@ -37,12 +37,14 @@ if (!isset($_SESSION['initiated'])) {
 }
 
 //validate user agent
-if(isset($_SESSION['HTTP_USER_AGENT'])) {
-	if ($_SESSION['HTTP_USER_AGENT'] != md5($_SERVER['HTTP_USER_AGENT'])) {
-		session_unset();
+if(isset($_SERVER['HTTP_USER_AGENT'])) {
+	if(isset($_SESSION['HTTP_USER_AGENT'])) {
+		if ($_SESSION['HTTP_USER_AGENT'] != md5($_SERVER['HTTP_USER_AGENT'])) {
+			session_unset();
+		}
+	} else {
+		$_SESSION['HTTP_USER_AGENT'] = md5($_SERVER['HTTP_USER_AGENT']);
 	}
-} else {
-	$_SESSION['HTTP_USER_AGENT'] = md5($_SERVER['HTTP_USER_AGENT']);
 }
 
 //validate they are accessing this site, in case multiple are hosted
