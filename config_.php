@@ -38,7 +38,7 @@ $config['activation_time'] = 60*60*48;
 $config['max_recommend'] = 10;
 
 $config['style'] = 'basic';
-$config['style_available'] = array('basic','one','two');
+$config['style_available'] = array('basic','one','two','three');
 $config['app_enabled'] = true;
 
 $config['latex_path'] = "/usr/bin/pdflatex";
